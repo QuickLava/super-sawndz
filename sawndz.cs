@@ -21,7 +21,7 @@ namespace BrawlSoundConverter
 				p.StartInfo.RedirectStandardOutput = true;
 				p.StartInfo.RedirectStandardError = true;
 				p.EnableRaisingEvents = true;
-				p.StartInfo.FileName = "sawndz.exe";
+				p.StartInfo.FileName = "lavaResawndz.exe";
 				p.StartInfo.Arguments = args;
 				p.Start();
 				while( ( !p.HasExited || !p.StandardOutput.EndOfStream ) )
@@ -85,14 +85,14 @@ namespace BrawlSoundConverter
 		}
 		public static void insertWav( string fileName, int groupID, int collID, int wavID )
 		{
-			if( !File.Exists( "sndconv.exe" ) )
+			if( !File.Exists( "VGAudioCli.exe" ) )
 			{
-				Console.WriteLine("Missing sndconv.exe: unable to convert wav file");
+				Console.WriteLine("Missing VGAudioCli.exe: unable to convert wav file");
 				return;
 			}
-			TextWriter writer = File.CreateText("sawnd.txt");
-			writer.Write( "BEGIN a\r\nFile sound.wav\r\nOUTPUT ADPCM\r\nEND" );
-			writer.Close();
+			//TextWriter writer = File.CreateText("sawnd.txt");
+			//writer.Write( "BEGIN a\r\nFile sound.wav\r\nOUTPUT ADPCM\r\nEND" );
+			//writer.Close();
 
 			//In the case that someone wants to insert the temp file "sound.wav", no need to delete or copy.
 			if( fileName.CompareTo( "sound.wav" ) != 0 )
@@ -114,8 +114,8 @@ namespace BrawlSoundConverter
 				p.StartInfo.CreateNoWindow = true;
 				p.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
 				p.StartInfo.RedirectStandardOutput = true;
-				p.StartInfo.FileName = "sndconv.exe";
-				p.StartInfo.Arguments = "sawnd.txt -a";
+				p.StartInfo.FileName = "VGAudioCli.exe";
+				p.StartInfo.Arguments = "-c -i:0 sound.wav -o sound.dsp";
 				p.Start();
 				while( ( !p.HasExited || !p.StandardOutput.EndOfStream ) )
 				{

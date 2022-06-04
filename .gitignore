@@ -1,0 +1,7 @@
+bin/**
+.vs/**
+obj/**
+sawndz/Debug/**
+sawndz/Release/**
+**/*.sawnd
+**/*.brsar
