@@ -243,9 +243,13 @@ namespace BrawlSoundConverter
 		//About window
 		private void aboutToolStripMenuItem_Click( object sender, EventArgs e )
 		{
-			MessageBox.Show( "Super Sawndz Version:" + VERSION +"\nCreated by Agoaj\nwww.agoaj.com\n" + 
-				"Uses BrawlLib: http://code.google.com/p/brawltools2/ \n" + 
-				"Based off of Sawndz 0.12\n2010-2011 Jaklub\nspecial thanks to mastaklo, ssbbtailsfan, stickman, VILE\n");
+			MessageBox.Show( "Super Sawndz Version: " + VERSION + "\n" +
+				"Created by Agoaj (https://github.com/agoaj)\n" +
+				"Modified by QuickLava(https://github.com/QuickLava)\n" +
+				"Uses BrawlLib: https://github.com/soopercool101/BrawlCrate \n" + 
+				"Formerly Based off of Sawndz 0.12 (2010-2011 Jaklub)\n" +
+				"Currently Based off of lavaResawndz 1.10 (2022 QuickLava)\n" +
+				"Special thanks to mastaklo, ssbbtailsfan, stickman, VILE\n");
 		}
 
 		//Lets the user select a specific .brsar file
