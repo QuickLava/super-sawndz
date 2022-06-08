@@ -87,7 +87,7 @@ namespace BrawlSoundConverter
 			TreeNodeCollection nodes = root.Nodes;
 			foreach( BrawlLib.SSBB.ResourceNodes.RSARGroupNode group in groups )
 			{
-				string name = group.Name;
+				string name = "[" + group.Id.ToString("X3") + "] " + group.Name;
 				
 				int groupID = group.Id;
 				MappingItem groupMap = new MappingItem( name, groupID );
@@ -133,7 +133,8 @@ namespace BrawlSoundConverter
 						}
 						addUpSoundSize += soundSize;
 						
-						MappingItem soundMap = new MappingItem(sound.Name, groupID, collectionID,i);
+						string sName = "[" + i.ToString("X3") + "] " + file._labels[i].String;
+						MappingItem soundMap = new MappingItem(sName, groupID, collectionID,i);
 
 						colMap.Nodes.Add( soundMap );
 						nodeCount++;
