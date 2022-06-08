@@ -292,5 +292,31 @@ namespace BrawlSoundConverter
 		{
 			enableStuff();
 		}
-	}
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+			//Make sure group id is valid
+			int gid, cid, wid;
+			if (!int.TryParse(textBoxGroupID.Text, out gid))
+			{
+				MessageBox.Show("Group ID is not valid");
+				return;
+			}
+			if (!int.TryParse(textBoxCollectionID.Text, out cid))
+            {
+				MessageBox.Show("Group ID is not valid");
+				return;
+			}
+
+
+			SaveFileDialog sfd = new SaveFileDialog();
+			sfd.Filter = "*Sawnd File(*.sawnd)|*.sawnd";
+			if (sfd.ShowDialog() == DialogResult.OK)
+			{
+				disableStuff();
+				textBoxOutput.Clear();
+				backgroundWorkerCreateSawnd.RunWorkerAsync(sfd.FileName);
+			}
+		}
+    }
 }
