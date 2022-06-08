@@ -46,10 +46,10 @@ namespace BrawlSoundConverter
 				}
 			}
 		}
-		public static void insert(int groupID, int collID, int wavID, int frequency, bool loop)
+		public static void insert(int groupID, int collID, int wavID, int frequency, bool loop, string WAV_fileName)
 		{
 			runWithArgs("insert " + groupID + " " + collID + " "
-				+ wavID + " " + frequency + " " + (loop ? "1": "0") + " \"" + brsar.RSAR_FileName + "\"");
+				+ wavID + " " + frequency + " " + (loop ? "1": "0") + " \"" + brsar.RSAR_FileName + "\" \"" + WAV_fileName + "\"");
 		}
 		public static void createSawnd( int groupID , string fileName)
 		{
@@ -60,10 +60,12 @@ namespace BrawlSoundConverter
 		}
 		public static void insertSawnd(string fileName)
 		{
-			if( File.Exists( "sawnd.sawnd" ) )
-				File.Delete( "sawnd.sawnd" );
-			File.Copy( fileName, "sawnd.sawnd" );
-			runWithArgs( "sawnd" + " \"" + brsar.RSAR_FileName + "\"" );
+			if (!File.Exists(fileName))
+			{
+				Console.WriteLine("Specified file doesn't exist!\n");
+				return;
+			}
+			runWithArgs( "sawnd \"" + brsar.RSAR_FileName + "\" \"" + fileName + "\"" );
 		}
 		public static void emptySpace( int offset, int numberOfBytes )
 		{
@@ -85,47 +87,20 @@ namespace BrawlSoundConverter
 		}
 		public static void insertWav( string fileName, int groupID, int collID, int wavID )
 		{
-			if( !File.Exists( "VGAudioCli.exe" ) )
-			{
-				Console.WriteLine("Missing VGAudioCli.exe: unable to convert wav file");
+			if (!File.Exists(fileName))
+            {
+				Console.WriteLine("Specified file doesn't exist!\n");
 				return;
-			}
-			//TextWriter writer = File.CreateText("sawnd.txt");
-			//writer.Write( "BEGIN a\r\nFile sound.wav\r\nOUTPUT ADPCM\r\nEND" );
-			//writer.Close();
-
-			//In the case that someone wants to insert the temp file "sound.wav", no need to delete or copy.
-			if( fileName.CompareTo( "sound.wav" ) != 0 )
-			{
-				File.Delete( "sound.wav" );
-				File.Copy( fileName, "sound.wav" );
-			}
-
-			System.Audio.IAudioStream wav = System.Audio.WAV.FromFile( "sound.wav" );
+            }
+			System.Audio.IAudioStream wav = System.Audio.WAV.FromFile( fileName );
 
 			bool loop = wav.IsLooping;
 			int frequency = wav.Frequency;
 			wav.Dispose();
 
-			p = new Process();
 			try
 			{
-				p.StartInfo.UseShellExecute = false;
-				p.StartInfo.CreateNoWindow = true;
-				p.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
-				p.StartInfo.RedirectStandardOutput = true;
-				p.StartInfo.FileName = "VGAudioCli.exe";
-				p.StartInfo.Arguments = "-c -i:0 sound.wav -o sound.dsp";
-				p.Start();
-				while( ( !p.HasExited || !p.StandardOutput.EndOfStream ) )
-				{
-					char[] buffer = new char[ 10 ];
-					int count = p.StandardOutput.Read( buffer, 0, 10 );
-					Console.Write( buffer );
-				}
-				if( !p.HasExited )
-					p.WaitForExit();
-				insert( groupID, collID, wavID, frequency, loop );
+				insert( groupID, collID, wavID, frequency, loop, fileName );
 			}
 			catch( Exception e )
 			{
