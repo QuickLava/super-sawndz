@@ -17,6 +17,9 @@ namespace BrawlSoundConverter
 		public System.Audio.IAudioStream sound;
 		public string name;
 		int _fileSize;
+		// Controls whether or not a sounds filesize propogates to its parents.
+		// This is necessary to prevent inflated filesize reports for banks in which many sounds share a wavID.
+		bool _sharesWave = false;
 		public int fileSize
 		{
 			get
@@ -27,7 +30,7 @@ namespace BrawlSoundConverter
 			{
 				//Propagate size changes
 				MappingItem p = Parent as MappingItem;
-				if(p != null)
+				if(p != null && !_sharesWave)
 					p.sizeOfChildChanged( value - _fileSize );
 				_fileSize = value;
 				
@@ -83,7 +86,7 @@ namespace BrawlSoundConverter
 			brsar.CloseRSAR();
 			this.TreeView.Invalidate();
 		}
-		public MappingItem(string name, int group = -1, int collection = -1, int wave = -1)
+		public MappingItem(string name, int group = -1, int collection = -1, int wave = -1, bool sharesWave = false)
 		{
 			this.name = name;
 			this.Text = name;
@@ -91,6 +94,7 @@ namespace BrawlSoundConverter
 			this.collectionID = collection;
 			this.wavID = wave;
 			sound = null;
+			_sharesWave = sharesWave;
 			_fileSize = 0;
 		}
 

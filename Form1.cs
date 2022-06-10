@@ -14,7 +14,7 @@ namespace BrawlSoundConverter
 {
 	public partial class Form1 : Form
 	{
-		string VERSION = "1.2.0";
+		string VERSION = "1.2.5";
 		public Form1()
 		{
 			InitializeComponent();
@@ -221,10 +221,24 @@ namespace BrawlSoundConverter
 		private void backgroundWorkerInsert_RunWorkerCompleted( object sender, RunWorkerCompletedEventArgs e )
 		{
 			enableStuff();
+			// If we just inserted a .wav file specifically, not a .sawnd.
 			if( textBoxWavID.Text.Length > 0 && treeViewMapping.SelectedNode != null && Path.GetExtension( textBoxInputFile.Text ).CompareTo( ".wav" ) == 0 )
 			{
+				// Get the selected node.
 				MappingItem item = treeViewMapping.SelectedNode as MappingItem;
-				item.updateSize();
+
+				// Get the selected node's parent, and use that to get its first child.
+				MappingItem currGroupParent = treeViewMapping.SelectedNode.Parent as MappingItem;
+				MappingItem currGroupChild = currGroupParent.FirstNode as MappingItem;
+				// Loop through all the children...
+				while (currGroupChild != null)
+                {
+					//... and for each which has the same wavID as the selected ID, update its size
+					if (currGroupChild.wavID == item.wavID)
+						currGroupChild.updateSize();
+					currGroupChild = currGroupChild.NextNode as MappingItem;
+                }
+				
 				//Reset the node selection to trigger treeViewMapping_AfterSelect()
 				//That will reload the sound data from the brsar.
 				treeViewMapping.SelectedNode = null;

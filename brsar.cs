@@ -99,8 +99,11 @@ namespace BrawlSoundConverter
 					string fName = file.Name;
 					int collectionID = file.FileNodeIndex;
 					BrawlLib.SSBB.ResourceNodes.RWSDGroupNode audioFolder = ( BrawlLib.SSBB.ResourceNodes.RWSDGroupNode ) file.FindChild( "audio", false );
+					BrawlLib.SSBB.ResourceNodes.RWSDGroupNode dataFolder = ( BrawlLib.SSBB.ResourceNodes.RWSDGroupNode ) file.FindChild( "sounds", false );
 					
-					if( audioFolder == null || audioFolder.Children.Count == 0 )
+					if (audioFolder == null || audioFolder.Children.Count == 0)
+						continue;
+					if (dataFolder == null || dataFolder.Children.Count == 0)
 						continue;
 					
 					MappingItem colMap = new MappingItem( fName, groupID, collectionID );
@@ -113,16 +116,27 @@ namespace BrawlSoundConverter
 					//Same as nodeCount, used to track total size of sounds in collection. No actual function.
 					int addUpSoundSize = 0;
 
-					for(int i = 0; i < audioFolder.Children.Count; i++)
+					List<int> usedWaveIndeces = new List<int>();
+					for (int i = 0; i < dataFolder.Children.Count; i++)
 					{
-						if(!(audioFolder.Children[i] is BrawlLib.SSBB.ResourceNodes.RWSDSoundNode))
+						if (!(dataFolder.Children[i] is BrawlLib.SSBB.ResourceNodes.RWSDDataNode))
 							continue;
-						BrawlLib.SSBB.ResourceNodes.RWSDSoundNode sound = (BrawlLib.SSBB.ResourceNodes.RWSDSoundNode)audioFolder.Children[i];
+						BrawlLib.SSBB.ResourceNodes.RWSDDataNode data = (BrawlLib.SSBB.ResourceNodes.RWSDDataNode)dataFolder.Children[i];
+						if (data.Part3.Count() != 1)
+							continue;
+						int waveIndex = data.Part3[0]._index;
+
+						if (audioFolder.Children.Count() <= waveIndex)
+							continue;
+						if (!(audioFolder.Children[waveIndex] is BrawlLib.SSBB.ResourceNodes.RWSDSoundNode))
+							continue;
+						BrawlLib.SSBB.ResourceNodes.RWSDSoundNode sound = (BrawlLib.SSBB.ResourceNodes.RWSDSoundNode)audioFolder.Children[waveIndex];
+
 						int soundSize = 0;
 						unsafe
 						{
 							int samples = sound.Header->NumSamples;
-							if( ( samples / 2 * 2 ) == samples )
+							if ((samples / 2 * 2) == samples)
 							{
 								soundSize = samples / 2;
 							}
@@ -132,14 +146,45 @@ namespace BrawlSoundConverter
 							}
 						}
 						addUpSoundSize += soundSize;
-						
-						string sName = "[" + i.ToString("X3") + "] " + file._labels[i].String;
-						MappingItem soundMap = new MappingItem(sName, groupID, collectionID,i);
 
-						colMap.Nodes.Add( soundMap );
-						nodeCount++;
-						//child node must have a parent in order for size to propogate correctly.
+						string sName = "[" + waveIndex.ToString("X3") + "] " + data.Name;
+						MappingItem soundMap = new MappingItem(sName, groupID, collectionID, waveIndex, usedWaveIndeces.Contains(waveIndex));
+						colMap.Nodes.Add(soundMap);
 						soundMap.fileSize = soundSize;
+						nodeCount++;
+
+						//child node must have a parent in order for size to propogate correctly.
+						if (!usedWaveIndeces.Contains(waveIndex))
+						{
+							usedWaveIndeces.Add(waveIndex);
+						}
+                    }
+					for (int i = 0; i < audioFolder.Children.Count(); i++)
+                    {
+						if (usedWaveIndeces.Contains(i))
+							continue;
+						BrawlLib.SSBB.ResourceNodes.RWSDSoundNode sound = (BrawlLib.SSBB.ResourceNodes.RWSDSoundNode)audioFolder.Children[i];
+
+						int soundSize = 0;
+						unsafe
+						{
+							int samples = sound.Header->NumSamples;
+							if ((samples / 2 * 2) == samples)
+							{
+								soundSize = samples / 2;
+							}
+							else
+							{
+								soundSize = samples / 2 + 1;
+							}
+						}
+						addUpSoundSize += soundSize;
+
+						string sName = "[" + i.ToString("X3") + "] ORPHANED";
+						MappingItem soundMap = new MappingItem(sName, groupID, collectionID, i, false);
+						colMap.Nodes.Add(soundMap);
+						soundMap.fileSize = soundSize;
+						nodeCount++;
 					}
 				}
 
