@@ -751,6 +751,8 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <None Include="lavaResawndz\lavaResawndz.vcxproj" />
+    <None Include="lavaResawndz\VGAudio\LICENSE" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -765,6 +767,21 @@
     <None Include="BrawlLib\BrawlLib.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <Content Include="lavaResawndz\lavaBRSARLib.cpp" />
+    <Content Include="lavaResawndz\lavaBRSARLib.h" />
+    <Content Include="lavaResawndz\lavaByteArray.h" />
+    <Content Include="lavaResawndz\lavaDSP.cpp" />
+    <Content Include="lavaResawndz\lavaDSP.h" />
+    <Content Include="lavaResawndz\lavaResawndz.cpp" />
+    <Content Include="lavaResawndz\lavaResawndz.h" />
+    <Content Include="lavaResawndz\lavaResawndz.vcxproj.filters" />
+    <Content Include="lavaResawndz\lavaResawndz.vcxproj.user" />
+    <Content Include="lavaResawndz\lavaUtility.cpp" />
+    <Content Include="lavaResawndz\lavaUtility.h" />
+    <Content Include="lavaResawndz\main.cpp" />
+    <Content Include="lavaResawndz\md5.cpp" />
+    <Content Include="lavaResawndz\md5.h" />
+    <Content Include="lavaResawndz\VGAudio\VGAudioCli.exe" />
     <Content Include="mapping.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <SubType>Designer</SubType>
