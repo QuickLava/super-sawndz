@@ -49,6 +49,8 @@
             this.backgroundWorkerCreateSawnd = new System.ComponentModel.BackgroundWorker();
             this.audioPlaybackBRSARSound = new System.Windows.Forms.AudioPlaybackPanel();
             this.audioPlaybackPanelWav = new System.Windows.Forms.AudioPlaybackPanel();
+            this.buttonCreateWAV = new System.Windows.Forms.Button();
+            this.backgroundWorkerCreateWAV = new System.ComponentModel.BackgroundWorker();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -59,12 +61,13 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.textBoxOutput.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.textBoxOutput.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
-            this.textBoxOutput.Location = new System.Drawing.Point(15, 205);
+            this.textBoxOutput.Location = new System.Drawing.Point(20, 252);
+            this.textBoxOutput.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.textBoxOutput.Multiline = true;
             this.textBoxOutput.Name = "textBoxOutput";
             this.textBoxOutput.ReadOnly = true;
             this.textBoxOutput.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.textBoxOutput.Size = new System.Drawing.Size(663, 470);
+            this.textBoxOutput.Size = new System.Drawing.Size(883, 578);
             this.textBoxOutput.TabIndex = 1;
             // 
             // treeViewMapping
@@ -73,9 +76,10 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.treeViewMapping.FullRowSelect = true;
             this.treeViewMapping.HideSelection = false;
-            this.treeViewMapping.Location = new System.Drawing.Point(700, 13);
+            this.treeViewMapping.Location = new System.Drawing.Point(933, 16);
+            this.treeViewMapping.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.treeViewMapping.Name = "treeViewMapping";
-            this.treeViewMapping.Size = new System.Drawing.Size(473, 554);
+            this.treeViewMapping.Size = new System.Drawing.Size(629, 681);
             this.treeViewMapping.TabIndex = 3;
             this.treeViewMapping.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeViewMapping_AfterSelect);
             this.treeViewMapping.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.treeViewMapping_KeyPress);
@@ -83,35 +87,40 @@
             // textBoxGroupID
             // 
             this.textBoxGroupID.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBoxGroupID.Location = new System.Drawing.Point(578, 13);
+            this.textBoxGroupID.Location = new System.Drawing.Point(771, 16);
+            this.textBoxGroupID.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.textBoxGroupID.Name = "textBoxGroupID";
-            this.textBoxGroupID.Size = new System.Drawing.Size(100, 20);
+            this.textBoxGroupID.Size = new System.Drawing.Size(132, 22);
             this.textBoxGroupID.TabIndex = 4;
             this.textBoxGroupID.TextChanged += new System.EventHandler(this.textBoxGroupID_TextChanged);
             // 
             // textBoxCollectionID
             // 
             this.textBoxCollectionID.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBoxCollectionID.Location = new System.Drawing.Point(578, 39);
+            this.textBoxCollectionID.Location = new System.Drawing.Point(771, 48);
+            this.textBoxCollectionID.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.textBoxCollectionID.Name = "textBoxCollectionID";
-            this.textBoxCollectionID.Size = new System.Drawing.Size(100, 20);
+            this.textBoxCollectionID.Size = new System.Drawing.Size(132, 22);
             this.textBoxCollectionID.TabIndex = 5;
             // 
             // textBoxWavID
             // 
             this.textBoxWavID.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBoxWavID.Location = new System.Drawing.Point(578, 65);
+            this.textBoxWavID.Location = new System.Drawing.Point(771, 80);
+            this.textBoxWavID.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.textBoxWavID.Name = "textBoxWavID";
-            this.textBoxWavID.Size = new System.Drawing.Size(100, 20);
+            this.textBoxWavID.Size = new System.Drawing.Size(132, 22);
             this.textBoxWavID.TabIndex = 6;
+            this.textBoxWavID.TextChanged += new System.EventHandler(this.textBoxWavID_TextChanged);
             // 
             // label1
             // 
             this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(519, 16);
+            this.label1.Location = new System.Drawing.Point(692, 20);
+            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(50, 13);
+            this.label1.Size = new System.Drawing.Size(65, 17);
             this.label1.TabIndex = 8;
             this.label1.Text = "Group ID";
             // 
@@ -119,9 +128,10 @@
             // 
             this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(505, 42);
+            this.label2.Location = new System.Drawing.Point(673, 52);
+            this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(67, 13);
+            this.label2.Size = new System.Drawing.Size(86, 17);
             this.label2.TabIndex = 9;
             this.label2.Text = "Collection ID";
             // 
@@ -129,9 +139,10 @@
             // 
             this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(522, 68);
+            this.label3.Location = new System.Drawing.Point(696, 84);
+            this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(46, 13);
+            this.label3.Size = new System.Drawing.Size(56, 17);
             this.label3.TabIndex = 10;
             this.label3.Text = "WAV ID";
             // 
@@ -140,17 +151,19 @@
             this.textBoxInputFile.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.textBoxInputFile.Enabled = false;
-            this.textBoxInputFile.Location = new System.Drawing.Point(15, 39);
+            this.textBoxInputFile.Location = new System.Drawing.Point(20, 48);
+            this.textBoxInputFile.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.textBoxInputFile.Name = "textBoxInputFile";
-            this.textBoxInputFile.Size = new System.Drawing.Size(427, 20);
+            this.textBoxInputFile.Size = new System.Drawing.Size(568, 22);
             this.textBoxInputFile.TabIndex = 11;
             // 
             // buttonBrowse
             // 
             this.buttonBrowse.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonBrowse.Location = new System.Drawing.Point(448, 39);
+            this.buttonBrowse.Location = new System.Drawing.Point(597, 48);
+            this.buttonBrowse.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.buttonBrowse.Name = "buttonBrowse";
-            this.buttonBrowse.Size = new System.Drawing.Size(25, 23);
+            this.buttonBrowse.Size = new System.Drawing.Size(33, 28);
             this.buttonBrowse.TabIndex = 12;
             this.buttonBrowse.Text = "...";
             this.buttonBrowse.UseVisualStyleBackColor = true;
@@ -159,9 +172,10 @@
             // buttonInsert
             // 
             this.buttonInsert.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonInsert.Location = new System.Drawing.Point(398, 65);
+            this.buttonInsert.Location = new System.Drawing.Point(531, 80);
+            this.buttonInsert.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.buttonInsert.Name = "buttonInsert";
-            this.buttonInsert.Size = new System.Drawing.Size(75, 23);
+            this.buttonInsert.Size = new System.Drawing.Size(100, 28);
             this.buttonInsert.TabIndex = 13;
             this.buttonInsert.Text = "Insert";
             this.buttonInsert.UseVisualStyleBackColor = true;
@@ -170,9 +184,10 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(15, 23);
+            this.label4.Location = new System.Drawing.Point(20, 28);
+            this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(50, 13);
+            this.label4.Size = new System.Drawing.Size(65, 17);
             this.label4.TabIndex = 15;
             this.label4.Text = "Input File";
             // 
@@ -186,12 +201,13 @@
             this.menuStrip1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.menuStrip1.Dock = System.Windows.Forms.DockStyle.None;
+            this.menuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem,
             this.aboutToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(97, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(120, 30);
             this.menuStrip1.TabIndex = 16;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -200,20 +216,20 @@
             this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.openBRSARToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(46, 26);
             this.fileToolStripMenuItem.Text = "File";
             // 
             // openBRSARToolStripMenuItem
             // 
             this.openBRSARToolStripMenuItem.Name = "openBRSARToolStripMenuItem";
-            this.openBRSARToolStripMenuItem.Size = new System.Drawing.Size(141, 22);
+            this.openBRSARToolStripMenuItem.Size = new System.Drawing.Size(177, 26);
             this.openBRSARToolStripMenuItem.Text = "Open BRSAR";
             this.openBRSARToolStripMenuItem.Click += new System.EventHandler(this.openBRSARToolStripMenuItem_Click);
             // 
             // aboutToolStripMenuItem
             // 
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(52, 20);
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(64, 26);
             this.aboutToolStripMenuItem.Text = "About";
             this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
             // 
@@ -221,9 +237,10 @@
             // 
             this.buttonCreateSawnd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.buttonCreateSawnd.Enabled = false;
-            this.buttonCreateSawnd.Location = new System.Drawing.Point(583, 91);
+            this.buttonCreateSawnd.Location = new System.Drawing.Point(777, 112);
+            this.buttonCreateSawnd.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.buttonCreateSawnd.Name = "buttonCreateSawnd";
-            this.buttonCreateSawnd.Size = new System.Drawing.Size(95, 23);
+            this.buttonCreateSawnd.Size = new System.Drawing.Size(127, 28);
             this.buttonCreateSawnd.TabIndex = 17;
             this.buttonCreateSawnd.Text = "Create Sawnd";
             this.buttonCreateSawnd.UseVisualStyleBackColor = true;
@@ -237,25 +254,46 @@
             // audioPlaybackBRSARSound
             // 
             this.audioPlaybackBRSARSound.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.audioPlaybackBRSARSound.Location = new System.Drawing.Point(693, 573);
+            this.audioPlaybackBRSARSound.Location = new System.Drawing.Point(924, 705);
+            this.audioPlaybackBRSARSound.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.audioPlaybackBRSARSound.Name = "audioPlaybackBRSARSound";
-            this.audioPlaybackBRSARSound.Size = new System.Drawing.Size(480, 108);
+            this.audioPlaybackBRSARSound.Size = new System.Drawing.Size(640, 133);
             this.audioPlaybackBRSARSound.TabIndex = 18;
             // 
             // audioPlaybackPanelWav
             // 
             this.audioPlaybackPanelWav.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.audioPlaybackPanelWav.Location = new System.Drawing.Point(15, 88);
+            this.audioPlaybackPanelWav.Location = new System.Drawing.Point(20, 108);
+            this.audioPlaybackPanelWav.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.audioPlaybackPanelWav.Name = "audioPlaybackPanelWav";
-            this.audioPlaybackPanelWav.Size = new System.Drawing.Size(458, 101);
+            this.audioPlaybackPanelWav.Size = new System.Drawing.Size(611, 124);
             this.audioPlaybackPanelWav.TabIndex = 14;
+            // 
+            // buttonCreateWAV
+            // 
+            this.buttonCreateWAV.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonCreateWAV.Enabled = false;
+            this.buttonCreateWAV.Location = new System.Drawing.Point(777, 148);
+            this.buttonCreateWAV.Margin = new System.Windows.Forms.Padding(4);
+            this.buttonCreateWAV.Name = "buttonCreateWAV";
+            this.buttonCreateWAV.Size = new System.Drawing.Size(127, 28);
+            this.buttonCreateWAV.TabIndex = 19;
+            this.buttonCreateWAV.Text = "Create WAV";
+            this.buttonCreateWAV.UseVisualStyleBackColor = true;
+            this.buttonCreateWAV.Click += new System.EventHandler(this.buttonCreateWAV_Click);
+            //
+            // backgroundWorkerCreateWAV
+            // 
+            this.backgroundWorkerCreateWAV.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorkerCreateWAV_DoWork);
+            this.backgroundWorkerCreateWAV.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.backgroundWorkerCreateWAV_RunWorkerCompleted);
             // 
             // Form1
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1185, 687);
+            this.ClientSize = new System.Drawing.Size(1580, 846);
+            this.Controls.Add(this.buttonCreateWAV);
             this.Controls.Add(this.audioPlaybackBRSARSound);
             this.Controls.Add(this.buttonCreateSawnd);
             this.Controls.Add(this.label4);
@@ -273,6 +311,7 @@
             this.Controls.Add(this.textBoxOutput);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Name = "Form1";
             this.Text = "Super Sawndz";
             this.Load += new System.EventHandler(this.Form1_Load);
@@ -304,8 +343,10 @@
 		private System.Windows.Forms.ToolStripMenuItem openBRSARToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
 		private System.Windows.Forms.Button buttonCreateSawnd;
-		private System.Windows.Forms.AudioPlaybackPanel audioPlaybackBRSARSound;
+        private System.Windows.Forms.Button buttonCreateWAV;
+        private System.Windows.Forms.AudioPlaybackPanel audioPlaybackBRSARSound;
 		private System.ComponentModel.BackgroundWorker backgroundWorkerCreateSawnd;
+		private System.ComponentModel.BackgroundWorker backgroundWorkerCreateWAV;
     }
 }
 

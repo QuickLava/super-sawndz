@@ -14,7 +14,7 @@ namespace BrawlSoundConverter
 {
 	public partial class Form1 : Form
 	{
-		string VERSION = "1.2.5a";
+		string VERSION = "1.3.0";
 		public Form1()
 		{
 			InitializeComponent();
@@ -194,6 +194,7 @@ namespace BrawlSoundConverter
 			audioPlaybackPanelWav.Stop();
 			buttonBrowse.Enabled = false;
 			buttonCreateSawnd.Enabled = false;
+			buttonCreateWAV.Enabled = false;
 			buttonInsert.Enabled = false;
 			treeViewMapping.Enabled = false;
 			audioPlaybackPanelWav.Enabled = false;
@@ -213,8 +214,9 @@ namespace BrawlSoundConverter
 			audioPlaybackBRSARSound.Enabled = true;
 
 			//Make sure that we have a group id before turning on create sawnd button
-			int gid;
+			int gid, wid;
 			buttonCreateSawnd.Enabled = int.TryParse( textBoxGroupID.Text, out gid );
+			buttonCreateWAV.Enabled = int.TryParse( textBoxWavID.Text, out wid );
 		}
 
 		//Called when the insert thread completes. Reloads the tree view or updates the specific node.
@@ -262,7 +264,7 @@ namespace BrawlSoundConverter
 				"Modified by QuickLava(https://github.com/QuickLava)\n" +
 				"Uses BrawlLib: https://github.com/soopercool101/BrawlCrate \n" + 
 				"Formerly Based off of Sawndz 0.12 (2010-2011 Jaklub)\n" +
-				"Currently Based off of lavaResawndz 1.1.0a (2022 QuickLava)\n" +
+				"Currently Based off of lavaResawndz 1.1.5 (2022 QuickLava)\n" +
 				"Special thanks to mastaklo, ssbbtailsfan, stickman, VILE\n");
 		}
 
@@ -305,6 +307,10 @@ namespace BrawlSoundConverter
 		{
 			Sawndz.createSawnd( int.Parse( textBoxGroupID.Text ), e.Argument as string );
 		}
+		private void backgroundWorkerCreateWAV_DoWork(object sender, DoWorkEventArgs e)
+		{
+			Sawndz.createWAV(int.Parse(textBoxGroupID.Text), int.Parse(textBoxCollectionID.Text), int.Parse(textBoxWavID.Text), e.Argument as string);
+		}
 
 		//Check if we need to enable the create sawnd button, need Group ID for that to work.
 		private void textBoxGroupID_TextChanged( object sender, EventArgs e )
@@ -313,7 +319,18 @@ namespace BrawlSoundConverter
 			buttonCreateSawnd.Enabled = int.TryParse( textBoxGroupID.Text, out gid );
 		}
 
+		//Check if we need to enable the create WAV button, need WAV ID for that to work.
+		private void textBoxWavID_TextChanged(object sender, EventArgs e)
+		{
+			int gid;
+			buttonCreateWAV.Enabled = int.TryParse(textBoxWavID.Text, out gid);
+		}
+
 		private void backgroundWorkerCreateSawnd_RunWorkerCompleted( object sender, RunWorkerCompletedEventArgs e )
+		{
+			enableStuff();
+		}
+		private void backgroundWorkerCreateWAV_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
 		{
 			enableStuff();
 		}
@@ -341,6 +358,35 @@ namespace BrawlSoundConverter
 				disableStuff();
 				textBoxOutput.Clear();
 				backgroundWorkerCreateSawnd.RunWorkerAsync(sfd.FileName);
+			}
+		}
+
+        private void buttonCreateWAV_Click(object sender, EventArgs e)
+        {
+			//Make sure group, collection, and wave ids are all valid
+			int gid, cid, wid;
+			if (!int.TryParse(textBoxGroupID.Text, out gid))
+			{
+				MessageBox.Show("Group ID is not valid");
+				return;
+			}
+			if (!int.TryParse(textBoxCollectionID.Text, out cid))
+			{
+				MessageBox.Show("Collection ID is not valid");
+				return;
+			}
+			if (!int.TryParse(textBoxCollectionID.Text, out wid))
+			{
+				MessageBox.Show("WAV ID is not valid");
+				return;
+			}
+			SaveFileDialog sfd = new SaveFileDialog();
+			sfd.Filter = "*WAV File(*.wav)|*.wav";
+			if (sfd.ShowDialog() == DialogResult.OK)
+			{
+				disableStuff();
+				textBoxOutput.Clear();
+				backgroundWorkerCreateWAV.RunWorkerAsync(sfd.FileName);
 			}
 		}
     }

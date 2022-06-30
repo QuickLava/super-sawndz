@@ -58,6 +58,14 @@ namespace BrawlSoundConverter
 				File.Delete( fileName );
 			File.Move( "sawnd.sawnd", fileName );
 		}
+		public static void createWAV(int groupID, int collID, int wavID, string fileName)
+		{
+			runWithArgs("wavcreate " + groupID + " " + collID + " "
+				+ wavID + " \"" + brsar.RSAR_FileName + "\"");
+			if (File.Exists(fileName))
+				File.Delete(fileName);
+			File.Move("sound.wav", fileName);
+		}
 		public static void insertSawnd(string fileName)
 		{
 			if (!File.Exists(fileName))
