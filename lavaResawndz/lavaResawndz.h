@@ -7,7 +7,7 @@ namespace lava
 {
 	namespace brawl
 	{
-		const std::string resawndzVersion = "v1.1.0a";
+		const std::string resawndzVersion = "v1.1.5";
 		const unsigned long _MAX_SUPPORTED_SAWND_VERSION = 0x0002;
 
 		struct sawndFileEntry

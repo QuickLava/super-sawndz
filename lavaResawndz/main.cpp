@@ -161,6 +161,48 @@ int main(int argc, char** argv)
 				}
 				return 0;
 			}
+			else if (strcmp("wavcreate", argv[1]) == 0 && argc >= 5)
+			{
+				lava::brawl::brsar sourceBrsar;
+				std::string activeBrsarName = targetBrsarName + ".brsar";
+				std::string wavPath = wavDefaultFilename;
+				if (argc >= 6 && !isNullArg(argv[5]))
+				{
+					activeBrsarName = argv[5];
+				}
+				if (argc >= 7 && !isNullArg(argv[6]))
+				{
+					wavPath = argv[6];
+				}
+				unsigned long targetGroupID = std::stoi(argv[2]);
+				unsigned long targetFileID = std::stoi(argv[3]);
+				unsigned long targetWaveID = std::stoi(argv[4]);
+				std::cout << "Exporting Wave #" << targetWaveID << " from File #" << targetFileID << " in Group #" << targetGroupID << "...\n";
+				if (sourceBrsar.init(activeBrsarName))
+				{
+					lava::brawl::rwsd tempRWSD;
+					if (tempRWSD.populate(*sourceBrsar.fileSection.getFileContentsPointer(targetFileID)))
+					{
+						if (tempRWSD.exportWaveRawDataToWAV(targetWaveID, wavPath))
+						{
+							std::cout << "Success!\n";
+						}
+						else
+						{
+							std::cout << "[ERROR] Failed to export WAV! Operation aborted!\n";
+						}
+					}
+					else
+					{
+						std::cout << "[ERROR] Failed to parse RWSD! Operation aborted!\n";
+					}
+				}
+				else
+				{
+					std::cout << "[ERROR] Failed to initialize .brsar struct! Operation aborted!\n";
+				}
+				return 0;
+			}
 		}
 		std::cout << "Invalid operation argument set supplied:\n";
 		for (unsigned long i = 0; i < argc; i++)
@@ -174,6 +216,8 @@ int main(int argc, char** argv)
 		std::cout << "\tsawnd {BRSAR_PATH, optional} {INPUT_PATH, optional}\n";
 		std::cout << "To import a .wav:\n";
 		std::cout << "\tinsert {GROUP_ID} {FILE_ID} {WAVE_ID} {FREQUENCY} {LOOP} {BRSAR_PATH, optional} {WAV_PATH, opt}\n";
+		std::cout << "To export a .wav:\n";
+		std::cout << "\twavcreate {GROUP_ID} {FILE_ID} {WAVE_ID} {BRSAR_PATH, optional} {WAV_PATH, opt}\n";
 		std::cout << "Note: Default BRSAR_PATH is \"" << brsarDefaultFilename << "\", default IN/OUTPUT_PATH is \"" << sawndDefaultFilename << "\".\n";
 		std::cout << "Note: Default WAV_PATH is \"" << wavDefaultFilename << "\".\n";
 		std::cout << "Note: To explicitly use one of the above defaults, specify \"" << nullArgumentString << "\" for that argument.\n";

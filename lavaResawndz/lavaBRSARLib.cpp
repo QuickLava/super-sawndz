@@ -2015,6 +2015,7 @@ namespace lava
 					{
 						convDSPOut.close();
 						system(lava::brawl::generateVGAudioDSPToWavCommand(VGAudioTempConvFilename, wavOutputPath).c_str());
+						result = 1;
 					}
 					std::filesystem::remove(VGAudioTempConvFilename);
 				}
