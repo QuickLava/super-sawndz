@@ -6,7 +6,6 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using Microsoft.WindowsAPICodePack.Dialogs;
 using System.IO;
 
 namespace BrawlSoundConverter
@@ -22,11 +21,10 @@ namespace BrawlSoundConverter
 
 		private void buttonBrowse_Click(object sender, EventArgs e)
 		{
-			CommonOpenFileDialog fbd = new CommonOpenFileDialog();
-			fbd.IsFolderPicker = true;
-			if (fbd.ShowDialog() == CommonFileDialogResult.Ok)
+			FolderBrowserDialog fbd = new FolderBrowserDialog();
+			if (fbd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
 			{
-				textBoxExportDirectory.Text = fbd.FileName;
+				textBoxExportDirectory.Text = fbd.SelectedPath;
 				buttonExport.Enabled = true;
 				buttonSelectAll.Enabled = true;
 				buttonDeselectAll.Enabled = true;
