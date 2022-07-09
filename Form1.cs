@@ -56,6 +56,7 @@ namespace BrawlSoundConverter
 				//If it doesn't exist this will throw an exception
 				brsar.GetRSAR();
 				loadTreeView();
+				enableStuff();
 			}
 			catch( Exception ex )
 			{
