@@ -51,10 +51,10 @@
 			this.buttonCreateWAV = new System.Windows.Forms.Button();
 			this.backgroundWorkerCreateWAV = new System.ComponentModel.BackgroundWorker();
 			this.buttonMultiExportSawnd = new System.Windows.Forms.Button();
-			this.audioPlaybackBRSARSound = new System.Windows.Forms.AudioPlaybackPanel();
-			this.audioPlaybackPanelWav = new System.Windows.Forms.AudioPlaybackPanel();
 			this.buttonMultiInsertSawnd = new System.Windows.Forms.Button();
 			this.backgroundWorkerMultiInsertSawnd = new System.ComponentModel.BackgroundWorker();
+			this.audioPlaybackBRSARSound = new System.Windows.Forms.AudioPlaybackPanel();
+			this.audioPlaybackPanelWav = new System.Windows.Forms.AudioPlaybackPanel();
 			this.menuStrip1.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -212,7 +212,7 @@
             this.aboutToolStripMenuItem});
 			this.menuStrip1.Location = new System.Drawing.Point(0, 0);
 			this.menuStrip1.Name = "menuStrip1";
-			this.menuStrip1.Size = new System.Drawing.Size(176, 28);
+			this.menuStrip1.Size = new System.Drawing.Size(176, 30);
 			this.menuStrip1.TabIndex = 16;
 			this.menuStrip1.Text = "menuStrip1";
 			// 
@@ -221,7 +221,7 @@
 			this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.openBRSARToolStripMenuItem});
 			this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-			this.fileToolStripMenuItem.Size = new System.Drawing.Size(46, 24);
+			this.fileToolStripMenuItem.Size = new System.Drawing.Size(46, 26);
 			this.fileToolStripMenuItem.Text = "File";
 			// 
 			// openBRSARToolStripMenuItem
@@ -234,13 +234,13 @@
 			// toolsToolStripMenuItem
 			// 
 			this.toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
-			this.toolsToolStripMenuItem.Size = new System.Drawing.Size(58, 24);
+			this.toolsToolStripMenuItem.Size = new System.Drawing.Size(58, 26);
 			this.toolsToolStripMenuItem.Text = "Tools";
 			// 
 			// aboutToolStripMenuItem
 			// 
 			this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-			this.aboutToolStripMenuItem.Size = new System.Drawing.Size(64, 24);
+			this.aboutToolStripMenuItem.Size = new System.Drawing.Size(64, 26);
 			this.aboutToolStripMenuItem.Text = "About";
 			this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
 			// 
@@ -282,6 +282,7 @@
 			// 
 			// buttonMultiExportSawnd
 			// 
+			this.buttonMultiExportSawnd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.buttonMultiExportSawnd.Enabled = false;
 			this.buttonMultiExportSawnd.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.7F);
 			this.buttonMultiExportSawnd.Location = new System.Drawing.Point(771, 147);
@@ -291,25 +292,6 @@
 			this.buttonMultiExportSawnd.Text = "Multi Create Sawnd";
 			this.buttonMultiExportSawnd.UseVisualStyleBackColor = true;
 			this.buttonMultiExportSawnd.Click += new System.EventHandler(this.buttonMultiExportSawnd_Click);
-			// 
-			// audioPlaybackBRSARSound
-			// 
-			this.audioPlaybackBRSARSound.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.audioPlaybackBRSARSound.Location = new System.Drawing.Point(924, 705);
-			this.audioPlaybackBRSARSound.Margin = new System.Windows.Forms.Padding(4);
-			this.audioPlaybackBRSARSound.Name = "audioPlaybackBRSARSound";
-			this.audioPlaybackBRSARSound.Size = new System.Drawing.Size(640, 133);
-			this.audioPlaybackBRSARSound.TabIndex = 18;
-			// 
-			// audioPlaybackPanelWav
-			// 
-			this.audioPlaybackPanelWav.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-			this.audioPlaybackPanelWav.Location = new System.Drawing.Point(20, 139);
-			this.audioPlaybackPanelWav.Margin = new System.Windows.Forms.Padding(4);
-			this.audioPlaybackPanelWav.Name = "audioPlaybackPanelWav";
-			this.audioPlaybackPanelWav.Size = new System.Drawing.Size(611, 105);
-			this.audioPlaybackPanelWav.TabIndex = 14;
 			// 
 			// buttonMultiInsertSawnd
 			// 
@@ -329,6 +311,25 @@
 			// 
 			this.backgroundWorkerMultiInsertSawnd.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorkerMultiInsertSawnd_DoWork);
 			this.backgroundWorkerMultiInsertSawnd.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.backgroundWorkerMultiInsertSawnd_RunWorkerCompleted);
+			// 
+			// audioPlaybackBRSARSound
+			// 
+			this.audioPlaybackBRSARSound.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+			this.audioPlaybackBRSARSound.Location = new System.Drawing.Point(924, 705);
+			this.audioPlaybackBRSARSound.Margin = new System.Windows.Forms.Padding(4);
+			this.audioPlaybackBRSARSound.Name = "audioPlaybackBRSARSound";
+			this.audioPlaybackBRSARSound.Size = new System.Drawing.Size(640, 133);
+			this.audioPlaybackBRSARSound.TabIndex = 18;
+			// 
+			// audioPlaybackPanelWav
+			// 
+			this.audioPlaybackPanelWav.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.audioPlaybackPanelWav.Location = new System.Drawing.Point(20, 139);
+			this.audioPlaybackPanelWav.Margin = new System.Windows.Forms.Padding(4);
+			this.audioPlaybackPanelWav.Name = "audioPlaybackPanelWav";
+			this.audioPlaybackPanelWav.Size = new System.Drawing.Size(611, 105);
+			this.audioPlaybackPanelWav.TabIndex = 14;
 			// 
 			// Form1
 			// 
