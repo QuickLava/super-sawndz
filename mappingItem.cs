@@ -86,6 +86,10 @@ namespace BrawlSoundConverter
 			brsar.CloseRSAR();
 			this.TreeView.Invalidate();
 		}
+		public override string ToString()
+		{
+			return name;
+		}
 		public MappingItem(string name, int group = -1, int collection = -1, int wave = -1, bool sharesWave = false)
 		{
 			this.name = name;

@@ -204,5 +204,30 @@ namespace BrawlSoundConverter
 			CloseRSAR();
 		}
 
+		public static void LoadCheckedList(CheckedListBox checkedList)
+		{
+			//Only used to count the number of nodes added, no actual function in the program
+			int nodeCount = 0;
+
+			BrawlLib.SSBB.ResourceNodes.RSARNode rsar = GetRSAR();
+			BrawlLib.SSBB.ResourceNodes.RSARFolderNode folder = (BrawlLib.SSBB.ResourceNodes.RSARFolderNode)rsar.FindChild("Info/snd/group", false);
+			BrawlLib.SSBB.ResourceNodes.ResourceNode[] groups = folder.FindChildrenByType("", BrawlLib.SSBB.ResourceNodes.ResourceType.RSARGroup);
+
+			CheckedListBox.ObjectCollection objects = checkedList.Items;
+
+			foreach (BrawlLib.SSBB.ResourceNodes.RSARGroupNode group in groups)
+			{
+				if (group.Files.Count > 0)
+				{
+					string name = "[" + group.Id.ToString("X3") + "] " + group.Name;
+					int groupID = group.Id;
+					MappingItem groupMap = new MappingItem(name, groupID);
+					objects.Add(groupMap);
+					nodeCount++;
+				}
+			}
+
+			CloseRSAR();
+		}
 	}
 }

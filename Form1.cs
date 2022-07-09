@@ -14,7 +14,7 @@ namespace BrawlSoundConverter
 {
 	public partial class Form1 : Form
 	{
-		string VERSION = "1.3.0";
+		string VERSION = "1.5.0";
 		public Form1()
 		{
 			InitializeComponent();
@@ -195,6 +195,8 @@ namespace BrawlSoundConverter
 			buttonBrowse.Enabled = false;
 			buttonCreateSawnd.Enabled = false;
 			buttonCreateWAV.Enabled = false;
+			buttonMultiExportSawnd.Enabled = false;
+			buttonMultiInsertSawnd.Enabled = false;
 			buttonInsert.Enabled = false;
 			treeViewMapping.Enabled = false;
 			audioPlaybackPanelWav.Enabled = false;
@@ -212,6 +214,8 @@ namespace BrawlSoundConverter
 			audioPlaybackPanelWav.Enabled = true;
 			buttonBrowse.Enabled = true;
 			audioPlaybackBRSARSound.Enabled = true;
+			buttonMultiExportSawnd.Enabled = true;
+			buttonMultiInsertSawnd.Enabled = true;
 
 			//Make sure that we have a group id before turning on create sawnd button
 			int gid, wid;
@@ -264,7 +268,7 @@ namespace BrawlSoundConverter
 				"Modified by QuickLava(https://github.com/QuickLava)\n" +
 				"Uses BrawlLib: https://github.com/soopercool101/BrawlCrate \n" + 
 				"Formerly Based off of Sawndz 0.12 (2010-2011 Jaklub)\n" +
-				"Currently Based off of lavaResawndz 1.1.5 (2022 QuickLava)\n" +
+				"Currently Based off of lavaResawndz 1.2.7 (2022 QuickLava)\n" +
 				"Special thanks to mastaklo, ssbbtailsfan, stickman, VILE\n");
 		}
 
@@ -389,5 +393,38 @@ namespace BrawlSoundConverter
 				backgroundWorkerCreateWAV.RunWorkerAsync(sfd.FileName);
 			}
 		}
-    }
+		private void buttonMultiExportSawnd_Click(object sender, EventArgs e)
+		{
+			textBoxOutput.Clear();
+			multiSawndExportForm tempForm = new multiSawndExportForm();
+			tempForm.ShowDialog();
+		}
+		private void buttonMultiImportSawnd_Click(object sender, EventArgs e)
+		{
+			OpenFileDialog ofd = new OpenFileDialog();
+			ofd.Multiselect = true;
+			ofd.Filter = "*Sawnd File(*.sawnd)|*.sawnd";
+			if (ofd.ShowDialog() == DialogResult.OK)
+			{
+				StreamWriter importList = File.CreateText("toImport.txt");
+				foreach (string str in ofd.FileNames)
+				{
+					importList.WriteLine(str);
+				}
+				importList.Close();
+				backgroundWorkerMultiInsertSawnd.RunWorkerAsync();
+			}
+		}
+		private void backgroundWorkerMultiInsertSawnd_DoWork(object sender, DoWorkEventArgs e)
+		{
+			disableStuff();
+			textBoxOutput.Clear();
+			Sawndz.multiInsertSawnd();
+		}
+		private void backgroundWorkerMultiInsertSawnd_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+		{
+			enableStuff();
+			loadTreeView();
+		}
+	}
 }
