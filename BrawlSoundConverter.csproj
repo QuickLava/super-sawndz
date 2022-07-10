@@ -108,6 +108,16 @@
     <Compile Include="BrawlLib\Modeling\Wavefront.cs" />
     <Compile Include="BrawlLib\OpenGL\CPPEnums.cs" />
     <Compile Include="BrawlLib\OpenGL\Enums.cs" />
+    <Compile Include="BrawlLib\System\Windows\Forms\Ookii.Dialogs\Interop\COMGuids.cs" />
+    <Compile Include="BrawlLib\System\Windows\Forms\Ookii.Dialogs\Interop\ErrorHelper.cs" />
+    <Compile Include="BrawlLib\System\Windows\Forms\Ookii.Dialogs\Interop\ShellComInterfaces.cs" />
+    <Compile Include="BrawlLib\System\Windows\Forms\Ookii.Dialogs\Interop\ShellWrapperDefinitions.cs" />
+    <Compile Include="BrawlLib\System\Windows\Forms\Ookii.Dialogs\Interop\WindowHandleWrapper.cs" />
+    <Compile Include="BrawlLib\System\Windows\Forms\Ookii.Dialogs\NativeMethods.cs" />
+    <Compile Include="BrawlLib\System\Windows\Forms\Ookii.Dialogs\SafeHandles.cs" />
+    <Compile Include="BrawlLib\System\Windows\Forms\Ookii.Dialogs\VistaFolderBrowserDialog.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="multiSawndExportForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -776,6 +786,7 @@
     <None Include="BrawlLib\BrawlLib.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <Content Include="BrawlLib\System\Windows\Forms\Ookii.Dialogs\license.txt" />
     <Content Include="lavaResawndz\lavaBRSARLib.cpp" />
     <Content Include="lavaResawndz\lavaBRSARLib.h" />
     <Content Include="lavaResawndz\lavaByteArray.h" />
@@ -803,6 +814,7 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

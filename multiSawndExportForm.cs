@@ -7,6 +7,9 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.IO;
+using BrawlLib.Internal.Windows.Forms.Ookii.Dialogs;
+
+
 
 namespace BrawlSoundConverter
 {
@@ -21,8 +24,8 @@ namespace BrawlSoundConverter
 
 		private void buttonBrowse_Click(object sender, EventArgs e)
 		{
-			FolderBrowserDialog fbd = new FolderBrowserDialog();
-			if (fbd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+			VistaFolderBrowserDialog fbd = new VistaFolderBrowserDialog();
+			if (fbd.ShowDialog() == DialogResult.OK)
 			{
 				textBoxExportDirectory.Text = fbd.SelectedPath;
 				buttonExport.Enabled = true;
