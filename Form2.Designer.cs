@@ -49,7 +49,7 @@ namespace BrawlSoundConverter
 			this.treeViewNames.Size = new System.Drawing.Size(370, 332);
 			this.treeViewNames.TabIndex = 1;
 			this.treeViewNames.DoubleClick += new System.EventHandler(this.treeViewNames_DoubleClick);
-			this.treeViewNames.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.treeViewNames_KeyPress);
+			this.treeViewNames.KeyDown += new System.Windows.Forms.KeyEventHandler(this.treeViewNames_KeyDown);
 			// 
 			// label1
 			// 

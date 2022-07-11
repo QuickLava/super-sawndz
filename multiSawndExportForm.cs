@@ -161,12 +161,13 @@ namespace BrawlSoundConverter
 				buttonExport.Enabled = false;
 			}
 		}
-		private void treeViewGroups_KeyPress(object sender, KeyPressEventArgs e)
+		private void treeViewGroups_KeyDown(object sender, KeyEventArgs e)
 		{
 			TreeNode currNode = treeViewGroups.SelectedNode;
-			if (currNode != null && e.KeyChar == '\r')
+			if (currNode != null && e.KeyCode == Keys.Enter)
 			{
 				currNode.Checked = !currNode.Checked;
+				e.SuppressKeyPress = true;
 			}
 		}
 		private void treeViewGroups_DoubleClick(object sender, EventArgs e)

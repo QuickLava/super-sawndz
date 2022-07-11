@@ -27,18 +27,15 @@ namespace BrawlSoundConverter
 			DialogResult = DialogResult.Cancel;
 			Close();
 		}
-		private void treeViewNames_KeyPress(object sender, KeyPressEventArgs e)
+		private void treeViewNames_KeyDown(object sender, KeyEventArgs e)
 		{
 			TreeNode selectedNode = treeViewNames.SelectedNode;
 			if (selectedNode != null)
 			{
-				switch (e.KeyChar)
+				if (e.KeyCode == Keys.Enter)
 				{
-					case '\r':
-					{
-						selectedNode.BeginEdit();
-						break;
-					}
+					selectedNode.BeginEdit();
+					e.SuppressKeyPress = true;
 				}
 			}
 		}

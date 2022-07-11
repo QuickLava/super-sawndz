@@ -207,7 +207,7 @@ namespace BrawlSoundConverter
 			this.treeViewGroups.TabIndex = 27;
 			this.treeViewGroups.AfterCheck += new System.Windows.Forms.TreeViewEventHandler(this.treeViewGroups_AfterCheck);
 			this.treeViewGroups.DoubleClick += new System.EventHandler(this.treeViewGroups_DoubleClick);
-			this.treeViewGroups.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.treeViewGroups_KeyPress);
+			this.treeViewGroups.KeyDown += new System.Windows.Forms.KeyEventHandler(this.treeViewGroups_KeyDown);
 			// 
 			// buttonCancel
 			// 
