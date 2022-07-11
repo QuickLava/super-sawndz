@@ -39,6 +39,12 @@ namespace BrawlSoundConverter
 			this.buttonSelectAll = new System.Windows.Forms.Button();
 			this.buttonDeselectAll = new System.Windows.Forms.Button();
 			this.label2 = new System.Windows.Forms.Label();
+			this.radioButtonNameDefault = new System.Windows.Forms.RadioButton();
+			this.radioButtonNamePM = new System.Windows.Forms.RadioButton();
+			this.radioButtonNamePP = new System.Windows.Forms.RadioButton();
+			this.groupBoxNamingScheme = new System.Windows.Forms.GroupBox();
+			this.radioButtonNameManual = new System.Windows.Forms.RadioButton();
+			this.groupBoxNamingScheme.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// checkedListBox1
@@ -47,10 +53,12 @@ namespace BrawlSoundConverter
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.checkedListBox1.FormattingEnabled = true;
-			this.checkedListBox1.Location = new System.Drawing.Point(15, 117);
+			this.checkedListBox1.Location = new System.Drawing.Point(15, 168);
 			this.checkedListBox1.Name = "checkedListBox1";
-			this.checkedListBox1.Size = new System.Drawing.Size(450, 378);
+			this.checkedListBox1.Size = new System.Drawing.Size(450, 344);
 			this.checkedListBox1.TabIndex = 0;
+			this.checkedListBox1.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.checkedListBox1_ItemCheck);
+			//this.checkedListBox1.DoubleClick += new System.EventHandler(this.checkedListBox1_DoubleClick);
 			this.checkedListBox1.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.checkedListBox1_KeyPress);
 			// 
 			// label1
@@ -102,7 +110,7 @@ namespace BrawlSoundConverter
 			// 
 			this.buttonInvertSelection.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.buttonInvertSelection.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.7F);
-			this.buttonInvertSelection.Location = new System.Drawing.Point(354, 501);
+			this.buttonInvertSelection.Location = new System.Drawing.Point(354, 526);
 			this.buttonInvertSelection.Name = "buttonInvertSelection";
 			this.buttonInvertSelection.Size = new System.Drawing.Size(110, 40);
 			this.buttonInvertSelection.TabIndex = 18;
@@ -113,7 +121,7 @@ namespace BrawlSoundConverter
 			// buttonSelectAll
 			// 
 			this.buttonSelectAll.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.buttonSelectAll.Location = new System.Drawing.Point(122, 501);
+			this.buttonSelectAll.Location = new System.Drawing.Point(122, 526);
 			this.buttonSelectAll.Name = "buttonSelectAll";
 			this.buttonSelectAll.Size = new System.Drawing.Size(110, 40);
 			this.buttonSelectAll.TabIndex = 19;
@@ -124,7 +132,7 @@ namespace BrawlSoundConverter
 			// buttonDeselectAll
 			// 
 			this.buttonDeselectAll.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.buttonDeselectAll.Location = new System.Drawing.Point(238, 501);
+			this.buttonDeselectAll.Location = new System.Drawing.Point(238, 526);
 			this.buttonDeselectAll.Name = "buttonDeselectAll";
 			this.buttonDeselectAll.Size = new System.Drawing.Size(110, 40);
 			this.buttonDeselectAll.TabIndex = 20;
@@ -135,17 +143,72 @@ namespace BrawlSoundConverter
 			// label2
 			// 
 			this.label2.AutoSize = true;
-			this.label2.Location = new System.Drawing.Point(12, 93);
+			this.label2.Location = new System.Drawing.Point(12, 148);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(55, 17);
 			this.label2.TabIndex = 21;
 			this.label2.Text = "Groups";
 			// 
+			// radioButtonNameDefault
+			// 
+			this.radioButtonNameDefault.AutoSize = true;
+			this.radioButtonNameDefault.Location = new System.Drawing.Point(6, 21);
+			this.radioButtonNameDefault.Name = "radioButtonNameDefault";
+			this.radioButtonNameDefault.Size = new System.Drawing.Size(74, 21);
+			this.radioButtonNameDefault.TabIndex = 22;
+			this.radioButtonNameDefault.Text = "Default";
+			this.radioButtonNameDefault.UseVisualStyleBackColor = true;
+			// 
+			// radioButtonNamePM
+			// 
+			this.radioButtonNamePM.AutoSize = true;
+			this.radioButtonNamePM.Location = new System.Drawing.Point(86, 21);
+			this.radioButtonNamePM.Name = "radioButtonNamePM";
+			this.radioButtonNamePM.Size = new System.Drawing.Size(134, 21);
+			this.radioButtonNamePM.TabIndex = 24;
+			this.radioButtonNamePM.Text = "Brawl / Project M";
+			this.radioButtonNamePM.UseVisualStyleBackColor = true;
+			// 
+			// radioButtonNamePP
+			// 
+			this.radioButtonNamePP.AutoSize = true;
+			this.radioButtonNamePP.Location = new System.Drawing.Point(226, 21);
+			this.radioButtonNamePP.Name = "radioButtonNamePP";
+			this.radioButtonNamePP.Size = new System.Drawing.Size(81, 21);
+			this.radioButtonNamePP.TabIndex = 25;
+			this.radioButtonNamePP.Text = "Project+";
+			this.radioButtonNamePP.UseVisualStyleBackColor = true;
+			// 
+			// groupBoxNamingScheme
+			// 
+			this.groupBoxNamingScheme.Controls.Add(this.radioButtonNameManual);
+			this.groupBoxNamingScheme.Controls.Add(this.radioButtonNameDefault);
+			this.groupBoxNamingScheme.Controls.Add(this.radioButtonNamePP);
+			this.groupBoxNamingScheme.Controls.Add(this.radioButtonNamePM);
+			this.groupBoxNamingScheme.Location = new System.Drawing.Point(15, 94);
+			this.groupBoxNamingScheme.Name = "groupBoxNamingScheme";
+			this.groupBoxNamingScheme.Size = new System.Drawing.Size(446, 51);
+			this.groupBoxNamingScheme.TabIndex = 26;
+			this.groupBoxNamingScheme.TabStop = false;
+			this.groupBoxNamingScheme.Text = "Naming Scheme";
+			// 
+			// radioButtonNameManual
+			// 
+			this.radioButtonNameManual.AutoSize = true;
+			this.radioButtonNameManual.Location = new System.Drawing.Point(314, 22);
+			this.radioButtonNameManual.Name = "radioButtonNameManual";
+			this.radioButtonNameManual.Size = new System.Drawing.Size(75, 21);
+			this.radioButtonNameManual.TabIndex = 26;
+			this.radioButtonNameManual.TabStop = true;
+			this.radioButtonNameManual.Text = "Manual";
+			this.radioButtonNameManual.UseVisualStyleBackColor = true;
+			// 
 			// multiSawndExportForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(477, 563);
+			this.ClientSize = new System.Drawing.Size(477, 588);
+			this.Controls.Add(this.groupBoxNamingScheme);
 			this.Controls.Add(this.label2);
 			this.Controls.Add(this.buttonDeselectAll);
 			this.Controls.Add(this.buttonSelectAll);
@@ -157,6 +220,8 @@ namespace BrawlSoundConverter
 			this.Controls.Add(this.checkedListBox1);
 			this.Name = "multiSawndExportForm";
 			this.Text = "Multi Create Sawnd";
+			this.groupBoxNamingScheme.ResumeLayout(false);
+			this.groupBoxNamingScheme.PerformLayout();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -174,5 +239,10 @@ namespace BrawlSoundConverter
 		private System.Windows.Forms.Button buttonSelectAll;
 		private System.Windows.Forms.Button buttonDeselectAll;
 		private System.Windows.Forms.Label label2;
+		private System.Windows.Forms.RadioButton radioButtonNameDefault;
+		private System.Windows.Forms.RadioButton radioButtonNamePM;
+		private System.Windows.Forms.RadioButton radioButtonNamePP;
+		private System.Windows.Forms.GroupBox groupBoxNamingScheme;
+		private System.Windows.Forms.RadioButton radioButtonNameManual;
 	}
 }
