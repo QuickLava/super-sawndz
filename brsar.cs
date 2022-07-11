@@ -204,7 +204,7 @@ namespace BrawlSoundConverter
 			CloseRSAR();
 		}
 
-		public static void LoadCheckedList(CheckedListBox checkedList)
+		public static void LoadMultiExportTreeView(TreeView treeView)
 		{
 			//Only used to count the number of nodes added, no actual function in the program
 			int nodeCount = 0;
@@ -213,7 +213,7 @@ namespace BrawlSoundConverter
 			BrawlLib.SSBB.ResourceNodes.RSARFolderNode folder = (BrawlLib.SSBB.ResourceNodes.RSARFolderNode)rsar.FindChild("Info/snd/group", false);
 			BrawlLib.SSBB.ResourceNodes.ResourceNode[] groups = folder.FindChildrenByType("", BrawlLib.SSBB.ResourceNodes.ResourceType.RSARGroup);
 
-			CheckedListBox.ObjectCollection objects = checkedList.Items;
+			TreeNodeCollection objects = treeView.Nodes;
 
 			foreach (BrawlLib.SSBB.ResourceNodes.RSARGroupNode group in groups)
 			{

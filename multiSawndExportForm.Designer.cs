@@ -29,7 +29,7 @@ namespace BrawlSoundConverter
 		/// </summary>
 		private void InitializeComponent()
 		{
-			this.checkedListBox1 = new System.Windows.Forms.CheckedListBox();
+			this.components = new System.ComponentModel.Container();
 			this.label1 = new System.Windows.Forms.Label();
 			this.buttonBrowse = new System.Windows.Forms.Button();
 			this.textBoxExportDirectory = new System.Windows.Forms.TextBox();
@@ -44,22 +44,14 @@ namespace BrawlSoundConverter
 			this.radioButtonNamePP = new System.Windows.Forms.RadioButton();
 			this.groupBoxNamingScheme = new System.Windows.Forms.GroupBox();
 			this.radioButtonNameManual = new System.Windows.Forms.RadioButton();
+			this.treeViewGroups = new System.Windows.Forms.TreeView();
+			this.toolTipNameDefault = new System.Windows.Forms.ToolTip(this.components);
+			this.toolTipNamePM = new System.Windows.Forms.ToolTip(this.components);
+			this.toolTipNamePP = new System.Windows.Forms.ToolTip(this.components);
+			this.toolTipNameManual = new System.Windows.Forms.ToolTip(this.components);
+			this.buttonCancel = new System.Windows.Forms.Button();
 			this.groupBoxNamingScheme.SuspendLayout();
 			this.SuspendLayout();
-			// 
-			// checkedListBox1
-			// 
-			this.checkedListBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-			this.checkedListBox1.FormattingEnabled = true;
-			this.checkedListBox1.Location = new System.Drawing.Point(15, 168);
-			this.checkedListBox1.Name = "checkedListBox1";
-			this.checkedListBox1.Size = new System.Drawing.Size(450, 344);
-			this.checkedListBox1.TabIndex = 0;
-			this.checkedListBox1.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.checkedListBox1_ItemCheck);
-			//this.checkedListBox1.DoubleClick += new System.EventHandler(this.checkedListBox1_DoubleClick);
-			this.checkedListBox1.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.checkedListBox1_KeyPress);
 			// 
 			// label1
 			// 
@@ -92,12 +84,13 @@ namespace BrawlSoundConverter
 			this.textBoxExportDirectory.Name = "textBoxExportDirectory";
 			this.textBoxExportDirectory.Size = new System.Drawing.Size(408, 22);
 			this.textBoxExportDirectory.TabIndex = 13;
+			this.textBoxExportDirectory.TextChanged += new System.EventHandler(this.textBoxExportDirectory_TextChanged);
 			// 
 			// buttonExport
 			// 
 			this.buttonExport.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.buttonExport.Enabled = false;
-			this.buttonExport.Location = new System.Drawing.Point(364, 60);
+			this.buttonExport.Location = new System.Drawing.Point(256, 60);
 			this.buttonExport.Margin = new System.Windows.Forms.Padding(4);
 			this.buttonExport.Name = "buttonExport";
 			this.buttonExport.Size = new System.Drawing.Size(100, 28);
@@ -203,11 +196,41 @@ namespace BrawlSoundConverter
 			this.radioButtonNameManual.Text = "Manual";
 			this.radioButtonNameManual.UseVisualStyleBackColor = true;
 			// 
+			// treeViewGroups
+			// 
+			this.treeViewGroups.Location = new System.Drawing.Point(15, 169);
+			this.treeViewGroups.Name = "treeViewGroups";
+			this.treeViewGroups.ShowLines = false;
+			this.treeViewGroups.ShowPlusMinus = false;
+			this.treeViewGroups.ShowRootLines = false;
+			this.treeViewGroups.Size = new System.Drawing.Size(446, 351);
+			this.treeViewGroups.TabIndex = 27;
+			this.treeViewGroups.AfterCheck += new System.Windows.Forms.TreeViewEventHandler(this.treeViewGroups_AfterCheck);
+			this.treeViewGroups.DoubleClick += new System.EventHandler(this.treeViewGroups_DoubleClick);
+			this.treeViewGroups.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.treeViewGroups_KeyPress);
+			// 
+			// buttonCancel
+			// 
+			this.buttonCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.buttonCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+			this.buttonCancel.Enabled = false;
+			this.buttonCancel.Location = new System.Drawing.Point(364, 59);
+			this.buttonCancel.Margin = new System.Windows.Forms.Padding(4);
+			this.buttonCancel.Name = "buttonCancel";
+			this.buttonCancel.Size = new System.Drawing.Size(100, 28);
+			this.buttonCancel.TabIndex = 28;
+			this.buttonCancel.Text = "Cancel";
+			this.buttonCancel.UseVisualStyleBackColor = true;
+			this.buttonCancel.Click += new System.EventHandler(this.buttonCancel_Click);
+			// 
 			// multiSawndExportForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+			this.CancelButton = this.buttonCancel;
 			this.ClientSize = new System.Drawing.Size(477, 588);
+			this.Controls.Add(this.buttonCancel);
+			this.Controls.Add(this.treeViewGroups);
 			this.Controls.Add(this.groupBoxNamingScheme);
 			this.Controls.Add(this.label2);
 			this.Controls.Add(this.buttonDeselectAll);
@@ -217,7 +240,6 @@ namespace BrawlSoundConverter
 			this.Controls.Add(this.buttonBrowse);
 			this.Controls.Add(this.textBoxExportDirectory);
 			this.Controls.Add(this.label1);
-			this.Controls.Add(this.checkedListBox1);
 			this.Name = "multiSawndExportForm";
 			this.Text = "Multi Create Sawnd";
 			this.groupBoxNamingScheme.ResumeLayout(false);
@@ -228,8 +250,6 @@ namespace BrawlSoundConverter
 		}
 
 		#endregion
-
-		private System.Windows.Forms.CheckedListBox checkedListBox1;
 		private System.Windows.Forms.Label label1;
 		private System.Windows.Forms.Button buttonBrowse;
 		private System.Windows.Forms.TextBox textBoxExportDirectory;
@@ -244,5 +264,11 @@ namespace BrawlSoundConverter
 		private System.Windows.Forms.RadioButton radioButtonNamePP;
 		private System.Windows.Forms.GroupBox groupBoxNamingScheme;
 		private System.Windows.Forms.RadioButton radioButtonNameManual;
+		private System.Windows.Forms.TreeView treeViewGroups;
+		private System.Windows.Forms.ToolTip toolTipNameDefault;
+		private System.Windows.Forms.ToolTip toolTipNamePM;
+		private System.Windows.Forms.ToolTip toolTipNamePP;
+		private System.Windows.Forms.ToolTip toolTipNameManual;
+		private System.Windows.Forms.Button buttonCancel;
 	}
 }

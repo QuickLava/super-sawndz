@@ -50,7 +50,5 @@ namespace BrawlSoundConverter
 				selectedNode.BeginEdit();
 			}
 		}
-
-		
 	}
 }

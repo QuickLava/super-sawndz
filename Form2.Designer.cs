@@ -33,13 +33,20 @@ namespace BrawlSoundConverter
 			this.label1 = new System.Windows.Forms.Label();
 			this.button1 = new System.Windows.Forms.Button();
 			this.button2 = new System.Windows.Forms.Button();
+			this.label2 = new System.Windows.Forms.Label();
 			this.SuspendLayout();
 			// 
 			// treeViewNames
 			// 
+			this.treeViewNames.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.treeViewNames.Location = new System.Drawing.Point(15, 29);
 			this.treeViewNames.Name = "treeViewNames";
-			this.treeViewNames.Size = new System.Drawing.Size(323, 352);
+			this.treeViewNames.ShowLines = false;
+			this.treeViewNames.ShowPlusMinus = false;
+			this.treeViewNames.ShowRootLines = false;
+			this.treeViewNames.Size = new System.Drawing.Size(370, 332);
 			this.treeViewNames.TabIndex = 1;
 			this.treeViewNames.DoubleClick += new System.EventHandler(this.treeViewNames_DoubleClick);
 			this.treeViewNames.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.treeViewNames_KeyPress);
@@ -55,7 +62,8 @@ namespace BrawlSoundConverter
 			// 
 			// button1
 			// 
-			this.button1.Location = new System.Drawing.Point(174, 387);
+			this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+			this.button1.Location = new System.Drawing.Point(221, 384);
 			this.button1.Name = "button1";
 			this.button1.Size = new System.Drawing.Size(79, 28);
 			this.button1.TabIndex = 3;
@@ -65,7 +73,9 @@ namespace BrawlSoundConverter
 			// 
 			// button2
 			// 
-			this.button2.Location = new System.Drawing.Point(259, 387);
+			this.button2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+			this.button2.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+			this.button2.Location = new System.Drawing.Point(306, 383);
 			this.button2.Name = "button2";
 			this.button2.Size = new System.Drawing.Size(79, 28);
 			this.button2.TabIndex = 4;
@@ -73,11 +83,24 @@ namespace BrawlSoundConverter
 			this.button2.UseVisualStyleBackColor = true;
 			this.button2.Click += new System.EventHandler(this.button2_Click);
 			// 
+			// label2
+			// 
+			this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+			this.label2.AutoSize = true;
+			this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.label2.Location = new System.Drawing.Point(12, 363);
+			this.label2.Name = "label2";
+			this.label2.Size = new System.Drawing.Size(374, 17);
+			this.label2.TabIndex = 5;
+			this.label2.Text = "Note: Double-click or press Enter on a File Name to edit it.";
+			// 
 			// nameInputForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(351, 423);
+			this.CancelButton = this.button2;
+			this.ClientSize = new System.Drawing.Size(397, 423);
+			this.Controls.Add(this.label2);
 			this.Controls.Add(this.button2);
 			this.Controls.Add(this.button1);
 			this.Controls.Add(this.label1);
@@ -94,5 +117,6 @@ namespace BrawlSoundConverter
 		private System.Windows.Forms.Label label1;
 		private System.Windows.Forms.Button button1;
 		private System.Windows.Forms.Button button2;
+		private System.Windows.Forms.Label label2;
 	}
 }
