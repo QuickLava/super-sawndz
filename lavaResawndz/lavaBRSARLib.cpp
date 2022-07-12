@@ -1604,6 +1604,9 @@ namespace lava
 				length = bodyIn.getLong(addressIn + 0x04);
 				unsigned long entryCount = bodyIn.getLong(addressIn + 0x08);
 
+				entryOffsets.clear();
+				entries.clear();
+
 				for (unsigned long cursor = 0x0; cursor < (entryCount * 4); cursor += 0x04)
 				{
 					entryOffsets.push_back(bodyIn.getLong(address + 0x0C + cursor));
@@ -1978,6 +1981,7 @@ namespace lava
 				const waveInfo* targetWaveInfo = &waveSection.entries[waveSectionIndex];
 				result.nibbleCount = targetWaveInfo->nibbles;
 				result.sampleCount = nibblesToSamples(result.nibbleCount);
+				result.nibbleCount = samplesToNibbles(result.sampleCount);
 				result.sampleRate = unsigned long(targetWaveInfo->sampleRate24) << 16;
 				result.sampleRate |= targetWaveInfo->sampleRate;
 				result.loops = targetWaveInfo->looped;
@@ -2015,7 +2019,7 @@ namespace lava
 					{
 						convDSPOut.close();
 						system(lava::brawl::generateVGAudioDSPToWavCommand(VGAudioTempConvFilename, wavOutputPath).c_str());
-						result = 1;
+						result = std::filesystem::is_regular_file(wavOutputPath);
 					}
 					std::filesystem::remove(VGAudioTempConvFilename);
 				}

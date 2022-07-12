@@ -14,7 +14,7 @@ namespace BrawlSoundConverter
 {
 	public partial class Form1 : Form
 	{
-		string VERSION = "1.5.5";
+		string VERSION = "1.5.6";
 		public Form1()
 		{
 			InitializeComponent();
@@ -269,7 +269,7 @@ namespace BrawlSoundConverter
 				"Modified by QuickLava (https://github.com/QuickLava)\n" +
 				"Uses BrawlLib: https://github.com/soopercool101/BrawlCrate \n" + 
 				"Formerly Based off of Sawndz 0.12 (2010-2011 Jaklub)\n" +
-				"Currently Based off of lavaResawndz 1.2.7 (2022 QuickLava)\n" +
+				"Currently Based off of lavaResawndz 1.2.8 (2022 QuickLava)\n" +
 				"Special thanks to mastaklo, ssbbtailsfan, stickman, VILE\n");
 		}
 

@@ -21,7 +21,7 @@ namespace lava
 			int frames = samplesIn / 0x0E;
 			int extraSamples = samplesIn % 0x0E;
 			int extraNibbles = extraSamples == 0 ? 0 : extraSamples + 2;
-			return 0x10 * frames + extraNibbles;
+			return (0x10 * frames) + extraNibbles;
 		}
 		unsigned long samplesToBytes(unsigned long samplesIn)
 		{
