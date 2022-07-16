@@ -18,89 +18,89 @@ namespace System.Windows.Forms
 
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
-            this.trackBar1 = new System.Windows.Forms.CustomTrackBar();
-            this.btnPlay = new System.Windows.Forms.Button();
-            this.btnRewind = new System.Windows.Forms.Button();
-            this.chkLoop = new System.Windows.Forms.CheckBox();
-            this.lblProgress = new System.Windows.Forms.Label();
-            this.tmrUpdate = new System.Windows.Forms.Timer(this.components);
-            ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
-            this.SuspendLayout();
-            // 
-            // trackBar1
-            // 
-            this.trackBar1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.trackBar1.Location = new System.Drawing.Point(0, 4);
-            this.trackBar1.Name = "trackBar1";
-            this.trackBar1.Size = new System.Drawing.Size(536, 45);
-            this.trackBar1.TabIndex = 0;
-            this.trackBar1.TickFrequency = 2;
-            this.trackBar1.UserSeek += new System.EventHandler(this.trackBar1_UserSeek);
-            this.trackBar1.ValueChanged += new System.EventHandler(this.trackBar1_ValueChanged);
-            // 
-            // btnPlay
-            // 
-            this.btnPlay.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.btnPlay.Location = new System.Drawing.Point(231, 69);
-            this.btnPlay.Name = "btnPlay";
-            this.btnPlay.Size = new System.Drawing.Size(75, 20);
-            this.btnPlay.TabIndex = 1;
-            this.btnPlay.Text = "Play";
-            this.btnPlay.UseVisualStyleBackColor = true;
-            this.btnPlay.Click += new System.EventHandler(this.btnPlay_Click);
-            // 
-            // btnRewind
-            // 
-            this.btnRewind.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.btnRewind.Location = new System.Drawing.Point(201, 69);
-            this.btnRewind.Name = "btnRewind";
-            this.btnRewind.Size = new System.Drawing.Size(24, 20);
-            this.btnRewind.TabIndex = 2;
-            this.btnRewind.Text = "|<";
-            this.btnRewind.UseVisualStyleBackColor = true;
-            this.btnRewind.Click += new System.EventHandler(this.btnRewind_Click);
-            // 
-            // chkLoop
-            // 
-            this.chkLoop.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.chkLoop.Location = new System.Drawing.Point(133, 69);
-            this.chkLoop.Name = "chkLoop";
-            this.chkLoop.Size = new System.Drawing.Size(62, 20);
-            this.chkLoop.TabIndex = 3;
-            this.chkLoop.Text = "Loop";
-            this.chkLoop.UseVisualStyleBackColor = true;
-            this.chkLoop.CheckedChanged += new System.EventHandler(this.chkLoop_CheckedChanged);
-            // 
-            // lblProgress
-            // 
-            this.lblProgress.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.lblProgress.Location = new System.Drawing.Point(0, 31);
-            this.lblProgress.Name = "lblProgress";
-            this.lblProgress.Size = new System.Drawing.Size(536, 23);
-            this.lblProgress.TabIndex = 4;
-            this.lblProgress.Text = "0/0";
-            this.lblProgress.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // tmrUpdate
-            // 
-            this.tmrUpdate.Interval = 10;
-            this.tmrUpdate.Tick += new System.EventHandler(this.tmrUpdate_Tick);
-            // 
-            // AudioPlaybackPanel
-            // 
-            this.Controls.Add(this.lblProgress);
-            this.Controls.Add(this.chkLoop);
-            this.Controls.Add(this.btnRewind);
-            this.Controls.Add(this.btnPlay);
-            this.Controls.Add(this.trackBar1);
-            this.Name = "AudioPlaybackPanel";
-            this.Size = new System.Drawing.Size(536, 111);
-            ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).EndInit();
-            this.ResumeLayout(false);
-            this.PerformLayout();
+			this.components = new System.ComponentModel.Container();
+			this.btnPlay = new System.Windows.Forms.Button();
+			this.btnRewind = new System.Windows.Forms.Button();
+			this.chkLoop = new System.Windows.Forms.CheckBox();
+			this.lblProgress = new System.Windows.Forms.Label();
+			this.tmrUpdate = new System.Windows.Forms.Timer(this.components);
+			this.trackBar1 = new System.Windows.Forms.CustomTrackBar();
+			((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
+			this.SuspendLayout();
+			// 
+			// btnPlay
+			// 
+			this.btnPlay.Anchor = System.Windows.Forms.AnchorStyles.Top;
+			this.btnPlay.Location = new System.Drawing.Point(231, 69);
+			this.btnPlay.Name = "btnPlay";
+			this.btnPlay.Size = new System.Drawing.Size(75, 27);
+			this.btnPlay.TabIndex = 1;
+			this.btnPlay.Text = "Play";
+			this.btnPlay.UseVisualStyleBackColor = true;
+			this.btnPlay.Click += new System.EventHandler(this.btnPlay_Click);
+			// 
+			// btnRewind
+			// 
+			this.btnRewind.Anchor = System.Windows.Forms.AnchorStyles.Top;
+			this.btnRewind.Location = new System.Drawing.Point(198, 69);
+			this.btnRewind.Name = "btnRewind";
+			this.btnRewind.Size = new System.Drawing.Size(27, 27);
+			this.btnRewind.TabIndex = 2;
+			this.btnRewind.Text = "|<";
+			this.btnRewind.UseVisualStyleBackColor = true;
+			this.btnRewind.Click += new System.EventHandler(this.btnRewind_Click);
+			// 
+			// chkLoop
+			// 
+			this.chkLoop.Anchor = System.Windows.Forms.AnchorStyles.Top;
+			this.chkLoop.Location = new System.Drawing.Point(130, 69);
+			this.chkLoop.Name = "chkLoop";
+			this.chkLoop.Size = new System.Drawing.Size(62, 27);
+			this.chkLoop.TabIndex = 3;
+			this.chkLoop.Text = "Loop";
+			this.chkLoop.UseVisualStyleBackColor = true;
+			this.chkLoop.CheckedChanged += new System.EventHandler(this.chkLoop_CheckedChanged);
+			// 
+			// lblProgress
+			// 
+			this.lblProgress.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.lblProgress.Location = new System.Drawing.Point(0, 31);
+			this.lblProgress.Name = "lblProgress";
+			this.lblProgress.Size = new System.Drawing.Size(536, 23);
+			this.lblProgress.TabIndex = 4;
+			this.lblProgress.Text = "0/0";
+			this.lblProgress.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			// 
+			// tmrUpdate
+			// 
+			this.tmrUpdate.Interval = 10;
+			this.tmrUpdate.Tick += new System.EventHandler(this.tmrUpdate_Tick);
+			// 
+			// trackBar1
+			// 
+			this.trackBar1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.trackBar1.Location = new System.Drawing.Point(0, 4);
+			this.trackBar1.Name = "trackBar1";
+			this.trackBar1.Size = new System.Drawing.Size(536, 56);
+			this.trackBar1.TabIndex = 0;
+			this.trackBar1.TickFrequency = 2;
+			this.trackBar1.UserSeek += new System.EventHandler(this.trackBar1_UserSeek);
+			this.trackBar1.ValueChanged += new System.EventHandler(this.trackBar1_ValueChanged);
+			// 
+			// AudioPlaybackPanel
+			// 
+			this.Controls.Add(this.lblProgress);
+			this.Controls.Add(this.chkLoop);
+			this.Controls.Add(this.btnRewind);
+			this.Controls.Add(this.btnPlay);
+			this.Controls.Add(this.trackBar1);
+			this.Name = "AudioPlaybackPanel";
+			this.Size = new System.Drawing.Size(536, 111);
+			((System.ComponentModel.ISupportInitialize)(this.trackBar1)).EndInit();
+			this.ResumeLayout(false);
+			this.PerformLayout();
 
         }
 
