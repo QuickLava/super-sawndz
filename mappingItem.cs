@@ -11,10 +11,10 @@ namespace BrawlSoundConverter
 	/// <summary>
 	/// Represents rsar nodes in a treeview
 	/// </summary>
-	class MappingItem : TreeNode, System.Audio.IAudioSource
+	class MappingItem : TreeNode, BrawlLib.Internal.Audio.IAudioSource
 	{
 		public int groupID, collectionID, wavID;
-		public System.Audio.IAudioStream sound;
+		public BrawlLib.Internal.Audio.IAudioStream sound;
 		public string name;
 		int _fileSize;
 		// Controls whether or not a sounds filesize propogates to its parents.
@@ -105,9 +105,9 @@ namespace BrawlSoundConverter
 		#region IAudioSource Members
 
 		static int soundBufferSize = 1024 * 2000; //Allocate 2 MB buffer for sound caching, just to be safe
-		static unsafe VoidPtr soundData = Memory.Alloc( soundBufferSize );
+		static unsafe BrawlLib.Internal.VoidPtr soundData = Memory.Alloc( soundBufferSize );
 
-		public unsafe System.Audio.IAudioStream CreateStream()
+		public unsafe BrawlLib.Internal.Audio.IAudioStream CreateStream()
 		{
 			//If this isn't connected to an RWSD SoundNode then return null
 			if(wavID == -1)

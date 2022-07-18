@@ -53,8 +53,8 @@
 			this.buttonMultiExportSawnd = new System.Windows.Forms.Button();
 			this.buttonMultiInsertSawnd = new System.Windows.Forms.Button();
 			this.backgroundWorkerMultiInsertSawnd = new System.ComponentModel.BackgroundWorker();
-			this.audioPlaybackBRSARSound = new System.Windows.Forms.AudioPlaybackPanel();
-			this.audioPlaybackPanelWav = new System.Windows.Forms.AudioPlaybackPanel();
+			this.audioPlaybackBRSARSound = new BrawlLib.Internal.Windows.Controls.AudioPlaybackPanel();
+			this.audioPlaybackPanelWav = new BrawlLib.Internal.Windows.Controls.AudioPlaybackPanel();
 			this.menuStrip1.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -380,7 +380,7 @@
 		private System.Windows.Forms.TextBox textBoxInputFile;
 		private System.Windows.Forms.Button buttonBrowse;
 		private System.Windows.Forms.Button buttonInsert;
-		private System.Windows.Forms.AudioPlaybackPanel audioPlaybackPanelWav;
+		private BrawlLib.Internal.Windows.Controls.AudioPlaybackPanel audioPlaybackPanelWav;
 		private System.Windows.Forms.Label label4;
 		private System.ComponentModel.BackgroundWorker backgroundWorkerInsert;
 		private System.Windows.Forms.MenuStrip menuStrip1;
@@ -389,7 +389,7 @@
 		private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
 		private System.Windows.Forms.Button buttonCreateSawnd;
         private System.Windows.Forms.Button buttonCreateWAV;
-        private System.Windows.Forms.AudioPlaybackPanel audioPlaybackBRSARSound;
+		private BrawlLib.Internal.Windows.Controls.AudioPlaybackPanel audioPlaybackBRSARSound;
 		private System.ComponentModel.BackgroundWorker backgroundWorkerCreateSawnd;
 		private System.ComponentModel.BackgroundWorker backgroundWorkerCreateWAV;
 		private System.Windows.Forms.ToolStripMenuItem toolsToolStripMenuItem;
