@@ -663,7 +663,6 @@
     <Compile Include="BrawlLib\Modeling\Triangle Converter\Deque\GenericDeque.Node.cs" />
     <Compile Include="BrawlLib\Modeling\Triangle Converter\Deque\GenericDeque.Synchronized.cs" />
     <Compile Include="BrawlLib\Modeling\Triangle Converter\Deque\GenericTester.cs" />
-    <Compile Include="BrawlLib\Modeling\Triangle Converter\Deque\Tester.cs" />
     <Compile Include="BrawlLib\Modeling\Triangle Converter\GraphArray.cs" />
     <Compile Include="BrawlLib\Modeling\Triangle Converter\HeapArray.cs" />
     <Compile Include="BrawlLib\Modeling\Triangle Converter\Policy.cs" />
