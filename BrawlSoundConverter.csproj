@@ -686,7 +686,6 @@
     <Compile Include="BrawlLib\Platform\Win32.cs" />
     <Compile Include="BrawlLib\Platform\Win32.DirectSound.cs" />
     <Compile Include="BrawlLib\Platform\Win32.DirectSoundBuffer.cs" />
-    <Compile Include="BrawlLib\Properties\AssemblyInfo.cs" />
     <Compile Include="BrawlLib\Properties\Resources.Designer.cs" />
     <Compile Include="BrawlLib\Properties\Settings.Designer.cs" />
     <Compile Include="BrawlLib\SSBB\BinaryStringTable.cs" />
