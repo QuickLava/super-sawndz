@@ -116,7 +116,7 @@ namespace BrawlSoundConverter
 				Console.WriteLine("Specified file doesn't exist!\n");
 				return;
             }
-			System.Audio.IAudioStream wav = System.Audio.WAV.FromFile( fileName );
+			BrawlLib.Internal.Audio.IAudioStream wav = BrawlLib.Internal.Audio.WAV.FromFile( fileName );
 
 			bool loop = wav.IsLooping;
 			int frequency = wav.Frequency;
