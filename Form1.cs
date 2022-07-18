@@ -182,11 +182,9 @@ namespace BrawlSoundConverter
 		//Disables buttons and treeview while sawndz is being run
 		private void disableStuff()
 		{
-			audioPlaybackBRSARSound.Stop();
 			textBoxGroupID.Enabled = false;
 			textBoxCollectionID.Enabled = false;
 			textBoxWavID.Enabled = false;
-			audioPlaybackPanelWav.Stop();
 			buttonBrowse.Enabled = false;
 			buttonCreateSawnd.Enabled = false;
 			buttonCreateWAV.Enabled = false;
