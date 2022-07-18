@@ -41,7 +41,7 @@ namespace BrawlSoundConverter
 		public static BrawlLib.SSBB.ResourceNodes.ResourceNode GetNode(int gid, int colid = -1, int wavid = -1)
 		{
 			BrawlLib.SSBB.ResourceNodes.RSARNode rsar = GetRSAR();
-			BrawlLib.SSBB.ResourceNodes.RSARFolderNode folder = ( BrawlLib.SSBB.ResourceNodes.RSARFolderNode ) rsar.FindChild( "Info/snd/group", false );
+			BrawlLib.SSBB.ResourceNodes.RSARFolderNode folder = ( BrawlLib.SSBB.ResourceNodes.RSARFolderNode ) rsar.FindChild( "snd/group", false );
 			BrawlLib.SSBB.ResourceNodes.ResourceNode[] groups = folder.FindChildrenByType( "", BrawlLib.SSBB.ResourceNodes.ResourceType.RSARGroup );
 			BrawlLib.SSBB.ResourceNodes.RSARGroupNode group = null;
 			foreach( BrawlLib.SSBB.ResourceNodes.RSARGroupNode g in groups )
@@ -77,7 +77,7 @@ namespace BrawlSoundConverter
 
 			StringBuilder sb = new StringBuilder();
 			BrawlLib.SSBB.ResourceNodes.RSARNode rsar = GetRSAR();
-			BrawlLib.SSBB.ResourceNodes.RSARFolderNode folder = (BrawlLib.SSBB.ResourceNodes.RSARFolderNode)rsar.FindChild("Info/snd/group",false);
+			BrawlLib.SSBB.ResourceNodes.RSARFolderNode folder = (BrawlLib.SSBB.ResourceNodes.RSARFolderNode)rsar.FindChild("snd/group",false);
 			BrawlLib.SSBB.ResourceNodes.ResourceNode[] groups = folder.FindChildrenByType( "", BrawlLib.SSBB.ResourceNodes.ResourceType.RSARGroup );
 			
 			//Create root node and add all nodes to it.
@@ -95,10 +95,12 @@ namespace BrawlSoundConverter
 				
 				foreach( BrawlLib.SSBB.ResourceNodes.RSARFileNode file in group._files )
 				{
+					if (file.NodeType != "BrawlLib.SSBB.ResourceNodes.RWSDNode")
+						continue;
 					string fName = file.Name;
 					int collectionID = file.FileNodeIndex;
 					BrawlLib.SSBB.ResourceNodes.RWSDSoundGroupNode audioFolder = ( BrawlLib.SSBB.ResourceNodes.RWSDSoundGroupNode) file.FindChild( "audio", false );
-					BrawlLib.SSBB.ResourceNodes.RWSDDataGroupNode dataFolder = ( BrawlLib.SSBB.ResourceNodes.RWSDDataGroupNode) file.FindChild( "sounds", false );
+					BrawlLib.SSBB.ResourceNodes.RWSDDataGroupNode dataFolder = ( BrawlLib.SSBB.ResourceNodes.RWSDDataGroupNode) file.FindChild( "data", false );
 					
 					if (audioFolder == null || audioFolder.Children.Count == 0)
 						continue;
@@ -125,9 +127,9 @@ namespace BrawlSoundConverter
 
 						if (audioFolder.Children.Count() <= waveIndex)
 							continue;
-						if (!(audioFolder.Children[waveIndex] is BrawlLib.SSBB.ResourceNodes.RSARSoundNode))
+						if (!(audioFolder.Children[waveIndex] is BrawlLib.SSBB.ResourceNodes.RSARFileAudioNode))
 							continue;
-						BrawlLib.SSBB.ResourceNodes.RSARSoundNode sound = (BrawlLib.SSBB.ResourceNodes.RSARSoundNode)audioFolder.Children[waveIndex];
+						BrawlLib.SSBB.ResourceNodes.RSARFileAudioNode sound = (BrawlLib.SSBB.ResourceNodes.RSARFileAudioNode)audioFolder.Children[waveIndex];
 
 						int soundSize = 0;
 						unsafe
@@ -207,7 +209,7 @@ namespace BrawlSoundConverter
 			int nodeCount = 0;
 
 			BrawlLib.SSBB.ResourceNodes.RSARNode rsar = GetRSAR();
-			BrawlLib.SSBB.ResourceNodes.RSARFolderNode folder = (BrawlLib.SSBB.ResourceNodes.RSARFolderNode)rsar.FindChild("Info/snd/group", false);
+			BrawlLib.SSBB.ResourceNodes.RSARFolderNode folder = (BrawlLib.SSBB.ResourceNodes.RSARFolderNode)rsar.FindChild("snd/group", false);
 			BrawlLib.SSBB.ResourceNodes.ResourceNode[] groups = folder.FindChildrenByType("", BrawlLib.SSBB.ResourceNodes.ResourceType.RSARGroup);
 
 			TreeNodeCollection objects = treeView.Nodes;
