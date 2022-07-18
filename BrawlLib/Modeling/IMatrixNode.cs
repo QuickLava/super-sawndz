@@ -1,19 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using BrawlLib.Internal;
+using BrawlLib.SSBB.ResourceNodes;
 using BrawlLib.Wii.Models;
+using System.Collections.Generic;
 
 namespace BrawlLib.Modeling
 {
     public interface IMatrixNode
     {
-        int ReferenceCount { get; set; }
+        List<IMatrixNodeUser> Users { get; set; }
         int NodeIndex { get; }
         Matrix Matrix { get; }
-        Matrix InverseBindMatrix { get; }
+        Matrix InverseMatrix { get; }
         bool IsPrimaryNode { get; }
-        BoneWeight[] Weights { get; }
-        int PermanentID { get; }
+        List<BoneWeight> Weights { get; }
     }
 }

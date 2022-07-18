@@ -1,0 +1,65 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <ShowAllFiles>true</ShowAllFiles>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Update="BrawlManagerLib\BrawlSplitter.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Update="BrawlManagerLib\CopyDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="BrawlManagerLib\NameDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="BrawlManagerLib\ProgressDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="BrawlManagerLib\Songs\SongNameBar.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="BrawlManagerLib\Songs\SongPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="BrawlManagerLib\TextBoxDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Internal\Windows\Forms\Moveset\ArticleAttributeGrid.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Internal\Windows\Forms\Moveset\AttributeGrid.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Internal\Windows\Forms\Moveset\EventDescription.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Internal\Windows\Forms\Moveset\EventList.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Internal\Windows\Forms\Moveset\EventModifier.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Internal\Windows\Forms\Moveset\EventModifierWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Internal\Windows\Forms\Moveset\OffsetEditor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Internal\Windows\Forms\Moveset\ScriptEditor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Internal\Windows\Forms\NumericInputForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Internal\Windows\Forms\Ookii.Dialogs\VistaFolderBrowserDialog.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Update="Internal\Windows\Forms\PAT0OffsetControl.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Internal\Windows\Forms\StringInputDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+  </ItemGroup>
+</Project>

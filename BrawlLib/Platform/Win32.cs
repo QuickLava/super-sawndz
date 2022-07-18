@@ -1,61 +1,106 @@
-﻿using System;
-using System.Runtime.InteropServices;
+﻿using BrawlLib.Internal;
+using System;
 using System.Diagnostics;
+using System.Runtime.InteropServices;
 
-namespace System
+namespace BrawlLib.Platform
 {
-    static partial class Win32
+    internal static partial class Win32
     {
         [StructLayout(LayoutKind.Sequential, Pack = 1)]
         public class SafeHandle : IDisposable
         {
             private uint _handle;
-            public VoidPtr Handle { get { return _handle; } }
+            public VoidPtr Handle => _handle;
 
-            public SafeHandle(VoidPtr handle) { _handle = handle; }
+            public SafeHandle(VoidPtr handle)
+            {
+                _handle = handle;
+            }
 
-            ~SafeHandle() { Dispose(); }
-            public void Dispose() { if (_handle != 0) { CloseHandle(_handle); _handle = 0; } }
-            public void ErrorCheck() { if (_handle == 0)  Marshal.ThrowExceptionForHR(Marshal.GetHRForLastWin32Error()); }
+            ~SafeHandle()
+            {
+                Dispose();
+            }
 
-            public static implicit operator SafeHandle(VoidPtr handle) { return new SafeHandle(handle); }
+            public void Dispose()
+            {
+                if (_handle != 0)
+                {
+                    CloseHandle(_handle);
+                    _handle = 0;
+                }
+            }
 
-            internal static unsafe SafeHandle Duplicate(VoidPtr hFile)
+            public void ErrorCheck()
+            {
+                if (_handle == 0)
+                {
+                    Marshal.ThrowExceptionForHR(Marshal.GetHRForLastWin32Error());
+                }
+            }
+
+            public static implicit operator SafeHandle(VoidPtr handle)
+            {
+                return new SafeHandle(handle);
+            }
+
+            internal static SafeHandle Duplicate(VoidPtr hFile)
             {
                 VoidPtr hProc = Process.GetCurrentProcess().Handle;
                 if (!DuplicateHandle(hProc, hFile, hProc, out hFile, 0, false, 2))
+                {
                     Marshal.ThrowExceptionForHR(Marshal.GetHRForLastWin32Error());
+                }
+
                 return new SafeHandle(hFile);
             }
         }
 
         [DllImport("Kernel32.dll", CharSet = CharSet.Unicode)]
         public static extern bool CloseHandle(VoidPtr hObject);
-        [DllImport("Kernel32.dll", CharSet = CharSet.Unicode, SetLastError=true)]
-        public static extern bool DuplicateHandle(VoidPtr hSourceProcessHandle, VoidPtr hSourceHandle, VoidPtr hTargetProcessHandle, out VoidPtr lpTargetHandle, uint dwDesiredAccess, bool bInheritHandle, uint dwOptions);
+
+        [DllImport("Kernel32.dll", CharSet = CharSet.Unicode, SetLastError = true)]
+        public static extern bool DuplicateHandle(VoidPtr hSourceProcessHandle, VoidPtr hSourceHandle,
+                                                  VoidPtr hTargetProcessHandle, out VoidPtr lpTargetHandle,
+                                                  uint dwDesiredAccess, bool bInheritHandle, uint dwOptions);
 
 
         [DllImport("Kernel32.dll", EntryPoint = "RtlMoveMemory", SetLastError = false)]
         public static extern void MoveMemory(VoidPtr dest, VoidPtr src, uint size);
+
         [DllImport("Kernel32.dll", EntryPoint = "RtlFillMemory", SetLastError = false)]
         public static extern void FillMemory(VoidPtr dest, uint length, byte value);
 
-        [DllImport("user32.dll", SetLastError=true)]
+        [DllImport("user32.dll", SetLastError = true)]
         public static extern VoidPtr GetDC(VoidPtr hWnd);
+
         [DllImport("user32.dll")]
         public static extern int ReleaseDC(VoidPtr hWnd, VoidPtr hDC);
 
         #region File Mapping
+
         [DllImport("Kernel32.dll", CharSet = CharSet.Unicode, SetLastError = true)]
-        public static extern VoidPtr CreateFileMapping(VoidPtr hFile, VoidPtr lpAttributes, _FileMapProtect flProtect, uint dwMaximumSizeHigh, uint dwMaximumSizeLow, string lpName);
+        public static extern VoidPtr CreateFileMapping(VoidPtr hFile, VoidPtr lpAttributes, _FileMapProtect flProtect,
+                                                       uint dwMaximumSizeHigh, uint dwMaximumSizeLow, string lpName);
+
         [DllImport("Kernel32.dll", CharSet = CharSet.Unicode, SetLastError = true)]
         public static extern bool FlushViewOfFile(VoidPtr lpBaseAddress, uint dwNumberOfBytesToFlush);
+
         [DllImport("Kernel32.dll", CharSet = CharSet.Unicode, SetLastError = true)]
-        public static extern VoidPtr MapViewOfFile(VoidPtr hFileMappingObject, _FileMapAccess dwDesiredAccess, uint dwFileOffsetHigh, uint dwFileOffsetLow, uint dwNumberOfBytesToMap);
+        public static extern VoidPtr MapViewOfFile(VoidPtr hFileMappingObject, _FileMapAccess dwDesiredAccess,
+                                                   uint dwFileOffsetHigh, uint dwFileOffsetLow,
+                                                   uint dwNumberOfBytesToMap);
+
         [DllImport("Kernel32.dll", CharSet = CharSet.Unicode, SetLastError = true)]
-        public static extern VoidPtr MapViewOfFileEx(VoidPtr hFileMappingObject, _FileMapAccess dwDesiredAccess, uint dwFileOffsetHigh, uint dwFileOffsetLow, uint dwNumberOfBytesToMap, VoidPtr lpBaseAddress);
+        public static extern VoidPtr MapViewOfFileEx(VoidPtr hFileMappingObject, _FileMapAccess dwDesiredAccess,
+                                                     uint dwFileOffsetHigh, uint dwFileOffsetLow,
+                                                     uint dwNumberOfBytesToMap, VoidPtr lpBaseAddress);
+
         [DllImport("Kernel32.dll", CharSet = CharSet.Unicode)]
-        public static extern VoidPtr OpenFileMapping(_FileMapAccess dwDesiredAccess, bool bInheritHandle, string lpName);
+        public static extern VoidPtr
+            OpenFileMapping(_FileMapAccess dwDesiredAccess, bool bInheritHandle, string lpName);
+
         [DllImport("Kernel32.dll", CharSet = CharSet.Unicode)]
         public static extern bool UnmapViewOfFile(VoidPtr lpBaseAddress);
 
@@ -116,8 +161,7 @@ namespace System
             Execute = 0x20,
             All = 0x000F001F
         }
+
         #endregion
-
-
     }
 }

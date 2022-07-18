@@ -1,88 +1,122 @@
-﻿using System;
+﻿using BrawlLib.Internal;
+using BrawlLib.SSBB.Types;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using BrawlLib.SSBBTypes;
 using System.ComponentModel;
 
 namespace BrawlLib.SSBB.ResourceNodes
 {
     public unsafe class MoveDefSectionParamNode : MoveDefCharSpecificNode
     {
-        internal byte* Header { get { return (byte*)WorkingUncompressed.Address; } }
-        public override ResourceType ResourceType { get { return ResourceType.Unknown; } }
+        internal byte* Header => (byte*) WorkingUncompressed.Address;
+        public override ResourceType ResourceFileType => ResourceType.Unknown;
 
         public List<AttributeInfo> _info;
         public string OldName;
 
         public override string Name
         {
-            get { return base.Name; }
+            get => base.Name;
             set
             {
                 base.Name = value;
                 if (Parent is MoveDefArticleNode)
-                    Root.Params[(Parent as MoveDefArticleNode).ArticleStringID].NewName = value;
+                {
+                    Root.Params[(Parent as MoveDefArticleNode).ArticleStringID]._newName = value;
+                }
                 else if (Parent is MoveDefSectionParamNode)
-                    Root.Params[TreePath].NewName = value;
+                {
+                    Root.Params[TreePath]._newName = value;
+                }
                 else
-                    Root.Params[OldName].NewName = value;
-                Root._dictionaryChanged = true;
+                {
+                    Root.Params[OldName]._newName = value;
+                }
+
+                MoveDefNode._dictionaryChanged = true;
             }
         }
 
         private UnsafeBuffer attributeBuffer;
 
         [Browsable(false)]
-        public UnsafeBuffer AttributeBuffer { get { if (attributeBuffer != null) return attributeBuffer; else return attributeBuffer = new UnsafeBuffer(0x2E4); } }
+        public UnsafeBuffer AttributeBuffer
+        {
+            get
+            {
+                if (attributeBuffer != null)
+                {
+                    return attributeBuffer;
+                }
+
+                return attributeBuffer = new UnsafeBuffer(0x2E4);
+            }
+        }
 
         public Dictionary<int, FDefListOffset> offsets;
 
-        protected override bool OnInitialize()
+        public override bool OnInitialize()
         {
             offsets = new Dictionary<int, FDefListOffset>();
+
+            OldName = _name;
 
             base.OnInitialize();
 
             if (Size == 0)
+            {
                 SetSizeInternal(4);
+            }
 
-            OldName = _name;
             SectionParamInfo data = null;
             if (Parent is MoveDefArticleNode)
             {
                 if (Root.Params.ContainsKey((Parent as MoveDefArticleNode).ArticleStringID + "/" + _name))
                 {
                     data = Root.Params[(Parent as MoveDefArticleNode).ArticleStringID + "/" + _name];
-                    _info = data.Attributes;
-                    if (!String.IsNullOrEmpty(data.NewName))
-                        _name = data.NewName;
+                    _info = data._attributes;
+                    if (!string.IsNullOrEmpty(data._newName))
+                    {
+                        _name = data._newName;
+                    }
                 }
-                else _info = new List<AttributeInfo>();
+                else
+                {
+                    _info = new List<AttributeInfo>();
+                }
             }
             else if (Parent is MoveDefSectionParamNode)
             {
                 if (Root.Params.ContainsKey(TreePath))
                 {
                     data = Root.Params[TreePath];
-                    _info = data.Attributes;
-                    if (!String.IsNullOrEmpty(data.NewName))
-                        _name = data.NewName;
+                    _info = data._attributes;
+                    if (!string.IsNullOrEmpty(data._newName))
+                    {
+                        _name = data._newName;
+                    }
                 }
-                else _info = new List<AttributeInfo>();
+                else
+                {
+                    _info = new List<AttributeInfo>();
+                }
             }
-            else if (Root.Params.ContainsKey(Name))
+            else if (Root != null && Root.Params.ContainsKey(Name))
             {
                 data = Root.Params[Name];
-                _info = data.Attributes;
-                if (!String.IsNullOrEmpty(data.NewName))
-                    _name = data.NewName;
+                _info = data._attributes;
+                if (!string.IsNullOrEmpty(data._newName))
+                {
+                    _name = data._newName;
+                }
             }
-            else _info = new List<AttributeInfo>();
+            else
+            {
+                _info = new List<AttributeInfo>();
+            }
 
             attributeBuffer = new UnsafeBuffer(Size);
-            byte* pOut = (byte*)attributeBuffer.Address;
-            byte* pIn = (byte*)Header;
+            byte* pOut = (byte*) attributeBuffer.Address;
+            byte* pIn = (byte*) Header;
 
             //if (String.IsNullOrEmpty(_name = new String((sbyte*)Header)))
             //    _name = OldName;
@@ -96,17 +130,18 @@ namespace BrawlLib.SSBB.ResourceNodes
                         AttributeInfo info = new AttributeInfo();
 
                         //Guess
-                        if (((((uint)*((buint*)pIn)) >> 24) & 0xFF) != 0 && *((bint*)pIn) != -1 && !float.IsNaN(((float)*((bfloat*)pIn))))
+                        if ((((uint) *(buint*) pIn >> 24) & 0xFF) != 0 && *(bint*) pIn != -1 &&
+                            !float.IsNaN((float) *(bfloat*) pIn))
+                        {
                             info._type = 0;
+                        }
                         else
                         {
-                            if (*((bint*)pIn) > 1480 && *((bint*)pIn) < Root.dataSize)
-                                info._type = 3;
-                            else
-                                info._type = 1;
+                            info._type = 1;
                         }
 
-                        info._name = (info._type == 1 ? "*" : "" + (info._type > 3 ? "+" : "")) + "0x" + i.ToString("X");
+                        info._name = (info._type == 1 ? "*" : "" + (info._type > 3 ? "+" : "")) + "0x" +
+                                     i.ToString("X");
                         info._description = "No Description Available.";
 
                         _info.Add(info);
@@ -143,6 +178,7 @@ namespace BrawlLib.SSBB.ResourceNodes
                     //    }
                     //}
                 }
+
                 *pOut++ = *pIn++;
             }
 
@@ -152,8 +188,8 @@ namespace BrawlLib.SSBB.ResourceNodes
                 if (!Root.Params.ContainsKey(id))
                 {
                     Root.Params.Add(id, new SectionParamInfo());
-                    Root.Params[id].Attributes = _info;
-                    Root.Params[id].NewName = _name;
+                    Root.Params[id]._attributes = _info;
+                    Root.Params[id]._newName = _name;
                     data = Root.Params[id];
                 }
             }
@@ -162,8 +198,8 @@ namespace BrawlLib.SSBB.ResourceNodes
                 if (!Root.Params.ContainsKey(TreePath))
                 {
                     Root.Params.Add(TreePath, new SectionParamInfo());
-                    Root.Params[TreePath].Attributes = _info;
-                    Root.Params[TreePath].NewName = _name;
+                    Root.Params[TreePath]._attributes = _info;
+                    Root.Params[TreePath]._newName = _name;
                     data = Root.Params[TreePath];
                 }
             }
@@ -172,13 +208,15 @@ namespace BrawlLib.SSBB.ResourceNodes
             //return offsets.Values.Count > 0;
         }
 
-        protected override void OnPopulate()
+        public override void OnPopulate()
         {
             int x = 0;
             foreach (FDefListOffset list in offsets.Values)
             {
                 if (list._startOffset <= 0)
+                {
                     continue;
+                }
 
                 string name = null;
                 int off = list._startOffset;
@@ -188,7 +226,9 @@ namespace BrawlLib.SSBB.ResourceNodes
                 {
                     MoveDefExternalNode ext = Root.IsExternal(off);
                     if (ext == null)
+                    {
                         size = 4;
+                    }
                     else
                     {
                         name = ext.Name;
@@ -196,17 +236,27 @@ namespace BrawlLib.SSBB.ResourceNodes
                     }
                 }
                 else
+                {
                     size /= count;
+                }
+
                 VoidPtr addr = BaseAddress + list._startOffset;
                 MoveDefRawDataNode data = new MoveDefRawDataNode("Data" + x);
                 data.Initialize(this, addr, size * count);
                 for (int i = 0; i < list._listCount; i++)
-                    new MoveDefSectionParamNode() { _name = name == null ? "Part" + i : name }.Initialize(data, addr + i * size, size);
+                {
+                    new MoveDefSectionParamNode {_name = name == null ? "Part" + i : name}.Initialize(data,
+                        addr + i * size, size);
+                }
+
                 x++;
             }
         }
 
-        public override string TreePathAbsolute { get { return _parent == null || !(_parent is MoveDefSectionParamNode || _parent is MoveDefRawDataNode) ? OldName : _parent.TreePathAbsolute + "/" + OldName; } }
+        public override string TreePathAbsolute =>
+            _parent == null || !(_parent is MoveDefSectionParamNode || _parent is MoveDefRawDataNode)
+                ? OldName
+                : _parent.TreePathAbsolute + "/" + OldName;
 
         //public static void ChildLevels(MoveDefEntryNode e, ref int levels)
         //{
@@ -231,11 +281,10 @@ namespace BrawlLib.SSBB.ResourceNodes
         //}
 
         //public bool notRoot = false;
-        protected internal override void OnRebuild(VoidPtr address, int length, bool force)
+        public override void OnRebuild(VoidPtr address, int length, bool force)
         {
             //Top:
 
-            
 
             //if (!notRoot)
             //{
@@ -251,10 +300,12 @@ namespace BrawlLib.SSBB.ResourceNodes
             //}
 
             _entryOffset = address;
-            byte* pIn = (byte*)attributeBuffer.Address;
-            byte* pOut = (byte*)address;
+            byte* pIn = (byte*) attributeBuffer.Address;
+            byte* pOut = (byte*) address;
             for (int i = 0; i < attributeBuffer.Length; i++)
+            {
                 *pOut++ = *pIn++;
+            }
 
             //PostProcessOffsets(this);
         }
@@ -292,7 +343,7 @@ namespace BrawlLib.SSBB.ResourceNodes
         //        PostProcessOffsets(x);
         //}
 
-        protected override int OnCalculateSize(bool force)
+        public override int OnCalculateSize(bool force)
         {
             _lookupCount = 0;
             _entryLength = attributeBuffer.Length;
@@ -304,51 +355,63 @@ namespace BrawlLib.SSBB.ResourceNodes
 
     public class SectionDataGroupNode : MoveDefEntryNode
     {
-        internal VoidPtr First { get { return (VoidPtr)WorkingUncompressed.Address; } }
-        public int Count = 0, EntrySize = 0, ID = 0;
+        internal VoidPtr First => (VoidPtr) WorkingUncompressed.Address;
+        public int Count, EntrySize, ID;
 
-        SectionDataGroupNode(int count, int size, int id) { Count = count; EntrySize = size; ID = id; }
+        private SectionDataGroupNode(int count, int size, int id)
+        {
+            Count = count;
+            EntrySize = size;
+            ID = id;
+        }
 
         [Browsable(false)]
-        int levelIndex
+        private int levelIndex
         {
             get
             {
                 int i = 1;
                 ResourceNode n = _parent;
-                while ((n is MoveDefSectionParamNode || n is SectionDataGroupNode) && (n != null))
+                while ((n is MoveDefSectionParamNode || n is SectionDataGroupNode) && n != null)
                 {
                     n = n._parent;
                     if (n is SectionDataGroupNode)
+                    {
                         i++;
+                    }
                 }
+
                 return i;
             }
         }
 
-        protected override bool OnInitialize()
+        public override bool OnInitialize()
         {
             _name = "Data" + ID;
             return Count > 0;
         }
 
-        protected override void OnPopulate()
+        public override void OnPopulate()
         {
             for (int i = 0; i < Count; i++)
-                new MoveDefSectionParamNode() { _name = "Part" + i }.Initialize(this, First + i * EntrySize, EntrySize);
+            {
+                new MoveDefSectionParamNode {_name = "Part" + i}.Initialize(this, First + i * EntrySize, EntrySize);
+            }
         }
 
-        protected override int OnCalculateSize(bool force)
+        public override int OnCalculateSize(bool force)
         {
             int size = 0;
 
             foreach (MoveDefSectionParamNode p in Children)
+            {
                 size += p.CalculateSize(true);
+            }
 
             return size;
         }
 
-        protected internal override void OnRebuild(VoidPtr address, int length, bool force)
+        public override void OnRebuild(VoidPtr address, int length, bool force)
         {
             _entryOffset = address;
             base.OnRebuild(address, length, force);
@@ -357,97 +420,37 @@ namespace BrawlLib.SSBB.ResourceNodes
 
     public unsafe class MoveDefHitDataListNode : MoveDefCharSpecificNode
     {
-        internal hitData* First { get { return (hitData*)WorkingUncompressed.Address; } }
-        
-        protected override bool OnInitialize()
+        internal FDefHurtBox* First => (FDefHurtBox*) WorkingUncompressed.Address;
+
+        public override bool OnInitialize()
         {
             base.OnInitialize();
             _offsets.Add(_offset);
             return Size / 32 > 0;
         }
 
-        protected override void OnPopulate()
+        public override void OnPopulate()
         {
             for (int i = 0; i < Size / 32; i++)
-                new MoveDefHitDataNode() { _extOverride = true }.Initialize(this, First + i, 32);
+            {
+                new MoveDefHurtBoxNode {_extOverride = true}.Initialize(this, First + i, 32);
+            }
         }
 
-        protected override int OnCalculateSize(bool force)
+        public override int OnCalculateSize(bool force)
         {
             _lookupCount = 0;
             return _entryLength = 32 * Children.Count;
         }
 
-        protected internal override void OnRebuild(VoidPtr address, int length, bool force)
+        public override void OnRebuild(VoidPtr address, int length, bool force)
         {
             _entryOffset = address;
-            hitData* data = (hitData*)address;
-            foreach (MoveDefHitDataNode h in Children)
+            FDefHurtBox* data = (FDefHurtBox*) address;
+            foreach (MoveDefHurtBoxNode h in Children)
+            {
                 h.Rebuild(data++, 32, true);
-        }
-    }
-
-    public unsafe class MoveDefHitDataNode : MoveDefEntryNode
-    {
-        internal hitData* Header { get { return (hitData*)WorkingUncompressed.Address; } }
-        public override ResourceType ResourceType { get { return ResourceType.Unknown; } }
-
-        public uint unk8;
-        public float unk1, unk2, unk3, unk4, unk5, unk6, unk7;
-        
-        [Category("Hit Data")]
-        public float Unknown1 { get { return unk1; } set { unk1 = value; SignalPropertyChange(); } }
-        [Category("Hit Data")]
-        public float Unknown2 { get { return unk2; } set { unk2 = value; SignalPropertyChange(); } }
-        [Category("Hit Data")]
-        public float Unknown3 { get { return unk3; } set { unk3 = value; SignalPropertyChange(); } }
-        [Category("Hit Data")]
-        public float Unknown4 { get { return unk4; } set { unk4 = value; SignalPropertyChange(); } }
-        [Category("Hit Data")]
-        public float Unknown5 { get { return unk5; } set { unk5 = value; SignalPropertyChange(); } }
-        [Category("Hit Data")]
-        public float Unknown6 { get { return unk6; } set { unk6 = value; SignalPropertyChange(); } }
-        [Category("Hit Data")]
-        public float Unknown7 { get { return unk7; } set { unk7 = value; SignalPropertyChange(); } }
-        [Category("Hit Data"), TypeConverter(typeof(Bin32StringConverter))]
-        public Bin32 Flags { get { return new Bin32(unk8); } set { unk8 = value.data; SignalPropertyChange(); } }
-
-        protected override bool OnInitialize()
-        {
-            base.OnInitialize();
-
-            if (_name == null)
-                _name = "HitData" + Index;
-
-            unk1 = Header->_unk1;
-            unk2 = Header->_unk2;
-            unk3 = Header->_unk3;
-            unk4 = Header->_unk4;
-            unk5 = Header->_unk5;
-            unk6 = Header->_unk6;
-            unk7 = Header->_unk7;
-            unk8 = Header->_flags;
-            return false;
-        }
-
-        protected override int OnCalculateSize(bool force)
-        {
-            _lookupCount = 0;
-            return 32;
-        }
-
-        protected internal override void OnRebuild(VoidPtr address, int length, bool force)
-        {
-            _entryOffset = address;
-            hitData* data = (hitData*)address;
-            data->_flags = unk8;
-            data->_unk1 = unk1;
-            data->_unk2 = unk2;
-            data->_unk3 = unk3;
-            data->_unk4 = unk4;
-            data->_unk5 = unk5;
-            data->_unk6 = unk6;
-            data->_unk7 = unk7;
+            }
         }
     }
 }

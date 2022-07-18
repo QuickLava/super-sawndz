@@ -1,15 +1,18 @@
-﻿using System;
-
-namespace BrawlLib.Imaging
+﻿namespace BrawlLib.Imaging
 {
     public interface IColorSource
     {
-        bool HasPrimary { get; }
-        ARGBPixel PrimaryColor { get; set; }
-        string PrimaryColorName { get; }
+        bool HasPrimary(int id);
+        ARGBPixel GetPrimaryColor(int id);
+        void SetPrimaryColor(int id, ARGBPixel color);
+        string PrimaryColorName(int id);
 
-        int ColorCount { get; }
-        ARGBPixel GetColor(int index);
-        void SetColor(int index, ARGBPixel color);
+        int TypeCount { get; }
+        int ColorCount(int id);
+        ARGBPixel GetColor(int index, int id);
+        void SetColor(int index, int id, ARGBPixel color);
+
+        bool GetColorConstant(int id);
+        void SetColorConstant(int id, bool constant);
     }
 }

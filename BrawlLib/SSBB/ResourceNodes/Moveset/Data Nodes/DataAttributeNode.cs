@@ -1,25 +1,37 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using BrawlLib.SSBBTypes;
+﻿using BrawlLib.Internal;
+using BrawlLib.SSBB.Types;
 using System.ComponentModel;
 
 namespace BrawlLib.SSBB.ResourceNodes
 {
     public unsafe class MoveDefAttributeNode : MoveDefEntryNode
     {
-        internal FDefAttributes* Header { get { return (FDefAttributes*)WorkingUncompressed.Address; } }
-        public override ResourceType ResourceType { get { return ResourceType.Unknown; } }
+        internal FDefAttributes* Header => (FDefAttributes*) WorkingUncompressed.Address;
+        public override ResourceType ResourceFileType => ResourceType.Unknown;
 
         private UnsafeBuffer attributeBuffer;
 
         [Browsable(false)]
-        public UnsafeBuffer AttributeBuffer { get { if (attributeBuffer != null) return attributeBuffer; else return attributeBuffer = new UnsafeBuffer(0x2E4); } }
+        public UnsafeBuffer AttributeBuffer
+        {
+            get
+            {
+                if (attributeBuffer != null)
+                {
+                    return attributeBuffer;
+                }
 
-        public MoveDefAttributeNode(string name) { _name = name; }
+                return attributeBuffer = new UnsafeBuffer(0x2E4);
+            }
+        }
+
+        public MoveDefAttributeNode(string name)
+        {
+            _name = name;
+        }
 
         #region Attributes
+
         //public float WalkInitialVelocity { get { return _walkInitVelocity; } set { _walkInitVelocity = value; SignalPropertyChange(); } }
         //public float WalkAcceleration { get { return _walkAcceleration; } set { _walkAcceleration = value; SignalPropertyChange(); } }
         //public float WalkMaxVelocity { get { return _walkMaxVelocity; } set { _walkMaxVelocity = value; SignalPropertyChange(); } }
@@ -419,14 +431,17 @@ namespace BrawlLib.SSBB.ResourceNodes
         #endregion
 
         #region OnInitRebuildCalc
-        protected override bool OnInitialize()
+
+        public override bool OnInitialize()
         {
             base.OnInitialize();
             attributeBuffer = new UnsafeBuffer(0x2E4);
-            byte* pOut = (byte*)attributeBuffer.Address;
-            byte* pIn = (byte*)Header;
+            byte* pOut = (byte*) attributeBuffer.Address;
+            byte* pIn = (byte*) Header;
             for (int i = 0; i < 0x2E4; i++)
+            {
                 *pOut++ = *pIn++;
+            }
 
             //FDefAttributes* attributes = Header;
 
@@ -620,13 +635,15 @@ namespace BrawlLib.SSBB.ResourceNodes
             return false;
         }
 
-        protected internal override void OnRebuild(VoidPtr address, int length, bool force)
+        public override void OnRebuild(VoidPtr address, int length, bool force)
         {
             _entryOffset = address;
-            byte* pIn = (byte*)attributeBuffer.Address;
-            byte* pOut = (byte*)address;
+            byte* pIn = (byte*) attributeBuffer.Address;
+            byte* pOut = (byte*) address;
             for (int i = 0; i < 0x2E4; i++)
+            {
                 *pOut++ = *pIn++;
+            }
 
             //FDefAttributes* attributes = (FDefAttributes*)address;
 
@@ -818,11 +835,12 @@ namespace BrawlLib.SSBB.ResourceNodes
             //attributes->_unk158 = _unk158;
         }
 
-        protected override int OnCalculateSize(bool force)
+        public override int OnCalculateSize(bool force)
         {
             _lookupCount = 0;
             return 0x2E4;
         }
+
         #endregion
     }
 }

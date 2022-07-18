@@ -1,76 +1,122 @@
-﻿using System;
+﻿using BrawlLib.Internal;
+using BrawlLib.Wii.Models;
+using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
-using BrawlLib.Wii.Models;
-using BrawlLib.Imaging;
-using BrawlLib.SSBB.ResourceNodes;
-using BrawlLib.OpenGL;
 
-namespace BrawlLib.Modeling
+namespace BrawlLib.Modeling.Collada
 {
     public unsafe partial class Collada
     {
-        static PrimitiveManager DecodePrimitivesWeighted(GeometryEntry geo, SkinEntry skin, SceneEntry scene, InfluenceManager infManager, ref string Error)
+        private static PrimitiveManager DecodePrimitivesWeighted(
+            Matrix bindMatrix,
+            GeometryEntry geo,
+            SkinEntry skin,
+            SceneEntry scene,
+            InfluenceManager infManager,
+            Type boneType)
         {
             PrimitiveManager manager = DecodePrimitives(geo);
 
-            MDL0BoneNode[] boneList;
-            MDL0BoneNode bone = null;
+            IBoneNode[] boneList;
+            IBoneNode bone = null;
             int boneCount;
-            string[] jointStrings = null;
+
+            string[] jointStringArray = null;
+            string jointString = null;
+
             byte* pCmd = stackalloc byte[4];
             int cmdCount = skin._weightInputs.Count;
             float weight = 0;
             float* pWeights = null;
             Vector3* pVert = null, pNorms = null;
-            ushort* pVInd = (ushort*)manager._indices.Address;
+            ushort* pVInd = (ushort*) manager._indices.Address;
             List<Vertex3> vertList = new List<Vertex3>(skin._weightCount);
             Matrix* pMatrix = null;
 
             UnsafeBuffer remap = new UnsafeBuffer(skin._weightCount * 2);
-            ushort* pRemap = (ushort*)remap.Address;
+            ushort* pRemap = (ushort*) remap.Address;
 
-            pNorms = (Vector3*)manager._faceData[1].Address;
-            //List<int> FixedIndices = new List<int>();
+            if (manager._faceData[1] != null)
+            {
+                pNorms = (Vector3*) manager._faceData[1].Address;
+            }
 
             manager._vertices = vertList;
 
             //Find vertex source
             foreach (SourceEntry s in geo._sources)
+            {
                 if (s._id == geo._verticesInput._source)
                 {
-                    pVert = (Vector3*)((UnsafeBuffer)s._arrayData).Address;
+                    pVert = (Vector3*) ((UnsafeBuffer) s._arrayData).Address;
                     break;
                 }
+            }
 
             //Find joint source
             foreach (InputEntry inp in skin._jointInputs)
+            {
                 if (inp._semantic == SemanticType.JOINT)
                 {
                     foreach (SourceEntry src in skin._sources)
+                    {
                         if (src._id == inp._source)
                         {
-                            jointStrings = src._arrayData as string[];
+                            jointStringArray = src._arrayData as string[];
+                            jointString = src._arrayDataString;
                             break;
                         }
+                    }
                 }
                 else if (inp._semantic == SemanticType.INV_BIND_MATRIX)
                 {
                     foreach (SourceEntry src in skin._sources)
+                    {
                         if (src._id == inp._source)
                         {
-                            pMatrix = (Matrix*)((UnsafeBuffer)src._arrayData).Address;
+                            pMatrix = (Matrix*) ((UnsafeBuffer) src._arrayData).Address;
                             break;
                         }
+                    }
                 }
+            }
 
             Error = "There was a problem creating the list of bones for geometry entry " + geo._name;
 
             //Populate bone list
-            boneCount = jointStrings.Length;
-            boneList = new MDL0BoneNode[boneCount];
+            boneCount = jointStringArray.Length;
+            boneList = new IBoneNode[boneCount];
             for (int i = 0; i < boneCount; i++)
-                boneList[i] = scene.FindNode(jointStrings[i])._node as MDL0BoneNode;
+            {
+                NodeEntry entry = scene.FindNode(jointStringArray[i]);
+                if (entry?._node != null)
+                {
+                    boneList[i] = entry._node as IBoneNode;
+                }
+                else
+                {
+                    //Search in reverse!
+                    foreach (NodeEntry node in scene._nodes)
+                    {
+                        if ((entry = RecursiveTestNode(jointString, node)) != null)
+                        {
+                            if (entry._node != null)
+                            {
+                                boneList[i] = entry._node as IBoneNode;
+                            }
+
+                            break;
+                        }
+                    }
+
+                    //Couldn't find the bone
+                    if (boneList[i] == null)
+                    {
+                        boneList[i] = Activator.CreateInstance(boneType) as IBoneNode;
+                    }
+                }
+            }
 
             //Build command list
             foreach (InputEntry inp in skin._weightInputs)
@@ -86,11 +132,13 @@ namespace BrawlLib.Modeling
 
                         //Get weight source
                         foreach (SourceEntry src in skin._sources)
+                        {
                             if (src._id == inp._source)
                             {
-                                pWeights = (float*)((UnsafeBuffer)src._arrayData).Address;
+                                pWeights = (float*) ((UnsafeBuffer) src._arrayData).Address;
                                 break;
                             }
+                        }
 
                         break;
 
@@ -107,57 +155,62 @@ namespace BrawlLib.Modeling
             {
                 //Create influence
                 int iCount = skin._weights[i].Length / cmdCount;
-                Influence inf = new Influence(iCount);
+                Influence inf = new Influence();
                 fixed (int* p = skin._weights[i])
                 {
                     int* iPtr = p;
                     for (int x = 0; x < iCount; x++)
                     {
                         for (int z = 0; z < cmdCount; z++, iPtr++)
+                        {
                             if (pCmd[z] == 1)
+                            {
                                 bone = boneList[*iPtr];
+                            }
                             else if (pCmd[z] == 2)
+                            {
                                 weight = pWeights[*iPtr];
-                        //if (bone != null)
-                        //    if (bone.Name == "TopN" || bone.Name == "XRotN" || bone.Name == "YRotN" || bone.Name == "TransN" || bone.Name == "ThrowN" || bone.Name == "FacePattern")
-                        //        Console.WriteLine(bone.Name);
-                        //    else if (bone.Parent != null)
-                        //        if (bone.Parent.Name == "FacePattern")
-                        //            Console.WriteLine(bone.Name);
-                        inf._weights[x] = new BoneWeight(bone, weight);
+                            }
+                        }
+
+                        inf.AddWeight(new BoneWeight(bone, weight));
                     }
                 }
 
                 inf.CalcMatrix();
 
-                Error = "There was a problem creating a vertex from the geometry entry " + geo._name + ".\nMake sure that all the vertices are weighted properly.";
+                Error = "There was a problem creating a vertex from the geometry entry " + geo._name +
+                        ".\nMake sure that all the vertices are weighted properly.";
 
+                Vector3 worldPos = bindMatrix * skin._bindMatrix * pVert[i];
                 Vertex3 v;
-                if (inf._weights.Length > 1)
+                if (inf.Weights.Count > 1)
                 {
                     //Match with manager
-                    inf = infManager.AddOrCreate(inf);
-                    v = new Vertex3(skin._bindMatrix * pVert[i], inf); //World position
+                    inf = infManager.FindOrCreate(inf);
+                    v = new Vertex3(worldPos, inf); //World position
                 }
                 else
                 {
-                    bone = inf._weights[0].Bone;
-                    v = new Vertex3(bone._inverseBindMatrix * skin._bindMatrix * pVert[i], bone); //Local position
+                    bone = inf.Weights[0].Bone;
+                    v = new Vertex3(bone.InverseBindMatrix * worldPos, bone); //Local position
                 }
-
-                ////Create Vertex, set to world position.
-                //v = new Vertex3(skin._bindMatrix * pVert[i], inf);
-                ////Fix single-bind vertices
-                //v.Position = inf._weights[0].Bone._inverseBindMatrix * v.Position;
 
                 ushort index = 0;
                 while (index < vertList.Count)
                 {
-                    if (v.Equals(vertList[index])) break;
+                    if (v.Equals(vertList[index]))
+                    {
+                        break;
+                    }
+
                     index++;
                 }
+
                 if (index == vertList.Count)
+                {
                     vertList.Add(v);
+                }
 
                 pRemap[i] = index;
             }
@@ -168,107 +221,178 @@ namespace BrawlLib.Modeling
             for (int i = 0; i < manager._pointCount; i++, pVInd++)
             {
                 *pVInd = pRemap[*pVInd];
-                Vertex3 v = null;
-                if (*pVInd < vertList.Count)
-                    v = vertList[*pVInd];
-                if (v != null && v._influence != null)
-                    if (v._influence.Weights.Length > 1)
-                        pNorms[i] = skin._bindMatrix.GetRotationMatrix() * pNorms[i];
-                    else
-                        pNorms[i] = skin._bindMatrix.GetRotationMatrix() * v._influence.Weights[0].Bone._inverseBindMatrix.GetRotationMatrix() * pNorms[i];
+
+                if (pNorms != null)
+                {
+                    Vertex3 v = null;
+                    if (*pVInd < vertList.Count)
+                    {
+                        v = vertList[*pVInd];
+                    }
+
+                    if (v?.MatrixNode != null)
+                    {
+                        if (v.MatrixNode.Weights.Count > 1)
+                        {
+                            pNorms[i] =
+                                (bindMatrix *
+                                 skin._bindMatrix).GetRotationMatrix() *
+                                pNorms[i];
+                        }
+                        else
+                        {
+                            pNorms[i] =
+                                (v.MatrixNode.Weights[0].Bone.InverseBindMatrix *
+                                 bindMatrix *
+                                 skin._bindMatrix).GetRotationMatrix() *
+                                pNorms[i];
+                        }
+                    }
+                }
             }
 
             remap.Dispose();
-
-            //manager.MergeTempData();
             return manager;
         }
-        static PrimitiveManager DecodePrimitivesUnweighted(GeometryEntry geo)
+
+        private static NodeEntry RecursiveTestNode(string jointStrings, NodeEntry node)
+        {
+            if (jointStrings.IndexOf(node._name) >= 0)
+            {
+                return node;
+            }
+
+            if (jointStrings.IndexOf(node._sid) >= 0)
+            {
+                return node;
+            }
+
+            if (jointStrings.IndexOf(node._id) >= 0)
+            {
+                return node;
+            }
+
+            NodeEntry e;
+            foreach (NodeEntry n in node._children)
+            {
+                if ((e = RecursiveTestNode(jointStrings, n)) != null)
+                {
+                    return e;
+                }
+            }
+
+            return null;
+        }
+
+        private static PrimitiveManager DecodePrimitivesUnweighted(Matrix bindMatrix, GeometryEntry geo)
         {
             PrimitiveManager manager = DecodePrimitives(geo);
 
-            Vector3* pVert = null;
-            ushort* pVInd = (ushort*)manager._indices.Address;
+            Vector3* pVert = null, pNorms = null;
+            ushort* pVInd = (ushort*) manager._indices.Address;
             int vCount = 0;
             List<Vertex3> vertList = new List<Vertex3>(manager._pointCount);
 
             manager._vertices = vertList;
 
+            if (manager._faceData[1] != null)
+            {
+                pNorms = (Vector3*) manager._faceData[1].Address;
+            }
+
             //Find vertex source
             foreach (SourceEntry s in geo._sources)
+            {
                 if (s._id == geo._verticesInput._source)
                 {
                     UnsafeBuffer b = s._arrayData as UnsafeBuffer;
-                    pVert = (Vector3*)b.Address;
+                    pVert = (Vector3*) b.Address;
                     vCount = b.Length / 12;
                     break;
                 }
+            }
 
             UnsafeBuffer remap = new UnsafeBuffer(vCount * 2);
-            ushort* pRemap = (ushort*)remap.Address;
+            ushort* pRemap = (ushort*) remap.Address;
 
             //Create remap table
             for (int i = 0; i < vCount; i++)
             {
-                //Create Vertex and look for match
-                Vertex3 v = new Vertex3(pVert[i]);
+                //Create vertex and look for match
+                Vertex3 v = new Vertex3(bindMatrix * pVert[i]);
 
                 int index = 0;
                 while (index < vertList.Count)
                 {
                     if (v.Equals(vertList[index]))
+                    {
                         break;
+                    }
+
                     index++;
                 }
-                if (index == vertList.Count)
-                    vertList.Add(v);
 
-                pRemap[i] = (ushort)index;
+                if (index == vertList.Count)
+                {
+                    vertList.Add(v);
+                }
+
+                pRemap[i] = (ushort) index;
             }
 
-            //Remap vertex indices
+            //Remap vertex indices and fix normals
             for (int i = 0; i < manager._pointCount; i++, pVInd++)
+            {
                 *pVInd = pRemap[*pVInd];
+
+                if (pNorms != null)
+                {
+                    pNorms[i] = bindMatrix.GetRotationMatrix() * pNorms[i];
+                }
+            }
 
             remap.Dispose();
 
-            //manager.MergeTempData();
             return manager;
         }
 
-        static PrimitiveManager DecodePrimitives(GeometryEntry geo)
+        private static PrimitiveManager DecodePrimitives(GeometryEntry geo)
         {
-            ushort* pTri = null, pLin = null;
+            uint[] pTriarr = null, pLinarr = null;
+            uint pTri = 0, pLin = 0;
             long* pInDataList = stackalloc long[12];
             long* pOutDataList = stackalloc long[12];
             int* pData = stackalloc int[16];
             int faces = 0, lines = 0, points = 0;
-            ushort fIndex = 0, lIndex = 0, temp;
+            uint fIndex = 0, lIndex = 0, temp;
 
-            PrimitiveDecodeCommand* pCmd = (PrimitiveDecodeCommand*)pData;
-            byte** pInData = (byte**)pInDataList;
-            byte** pOutData = (byte**)pOutDataList;
+            PrimitiveDecodeCommand* pCmd = (PrimitiveDecodeCommand*) pData;
+            byte** pInData = (byte**) pInDataList;
+            byte** pOutData = (byte**) pOutDataList;
 
-            //_geo = geo;
-            //_sources = new UnsafeBuffer[12];
-            //_remapTable = new List<int>(64);
             PrimitiveManager manager = new PrimitiveManager();
 
             //Assign vertex source
             foreach (SourceEntry s in geo._sources)
+            {
                 if (s._id == geo._verticesInput._source)
                 {
-                    pInData[0] = (byte*)((UnsafeBuffer)s._arrayData).Address;
+                    pInData[0] = (byte*) ((UnsafeBuffer) s._arrayData).Address;
                     break;
                 }
+            }
 
             foreach (PrimitiveEntry prim in geo._primitives)
             {
                 //Get face/line count
-                if (prim._type == PrimitiveType.lines || prim._type == PrimitiveType.linestrips)
+                if (prim._type == ColladaBeginMode.lines || prim._type == ColladaBeginMode.linestrips)
+                {
                     lines += prim._faceCount;
+                }
                 else
+                {
                     faces += prim._faceCount;
+                }
 
                 //Get point total
                 points += prim._pointCount;
@@ -280,48 +404,87 @@ namespace BrawlLib.Modeling
 
                     switch (inp._semantic)
                     {
-                        case SemanticType.VERTEX: offset = 0; break;
-                        case SemanticType.NORMAL: offset = 1; break;
-                        case SemanticType.COLOR: if (inp._set < 2) offset = 2 + inp._set; break;
-                        case SemanticType.TEXCOORD: if (inp._set < 8) offset = 4 + inp._set; break;
+                        case SemanticType.VERTEX:
+                            offset = 0;
+                            break;
+                        case SemanticType.NORMAL:
+                            offset = 1;
+                            break;
+                        case SemanticType.COLOR:
+                            if (inp._set < 2)
+                            {
+                                offset = 2 + inp._set;
+                            }
+
+                            break;
+                        case SemanticType.TEXCOORD:
+                            if (inp._set < 8)
+                            {
+                                offset = 4 + inp._set;
+                            }
+
+                            break;
                     }
 
                     if (offset != -1)
+                    {
                         manager._dirty[offset] = true;
+                    }
 
                     inp._outputOffset = offset;
                 }
             }
+
             manager._pointCount = points;
 
             //Create primitives
             if (faces > 0)
             {
-                manager._triangles = new NewPrimitive(faces * 3, OpenGL.GLPrimitiveType.Triangles);
-                pTri = (ushort*)manager._triangles._indices.Address;
+                manager._triangles = new GLPrimitive(faces * 3, OpenTK.Graphics.OpenGL.BeginMode.Triangles);
+                pTriarr = manager._triangles._indices;
             }
+
             if (lines > 0)
             {
-                manager._lines = new NewPrimitive(lines * 2, OpenGL.GLPrimitiveType.Lines);
-                pLin = (ushort*)manager._lines._indices.Address;
+                manager._lines = new GLPrimitive(lines * 2, OpenTK.Graphics.OpenGL.BeginMode.Lines);
+                pLinarr = manager._lines._indices;
             }
 
             manager._indices = new UnsafeBuffer(points * 2);
             //Create face buffers and assign output pointers
             for (int i = 0; i < 12; i++)
+            {
                 if (manager._dirty[i])
                 {
                     int stride;
-                    if (i == 0) stride = 2;
-                    else if (i == 1) stride = 12;
-                    else if (i < 4) stride = 4;
-                    else stride = 8;
+                    if (i == 0)
+                    {
+                        stride = 2;
+                    }
+                    else if (i == 1)
+                    {
+                        stride = 12;
+                    }
+                    else if (i < 4)
+                    {
+                        stride = 4;
+                    }
+                    else
+                    {
+                        stride = 8;
+                    }
+
                     manager._faceData[i] = new UnsafeBuffer(points * stride);
                     if (i == 0)
-                        pOutData[i] = (byte*)manager._indices.Address;
+                    {
+                        pOutData[i] = (byte*) manager._indices.Address;
+                    }
                     else
-                        pOutData[i] = (byte*)manager._faceData[i].Address;
+                    {
+                        pOutData[i] = (byte*) manager._faceData[i].Address;
+                    }
                 }
+            }
 
             //Decode primitives
             foreach (PrimitiveEntry prim in geo._primitives)
@@ -331,38 +494,49 @@ namespace BrawlLib.Modeling
                 foreach (InputEntry inp in prim._inputs)
                 {
                     if (inp._outputOffset == -1)
+                    {
                         pCmd[inp._offset].Cmd = 0;
+                    }
                     else
                     {
-                        pCmd[inp._offset].Cmd = (byte)inp._semantic;
-                        pCmd[inp._offset].Index = (byte)inp._outputOffset;
+                        pCmd[inp._offset].Cmd = (byte) inp._semantic;
+                        pCmd[inp._offset].Index = (byte) inp._outputOffset;
 
                         //Assign input buffer
                         foreach (SourceEntry src in geo._sources)
+                        {
                             if (src._id == inp._source)
                             {
-                                pInData[inp._outputOffset] = (byte*)((UnsafeBuffer)src._arrayData).Address;
+                                pInData[inp._outputOffset] = (byte*) ((UnsafeBuffer) src._arrayData).Address;
                                 break;
                             }
+                        }
                     }
                 }
 
                 //Decode face data using command list
                 foreach (PrimitiveFace f in prim._faces)
+                {
                     fixed (ushort* p = f._pointIndices)
+                    {
                         RunPrimitiveCmd(pInData, pOutData, pCmd, count, p, f._pointCount);
+                    }
+                }
 
                 //Process point indices
                 switch (prim._type)
                 {
-                    case PrimitiveType.triangles:
+                    case ColladaBeginMode.triangles:
                         count = prim._faceCount * 3;
                         while (count-- > 0)
-                            *pTri++ = fIndex++;
+                        {
+                            pTriarr[pTri++] = fIndex++;
+                        }
+
                         break;
-                    case PrimitiveType.trifans:
-                    case PrimitiveType.polygons:
-                    case PrimitiveType.polylist:
+                    case ColladaBeginMode.trifans:
+                    case ColladaBeginMode.polygons:
+                    case ColladaBeginMode.polylist:
                         foreach (PrimitiveFace f in prim._faces)
                         {
                             count = f._pointCount - 2;
@@ -370,13 +544,14 @@ namespace BrawlLib.Modeling
                             fIndex += 2;
                             while (count-- > 0)
                             {
-                                *pTri++ = temp;
-                                *pTri++ = (ushort)(fIndex - 1);
-                                *pTri++ = fIndex++;
+                                pTriarr[pTri++] = temp;
+                                pTriarr[pTri++] = fIndex - 1;
+                                pTriarr[pTri++] = fIndex++;
                             }
                         }
+
                         break;
-                    case PrimitiveType.tristrips:
+                    case ColladaBeginMode.tristrips:
                         foreach (PrimitiveFace f in prim._faces)
                         {
                             count = f._pointCount;
@@ -385,54 +560,62 @@ namespace BrawlLib.Modeling
                             {
                                 if ((i & 1) == 0)
                                 {
-                                    *pTri++ = (ushort)(fIndex - 2);
-                                    *pTri++ = (ushort)(fIndex - 1);
-                                    *pTri++ = fIndex++;
+                                    pTriarr[pTri++] = fIndex - 2;
+                                    pTriarr[pTri++] = fIndex - 1;
+                                    pTriarr[pTri++] = fIndex++;
                                 }
                                 else
                                 {
-                                    *pTri++ = (ushort)(fIndex - 2);
-                                    *pTri++ = fIndex;
-                                    *pTri++ = (ushort)(fIndex++ - 1);
+                                    pTriarr[pTri++] = fIndex - 2;
+                                    pTriarr[pTri++] = fIndex;
+                                    pTriarr[pTri++] = fIndex++ - 1;
                                 }
                             }
                         }
+
                         break;
 
-                    case PrimitiveType.linestrips:
+                    case ColladaBeginMode.linestrips:
                         foreach (PrimitiveFace f in prim._faces)
                         {
                             count = f._pointCount - 1;
                             lIndex++;
                             while (count-- > 0)
                             {
-                                *pLin++ = (ushort)(lIndex - 1);
-                                *pLin++ = lIndex++;
+                                pLinarr[pLin++] = lIndex - 1;
+                                pLinarr[pLin++] = lIndex++;
                             }
                         }
+
                         break;
 
-                    case PrimitiveType.lines:
+                    case ColladaBeginMode.lines:
                         foreach (PrimitiveFace f in prim._faces)
                         {
-                            count = f._pointCount * 2;
+                            count = f._pointCount;
                             while (count-- > 0)
-                                *pLin++ = lIndex++;
+                            {
+                                pLinarr[pLin++] = lIndex++;
+                            }
                         }
+
                         break;
                 }
             }
+
             return manager;
         }
 
-        private static void RunPrimitiveCmd(byte** pIn, byte** pOut, PrimitiveDecodeCommand* pCmd, int cmdCount, ushort* pIndex, int count)
+        private static void RunPrimitiveCmd(byte** pIn, byte** pOut, PrimitiveDecodeCommand* pCmd, int cmdCount,
+                                            ushort* pIndex, int count)
         {
             int buffer;
             while (count-- > 0)
+            {
                 for (int i = 0; i < cmdCount; i++)
                 {
                     buffer = pCmd[i].Index;
-                    switch ((SemanticType)pCmd[i].Cmd)
+                    switch ((SemanticType) pCmd[i].Cmd)
                     {
                         case SemanticType.None:
                             *pIndex += 1;
@@ -440,187 +623,44 @@ namespace BrawlLib.Modeling
 
                         case SemanticType.VERTEX:
                             //Can't do remap table because weights haven't been assigned yet!
-                            *(ushort*)pOut[buffer] = *pIndex++;
+                            *(ushort*) pOut[buffer] = *pIndex++;
                             pOut[buffer] += 2;
                             break;
 
                         case SemanticType.NORMAL:
-                            *(Vector3*)pOut[buffer] = ((Vector3*)pIn[buffer])[*pIndex++];
+                            *(Vector3*) pOut[buffer] = ((Vector3*) pIn[buffer])[*pIndex++];
                             pOut[buffer] += 12;
                             break;
 
                         case SemanticType.COLOR:
-                            float* p = (float*)(pIn[buffer] + (*pIndex++ * 16));
+                            float* p = (float*) (pIn[buffer] + *pIndex++ * 16);
                             byte* p2 = pOut[buffer];
                             for (int x = 0; x < 4; x++)
-                                *p2++ = (byte)(*p++ * 255.0f + 0.5f);
+                            {
+                                *p2++ = (byte) (*p++ * 255.0f + 0.5f);
+                            }
+
                             pOut[buffer] = p2;
                             break;
 
                         case SemanticType.TEXCOORD:
                             //Flip y axis so coordinates are bottom-up
-                            Vector2 v = ((Vector2*)pIn[buffer])[*pIndex++];
+                            Vector2 v = ((Vector2*) pIn[buffer])[*pIndex++];
                             v._y = 1.0f - v._y;
-                            *(Vector2*)pOut[buffer] = v;
+                            *(Vector2*) pOut[buffer] = v;
                             pOut[buffer] += 8;
                             break;
                     }
                 }
-        }
-
-        static void NullWeight(PrimitiveManager manager, GeometryEntry geo)
-        {
-            Vector3* pVert = null;
-            ushort* pVInd = (ushort*)manager._indices.Address;
-            List<Vertex3> vertList = new List<Vertex3>(manager._pointCount);
-
-            //Find vertex source
-            foreach (SourceEntry s in geo._sources)
-                if (s._id == geo._verticesInput._source)
-                {
-                    pVert = (Vector3*)((UnsafeBuffer)s._arrayData).Address;
-                    break;
-                }
-
-            //Construct Vertex from new weight
-            for (int i = 0; i < manager._pointCount; i++)
-            {
-                //Create Vertex and look for match
-                Vertex3 v = new Vertex3(pVert[*pVInd]);
-                int index = 0;
-                while (index < vertList.Count)
-                {
-                    if (v.Equals(vertList[i]))
-                        break;
-                    index++;
-                }
-                if (index == vertList.Count)
-                    vertList.Add(v);
-
-                //Assign new index
-                *pVInd++ = (ushort)index;
-            }
-
-        }
-        static void Weight(PrimitiveManager manager, SkinEntry skin, DecoderShell shell, GeometryEntry geo, InfluenceManager iMan)
-        {
-            MDL0BoneNode[] boneList;
-            MDL0BoneNode bone = null;
-            int boneCount;
-            string[] jointStrings = null;
-            byte* pCmd = stackalloc byte[4];
-            int cmdCount = skin._weightInputs.Count;
-            float weight = 0;
-            float* pWeights = null;
-            Vector3* pVert = null;
-            ushort* pVInd = (ushort*)manager._indices.Address;
-            List<Vertex3> vertList = new List<Vertex3>(skin._weightCount);
-
-            manager._vertices = vertList;
-
-            //Find vertex source
-            foreach (SourceEntry s in geo._sources)
-                if (s._id == geo._verticesInput._source)
-                {
-                    pVert = (Vector3*)((UnsafeBuffer)s._arrayData).Address;
-                    break;
-                }
-
-            //Find joint source
-            foreach (InputEntry inp in skin._jointInputs)
-                if (inp._semantic == SemanticType.JOINT)
-                {
-                    foreach (SourceEntry src in skin._sources)
-                        if (src._id == inp._source)
-                        {
-                            jointStrings = src._arrayData as string[];
-                            break;
-                        }
-                    break;
-                }
-
-            //Populate bone list
-            boneCount = jointStrings.Length;
-            boneList = new MDL0BoneNode[boneCount];
-            for (int i = 0; i < boneCount; i++)
-                boneList[i] = shell.FindNode(jointStrings[i])._node as MDL0BoneNode;
-
-            //Build command list
-            foreach (InputEntry inp in skin._weightInputs)
-            {
-                switch (inp._semantic)
-                {
-                    case SemanticType.JOINT:
-                        pCmd[inp._offset] = 1;
-                        break;
-
-                    case SemanticType.WEIGHT:
-                        pCmd[inp._offset] = 2;
-
-                        //Get weight source
-                        foreach (SourceEntry src in skin._sources)
-                            if (src._id == inp._source)
-                            {
-                                pWeights = (float*)((UnsafeBuffer)src._arrayData).Address;
-                                break;
-                            }
-
-                        break;
-
-                    default:
-                        pCmd[inp._offset] = 0;
-                        break;
-                }
-            }
-
-            //Construct Vertex from new weight
-            for (int i = 0; i < skin._weightCount; i++)
-            {
-                //Create influence
-                int iCount = skin._weights.Length / cmdCount;
-                Influence inf = new Influence(iCount);
-                fixed (int* p = skin._weights[i])
-                {
-                    int* iPtr = p;
-                    for (int x = 0; x < iCount; x++)
-                    {
-                        for (int z = 0; z < cmdCount; z++, iPtr++)
-                            if (pCmd[z] == 1)
-                                bone = boneList[*iPtr];
-                            else if (pCmd[z] == 2)
-                                weight = pWeights[*iPtr];
-
-                        inf._weights[x] = new BoneWeight(bone, weight);
-                    }
-                }
-
-                //Match with manager
-                inf = iMan.AddOrCreateInf(inf);
-
-                //Create Vertex and look for match
-                Vertex3 v = new Vertex3(pVert[*pVInd], inf);
-                int index = 0;
-                while (index < vertList.Count)
-                {
-                    if (v.Equals(vertList[i]))
-                        break;
-                    index++;
-                }
-                if (index == vertList.Count)
-                    vertList.Add(v);
-
-                //Assign new index
-                *pVInd++ = (ushort)index;
             }
         }
 
         [StructLayout(LayoutKind.Sequential, Pack = 1)]
-        struct PrimitiveDecodeCommand
+        private struct PrimitiveDecodeCommand
         {
             public byte Cmd;
             public byte Index;
             public byte Pad1, Pad2;
         }
-
     }
 }

@@ -1,243 +1,485 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using BrawlLib.Internal;
+using BrawlLib.SSBB.Types;
+using System;
 using System.ComponentModel;
-using System.Windows.Forms;
-using BrawlLib.SSBBTypes;
+using System.Linq;
 using System.Runtime.InteropServices;
+using System.Windows.Forms;
 
 namespace BrawlLib.SSBB.ResourceNodes
 {
     public unsafe class MoveDefEventParameterNode : MoveDefEntryNode
     {
-        internal FDefEventArgument* Header { get { return (FDefEventArgument*)WorkingUncompressed.Address; } }
-        public override ResourceType ResourceType { get { return ResourceType.Parameter; } }
+        internal FDefEventArgument* Header => (FDefEventArgument*) WorkingUncompressed.Address;
+        public override ResourceType ResourceFileType => ResourceType.Parameter;
 
-        public int _value = 0;
+        public int _value;
 
-        [Browsable(false)]
-        public virtual ArgVarType _type { get { return ArgVarType.Value; } }
-        [Browsable(false)]
-        public virtual float RealValue { get { return _value; } }
+        [Browsable(false)] public virtual ArgVarType _type => ArgVarType.Value;
+
+        [Browsable(false)] public virtual float RealValue => _value;
+
         public bool Compare(MoveDefEventParameterNode param, int compare)
         {
             switch (compare)
             {
-                case 0: return this.RealValue < param.RealValue;
-                case 1: return this.RealValue <= param.RealValue;
-                case 2: return this.RealValue == param.RealValue;
-                case 3: return this.RealValue != param.RealValue;
-                case 4: return this.RealValue >= param.RealValue;
-                case 5: return this.RealValue > param.RealValue;
+                case 0:  return RealValue < param.RealValue;
+                case 1:  return RealValue <= param.RealValue;
+                case 2:  return RealValue == param.RealValue;
+                case 3:  return RealValue != param.RealValue;
+                case 4:  return RealValue >= param.RealValue;
+                case 5:  return RealValue > param.RealValue;
                 default: return false;
             }
         }
 
-        protected override bool OnInitialize()
+        public override bool OnInitialize()
         {
             _value = Header->_data;
             return base.OnInitialize();
         }
 
         [Browsable(false)]
-        public string Description { get { return (Parent as MoveDefEventNode).EventInfo != null ? (Parent as MoveDefEventNode).EventInfo.pDescs[Index] : "No Description Available."; } }
+        public string Description =>
+            (Parent as MoveDefEventNode).EventInfo != null &&
+            Index < (Parent as MoveDefEventNode).EventInfo.pDescs.Length
+                ? (Parent as MoveDefEventNode).EventInfo.pDescs[Index]
+                : "No Description Available.";
 
-        public MoveDefEventParameterNode() { }
+        public MoveDefEventParameterNode()
+        {
+        }
 
-        protected override int OnCalculateSize(bool force)
+        public override int OnCalculateSize(bool force)
         {
             _lookupCount = 0;
             return 8;
         }
 
-        protected internal override void OnRebuild(VoidPtr address, int length, bool force)
+        public override void OnRebuild(VoidPtr address, int length, bool force)
         {
             _entryOffset = address;
-            FDefEventArgument* header = (FDefEventArgument*)address;
-            header->_type = (int)_type;
+            FDefEventArgument* header = (FDefEventArgument*) address;
+            header->_type = (int) _type;
             header->_data = _value;
         }
     }
 
     #region Value Nodes
-    public unsafe class MoveDefEventValueNode : MoveDefEventParameterNode
+
+    public class MoveDefEventValueNode : MoveDefEventParameterNode
     {
-        [Browsable(false)]
-        public override ArgVarType _type { get { return ArgVarType.Value; } }
+        [Browsable(false)] public override ArgVarType _type => ArgVarType.Value;
 
         [Category("MoveDef Event Value")]
-        public int Value { get { return _value; } set { if (_value < int.MaxValue) { _value = value; SignalPropertyChange(); } } }
+        public int Value
+        {
+            get => _value;
+            set
+            {
+                if (_value < int.MaxValue)
+                {
+                    _value = value;
+                    SignalPropertyChange();
+                }
+            }
+        }
 
-        public MoveDefEventValueNode(string name) { _name = name != null ? name : "Value"; }
+        public MoveDefEventValueNode(string name)
+        {
+            _name = name != null ? name : "Value";
+        }
 
-        protected override bool OnInitialize()
+        public override bool OnInitialize()
         {
             if (_name == null)
+            {
                 _name = "Value";
+            }
+
             base.OnInitialize();
             return false;
         }
     }
-    public unsafe class MoveDefEventValueEnumNode : MoveDefEventParameterNode
+
+    public class MoveDefEventValueEnumNode : MoveDefEventParameterNode
     {
         public string[] Enums = new string[0];
 
-        [Browsable(false)]
-        public override ArgVarType _type { get { return ArgVarType.Value; } }
+        [Browsable(false)] public override ArgVarType _type => ArgVarType.Value;
 
-        [Category("MoveDef Event Value"), TypeConverter(typeof(DropDownListEnumMDef))]
+        [Category("MoveDef Event Value")]
+        [TypeConverter(typeof(DropDownListEnumMDef))]
         public string Value
         {
             get
             {
                 if (_value >= 0 && _value < Enums.Length)
+                {
                     return Enums[_value];
-                else
-                    return _value.ToString();
+                }
+
+                return _value.ToString();
             }
             set
             {
                 if (!int.TryParse(value, out _value))
+                {
                     _value = Array.IndexOf(Enums, value);
+                }
 
                 if (_value == -1)
+                {
                     _value = 0;
+                }
 
                 SignalPropertyChange();
             }
         }
 
-        public MoveDefEventValueEnumNode(string name) { _name = name != null ? name : "Value"; }
+        public MoveDefEventValueEnumNode(string name)
+        {
+            _name = name != null ? name : "Value";
+        }
 
-        protected override bool OnInitialize()
+        public override bool OnInitialize()
         {
             if (_name == null)
+            {
                 _name = "Value";
+            }
+
             base.OnInitialize();
             return false;
         }
     }
-    public unsafe class MoveDefEventValue2HalfNode : MoveDefEventParameterNode
+
+    public class MoveDefEventValue2HalfNode : MoveDefEventParameterNode
     {
-        [Browsable(false)]
-        public override ArgVarType _type { get { return ArgVarType.Value; } }
+        [Browsable(false)] public override ArgVarType _type => ArgVarType.Value;
 
         [Category("MoveDef Event Value")]
-        public short Value1 { get { return (short)((_value >> 16) & 0xFFFF); } set { _value = (_value & 0xFFFF) | ((value & 0xFFFF) << 16); SignalPropertyChange(); } }
-        [Category("MoveDef Event Value")]
-        public short Value2 { get { return (short)((_value) & 0xFFFF); } set { _value = (int)((uint)_value & 0xFFFF0000) | (value & 0xFFFF); SignalPropertyChange(); } }
-        
-        public MoveDefEventValue2HalfNode(string name) { _name = name != null ? name : "Value"; }
+        public short Value1
+        {
+            get => (short) ((_value >> 16) & 0xFFFF);
+            set
+            {
+                _value = (_value & 0xFFFF) | ((value & 0xFFFF) << 16);
+                SignalPropertyChange();
+            }
+        }
 
-        protected override bool OnInitialize()
+        [Category("MoveDef Event Value")]
+        public short Value2
+        {
+            get => (short) (_value & 0xFFFF);
+            set
+            {
+                _value = (int) ((uint) _value & 0xFFFF0000) | (value & 0xFFFF);
+                SignalPropertyChange();
+            }
+        }
+
+        public MoveDefEventValue2HalfNode(string name)
+        {
+            _name = name != null ? name : "Value";
+        }
+
+        public override bool OnInitialize()
         {
             if (_name == null)
+            {
                 _name = "Value";
+            }
+
             base.OnInitialize();
             return false;
         }
     }
-    public unsafe class MoveDefEventValueHalf2ByteNode : MoveDefEventParameterNode
+
+    public class MoveDefEventValue2HalfGFXNode : MoveDefEventParameterNode
     {
-        [Browsable(false)]
-        public override ArgVarType _type { get { return ArgVarType.Value; } }
+        [Browsable(false)] public override ArgVarType _type => ArgVarType.Value;
 
         [Category("MoveDef Event Value")]
-        public short Value1 { get { return (short)((_value >> 16) & 0xFFFF); } set { _value = (_value & 0xFFFF) | ((value & 0xFFFF) << 16); SignalPropertyChange(); } }
-        [Category("MoveDef Event Value")]
-        public byte Value2 { get { return (byte)((_value >> 8) & 0xFF); } set { _value = (int)((uint)_value & 0xFFFF00FF) | ((value & 0xFF) << 8); SignalPropertyChange(); } }
-        [Category("MoveDef Event Value")]
-        public byte Value3 { get { return (byte)((_value) & 0xFF); } set { _value = (int)((uint)_value & 0xFFFFFF00) | (value & 0xFF); SignalPropertyChange(); } }
-        
-        public MoveDefEventValueHalf2ByteNode(string name) { _name = name != null ? name : "Value"; }
+        [TypeConverter(typeof(DropDownListGFXFilesMDef))]
+        public string GFXFile
+        {
+            get
+            {
+                int index = (_value >> 16) & 0xFFFF;
+                if (Root.iGFXFiles != null && Root.iGFXFiles.Length > 0 && index < Root.iGFXFiles.Length)
+                {
+                    return Root.iGFXFiles[index];
+                }
 
-        protected override bool OnInitialize()
+                return index.ToString();
+            }
+            set
+            {
+                int index = 0;
+                if (!int.TryParse(value, out index))
+                {
+                    if (Root.iGFXFiles != null && Root.iGFXFiles.Length > 0 && Root.iGFXFiles.Contains(value))
+                    {
+                        index = Array.IndexOf(Root.iGFXFiles, value);
+                    }
+                }
+
+                _value = (_value & 0xFFFF) | ((index & 0xFFFF) << 16);
+                SignalPropertyChange();
+            }
+        }
+
+        [Category("MoveDef Event Value")]
+        public short EFLSEntryIndex
+        {
+            get => (short) (_value & 0xFFFF);
+            set
+            {
+                _value = (int) ((uint) _value & 0xFFFF0000) | (value & 0xFFFF);
+                SignalPropertyChange();
+            }
+        }
+
+        public MoveDefEventValue2HalfGFXNode(string name)
+        {
+            _name = name != null ? name : "Value";
+        }
+
+        public override bool OnInitialize()
         {
             if (_name == null)
+            {
                 _name = "Value";
+            }
+
             base.OnInitialize();
             return false;
         }
     }
-    public unsafe class MoveDefEventValue2ByteHalfNode : MoveDefEventParameterNode
+
+    public class MoveDefEventValueHalf2ByteNode : MoveDefEventParameterNode
     {
-        [Browsable(false)]
-        public override ArgVarType _type { get { return ArgVarType.Value; } }
+        [Browsable(false)] public override ArgVarType _type => ArgVarType.Value;
 
         [Category("MoveDef Event Value")]
-        public byte Value1 { get { return (byte)((_value >> 24) & 0xFF); } set { _value = (int)((uint)_value & 0x00FFFFFF) | ((value & 0xFF) << 24); SignalPropertyChange(); } }
-        [Category("MoveDef Event Value")]
-        public byte Value2 { get { return (byte)((_value >> 16) & 0xFF); } set { _value = (int)((uint)_value & 0xFF00FFFF) | ((value & 0xFF) << 16); SignalPropertyChange(); } }
-        [Category("MoveDef Event Value")]
-        public short Value3 { get { return (short)((_value) & 0xFFFF); } set { _value = (int)((uint)_value & 0xFFFF0000) | (value & 0xFFFF); SignalPropertyChange(); } }
-        
-        public MoveDefEventValue2ByteHalfNode(string name) { _name = name != null ? name : "Value"; }
+        public short Value1
+        {
+            get => (short) ((_value >> 16) & 0xFFFF);
+            set
+            {
+                _value = (_value & 0xFFFF) | ((value & 0xFFFF) << 16);
+                SignalPropertyChange();
+            }
+        }
 
-        protected override bool OnInitialize()
+        [Category("MoveDef Event Value")]
+        public byte Value2
+        {
+            get => (byte) ((_value >> 8) & 0xFF);
+            set
+            {
+                _value = (int) ((uint) _value & 0xFFFF00FF) | ((value & 0xFF) << 8);
+                SignalPropertyChange();
+            }
+        }
+
+        [Category("MoveDef Event Value")]
+        public byte Value3
+        {
+            get => (byte) (_value & 0xFF);
+            set
+            {
+                _value = (int) ((uint) _value & 0xFFFFFF00) | (value & 0xFF);
+                SignalPropertyChange();
+            }
+        }
+
+        public MoveDefEventValueHalf2ByteNode(string name)
+        {
+            _name = name != null ? name : "Value";
+        }
+
+        public override bool OnInitialize()
         {
             if (_name == null)
+            {
                 _name = "Value";
+            }
+
             base.OnInitialize();
             return false;
         }
     }
-    public unsafe class MoveDefEventValue4ByteNode : MoveDefEventParameterNode
+
+    public class MoveDefEventValue2ByteHalfNode : MoveDefEventParameterNode
     {
-        [Browsable(false)]
-        public override ArgVarType _type { get { return ArgVarType.Value; } }
+        [Browsable(false)] public override ArgVarType _type => ArgVarType.Value;
 
         [Category("MoveDef Event Value")]
-        public byte Value1 { get { return (byte)((_value >> 24) & 0xFF); } set { _value = (int)((uint)_value & 0x00FFFFFF) | ((value & 0xFF) << 24); SignalPropertyChange(); } }
-        [Category("MoveDef Event Value")]
-        public byte Value2 { get { return (byte)((_value >> 16) & 0xFF); } set { _value = (int)((uint)_value & 0xFF00FFFF) | ((value & 0xFF) << 16); SignalPropertyChange(); } }
-        [Category("MoveDef Event Value")]
-        public byte Value3 { get { return (byte)((_value >> 8) & 0xFF); } set { _value = (int)((uint)_value & 0xFFFF00FF) | ((value & 0xFF) << 8); SignalPropertyChange(); } }
-        [Category("MoveDef Event Value")]
-        public byte Value4 { get { return (byte)((_value) & 0xFF); } set { _value = (int)((uint)_value & 0xFFFFFF00) | (value & 0xFF); SignalPropertyChange(); } }
-        
-        public MoveDefEventValue4ByteNode(string name) { _name = name != null ? name : "Value"; }
+        public byte Value1
+        {
+            get => (byte) ((_value >> 24) & 0xFF);
+            set
+            {
+                _value = (int) ((uint) _value & 0x00FFFFFF) | ((value & 0xFF) << 24);
+                SignalPropertyChange();
+            }
+        }
 
-        protected override bool OnInitialize()
+        [Category("MoveDef Event Value")]
+        public byte Value2
+        {
+            get => (byte) ((_value >> 16) & 0xFF);
+            set
+            {
+                _value = (int) ((uint) _value & 0xFF00FFFF) | ((value & 0xFF) << 16);
+                SignalPropertyChange();
+            }
+        }
+
+        [Category("MoveDef Event Value")]
+        public short Value3
+        {
+            get => (short) (_value & 0xFFFF);
+            set
+            {
+                _value = (int) ((uint) _value & 0xFFFF0000) | (value & 0xFFFF);
+                SignalPropertyChange();
+            }
+        }
+
+        public MoveDefEventValue2ByteHalfNode(string name)
+        {
+            _name = name != null ? name : "Value";
+        }
+
+        public override bool OnInitialize()
         {
             if (_name == null)
+            {
                 _name = "Value";
+            }
+
             base.OnInitialize();
             return false;
         }
     }
+
+    public class MoveDefEventValue4ByteNode : MoveDefEventParameterNode
+    {
+        [Browsable(false)] public override ArgVarType _type => ArgVarType.Value;
+
+        [Category("MoveDef Event Value")]
+        public byte Value1
+        {
+            get => (byte) ((_value >> 24) & 0xFF);
+            set
+            {
+                _value = (int) ((uint) _value & 0x00FFFFFF) | ((value & 0xFF) << 24);
+                SignalPropertyChange();
+            }
+        }
+
+        [Category("MoveDef Event Value")]
+        public byte Value2
+        {
+            get => (byte) ((_value >> 16) & 0xFF);
+            set
+            {
+                _value = (int) ((uint) _value & 0xFF00FFFF) | ((value & 0xFF) << 16);
+                SignalPropertyChange();
+            }
+        }
+
+        [Category("MoveDef Event Value")]
+        public byte Value3
+        {
+            get => (byte) ((_value >> 8) & 0xFF);
+            set
+            {
+                _value = (int) ((uint) _value & 0xFFFF00FF) | ((value & 0xFF) << 8);
+                SignalPropertyChange();
+            }
+        }
+
+        [Category("MoveDef Event Value")]
+        public byte Value4
+        {
+            get => (byte) (_value & 0xFF);
+            set
+            {
+                _value = (int) ((uint) _value & 0xFFFFFF00) | (value & 0xFF);
+                SignalPropertyChange();
+            }
+        }
+
+        public MoveDefEventValue4ByteNode(string name)
+        {
+            _name = name != null ? name : "Value";
+        }
+
+        public override bool OnInitialize()
+        {
+            if (_name == null)
+            {
+                _name = "Value";
+            }
+
+            base.OnInitialize();
+            return false;
+        }
+    }
+
     #endregion
 
-    public unsafe class MoveDefEventUnkNode : MoveDefEventParameterNode
+    public class MoveDefEventUnkNode : MoveDefEventParameterNode
     {
-        [Browsable(false)]
-        public override ArgVarType _type { get { return ArgVarType.Unknown; } }
+        [Browsable(false)] public override ArgVarType _type => ArgVarType.Unknown;
 
         [Category("MoveDef Event File")]
-        public int Value { get { return _value; } set { if (_value < int.MaxValue) { _value = value; SignalPropertyChange(); } } }
+        public int Value
+        {
+            get => _value;
+            set
+            {
+                if (_value < int.MaxValue)
+                {
+                    _value = value;
+                    SignalPropertyChange();
+                }
+            }
+        }
 
-        public MoveDefEventUnkNode(string name) { _name = name != null ? name : "Unknown"; }
+        public MoveDefEventUnkNode(string name)
+        {
+            _name = name != null ? name : "Unknown";
+        }
 
-        protected override bool OnInitialize()
+        public override bool OnInitialize()
         {
             if (_name == null)
+            {
                 _name = "Unknown";
-            MessageBox.Show(TreePath);
+            }
+
+            //MessageBox.Show(TreePath);
             base.OnInitialize();
             return false;
         }
     }
+
     public unsafe class MoveDefEventOffsetNode : MoveDefEventParameterNode
     {
-        [Browsable(false)]
-        public override ArgVarType _type { get { return ArgVarType.Offset; } }
+        [Browsable(false)] public override ArgVarType _type => ArgVarType.Offset;
 
         public int list, type, index;
 
         [Category("MoveDef Event Offset")]
         public int RawOffset
         {
-            get { return _value; }
+            get => _value;
             set
             {
                 //if (value < 0)
@@ -250,97 +492,132 @@ namespace BrawlLib.SSBB.ResourceNodes
                 //    return;
                 //}
                 ResourceNode r = Root.FindNode(value);
-                if (r != null && r is MoveDefActionNode)
+                if (r is MoveDefActionNode)
                 {
                     _value = value;
                     SignalPropertyChange();
                 }
-                else MessageBox.Show("An action could not be located.");
+                else
+                {
+                    MessageBox.Show("An action could not be located.");
+                }
             }
         }
-        [Category("MoveDef Event Offset"), Browsable(true), TypeConverter(typeof(DropDownListExtNodesMDef))]
+
+        [Category("MoveDef Event Offset")]
+        [Browsable(true)]
+        [TypeConverter(typeof(DropDownListExtNodesMDef))]
         public string ExternalNode
         {
-            get
-            {
-                return _extNode != null ? _extNode.Name : null;
-            }
+            get => _extNode != null ? _extNode.Name : null;
             set
             {
                 if (_extNode != null)
                 {
-                    if (_extNode._parent is MoveDefSectionNode)
-                    {
-                        MessageBox.Show("Section references are not editable.");
-                        return;
-                    }
-
                     if (_extNode.Name != value)
+                    {
                         _extNode._refs.Remove(this);
+                    }
                 }
-                foreach (MoveDefExternalNode e in Root._external)
+
+                foreach (MoveDefExternalNode e in Root._externalRefs)
+                {
                     if (e.Name == value)
                     {
                         _extNode = e;
                         e._refs.Add(this);
                         Name = e.Name;
                         action = null;
-                        list = 4;
+                        list = 3;
+                        index = _extNode.Index;
                     }
+                }
 
                 if (_extNode == null)
+                {
                     Name = "Offset";
+                }
             }
         }
 
         public MoveDefActionNode GetAction()
         {
             ResourceNode r = Root.FindNode(RawOffset);
-            if (r != null && r is MoveDefActionNode)
-                return r as MoveDefActionNode;
-            return null;
+            return r as MoveDefActionNode;
         }
 
         public MoveDefActionNode action;
 
-        public MoveDefEventOffsetNode(string name) { _name = name != null ? name : "Offset"; }
+        public MoveDefEventOffsetNode(string name)
+        {
+            _name = name != null ? name : "Offset";
+        }
 
-        protected override bool OnInitialize()
+        public override bool OnInitialize()
         {
             base.OnInitialize();
 
             if (RawOffset > 0)
             {
-                action = Root.GetAction(RawOffset);
-                if (action == null)
-                    action = GetAction();
+                Root.GetLocation(RawOffset, out list, out type, out index);
+                if (!External)
+                {
+                    action = Root.GetAction(list, type, index);
+                    if (action == null)
+                    {
+                        action = GetAction();
+                    }
+                }
+            }
+            else if (RawOffset < 0 && External)
+            {
+                action = null;
+                index = _extNode.Index;
+                list = 3;
+                type = -1;
+            }
+            else
+            {
+                action = null;
+                index = -1;
+                list = 4;
+                type = -1;
             }
 
             if (_name == null)
+            {
                 _name = "Offset";
+            }
 
             return false;
         }
 
-        protected override int OnCalculateSize(bool force)
+        public override int OnCalculateSize(bool force)
         {
             if (action != null)
+            {
                 _lookupCount = 1;
+            }
+
             return 8;
         }
 
         public override void PostProcess()
         {
-            FDefEventArgument* arg = (FDefEventArgument*)_entryOffset;
-            arg->_type = (int)_type;
+            FDefEventArgument* arg = (FDefEventArgument*) _entryOffset;
+            arg->_type = (int) _type;
             if (action != null)
             {
                 if (action._entryOffset == 0)
+                {
                     Console.WriteLine("Action offset = 0");
-                
-                arg->_data = (int)action._entryOffset - (int)action._rebuildBase;
+                }
+
+                arg->_data = (int) action._entryOffset - (int) action._rebuildBase;
                 if (arg->_data > 0)
-                    Root._lookupOffsets.Add((int)arg->_data.Address - (int)_rebuildBase);
+                {
+                    MoveDefNode._lookupOffsets.Add((int) arg->_data.Address - (int) _rebuildBase);
+                }
             }
             else
             {
@@ -348,101 +625,163 @@ namespace BrawlLib.SSBB.ResourceNodes
                 if (External)
                 {
                     if (_extNode is MoveDefReferenceEntryNode)
+                    {
                         _entryOffset += 4;
+                    }
                 }
                 else
+                {
                     foreach (MoveDefReferenceEntryNode e in Root.references.Children)
-                        if (e.Name == this.Name)
+                    {
+                        if (e.Name == Name)
                         {
                             _extNode = e;
                             //if (!e._refs.Contains(this))
-                                e._refs.Add(this);
+                            e._refs.Add(this);
                             _entryOffset += 4;
                             break;
                         }
+                    }
+                }
             }
         }
     }
 
-    public unsafe class MoveDefEventScalarNode : MoveDefEventParameterNode
+    public class MoveDefEventScalarNode : MoveDefEventParameterNode
     {
-        [Browsable(false)]
-        public override ArgVarType _type { get { return ArgVarType.Scalar; } }
+        [Browsable(false)] public override ArgVarType _type => ArgVarType.Scalar;
 
         [Category("MoveDef Event Scalar Value")]
-        public float Value { get { return (float)_value / 60000f; } set { if (value * 60000f < int.MaxValue) { _value = Convert.ToInt32(value * 60000f); SignalPropertyChange(); } } }
+        public float Value
+        {
+            get => (float) _value / 60000f;
+            set
+            {
+                if (value * 60000f < int.MaxValue)
+                {
+                    _value = Convert.ToInt32(value * 60000f);
+                    SignalPropertyChange();
+                }
+            }
+        }
 
-        public MoveDefEventScalarNode(string name) { _name = name != null ? name : "Scalar"; }
+        public MoveDefEventScalarNode(string name)
+        {
+            _name = name != null ? name : "Scalar";
+        }
 
-        protected override bool OnInitialize()
+        public override bool OnInitialize()
         {
             if (_name == null)
+            {
                 _name = "Scalar";
+            }
+
             base.OnInitialize();
             return false;
         }
     }
 
-    public unsafe class MoveDefEventBoolNode : MoveDefEventParameterNode
+    public class MoveDefEventBoolNode : MoveDefEventParameterNode
     {
-        [Browsable(false)]
-        public override ArgVarType _type { get { return ArgVarType.Boolean; } }
+        [Browsable(false)] public override ArgVarType _type => ArgVarType.Boolean;
 
         [Category("MoveDef Event Boolean")]
-        public bool Value { get { return _value == 1 ? true : false; } set { _value = value ? 1 : 0; SignalPropertyChange(); } }
+        public bool Value
+        {
+            get => _value == 1 ? true : false;
+            set
+            {
+                _value = value ? 1 : 0;
+                SignalPropertyChange();
+            }
+        }
 
-        public MoveDefEventBoolNode(string name) { _name = name != null ? name : "Boolean"; }
+        public MoveDefEventBoolNode(string name)
+        {
+            _name = name != null ? name : "Boolean";
+        }
 
-        protected override bool OnInitialize()
+        public override bool OnInitialize()
         {
             if (_name == null)
+            {
                 _name = "Boolean";
+            }
+
             base.OnInitialize();
             return false;
         }
     }
 
-    public unsafe class MoveDefEventVariableNode : MoveDefEventParameterNode
+    public class MoveDefEventVariableNode : MoveDefEventParameterNode
     {
         internal string val;
 
-        [Browsable(false)]
-        public override ArgVarType _type { get { return ArgVarType.Variable; } }
+        [Browsable(false)] public override ArgVarType _type => ArgVarType.Variable;
 
         internal int number;
         internal VarMemType mem;
         internal VariableType type;
 
         [Category("MoveDef Event Variable")]
-        public VarMemType MemType { get { return mem; } set { mem = value; GetValue(); SignalPropertyChange(); } }
-        [Category("MoveDef Event Variable")]
-        public VariableType VarType { get { return type; } set { type = value; GetValue(); SignalPropertyChange(); } }
-        [Category("MoveDef Event Variable")]
-        public int Number { get { return number; } set { number = value; GetValue(); SignalPropertyChange(); } }
-
-        public MoveDefEventVariableNode(string name) { _name = name != null ? name : "Variable"; }
-
-        public override float RealValue
+        public VarMemType MemType
         {
-            get
+            get => mem;
+            set
             {
-                //Get stored variable value
-                return base.RealValue;
+                mem = value;
+                GetValue();
+                SignalPropertyChange();
             }
         }
 
-        protected override bool OnInitialize()
+        [Category("MoveDef Event Variable")]
+        public VariableType VarType
+        {
+            get => type;
+            set
+            {
+                type = value;
+                GetValue();
+                SignalPropertyChange();
+            }
+        }
+
+        [Category("MoveDef Event Variable")]
+        public int Number
+        {
+            get => number;
+            set
+            {
+                number = value;
+                GetValue();
+                SignalPropertyChange();
+            }
+        }
+
+        public MoveDefEventVariableNode(string name)
+        {
+            _name = name != null ? name : "Variable";
+        }
+
+        public override float RealValue => base.RealValue;
+
+        public override bool OnInitialize()
         {
             if (_name == null)
+            {
                 _name = "Variable";
+            }
+
             base.OnInitialize();
-            val = ResolveVariable((long)_value);
+            val = ResolveVariable((long) _value);
             return false;
         }
 
         public void GetValue()
         {
-            val = ResolveVariable(_value = ((int)mem * 0x10000000) + ((int)type * 0x1000000) + number);
+            val = ResolveVariable(_value = (int) mem * 0x10000000 + (int) type * 0x1000000 + number.Clamp(0, 0xFFFFFF));
         }
 
         public enum VarMemType
@@ -469,42 +808,102 @@ namespace BrawlLib.SSBB.ResourceNodes
             string variableName = "";
             long variableMemType = (value & 0xF0000000) / 0x10000000;
             long variableType = (value & 0xF000000) / 0x1000000;
-            long variableNumber = (value & 0xFF);
-            if (variableMemType == 0) { variableName = "IC-"; mem = VarMemType.IC; }
-            if (variableMemType == 1) { variableName = "LA-"; mem = VarMemType.LA; }
-            if (variableMemType == 2) { variableName = "RA-"; mem = VarMemType.RA; }
-            if (variableType == 0) { variableName += "Basic"; type = VariableType.Basic; }
-            if (variableType == 1) { variableName += "Float"; type = VariableType.Float; }
-            if (variableType == 2) { variableName += "Bit"; type = VariableType.Bit; }
-            variableName += "[" + (number = (int)variableNumber) + "]";
+            long variableNumber = value & 0xFFFFFF;
+            if (variableMemType == 0)
+            {
+                variableName = "IC-";
+                mem = VarMemType.IC;
+            }
+
+            if (variableMemType == 1)
+            {
+                variableName = "LA-";
+                mem = VarMemType.LA;
+            }
+
+            if (variableMemType == 2)
+            {
+                variableName = "RA-";
+                mem = VarMemType.RA;
+            }
+
+            if (variableType == 0)
+            {
+                variableName += "Basic";
+                type = VariableType.Basic;
+            }
+
+            if (variableType == 1)
+            {
+                variableName += "Float";
+                type = VariableType.Float;
+            }
+
+            if (variableType == 2)
+            {
+                variableName += "Bit";
+                type = VariableType.Bit;
+            }
+
+            variableName += "[" + (number = (int) variableNumber) + "]";
 
             return variableName;
         }
     }
 
-    public unsafe class MoveDefEventRequirementNode : MoveDefEventParameterNode
+    public class MoveDefEventRequirementNode : MoveDefEventParameterNode
     {
         internal string val;
 
-        [Browsable(false)]
-        public override ArgVarType _type { get { return ArgVarType.Requirement; } }
+        [Browsable(false)] public override ArgVarType _type => ArgVarType.Requirement;
 
         internal bool not;
         internal string arg;
 
-        [Category("MoveDef Event Requirement"), TypeConverter(typeof(DropDownListRequirementsMDef))]
-        public string Requirement { get { return arg; } set { if (Array.IndexOf(Root.iRequirements, value) == -1) return; arg = value; GetValue(); SignalPropertyChange(); } }
         [Category("MoveDef Event Requirement")]
-        public bool Not { get { return not; } set { not = value; GetValue(); SignalPropertyChange(); } }
+        [TypeConverter(typeof(DropDownListRequirementsMDef))]
+        public string Requirement
+        {
+            get => arg;
+            set
+            {
+                if (Array.IndexOf(Root.iRequirements, value) == -1)
+                {
+                    return;
+                }
 
-        public MoveDefEventRequirementNode(string name) { _name = name != null ? name : "Requirement"; }
+                arg = value;
+                GetValue();
+                SignalPropertyChange();
+            }
+        }
 
-        protected override bool OnInitialize()
+        [Category("MoveDef Event Requirement")]
+        public bool Not
+        {
+            get => not;
+            set
+            {
+                not = value;
+                GetValue();
+                SignalPropertyChange();
+            }
+        }
+
+        public MoveDefEventRequirementNode(string name)
+        {
+            _name = name != null ? name : "Requirement";
+        }
+
+        public override bool OnInitialize()
         {
             if (_name == null)
+            {
                 _name = "Requirement";
+            }
+
             base.OnInitialize();
-            val = GetRequirement((long)_value);
+            val = GetRequirement((long) _value);
             return false;
         }
 
@@ -520,8 +919,12 @@ namespace BrawlLib.SSBB.ResourceNodes
         public void GetValue()
         {
             long value = Array.IndexOf(Root.iRequirements, arg);
-            if (not) value |= 0x80000000;
-            val = GetRequirement(_value = (int)value);
+            if (not)
+            {
+                value |= 0x80000000;
+            }
+
+            val = GetRequirement(_value = (int) value);
         }
 
         public override string ToString()
@@ -535,53 +938,181 @@ namespace BrawlLib.SSBB.ResourceNodes
             long requirement = value & 0xFF;
 
             if (requirement > 0x7F)
+            {
                 return requirement.ToString("X");
+            }
 
-            if (not == true)
+            if (not)
+            {
                 return "Not " + (arg = Root.iRequirements[requirement]);
+            }
 
-            return (arg = Root.iRequirements[requirement]);
+            return arg = Root.iRequirements[requirement];
         }
     }
 
     #region htBoxes
-    public unsafe class HitboxFlagsNode : MoveDefEventParameterNode
+
+    public class HitboxFlagsNode : MoveDefEventParameterNode
     {
-        internal HitboxFlags val = new HitboxFlags();
+        internal HitboxFlags val;
+
+        public string HexValue
+        {
+            get => _value.ToString("X");
+            set
+            {
+                val.data = _value = int.Parse(value, System.Globalization.NumberStyles.HexNumber);
+                GetFlags();
+            }
+        }
 
         public int effect, unk1, sound, unk2, ground, air, unk3, type, clang, unk4, direct, unk5;
 
         [Category("MoveDef Hitbox Flags")]
-        public MParams.HitboxEffect Effect { get { return (MParams.HitboxEffect)val.Effect; } set { effect = (int)value; CalcFlags(); } }
-        [Category("MoveDef Hitbox Flags")]
-        public bool Unk1 { get { return val.Unk1 != 0; } set { unk1 = value ? 1 : 0; CalcFlags(); } }
-        [Category("MoveDef Hitbox Flags")]
-        public MParams.HitboxSFX Sound { get { return (MParams.HitboxSFX)val.Sound; } set { sound = (int)value; CalcFlags(); } }
-        [Category("MoveDef Hitbox Flags")]
-        public int Unk2 { get { return val.Unk2; } set { unk2 = (int)value; CalcFlags(); } }
-        [Category("MoveDef Hitbox Flags")]
-        public bool Grounded { get { return val.Grounded != 0; } set { ground = value ? 1 : 0; CalcFlags(); } }
-        [Category("MoveDef Hitbox Flags")]
-        public bool Aerial { get { return val.Aerial != 0; } set { air = value ? 1 : 0; CalcFlags(); } }
-        [Category("MoveDef Hitbox Flags")]
-        public int Unk3 { get { return val.Unk3; } set { unk3 = (int)value; CalcFlags(); } }
-        [Category("MoveDef Hitbox Flags")]
-        public MParams.HitboxType Type { get { return (MParams.HitboxType)val.Type; } set { type = (int)value; CalcFlags(); } }
-        [Category("MoveDef Hitbox Flags")]
-        public bool Clang { get { return val.Clang != 0; } set { clang = value ? 1 : 0; CalcFlags(); } }
-        [Category("MoveDef Hitbox Flags")]
-        public bool Unk4 { get { return val.Unk4 != 0; } set { unk4 = value ? 1 : 0; CalcFlags(); } }
-        [Category("MoveDef Hitbox Flags")]
-        public bool Direct { get { return val.Direct != 0; } set { direct = value ? 1 : 0; CalcFlags(); } }
-        [Category("MoveDef Hitbox Flags")]
-        public int Unk5 { get { return val.Unk5; } set { unk5 = (int)value; CalcFlags(); } }
+        public HitboxEffect Effect
+        {
+            get => (HitboxEffect) val.Effect;
+            set
+            {
+                effect = (int) value;
+                CalcFlags();
+            }
+        }
 
-        public HitboxFlagsNode(string name) { _name = name != null ? name : "Flags"; }
+        [Category("MoveDef Hitbox Flags")]
+        public bool Unk1
+        {
+            get => val.Unk1 != 0;
+            set
+            {
+                unk1 = value ? 1 : 0;
+                CalcFlags();
+            }
+        }
 
-        protected override bool OnInitialize()
+        [Category("MoveDef Hitbox Flags")]
+        public HitboxSFX Sound
+        {
+            get => (HitboxSFX) val.Sound;
+            set
+            {
+                sound = (int) value;
+                CalcFlags();
+            }
+        }
+
+        [Category("MoveDef Hitbox Flags")]
+        public int Unk2
+        {
+            get => val.Unk2;
+            set
+            {
+                unk2 = (int) value;
+                CalcFlags();
+            }
+        }
+
+        [Category("MoveDef Hitbox Flags")]
+        public bool Grounded
+        {
+            get => val.Grounded != 0;
+            set
+            {
+                ground = value ? 1 : 0;
+                CalcFlags();
+            }
+        }
+
+        [Category("MoveDef Hitbox Flags")]
+        public bool Aerial
+        {
+            get => val.Aerial != 0;
+            set
+            {
+                air = value ? 1 : 0;
+                CalcFlags();
+            }
+        }
+
+        [Category("MoveDef Hitbox Flags")]
+        public int Unk3
+        {
+            get => val.Unk3;
+            set
+            {
+                unk3 = (int) value;
+                CalcFlags();
+            }
+        }
+
+        [Category("MoveDef Hitbox Flags")]
+        public HitboxType Type
+        {
+            get => (HitboxType) val.Type;
+            set
+            {
+                type = (int) value;
+                CalcFlags();
+            }
+        }
+
+        [Category("MoveDef Hitbox Flags")]
+        public bool Clang
+        {
+            get => val.Clang != 0;
+            set
+            {
+                clang = value ? 1 : 0;
+                CalcFlags();
+            }
+        }
+
+        [Category("MoveDef Hitbox Flags")]
+        public bool Unk4
+        {
+            get => val.Unk4 != 0;
+            set
+            {
+                unk4 = value ? 1 : 0;
+                CalcFlags();
+            }
+        }
+
+        [Category("MoveDef Hitbox Flags")]
+        public bool Direct
+        {
+            get => val.Direct != 0;
+            set
+            {
+                direct = value ? 1 : 0;
+                CalcFlags();
+            }
+        }
+
+        [Category("MoveDef Hitbox Flags")]
+        public int Unk5
+        {
+            get => val.Unk5;
+            set
+            {
+                unk5 = (int) value;
+                CalcFlags();
+            }
+        }
+
+        public HitboxFlagsNode(string name)
+        {
+            _name = name != null ? name : "Flags";
+        }
+
+        public override bool OnInitialize()
         {
             if (_name == null)
+            {
                 _name = "Flags";
+            }
+
             base.OnInitialize();
             val.data = _value;
             GetFlags();
@@ -590,19 +1121,18 @@ namespace BrawlLib.SSBB.ResourceNodes
 
         private void CalcFlags()
         {
-            val.data = (
-                (effect << 0) |
-                (unk1 << 5) |
-                (sound << 6) |
-                (unk2 << 14) |
-                (ground << 16) |
-                (air << 17) |
-                (unk3 << 18) |
-                (type << 22) |
-                (clang << 27) |
-                (unk4 << 28) |
-                (direct << 29) |
-                (unk5 << 30));
+            val.data = (effect << 0) |
+                       (unk1 << 5) |
+                       (sound << 6) |
+                       (unk2 << 14) |
+                       (ground << 16) |
+                       (air << 17) |
+                       (unk3 << 18) |
+                       (type << 22) |
+                       (clang << 27) |
+                       (unk4 << 28) |
+                       (direct << 29) |
+                       (unk5 << 30);
 
             _value = val.data;
 
@@ -644,130 +1174,409 @@ namespace BrawlLib.SSBB.ResourceNodes
         //0010 0000 0000 0000 0000 0000 0000 0000   Direct
         //1100 0000 0000 0000 0000 0000 0000 0000   Unknown5
 
-        public int Effect { get { return (data & 0x1F); } }
-        public int Unk1 { get { return ((data >> 5) & 1); } }
-        public int Sound { get { return ((data >> 6) & 0xFF); } }
-        public int Unk2 { get { return ((data >> 14) & 3); } }
-        public int Grounded { get { return ((data >> 16) & 1); } }
-        public int Aerial { get { return ((data >> 17) & 1); } }
-        public int Unk3 { get { return ((data >> 18) & 0xF); } }
-        public int Type { get { return ((data >> 22) & 0x1F); } }
-        public int Clang { get { return ((data >> 27) & 1); } }
-        public int Unk4 { get { return ((data >> 28) & 1); } }
-        public int Direct { get { return ((data >> 29) & 1); } }
-        public int Unk5 { get { return ((data >> 30) & 3); } }
+        public int Effect => data & 0x1F;
+        public int Unk1 => (data >> 5) & 1;
+        public int Sound => (data >> 6) & 0xFF;
+        public int Unk2 => (data >> 14) & 3;
+        public int Grounded => (data >> 16) & 1;
+        public int Aerial => (data >> 17) & 1;
+        public int Unk3 => (data >> 18) & 0xF;
+        public int Type => (data >> 22) & 0x1F;
+        public int Clang => (data >> 27) & 1;
+        public int Unk4 => (data >> 28) & 1;
+        public int Direct => (data >> 29) & 1;
+        public int Unk5 => (data >> 30) & 3;
 
         public int data;
     }
 
-    public unsafe class SpecialHitboxFlagsNode : MoveDefEventParameterNode
+    public class SpecialHitboxFlagsNode : MoveDefEventParameterNode
     {
-        internal SpecialHitboxFlags val = new SpecialHitboxFlags();
+        internal SpecialHitboxFlags val;
 
-        public int angleFlipping, unk1, stretches, unk2, shield, absorb, reflect, unk3, invinc, grip, unk4, freeze, sleep, flinch;
-        public Bin16 hitBits = new Bin16();
+        public string HexValue
+        {
+            get => _value.ToString("X");
+            set
+            {
+                val.data = _value = int.Parse(value, System.Globalization.NumberStyles.HexNumber);
+                GetFlags();
+            }
+        }
 
-        [Category("Special Hitbox Flags")]
-        public int AngleFlipping { get { return val.AngleFlipping; } set { angleFlipping = value; CalcFlags(); } }
-        [Category("Special Hitbox Flags")]
-        public bool Unk1 { get { return val.Unk1 != 0; } set { unk1 = value ? 1 : 0; CalcFlags(); } }
-        [Category("Special Hitbox Flags")]
-        public bool Stretches { get { return val.Stretches != 0; } set { stretches = value ? 1 : 0; CalcFlags(); } }
-        [Category("Special Hitbox Flags")]
-        public bool Unk2 { get { return val.Unk2 != 0; } set { unk2 = value ? 1 : 0; CalcFlags(); } }
+        public int angleFlipping,
+            unk1,
+            stretches,
+            unk2,
+            shield,
+            absorb,
+            reflect,
+            unk3,
+            invinc,
+            grip,
+            unk4,
+            freeze,
+            sleep,
+            flinch;
 
-        [Category("Hit Flags")]
-        public bool CanHitMultiplayerCharacters { get { return val.GetHitBit(0) != 0; } set { hitBits[0] = value; CalcFlags(); } }
-        [Category("Hit Flags")]
-        public bool CanHitSSEenemies { get { return val.GetHitBit(1) != 0; } set { hitBits[1] = value; CalcFlags(); } }
-        [Category("Hit Flags")]
-        public bool CanHitUnk1 { get { return val.GetHitBit(2) != 0; } set { hitBits[2] = value; CalcFlags(); } }
-        [Category("Hit Flags")]
-        public bool CanHitUnk2 { get { return val.GetHitBit(3) != 0; } set { hitBits[3] = value; CalcFlags(); } }
-        [Category("Hit Flags")]
-        public bool CanHitUnk3 { get { return val.GetHitBit(4) != 0; } set { hitBits[4] = value; CalcFlags(); } }
-        [Category("Hit Flags")]
-        public bool CanHitUnk4 { get { return val.GetHitBit(5) != 0; } set { hitBits[5] = value; CalcFlags(); } }
-        [Category("Hit Flags")]
-        public bool CanHitUnk5 { get { return val.GetHitBit(6) != 0; } set { hitBits[6] = value; CalcFlags(); } }
-        [Category("Hit Flags")]
-        public bool CanHitDamageableCeilings { get { return val.GetHitBit(7) != 0; } set { hitBits[7] = value; CalcFlags(); } }
-        [Category("Hit Flags")]
-        public bool CanHitDamageableWalls { get { return val.GetHitBit(8) != 0; } set { hitBits[8] = value; CalcFlags(); } }
-        [Category("Hit Flags")]
-        public bool CanHitDamageableFloors { get { return val.GetHitBit(9) != 0; } set { hitBits[9] = value; CalcFlags(); } }
-        [Category("Hit Flags")]
-        public bool CanHitUnk6 { get { return val.GetHitBit(10) != 0; } set { hitBits[10] = value; CalcFlags(); } }
-        [Category("Hit Flags")]
-        public bool CanHitUnk7 { get { return val.GetHitBit(11) != 0; } set { hitBits[11] = value; CalcFlags(); } }
-        [Category("Hit Flags")]
-        public bool CanHitUnk8 { get { return val.GetHitBit(12) != 0; } set { hitBits[12] = value; CalcFlags(); } }
-        [Category("Hit Flags")]
-        public bool Enabled { get { return val.GetHitBit(13) != 0; } set { hitBits[13] = value; CalcFlags(); } }
+        public Bin16 hitBits;
 
         [Category("Special Hitbox Flags")]
-        public int Unk3 { get { return val.Unk3; } set { unk3 = (int)value; CalcFlags(); } }
-        [Category("Special Hitbox Flags")]
-        public bool CanBeShielded { get { return val.Shieldable != 0; } set { shield = value ? 1 : 0; CalcFlags(); } }
-        [Category("Special Hitbox Flags")]
-        public bool CanBeAbsorbed { get { return val.Absorbable != 0; } set { absorb = value ? 1 : 0; CalcFlags(); } }
-        [Category("Special Hitbox Flags")]
-        public bool CanBeReflected { get { return val.Reflectable != 0; } set { reflect = value ? 1 : 0; CalcFlags(); } }
-        [Category("Special Hitbox Flags")]
-        public int Unk4 { get { return val.Unk4; } set { unk4 = (int)value; CalcFlags(); } }
-        [Category("Special Hitbox Flags")]
-        public bool HittingGrippedCharacter { get { return val.Gripped != 0; } set { grip = value ? 1 : 0; CalcFlags(); } }
-        [Category("Special Hitbox Flags")]
-        public bool IgnoreInvincibility { get { return val.IgnoreInv != 0; } set { invinc = value ? 1 : 0; CalcFlags(); } }
-        [Category("Special Hitbox Flags")]
-        public bool FreezeFrameDisable { get { return val.NoFreeze != 0; } set { freeze = value ? 1 : 0; CalcFlags(); } }
-        [Category("Special Hitbox Flags")]
-        public bool PutsToSleep { get { return val.Sleep != 0; } set { sleep = value ? 1 : 0; CalcFlags(); } }
-        [Category("Special Hitbox Flags")]
-        public bool Flinchless { get { return val.Flinchless != 0; } set { flinch = value ? 1 : 0; CalcFlags(); } }
+        public int AngleFlipping
+        {
+            get => val.AngleFlipping;
+            set
+            {
+                angleFlipping = value;
+                CalcFlags();
+            }
+        }
 
-        public SpecialHitboxFlagsNode(string name) { _name = name != null ? name : "Special Flags"; }
+        [Category("Special Hitbox Flags")]
+        public bool Unk1
+        {
+            get => val.Unk1 != 0;
+            set
+            {
+                unk1 = value ? 1 : 0;
+                CalcFlags();
+            }
+        }
 
-        protected override bool OnInitialize()
+        [Category("Special Hitbox Flags")]
+        public bool Stretches
+        {
+            get => val.Stretches != 0;
+            set
+            {
+                stretches = value ? 1 : 0;
+                CalcFlags();
+            }
+        }
+
+        [Category("Special Hitbox Flags")]
+        public bool Unk2
+        {
+            get => val.Unk2 != 0;
+            set
+            {
+                unk2 = value ? 1 : 0;
+                CalcFlags();
+            }
+        }
+
+        [Category("Hit Flags")]
+        public bool CanHitMultiplayerCharacters
+        {
+            get => val.GetHitBit(0) != 0;
+            set
+            {
+                hitBits[0] = value;
+                CalcFlags();
+            }
+        }
+
+        [Category("Hit Flags")]
+        public bool CanHitSSEenemies
+        {
+            get => val.GetHitBit(1) != 0;
+            set
+            {
+                hitBits[1] = value;
+                CalcFlags();
+            }
+        }
+
+        [Category("Hit Flags")]
+        public bool CanHitUnk1
+        {
+            get => val.GetHitBit(2) != 0;
+            set
+            {
+                hitBits[2] = value;
+                CalcFlags();
+            }
+        }
+
+        [Category("Hit Flags")]
+        public bool CanHitUnk2
+        {
+            get => val.GetHitBit(3) != 0;
+            set
+            {
+                hitBits[3] = value;
+                CalcFlags();
+            }
+        }
+
+        [Category("Hit Flags")]
+        public bool CanHitUnk3
+        {
+            get => val.GetHitBit(4) != 0;
+            set
+            {
+                hitBits[4] = value;
+                CalcFlags();
+            }
+        }
+
+        [Category("Hit Flags")]
+        public bool CanHitUnk4
+        {
+            get => val.GetHitBit(5) != 0;
+            set
+            {
+                hitBits[5] = value;
+                CalcFlags();
+            }
+        }
+
+        [Category("Hit Flags")]
+        public bool CanHitUnk5
+        {
+            get => val.GetHitBit(6) != 0;
+            set
+            {
+                hitBits[6] = value;
+                CalcFlags();
+            }
+        }
+
+        [Category("Hit Flags")]
+        public bool CanHitDamageableCeilings
+        {
+            get => val.GetHitBit(7) != 0;
+            set
+            {
+                hitBits[7] = value;
+                CalcFlags();
+            }
+        }
+
+        [Category("Hit Flags")]
+        public bool CanHitDamageableWalls
+        {
+            get => val.GetHitBit(8) != 0;
+            set
+            {
+                hitBits[8] = value;
+                CalcFlags();
+            }
+        }
+
+        [Category("Hit Flags")]
+        public bool CanHitDamageableFloors
+        {
+            get => val.GetHitBit(9) != 0;
+            set
+            {
+                hitBits[9] = value;
+                CalcFlags();
+            }
+        }
+
+        [Category("Hit Flags")]
+        public bool CanHitUnk6
+        {
+            get => val.GetHitBit(10) != 0;
+            set
+            {
+                hitBits[10] = value;
+                CalcFlags();
+            }
+        }
+
+        [Category("Hit Flags")]
+        public bool CanHitUnk7
+        {
+            get => val.GetHitBit(11) != 0;
+            set
+            {
+                hitBits[11] = value;
+                CalcFlags();
+            }
+        }
+
+        [Category("Hit Flags")]
+        public bool CanHitUnk8
+        {
+            get => val.GetHitBit(12) != 0;
+            set
+            {
+                hitBits[12] = value;
+                CalcFlags();
+            }
+        }
+
+        [Category("Hit Flags")]
+        public bool Enabled
+        {
+            get => val.GetHitBit(13) != 0;
+            set
+            {
+                hitBits[13] = value;
+                CalcFlags();
+            }
+        }
+
+        [Category("Special Hitbox Flags")]
+        public int Unk3
+        {
+            get => val.Unk3;
+            set
+            {
+                unk3 = (int) value;
+                CalcFlags();
+            }
+        }
+
+        [Category("Special Hitbox Flags")]
+        public bool CanBeShielded
+        {
+            get => val.Shieldable != 0;
+            set
+            {
+                shield = value ? 1 : 0;
+                CalcFlags();
+            }
+        }
+
+        [Category("Special Hitbox Flags")]
+        public bool CanBeAbsorbed
+        {
+            get => val.Absorbable != 0;
+            set
+            {
+                absorb = value ? 1 : 0;
+                CalcFlags();
+            }
+        }
+
+        [Category("Special Hitbox Flags")]
+        public bool CanBeReflected
+        {
+            get => val.Reflectable != 0;
+            set
+            {
+                reflect = value ? 1 : 0;
+                CalcFlags();
+            }
+        }
+
+        [Category("Special Hitbox Flags")]
+        public int Unk4
+        {
+            get => val.Unk4;
+            set
+            {
+                unk4 = (int) value;
+                CalcFlags();
+            }
+        }
+
+        [Category("Special Hitbox Flags")]
+        public bool HittingGrippedCharacter
+        {
+            get => val.Gripped != 0;
+            set
+            {
+                grip = value ? 1 : 0;
+                CalcFlags();
+            }
+        }
+
+        [Category("Special Hitbox Flags")]
+        public bool IgnoreInvincibility
+        {
+            get => val.IgnoreInv != 0;
+            set
+            {
+                invinc = value ? 1 : 0;
+                CalcFlags();
+            }
+        }
+
+        [Category("Special Hitbox Flags")]
+        public bool FreezeFrameDisable
+        {
+            get => val.NoFreeze != 0;
+            set
+            {
+                freeze = value ? 1 : 0;
+                CalcFlags();
+            }
+        }
+
+        [Category("Special Hitbox Flags")]
+        public bool PutsToSleep
+        {
+            get => val.Sleep != 0;
+            set
+            {
+                sleep = value ? 1 : 0;
+                CalcFlags();
+            }
+        }
+
+        [Category("Special Hitbox Flags")]
+        public bool Flinchless
+        {
+            get => val.Flinchless != 0;
+            set
+            {
+                flinch = value ? 1 : 0;
+                CalcFlags();
+            }
+        }
+
+        public SpecialHitboxFlagsNode(string name)
+        {
+            _name = name != null ? name : "Special Flags";
+        }
+
+        public override bool OnInitialize()
         {
             if (_name == null)
+            {
                 _name = "Special Flags";
+            }
+
             base.OnInitialize();
             val.data = _value;
             GetFlags();
             return false;
         }
+
         private void CalcFlags()
         {
-            val.data = (
-                (angleFlipping << 0) |
-                (unk1 << 3) |
-                (stretches << 4) |
-                (unk2 << 5) |
-                ((hitBits[0] ? 1 : 0) << 6) |
-                ((hitBits[1] ? 1 : 0) << 7) |
-                ((hitBits[2] ? 1 : 0) << 8) |
-                ((hitBits[3] ? 1 : 0) << 9) |
-                ((hitBits[4] ? 1 : 0) << 10) |
-                ((hitBits[5] ? 1 : 0) << 11) |
-                ((hitBits[6] ? 1 : 0) << 12) |
-                ((hitBits[7] ? 1 : 0) << 13) |
-                ((hitBits[8] ? 1 : 0) << 14) |
-                ((hitBits[9] ? 1 : 0) << 15) |
-                ((hitBits[10] ? 1 : 0) << 16) |
-                ((hitBits[11] ? 1 : 0) << 17) |
-                ((hitBits[12] ? 1 : 0) << 18) |
-                ((hitBits[13] ? 1 : 0) << 19) |
-                (unk3 << 20) |
-                (shield << 22) |
-                (reflect << 23) |
-                (absorb << 24) |
-                (unk4 << 25) |
-                (grip << 27) |
-                (invinc << 28) |
-                (freeze << 29) |
-                (sleep << 30) |
-                (flinch << 31));
+            val.data = (angleFlipping << 0) |
+                       (unk1 << 3) |
+                       (stretches << 4) |
+                       (unk2 << 5) |
+                       ((hitBits[0] ? 1 : 0) << 6) |
+                       ((hitBits[1] ? 1 : 0) << 7) |
+                       ((hitBits[2] ? 1 : 0) << 8) |
+                       ((hitBits[3] ? 1 : 0) << 9) |
+                       ((hitBits[4] ? 1 : 0) << 10) |
+                       ((hitBits[5] ? 1 : 0) << 11) |
+                       ((hitBits[6] ? 1 : 0) << 12) |
+                       ((hitBits[7] ? 1 : 0) << 13) |
+                       ((hitBits[8] ? 1 : 0) << 14) |
+                       ((hitBits[9] ? 1 : 0) << 15) |
+                       ((hitBits[10] ? 1 : 0) << 16) |
+                       ((hitBits[11] ? 1 : 0) << 17) |
+                       ((hitBits[12] ? 1 : 0) << 18) |
+                       ((hitBits[13] ? 1 : 0) << 19) |
+                       (unk3 << 20) |
+                       (shield << 22) |
+                       (reflect << 23) |
+                       (absorb << 24) |
+                       (unk4 << 25) |
+                       (grip << 27) |
+                       (invinc << 28) |
+                       (freeze << 29) |
+                       (sleep << 30) |
+                       (flinch << 31);
 
             _value = val.data;
 
@@ -844,27 +1653,34 @@ namespace BrawlLib.SSBB.ResourceNodes
         //0100 0000 0000 0000 0000 0000 0000 0000   Unknown5
         //1000 0000 0000 0000 0000 0000 0000 0000   Flinchless
 
-        public int AngleFlipping { get { return (data & 7); } }
+        public int AngleFlipping => data & 7;
+
         //0, 2, 5: Regular angles; the target is always sent away from the attacker.
         //1, 3: The target is always sent the direction the attacker is facing.
         //4: The target is always sent the direction the attacker is not facing.
         //6, 7: The target is turned to the Z axis
-        public int Unk1 { get { return ((data >> 3) & 1); } }
-        public int Stretches { get { return ((data >> 4) & 1); } }
-        public int Unk2 { get { return ((data >> 5) & 1); } }
-        public int GetHitBit(int index) { return ((data >> (6 + index)) & 1); } //Max index is 13, starting with 0
-        public int Unk3 { get { return ((data >> 20) & 3); } }
-        public int Shieldable { get { return ((data >> 22) & 1); } }
-        public int Reflectable { get { return ((data >> 23) & 1); } }
-        public int Absorbable { get { return ((data >> 24) & 1); } }
-        public int Unk4 { get { return ((data >> 25) & 3); } }
-        public int Gripped { get { return ((data >> 27) & 1); } }
-        public int IgnoreInv { get { return ((data >> 28) & 1); } }
-        public int NoFreeze { get { return ((data >> 29) & 1); } }
-        public int Sleep { get { return ((data >> 30) & 1); } }
-        public int Flinchless { get { return ((data >> 31) & 1); } }
+        public int Unk1 => (data >> 3) & 1;
+        public int Stretches => (data >> 4) & 1;
+        public int Unk2 => (data >> 5) & 1;
+
+        public int GetHitBit(int index)
+        {
+            return (data >> (6 + index)) & 1;
+        } //Max index is 13, starting with 0
+
+        public int Unk3 => (data >> 20) & 3;
+        public int Shieldable => (data >> 22) & 1;
+        public int Reflectable => (data >> 23) & 1;
+        public int Absorbable => (data >> 24) & 1;
+        public int Unk4 => (data >> 25) & 3;
+        public int Gripped => (data >> 27) & 1;
+        public int IgnoreInv => (data >> 28) & 1;
+        public int NoFreeze => (data >> 29) & 1;
+        public int Sleep => (data >> 30) & 1;
+        public int Flinchless => (data >> 31) & 1;
 
         public int data;
     }
+
     #endregion
 }

@@ -1,36 +1,45 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using OpenTK.Graphics.OpenGL;
 using System.Runtime.InteropServices;
 
 namespace BrawlLib.OpenGL
 {
-    [StructLayout(LayoutKind.Sequential, Pack=1)]
+    [StructLayout(LayoutKind.Sequential, Pack = 1)]
     public class GLDisplayList
     {
-        public uint _id;
-        private GLContext _context;
+        public int _id = -1;
 
         //public GLDisplayList(uint id) { _id = id; }
-        public GLDisplayList(GLContext ctx)
+        public GLDisplayList()
         {
-            _id = ctx.glGenLists(1);
-            _context = ctx;
+            _id = GL.GenLists(1);
         }
 
-        public void Begin() { _context.glNewList(_id, GLListMode.COMPILE); }
-        public void Begin(GLListMode mode) { _context.glNewList(_id, mode); }
-        public void End() { _context.glEndList(); }
-        public void Call() { _context.glCallList(_id); }
+        public void Begin()
+        {
+            GL.NewList(_id, ListMode.Compile);
+        }
+
+        public void Begin(ListMode mode)
+        {
+            GL.NewList(_id, mode);
+        }
+
+        public void End()
+        {
+            GL.EndList();
+        }
+
+        public void Call()
+        {
+            GL.CallList(_id);
+        }
 
         public void Delete()
         {
-            if (_context != null)
+            if (_id >= 0)
             {
-                _context.glDeleteLists(_id, 1);
+                GL.DeleteLists(_id, 1);
                 _id = 0;
-                _context = null;
             }
         }
     }

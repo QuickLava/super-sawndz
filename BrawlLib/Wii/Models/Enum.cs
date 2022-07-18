@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace BrawlLib.Wii.Models
+﻿namespace BrawlLib.Wii.Models
 {
     public enum WiiVertexComponentType : byte
     {
@@ -32,14 +27,14 @@ namespace BrawlLib.Wii.Models
         None
     }
 
-    public enum WiiPrimitiveType : byte
+    public enum WiiBeginMode : byte
     {
         PosMtx = 0x20,
         NorMtx = 0x28,
         TexMtx = 0x30,
         LightMtx = 0x38,
         Quads = 0x80,
-        Triangles = 0x90,
+        TriangleList = 0x90,
         TriangleStrip = 0x98,
         TriangleFan = 0xA0,
         Lines = 0xA8,

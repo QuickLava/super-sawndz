@@ -1,6 +1,9 @@
 ﻿
-BrawlLib Resource Library - Version 0.12c
-Copyright © 2009 - 2012 Bryan Moulton & BlackJax96
+BrawlLib Resource Library - Version 0.20a
+Copyright © 2009 - 2013 Bryan Moulton & BlackJax96
+Copyright © 2014 libertyernie & Sammi Husky
+
+https://github.com/libertyernie/brawltools
 
 This program is provided as-is without any warranty, implied or otherwise.
 By using this program, the end user agrees to take full responsibility
@@ -12,171 +15,68 @@ they be held accountable for the manner in which it is used.
 |************ Change Log ************|
  ====================================
 
-  - v0.12c- (2/4/2012)
-	. Made MDL0 nodes modulate their values and each other more closely
-	. Finished Wavefront OBJ exporter (Right click an MDL0 object and export it as OBJ)
-	. Fixed up the DAE exporter again
-	. Undo and Redo buttons have been fixed for the model viewer and added to the collision viewer (All coded by Xiggah)
-	. Texture matrices can now be used without any problems in-game (moving textures)
-	. Added stage default support for DAE importer
+ Changes beginning with an asterisk (*) affect BrawlCrate behavior,
+ while changes beginning with a period (.) serve to add/modify
+ features that BrawlCrate doesn't use.
 
-- v0.12b- (1/28/2012)
-	. Changed GX enums to be easier to understand
-	. Updated MDL0 Shader display
-	. Added an MDL0 object importer and duplicator
-	. Added SCN0, SRT0 and STPM rebuilding
-	. Fixed tons of bugs!
-	. Added REFT image importer and rebuilder
-	. Added new node icons
-	. Changed around material values
+ See BrawlCrate's Changelog.txt for more recent changes (mid-2014 and newer.)
 
-- v0.12- (11/8/2011)
-	. Finished the DAE model importer!
-	. Finished the model rebuilder completely (everything is now editable).
-	. Finalized shader editing.
-	. Fixed the v5 CHR0 saving bug.
-	. Added support for v8 MDL0s.
-	. Added minor REFF support.
-	. Added a new menu to the model previewer
-	. Many bugfixes
+ (7/26/2014) - BrawlLib 0.20b
+ 	* BLOC archives are now rebuildable
+		* GSND files are now partially editable
+	* Module ID->name list now embedded (not loaded from text file)
 
-- v0.11d- (08/31/2011) (BlackJax96 takes over development from here on)
-	. Fixed "Clean" button and the keyframe viewer.
-	. Added animation porter
-	. Added "Rename All" and "Edit All" buttons to BRRES nodes.
-	. Added support for viewing multiple models in the model previewer (CTRL+H opens model switcher).
-	. Finished model rebuilder, for the most part.
-	. Finished DAE parser.
-	. Added support for editing most MDL0 shader values.
-	. Added undo and redo functions in the model previewer.
-	. Changed the way models are rendered.
-	. Added support for v5 CHR0s and v10 and v11 MDL0s.
-	. Added the ability to drag files into the model previewer to view all the models in the file.
-	. Added bone tree editing functions.
-	. Added support for editing/saving MRG files.
-	. Added right click menus to the Trans, Rot and Scale labels for editing keyframes in the model previewer.
-	. Many bugfixes and small additions/changes to things
+ (6/28/2014) - BrawlLib 0.20a
+    * See BrawlCrate 0.73a changelog (additions to interpolation editor, RELNode)
+	* BrawlLib.SSBB.Stage added - keeps a list of Brawl stages' names, filenames, and IDs
 
-- v0.10d- (02/08/2010)
-	. Fixed animation encoder bug.
-	. Fixed bug dealing with single CLR entries saving improperly.
-	
-- v0.10c- (01/31/2010)
-	. Various bugfixes
-	. Added VIS editor
-	. Animation frames now interpolate properly.
+ (6/3/2014) - BrawlLib 0.20
+    * More support for Subspace Emissary data formats
+    * Moved AttributeGrid to BrawlLib (from Ikarus)
+    * Fixed MSBin encoding for empty strings
 
-- v0.10b- (01/19/2010)
-	. Fixed image encoding bug related to image format on older systems.
-	. Fixed rendering bug related to materials without textures.
-	. Added various features to collision editor.
+ (5/4/2014) - BrawlLib 0.19.1
+    * Fixed UTF-8 encoding (was corrupting files)
 
-- v0.10 - (01/18/2010)
-	. Fixed a bug that was causing decal textures to link improperly in MDL files.
-	. Added minor support for EFLS resources.
-	. Added support for stage collision files.
-	. Added editor for stage collision files.
-	. Fixed minor bug that was affecting the way non-textured polygons are rendered (alloy models).
-	. Increased maximum frame delay for animation playback.
-	. Fixed bug in OpenGL rendering dealing with depth buffer precision.
+ (5/3/2014) - BrawlLib 0.19L
+    * MSBin strings are now properly encoded/decoded to/from UTF-8, instead of just ASCII
+	  * Fixes the appearance of strings like "Pokémon" and allows editing of non-Latin text
+    . MD5EnsureChildrenIncluded and its friends moved to a new file called NodeDeepChecksum
 
-- v0.09b- (01/06/2010)
-	. Added minor support for single-color CLR0 entries. Fixes many crashing problems.
-	. Fixed bug in CI4 encoder that was corrupting image blocks.
-	. Added floor option to model viewer.
-	. CopyAll/PasteAll in model viewer now saves the animation state globally.
-	. Color lists now have two color columns, one with transparency and one without.
-	. Added gradient generator to color list.
+ (4/6/2014) - BrawlLib v0.18L3
+    . ResourceNode.MD5EnsureChildrenIncluded() or MD5StrEnsureChildrenIncluded(): will XOR own MD5 sum with those of children if children aren't already included in the node's own data
 
-- v0.09 - (01/05/2010)
-	. Added support for CLR0 nodes.
-	. Added color dialog for CLR0 and PLT0 editing.
-	. New Median Cut quantizer using method from GIMP library.
-	. Added features to BRSTM converter dialog.
-	. Fixed CHR bug that was causing long animations to cut short.
-	. Fixed bug in MSBin parser/decoder dealing with empty strings.
+ (3/13/2014) - BrawlLib v0.18L2
+	* When exporting BRES entries (TEX0, MDL0, etc.), reset the BRES index offset (0x0c, 4 bytes) to 0 so that exported files with the same data will be identical
+	. Implement MD5() and MD5Str() functions to get checksums of resource node data
+      . Note: result of MD5() is NOT guaranteed to match what the MD5 checksum of a node's data would be after being exported to a separate file
+	. Override MD5() for BRESEntryNode to simulate the export behavior, so checksums of identical nodes will match
 
-- v0.08 - (12/24/2009)
-	. Completed audio encoder.
-	. Completed BRSAR encoder, along with BrsarConverterDialog.
-	. Added audio provider classes/controls for audio playback.
-	. Added minimal support for RWSD/RBNK/RSEQ files.
-	. Added CopyAll/PasteAll/Clean/Clear controls to animation editor.
+ (2/13/2014) - BrawlLib v0.18L
+	. Added the HideMDL0Errors assembly property, which will prevent dialog boxes from appearing when MDL0 errors are detected
+	. Added the InitialSize and InitialFormat properties to TextureConverterDialog
+	. Added Volume and VolumePercent properties to AudioPlaybackPanel
+	* Don't crash when editing MDL0 models without any objects defined
+
+ For changes prior to 2014, see the BrawlCrate changelog, or:
+ https://github.com/libertyernie/brawltools/blob/367f812284b03d0f6e201f6b3a840d9cbac4107f/BrawlLib/BrawlLib.txt
+
+ ====================================
+|*********** Requirements ***********|
+ ====================================
  
-- v0.07c- (12/01/2009)
-	. Fixed various bugs with the CHR0 encoder.
-	. Fixed a bug in the MSBin encoder for border entries.
+* Microsoft .Net Framework v4.0
+	http://www.microsoft.com/en-us/download/details.aspx?id=17718
+	
+* A video card that supports OpenGL 1.1 or higher.
 
-- v0.07b- (11/30/2009)
-	. Various improvements to the model editor:
-		Added option panel.
-		Added cut/copy/paste/insert/delete buttons to animation panel.
-		Animation length can be set from the playback panel.
-		Added context menu for animation list, which allows for faster import/export.
-		Fixed issue with texture layers. Now all textures are rendered until it can be fixed.
-		Adjusted keyboard controls.
-	. Fixed bug with GLPanel not closing properly.
+ ====================================
+|********* Acknowledgements *********|
+ ====================================
 
-- v0.07 - (11/24/2009)
-	. Fixed various issues with OpenGL initialization.
-	. Removed many GL classes in favor of using the MDL0 classes directly.
-	. The MDL0 nodes now wrap OpenGL rendering and resources.
-	. Added support for multiple texture layers and uv points.
-	. Added the following features to MDL0 nodes:
-		Bone rendering and animation.
-		Model skinning.
-		Automatic texture loading.
-	. Added the following features to ModelEditControl:
-		Animation/bone editor.
-		Animation playback controls.
-		Bone/texture lists.
-		Built-in texture support for preview/replace/export.
-		External file loader.
-		Improved mouse/keyboard controls.
-	. Fixed a bug that was causing PAC files to export uncompressed regardless of setting.
-	. Fixed a bug in the CHR0 decoder.
-	. Fixed file alignment for PLT0 files.
-	. Added RSTM decoder.
+Super Smash Brothers Brawl is copyrighted property - © 2008 Nintendo and HAL Laboratory, Inc.
 
-- v0.06 - (11/08/2009)
-	. Added FileAssociation and FileType classes.
-	. Added CHR0 encoder/decoder, with KeyframeCollection class.
-	. Added AnimEditControl for editing keyframes in CHR0 files.
-	. Added MSBinEditor for editing MSBin messages.
-	. Re-added RSAR support with new organization. (No audio features yet)
-	. Improved CMPR algorithm using modified code from the NVidia Texture Tools.
-	. Lowered OpenGL version to 1.1, and changed the way mipmaps are generated.
+Characters are copyrighted by the following:
+© Nintendo / HAL Laboratory, Inc. / Pokemon / Creatures Inc. / GAME FREAK Inc. / SHIGESATO ITOI / 
+APE Inc. / INTELLIGENT SYSTEMS / Konami Digital Entertainment Co., Ltd. / SEGA
 
-- v0.05 - (10/24/2009)
-	. Added ModelPanel from BrawlScape.
-	. Added TextureConverterDialog.
-	. Various improvements to node stability.
-	. Certain resources now automatically convert with the Export/Replace(string) command. Mainly TEX0Node.
-	. Support for binary string trees has been added. (Use ResourceEntry.Build)
-	. More BRES entries now link to the string table. This allows other resources to change size.
-	. BRES entries now do post-processing, and link groups/nodes to the binary tree.
-
-- v0.04 - (10/11/2009)
-	. FileMaps now hold on to a FileStream object until the map is closed.
-	. Added OpenGL support with basic functions.
-	. Added GLPanel/ModelPanel controls
-	. Moved MDL0 node classes to separate folder for organization.
-	. MDL0 support has been improved.
-	. GLModel objects can now be created from MDL0Node.
-	. GLModel can be attached to ModelPanel for rendering.
-
-- v0.03 - (10/02/2009)
-	. Fixed many bugs dealing with node memory:
-		BRES entries properly adjust offsets in OnRebuild.
-		BRESGroup addresses change on rebuild.
-		Parent nodes (ARC/BRES) don't release sources until rebuild is complete.
-		Initialization flag is set so nodes know when to initialize from a raw source.
-	. Began support for OpenGL/Models with OGL natives and GLPanel.
-	. Added minor speed tweak to LZ77 decompression.
-
-- v0.02 - (09/29/2009)
-	. Added the ability to construct a resource tree from scratch.
-	. Various properties from ResourceTreeNode, TEX0Node and PLT0Node can now be written to.
-
-- v0.01 - (09/28/2009)
-	. Initial release

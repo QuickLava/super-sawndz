@@ -1,234 +1,170 @@
-﻿using System;
+﻿using BrawlLib.Internal;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Runtime.InteropServices;
-using System.Drawing;
-using BrawlLib.SSBBTypes;
 
 namespace BrawlLib.Wii.Animations
 {
-    public enum KeyFrameMode
+    public interface IKeyframeSource
     {
-        ScaleX = 0x10,
-        ScaleY = 0x11,
-        ScaleZ = 0x12,
-        RotX = 0x13,
-        RotY = 0x14,
-        RotZ = 0x15,
-        TransX = 0x16,
-        TransY = 0x17,
-        TransZ = 0x18,
-        ScaleXYZ = 0x30,
-        RotXYZ = 0x33,
-        TransXYZ = 0x36,
-        All = 0x90
+        //KeyframeEntry GetKeyframe(int index, int arrayIndex);
+        //KeyframeEntry SetKeyframe(int index, float value, params int[] arrays);
+        //void RemoveKeyframe(int index, params int[] arrays);
+        int FrameCount { get; }
+        KeyframeArray[] KeyArrays { get; }
     }
 
-    public unsafe class KeyframeCollection
+    public class KeyframeCollection : IEnumerable<KeyframeArray>
     {
-        internal KeyframeEntry[] _keyRoots = new KeyframeEntry[9]{
-        //Scale
-        new KeyframeEntry(-1, 1.0f), //X - Used by all (SHP0 == %)
-        new KeyframeEntry(-1, 1.0f), //Y - Not used by SHP0
-        new KeyframeEntry(-1, 1.0f), //Z - CHR0s only
-        //Rotation
-        new KeyframeEntry(-1, 0.0f), //X - Not used by SHP0
-        new KeyframeEntry(-1, 0.0f), //Y - CHR0s only
-        new KeyframeEntry(-1, 0.0f), //Z - CHR0s only
-        //Translation
-        new KeyframeEntry(-1, 0.0f), //X - Not used by SHP0
-        new KeyframeEntry(-1, 0.0f), //Y - Not used by SHP0
-        new KeyframeEntry(-1, 0.0f)};//Z - CHR0s only
+        public KeyframeArray[] _keyArrays;
 
-        internal int[] _keyCounts = new int[9];
+        public KeyframeArray this[int index] => _keyArrays[index.Clamp(0, _keyArrays.Length - 1)];
 
-        internal AnimationCode _evalCode;
-        internal SRT0Code _texEvalCode;
+        private bool _looped;
 
-        public int this[KeyFrameMode mode] { get { return _keyCounts[(int)mode]; } }
+        public bool Loop
+        {
+            get => _looped;
+            set
+            {
+                _looped = value;
+                foreach (KeyframeArray a in _keyArrays)
+                {
+                    a.Loop = _looped;
+                }
+            }
+        }
 
-        internal int _frameLimit;
+        private int _frameLimit;
+
         public int FrameLimit
         {
-            get { return _frameLimit; }
+            get => _frameLimit;
             set
             {
                 _frameLimit = value;
-                for (int i = 0; i < 9; i++)
+                foreach (KeyframeArray r in _keyArrays)
                 {
-                    KeyframeEntry root = _keyRoots[i];
-                    while (root._prev._index >= value)
-                    {
-                        root._prev.Remove();
-                        _keyCounts[i]--;
-                    }
+                    r.FrameLimit = _frameLimit;
                 }
             }
         }
-        
-        internal bool _linearRot;
-        public bool LinearRotation { get { return _linearRot; } set { _linearRot = value; } }
 
-        public float this[KeyFrameMode mode, int index]
+        public KeyframeCollection(int arrayCount, int numFrames, params float[] defaultValues)
         {
-            get { return GetFrameValue(mode, index); }
-            set { SetFrameValue(mode, index, value); }
-        }
-
-        public KeyframeCollection(int limit) { _frameLimit = limit; }
-
-        private const float _cleanDistance = 0.00001f;
-        public void Clean()
-        {
-            int flag, res;
-            KeyframeEntry entry, root;
-            for (int i = 0; i < 9; i++)
+            _frameLimit = numFrames;
+            _keyArrays = new KeyframeArray[arrayCount];
+            for (int i = 0; i < arrayCount; i++)
             {
-                root = _keyRoots[i];
+                _keyArrays[i] = new KeyframeArray(numFrames, i < defaultValues.Length ? defaultValues[i] : 0);
+            }
+        }
 
-                //Eliminate redundant values
-                for (entry = root._next._next; entry != root; entry = entry._next)
+        public float this[int index, params int[] arrays]
+        {
+            get => GetFrameValue(arrays[0], index);
+            set
+            {
+                foreach (int i in arrays)
                 {
-                    flag = res = 0;
-
-                    if (entry._prev == root)
-                    {
-                        if (entry._next != root)
-                            flag = 1;
-                    }
-                    else if (entry._next == root)
-                        flag = 2;
-                    else
-                        flag = 3;
-
-                    if((flag & 1) != 0)
-                        res |= (Math.Abs(entry._next._value - entry._value) <= _cleanDistance) ? 1 : 0;
-                    
-                    if((flag & 2) != 0)
-                        res |= (Math.Abs(entry._prev._value - entry._value) <= _cleanDistance) ? 2 : 0;
-
-                    if ((flag == res) && (res != 0))
-                    {
-                        entry = entry._prev;
-                        entry._next.Remove();
-                        _keyCounts[i]--;
-                    }
+                    _keyArrays[i].SetFrameValue(index, value);
                 }
             }
         }
 
-        public KeyframeEntry GetKeyframe(KeyFrameMode mode, int index)
+        public KeyframeEntry SetFrameValue(int arrayIndex, int frameIndex, float value, bool parsing = false)
         {
-            KeyframeEntry entry, root = _keyRoots[(int)mode & 0xF];
-            for (entry = root._next; (entry != root) && (entry._index < index); entry = entry._next) ;
+            return _keyArrays[arrayIndex].SetFrameValue(frameIndex, value, parsing);
+        }
+
+        public KeyframeEntry GetKeyframe(int arrayIndex, int index)
+        {
+            return _keyArrays[arrayIndex].GetKeyframe(index);
+        }
+
+        public float GetFrameValue(int arrayIndex, float index, bool returnOutValue = false)
+        {
+            return _keyArrays[arrayIndex].GetFrameValue(index, returnOutValue);
+        }
+
+        internal KeyframeEntry Remove(int arrayIndex, int index)
+        {
+            KeyframeEntry entry = null, root = _keyArrays[arrayIndex]._keyRoot;
+
+            for (entry = root._next; entry != root && entry._index < index; entry = entry._next)
+            {
+                ;
+            }
+
             if (entry._index == index)
-                return entry;
-            return null;
-        }
-        public float GetFrameValue(KeyFrameMode mode, int index)
-        {
-            KeyframeEntry entry, root = _keyRoots[(int)mode & 0xF];
-
-            if (index >= root._prev._index)
-                return root._prev._value;
-            if (index <= root._next._index)
-                return root._next._value;
-
-            //Find the entry just before the specified index
-            for (entry = root._next; //Get the first entry
-                (entry != root) && //Make sure it's not the root
-                (entry._index < index);  //Its index must be less than the current index
-                entry = entry._next) //Get the next entry
-                if (entry._index == index) //The index is a keyframe
-                    return entry._value; //Return the value of the keyframe.
-
-            //There was no keyframe... interpolate!
-            return entry._prev.Interpolate(index - entry._prev._index, _linearRot);
-        }
-        public KeyframeEntry SetFrameValue(KeyFrameMode mode, int index, float value)
-        {
-            KeyframeEntry entry = null, root;
-            for (int x = (int)mode & 0xF, y = x + ((int)mode >> 4); x < y; x++)
             {
-                root = _keyRoots[x];
-
-                if ((root._prev == root) || (root._prev._index < index))
-                    entry = root;
-                else
-                    for (entry = root._next; (entry != root) && (entry._index <= index); entry = entry._next) ;
-
-                entry = entry._prev;
-                if (entry._index != index)
-                {
-                    _keyCounts[x]++;
-                    entry.InsertAfter(entry = new KeyframeEntry(index, value));
-                }
-                else
-                    entry._value = value;
+                entry.Remove();
+                _keyArrays[arrayIndex]._keyCount--;
             }
+            else
+            {
+                entry = null;
+            }
+
             return entry;
         }
 
-        public AnimationFrame GetFullFrame(int index)
-        {
-            AnimationFrame frame;
-            float* dPtr = (float*)&frame;
-            for (int x = 0x10; x < 0x19; x++)
-                *dPtr++ = GetFrameValue((KeyFrameMode)x, index);
-            return frame;
-        }
-
-        public KeyframeEntry Remove(KeyFrameMode mode, int index)
+        public void Insert(int index, params int[] arrays)
         {
             KeyframeEntry entry = null, root;
-            for (int x = (int)mode & 0xF, y = x + ((int)mode >> 4); x < y; x++)
+            foreach (int x in arrays)
             {
-                root = _keyRoots[x];
-
-                for (entry = root._next; (entry != root) && (entry._index < index); entry = entry._next) ;
-
-                if (entry._index == index)
+                root = _keyArrays[x]._keyRoot;
+                for (entry = root._prev; entry != root && entry._index >= index; entry = entry._prev)
                 {
-                    entry.Remove();
-                    _keyCounts[x]--;
-                }
-                else
-                    entry = null;
-            }
-            return entry;
-        }
-
-        public void Insert(KeyFrameMode mode, int index)
-        {
-            KeyframeEntry entry = null, root;
-            for (int x = (int)mode & 0xF, y = x + ((int)mode >> 4); x < y; x++)
-            {
-                root = _keyRoots[x];
-                for (entry = root._prev; (entry != root) && (entry._index >= index); entry = entry._prev)
                     if (++entry._index >= _frameLimit)
                     {
                         entry = entry._next;
                         entry._prev.Remove();
-                        _keyCounts[x]--;
+                        _keyArrays[x]._keyCount--;
                     }
+                }
             }
         }
 
-        public void Delete(KeyFrameMode mode, int index)
+        public void Delete(int index, params int[] arrays)
         {
             KeyframeEntry entry = null, root;
-            for (int x = (int)mode & 0xF, y = x + ((int)mode >> 4); x < y; x++)
+            foreach (int x in arrays)
             {
-                root = _keyRoots[x];
-                for (entry = root._prev; (entry != root) && (entry._index >= index); entry = entry._prev)
-                    if ((entry._index == index) || (--entry._index < 0))
+                root = _keyArrays[x]._keyRoot;
+                for (entry = root._prev; entry != root && entry._index >= index; entry = entry._prev)
+                {
+                    if (entry._index == index || --entry._index < 0)
                     {
                         entry = entry._next;
                         entry._prev.Remove();
-                        _keyCounts[x]--;
+                        _keyArrays[x]._keyCount--;
                     }
+                }
             }
+        }
+
+        public int Clean()
+        {
+            int removed = 0;
+            foreach (KeyframeArray arr in _keyArrays)
+            {
+                removed += arr.Clean();
+            }
+
+            return removed;
+        }
+
+        public int ArrayCount => _keyArrays.Length;
+
+        public IEnumerator<KeyframeArray> GetEnumerator()
+        {
+            return GetEnumerator();
+        }
+
+        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
+        {
+            return _keyArrays.GetEnumerator();
         }
     }
 
@@ -240,6 +176,25 @@ namespace BrawlLib.Wii.Animations
         public float _value;
         public float _tangent;
 
+        public KeyframeEntry Second
+        {
+            get => _prev._index == _index ? _prev : _next._index == _index ? _next : null;
+            set
+            {
+                KeyframeEntry second = Second;
+                if (second == null)
+                {
+                    value._index = _index;
+                    InsertAfter(value);
+                }
+                else
+                {
+                    second._value = value._value;
+                    second._tangent = value._tangent;
+                }
+            }
+        }
+
         public KeyframeEntry(int index, float value)
         {
             _index = index;
@@ -247,6 +202,9 @@ namespace BrawlLib.Wii.Animations
             _value = value;
         }
 
+        /// <summary>
+        /// Inserts the provided entry before this one and relinks the previous and next entries.
+        /// </summary>
         public void InsertBefore(KeyframeEntry entry)
         {
             _prev._next = entry;
@@ -254,6 +212,10 @@ namespace BrawlLib.Wii.Animations
             entry._next = this;
             _prev = entry;
         }
+
+        /// <summary>
+        /// Inserts the provided entry after this one and relinks the previous and next entries.
+        /// </summary>
         public void InsertAfter(KeyframeEntry entry)
         {
             _next._prev = entry;
@@ -261,86 +223,398 @@ namespace BrawlLib.Wii.Animations
             entry._prev = this;
             _next = entry;
         }
+
         public void Remove()
         {
             _next._prev = _prev;
             _prev._next = _next;
-            //_prev = _next = this;
         }
 
-        public float Interpolate(int offset, bool linear)
+        public float Interpolate(float offset, float span, KeyframeEntry next, bool forceLinear = false)
         {
+            //Return this value if no offset from this keyframe
             if (offset == 0)
+            {
                 return _value;
+            }
 
-            int span = _next._index - _index;
+            //Return next value if offset is to the next keyframe
             if (offset == span)
-                return _next._value;
+            {
+                return next._value;
+            }
 
-            float diff = _next._value - _value;
-            if (linear)
-                return _value + (diff / span * offset);
+            //Get the difference in values
+            float diff = next._value - _value;
 
-            float time = (float)offset / span;
-            float inv = time - 1.0f;
+            //Calculate a percentage from this keyframe to the next
+            float time = offset / span; //Normalized, 0 to 1
 
-            return (offset * inv * ((inv * _tangent) + (time * _next._tangent)))
-                + ((time * time) * (3.0f - 2.0f * time) * diff)
-                + _value;
+            bool prevDouble = _prev._index >= 0 && _prev._index == _index - 1;
+            bool nextDouble = next._next._index >= 0 && next._next._index == next._index + 1;
+            bool oneApart = _next._index == _index + 1;
+
+            if (forceLinear)
+            {
+                return _value + diff * time;
+            }
+
+            float tan = _tangent;
+            float nextTan = next._tangent;
+
+            if (prevDouble || oneApart)
+            {
+                // Do nothing, as this doesn't seem to work properly //tan = (next._value - _value) / (next._index - _index);
+            }
+
+            if (nextDouble || oneApart)
+            {
+                // Do nothing, as this doesn't seem to work properly //nextTan = (next._value - _value) / (next._index - _index);
+            }
+
+            //Interpolate using a hermite curve
+            float inv = time - 1.0f; //-1 to 0
+            return _value
+                   + offset * inv * (inv * tan + time * nextTan)
+                   + time * time * (3.0f - 2.0f * time) * diff;
         }
 
-        public float Interpolate2(int offset, bool linear)
+        /// <summary>
+        /// Returns an interpolated value between this keyframe and the next. 
+        /// You can force linear calculation, but the Wii itself doesn't have anything like that.
+        /// The Wii emulates linear interpolation using two keyframes across a range with the same tangent
+        /// and then two keyframes on the same frame but with different tangents.
+        /// </summary>
+        public float Interpolate(float offset, bool forceLinear = false)
         {
-            if (offset == 0)
-                return _value; //The offset is this keyframe
-
-            int span = _next._index - _index;
-            if (offset == span)
-                return _next._value; //The offset is the next keyframe
-
-            float t = ((float)offset / span);
-
-            float diff = _next._value - _value;
-            if (linear)
-                return _value + (diff / span * offset);
-                //return _value + t * (_next._value - _value);
-
-            return Maths.Bezier(_value, _tangent, _next._tangent, _next._value, t);
-
+            return Interpolate(offset, _next._index - _index, _next, forceLinear);
         }
 
-        public float Hermite(float t)
-        {
-            float h1 = (float)(2 * (t * t * t) - 3 * (t * t) + 1);
-            float h2 = (float)(-2 * (t * t * t) + 3 * (t * t));
-            float h3 = (float)((t * t * t) - 2 * (t * t) + t);
-            float h4 = (float)((t * t * t) - (t * t));
-
-            return
-                h1 * _value +
-                h2 * _next._value +
-                h3 * _tangent +
-                h4 * _next._tangent;
-        }
+        private const bool RoundTangent = true;
+        private const int TangetDecimalPlaces = 3;
 
         public float GenerateTangent()
         {
-            float tan = 0.0f;
-            if (_prev._index != -1)
-                tan += (_value - _prev._value) / (_index - _prev._index);
-            if (_next._index != -1)
+            _tangent = 0.0f;
+            if (Second != null)
             {
-                tan += (_next._value - _value) / (_next._index - _index);
+                if (_prev._index == _index)
+                {
+                    if (_next._index != -1)
+                    {
+                        //Generate only with the next keyframe
+                        _tangent = (_value - _next._value) / (_index - _next._index);
+                    }
+                }
+                else if (_next._index == _index)
+                {
+                    if (_prev._index != -1)
+                    {
+                        //Generate only with the previous keyframe
+                        _tangent = (_value - _prev._value) / (_index - _prev._index);
+                    }
+                }
+            }
+            else
+            {
+                float weightCount = 0;
                 if (_prev._index != -1)
-                    tan *= 0.5f;
+                {
+                    _tangent += (_value - _prev._value) / (_index - _prev._index);
+                    weightCount++;
+                }
+
+                if (_next._index != -1)
+                {
+                    _tangent += (_next._value - _value) / (_next._index - _index);
+                    weightCount++;
+                }
+
+                if (weightCount > 0)
+                {
+                    _tangent /= weightCount;
+                }
             }
 
-            return _tangent = tan;
+            if (RoundTangent)
+            {
+                _tangent = (float) Math.Round(_tangent, TangetDecimalPlaces);
+            }
+
+            return _tangent;
         }
 
         public override string ToString()
         {
-            return String.Format("Prev={0}, Next={1}, Value={2}", _prev, _next, _value);
+            return $"Prev={_prev}, Next={_next}, Value={_value}";
+        }
+    }
+
+    public class KeyframeArray
+    {
+        internal KeyframeEntry _keyRoot;
+        internal int _keyCount;
+
+        private bool _looped;
+
+        public bool Loop
+        {
+            get => _looped;
+            set => _looped = value;
+        }
+
+        internal int _frameLimit;
+
+        public int FrameLimit
+        {
+            get => _frameLimit;
+            set
+            {
+                _frameLimit = value;
+                while (_keyRoot._prev._index >= value)
+                {
+                    _keyRoot._prev.Remove();
+                    _keyCount--;
+                }
+            }
+        }
+
+        public float this[int index]
+        {
+            get => GetFrameValue(index);
+            set => SetFrameValue(index, value);
+        }
+
+        public KeyframeArray(int limit, float defaultValue = 0)
+        {
+            _frameLimit = limit;
+            _keyRoot = new KeyframeEntry(-1, defaultValue);
+        }
+
+        private const float _cleanDistance = 0.00001f;
+
+        public int Clean()
+        {
+            int flag, res, removed = 0;
+            KeyframeEntry entry;
+
+            //Eliminate redundant values
+            for (entry = _keyRoot._next._next; entry != _keyRoot; entry = entry._next)
+            {
+                flag = res = 0;
+
+                if (entry._prev == _keyRoot)
+                {
+                    if (entry._next != _keyRoot)
+                    {
+                        flag = 1;
+                    }
+                }
+                else if (entry._next == _keyRoot)
+                {
+                    flag = 2;
+                }
+                else
+                {
+                    flag = 3;
+                }
+
+                if ((flag & 1) != 0)
+                {
+                    res |= Math.Abs(entry._next._value - entry._value) <= _cleanDistance ? 1 : 0;
+                }
+
+                if ((flag & 2) != 0)
+                {
+                    res |= Math.Abs(entry._prev._value - entry._value) <= _cleanDistance ? 2 : 0;
+                }
+
+                if (flag == res && res != 0)
+                {
+                    entry = entry._prev;
+                    entry._next.Remove();
+
+                    entry.GenerateTangent();
+                    entry._next.GenerateTangent();
+                    entry._prev.GenerateTangent();
+
+                    _keyCount--;
+                    removed++;
+                }
+            }
+
+            return removed;
+        }
+
+        public KeyframeEntry GetKeyframe(int index)
+        {
+            KeyframeEntry entry;
+            for (entry = _keyRoot._next; entry != _keyRoot && entry._index < index; entry = entry._next)
+            {
+                ;
+            }
+
+            if (entry._index == index)
+            {
+                return entry;
+            }
+
+            return null;
+        }
+
+        public float GetFrameValue(float index, bool returnOutValue = false)
+        {
+            KeyframeEntry entry;
+
+            if (index > _keyRoot._prev._index)
+            {
+                //If the frame is greater than the last keyframe's frame index
+                if (_looped)
+                {
+                    float span = FrameLimit - _keyRoot._prev._index.Clamp(0, FrameLimit) +
+                                 _keyRoot._next._index.Clamp(0, FrameLimit);
+                    float offset =
+                        index > _keyRoot._prev._index && index < FrameLimit
+                            ? index - _keyRoot._prev._index
+                            : FrameLimit - _keyRoot._prev._index + index;
+
+                    return _keyRoot._prev.Interpolate(offset, span, _keyRoot._next);
+                }
+
+                return _keyRoot._prev._value;
+            }
+
+            if (index < _keyRoot._next._index)
+            {
+                //If the frame is less than the first keyframe's frame index
+                if (_looped)
+                {
+                    float span = FrameLimit - _keyRoot._prev._index.Clamp(0, FrameLimit) +
+                                 _keyRoot._next._index.Clamp(0, FrameLimit);
+                    float offset =
+                        index > _keyRoot._prev._index.Clamp(0, FrameLimit) && index < FrameLimit
+                            ? index - _keyRoot._prev._index.Clamp(0, FrameLimit)
+                            : FrameLimit - _keyRoot._prev._index.Clamp(0, FrameLimit) + index;
+
+                    return _keyRoot._prev.Interpolate(offset, span, _keyRoot._next);
+                }
+
+                return _keyRoot._next._value;
+            }
+
+            //Find the entry just before the specified index
+            for (entry = _keyRoot._next; //Get the first entry
+                entry != _keyRoot &&     //Make sure it's not the root
+                entry._index <= index;   //Its index must be less than or equal to the current index
+                entry = entry._next)     //Get the next entry
+            {
+                if (entry._index == index)
+                {
+                    //The index is a keyframe
+                    if (returnOutValue)
+                    {
+                        while (entry._next != null && entry._next._index == entry._index)
+                        {
+                            entry = entry._next;
+                        }
+                    }
+
+                    return entry._value; //Return the value of the keyframe.
+                }
+            }
+
+            //Frame lies between two keyframes. Interpolate between them
+            return entry._prev.Interpolate(index - entry._prev._index);
+        }
+
+        public KeyframeEntry SetFrameValue(int index, float value, bool parsing = false)
+        {
+            KeyframeEntry entry = null;
+            if (_keyRoot._prev == _keyRoot || _keyRoot._prev._index < index)
+            {
+                entry = _keyRoot;
+            }
+            else
+            {
+                for (entry = _keyRoot._next; entry != _keyRoot && entry._index <= index; entry = entry._next)
+                {
+                    ;
+                }
+            }
+
+            entry = entry._prev;
+            if (entry._index != index)
+            {
+                _keyCount++;
+                entry.InsertAfter(entry = new KeyframeEntry(index, value));
+            }
+            else
+            {
+                //There can be up to two keyframes with the same index.
+                if (!parsing)
+                {
+                    entry._value = value; //Do this when editing
+                }
+                else
+                {
+                    //And this when parsing
+                    _keyCount++;
+                    KeyframeEntry temp = new KeyframeEntry(index, value);
+                    entry.InsertAfter(temp);
+                    entry = temp;
+                }
+            }
+
+            return entry;
+        }
+
+        public KeyframeEntry Remove(int index)
+        {
+            KeyframeEntry entry = null;
+            for (entry = _keyRoot._next; entry != _keyRoot && entry._index < index; entry = entry._next)
+            {
+                ;
+            }
+
+            if (entry._index == index)
+            {
+                entry.Remove();
+                _keyCount--;
+            }
+            else
+            {
+                entry = null;
+            }
+
+            return entry;
+        }
+
+        public void Insert(int index)
+        {
+            KeyframeEntry entry = null;
+            for (entry = _keyRoot._prev; entry != _keyRoot && entry._index >= index; entry = entry._prev)
+            {
+                if (++entry._index >= _frameLimit)
+                {
+                    entry = entry._next;
+                    entry._prev.Remove();
+                    _keyCount--;
+                }
+            }
+        }
+
+        public void Delete(int index)
+        {
+            KeyframeEntry entry = null;
+            for (entry = _keyRoot._prev; entry != _keyRoot && entry._index >= index; entry = entry._prev)
+            {
+                if (entry._index == index || --entry._index < 0)
+                {
+                    entry = entry._next;
+                    entry._prev.Remove();
+                    _keyCount--;
+                }
+            }
         }
     }
 }

@@ -1,67 +1,45 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using BrawlLib.Wii.Animations;
+﻿using BrawlLib.Internal;
 using BrawlLib.SSBB.ResourceNodes;
+using System.Collections.Generic;
 
 namespace BrawlLib.Modeling
 {
-    public class SaveState2
+    public abstract class SaveState
     {
-        public int frameIndex = 0;
-
-        public CHR0Node animation;
-        public MDL0BoneNode bone;
-        public FrameState frameState;
-
-        public List<CollisionLink> collisionLinks;
-        public List<Vector2> vectors_2;
-        public bool split;
-        public bool merge;
-        public bool create;
-        public bool delete;
-
-        public CollisionNode collisionNode;
-        public CollisionObject collisionObject;
-        public CollisionPlane collisionPlane;
+        public bool _isUndo = true;
     }
 
-    public class SaveState
+    public class CollisionState : SaveState
     {
-        public int id;
+        public List<CollisionLink> _collisionLinks;
+        public List<Vector2> _linkVectors;
+        public bool _split;
+        public bool _merge;
+        public bool _create;
+        public bool _delete;
 
-        public bool undo = false;
-        public bool redo = true;
+        public CollisionNode _collisionNode;
+        public CollisionObject _collisionObject;
+        public CollisionPlane _collisionPlane;
+    }
 
-        public bool primarySave = false;
-        public bool keyframeSet = false;
-        public bool keyframeRemoved = false;
-        public bool boxChanged = false;
-        public bool frameDeleted = false;
-        public bool newEntry = false;
-        public bool animPorted = false;
-        
-        public FrameState oldFrameState;
-        public FrameState newFrameState;
-        public CHR0Node animation; 
-        public CHR0Node oldAnimation;
-        public MDL0BoneNode bone;
-        
-        public int frameIndex = 1;
-        public int boxIndex = -1;
-        
-        //0-2 Trans xyz, 3-5 Rot xyz, 6-8 Scale xyz
-        public bool[] newBox = new bool[9];
-        public float[] newBoxValues = new float[9];
-        public bool[] oldBox = new bool[9];
-        public float[] oldBoxValues = new float[9];
+    public class VertexState : SaveState
+    {
+        public int _animFrame;
+        public CHR0Node _chr0;
+        public List<Vertex3> _vertices = null;
+        public List<Vector3> _weightedPositions = null;
+        public IModel _targetModel;
+    }
 
-        public void SwitchType()
-        {
-            if (undo) { undo = false; redo = true; }
-            else 
-            if (redo) { undo = true; redo = false; }
-        }
+    public class BoneState : SaveState
+    {
+        public bool _updateBindState; //This will update the actual mesh when the bone is moved
+        public bool _updateBoneOnly;  //This means the bones won't affect the mesh when moved
+        public int _frameIndex = 0;
+        public CHR0Node _animation;
+        public IBoneNode[] _bones;
+        public FrameState[] _frameStates;
+        public IModel _targetModel;
     }
 }

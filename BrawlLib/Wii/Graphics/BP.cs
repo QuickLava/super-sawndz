@@ -1,62 +1,101 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using BrawlLib.Internal;
 using System.Runtime.InteropServices;
 
 namespace BrawlLib.Wii.Graphics
 {
-    [StructLayout( LayoutKind.Sequential, Pack=1)]
+    [StructLayout(LayoutKind.Sequential, Pack = 1)]
     public unsafe struct BPCommand
     {
         public BPCommand(bool enabled)
         {
-            Reg = (byte)(enabled ? 0x61 : 0);
+            Reg = (byte) (enabled ? 0x61 : 0);
             Mem = BPMemory.BPMEM_GENMODE;
-            Data = (Int24)0;
+            Data = 0;
         }
 
         public byte Reg; //0x61
         public BPMemory Mem;
-        public Int24 Data;
+        public BUInt24 Data;
+
+        public VoidPtr Address
+        {
+            get
+            {
+                fixed (void* p = &this)
+                {
+                    return p;
+                }
+            }
+        }
     }
-    
-    //Not reversed, can be used directly
+
     [StructLayout(LayoutKind.Sequential, Pack = 1)]
-    public struct AlphaFunction
+    public struct GXAlphaFunction
     {
-        public static readonly AlphaFunction Default = new AlphaFunction() { dat = 0x3F };
+        public static readonly GXAlphaFunction Default = new GXAlphaFunction {_data = 0x3F};
         //0000 0000 0000 0000 1111 1111   ref0
         //0000 0000 1111 1111 0000 0000   ref1
         //0000 0111 0000 0000 0000 0000   comp0
         //0011 1000 0000 0000 0000 0000   comp1
         //1100 0000 0000 0000 0000 0000   logic
 
-        public byte dat;
-        public byte ref1;
-        public byte ref0;
+        public Bin8 _data;
+        public byte _ref1, _ref0;
 
-        public AlphaCompare Comp0 { get { return (AlphaCompare)(dat & 7); } set { dat = (byte)((dat & 0xF8) | ((int)value & 7)); } }
-        public AlphaCompare Comp1 { get { return (AlphaCompare)((dat >> 3) & 7); } set { dat = (byte)((dat & 0xC7) | (((int)value & 7) << 3)); } }
-        public AlphaOp Logic { get { return (AlphaOp)((dat >> 6) & 3); } set { dat = (byte)((dat & 0x3F) | (((int)value & 3) << 6)); } }
+        public AlphaCompare Comp0
+        {
+            get => (AlphaCompare) _data[0, 3];
+            set => _data[0, 3] = (byte) value;
+        }
+
+        public AlphaCompare Comp1
+        {
+            get => (AlphaCompare) _data[3, 3];
+            set => _data[3, 3] = (byte) value;
+        }
+
+        public AlphaOp Logic
+        {
+            get => (AlphaOp) _data[6, 2];
+            set => _data[6, 2] = (byte) value;
+        }
     }
 
     [StructLayout(LayoutKind.Sequential, Pack = 1)]
     public struct ZMode
     {
-        public static readonly ZMode Default = new ZMode() { data = 0x17 };
+        public static readonly ZMode Default = new ZMode {_data = 0x17};
 
-        public byte pad0, pad1, data;
+        //0000 0001    Enable Depth Test
+        //0000 1110    Depth Function
+        //0001 0000    Enable Depth Update
 
-        public bool EnableDepthTest { get { return (data & 1) != 0; } set { data = (byte)((data & 0xFE) | (value ? 1 : 0)); } }
-        public bool EnableDepthUpdate { get { return (data & 0x10) != 0; } set { data = (byte)((data & 0xEF) | (value ? 0x10 : 0));} }
-        public GXCompare DepthFunction { get { return (GXCompare)((data >> 1) & 7); } set { data = (byte)((data & 0xF1) | ((int)value << 1)); } }
+        public byte _pad0, _pad1;
+        public Bin8 _data;
+
+        public bool EnableDepthTest
+        {
+            get => _data[0];
+            set => _data[0] = value;
+        }
+
+        public bool EnableDepthUpdate
+        {
+            get => _data[4];
+            set => _data[4] = value;
+        }
+
+        public GXCompare DepthFunction
+        {
+            get => (GXCompare) _data[1, 3];
+            set => _data[1, 3] = (byte) value;
+        }
     }
 
     [StructLayout(LayoutKind.Sequential, Pack = 1)]
     public struct BlendMode
     {
-        public static readonly BlendMode Default = new BlendMode() { dat1 = 0xA0, dat2 = 0x34 };
+        public static readonly BlendMode Default = new BlendMode {_data = 0x34A0};
 
         //0000 0000 0000 0001    EnableBlend
         //0000 0000 0000 0010    EnableLogic
@@ -68,22 +107,109 @@ namespace BrawlLib.Wii.Graphics
         //0000 1000 0000 0000    Subtract
         //1111 0000 0000 0000    LogicOp
 
-        public byte pad, dat2, dat1;
+        public byte _pad;
+        public Bin16 _data;
 
-        public bool EnableBlend { get { return (dat1 & 1) != 0; } set { dat1 = (byte)((dat1 & 0xFE) | (value ? 1 : 0)); } }
-        public bool EnableLogicOp { get { return (dat1 & 2) != 0; } set { dat1 = (byte)((dat1 & 0xFD) | (value ? 2 : 0)); } }
-        public bool EnableDither { get { return (dat1 & 4) != 0; } set { dat1 = (byte)((dat1 & 0xFB) | (value ? 4 : 0)); } }
-        public bool EnableColorUpdate { get { return (dat1 & 8) != 0; } set { dat1 = (byte)((dat1 & 0xF7) | (value ? 8 : 0)); } }
-        public bool EnableAlphaUpdate { get { return (dat1 & 0x10) != 0; } set { dat1 = (byte)((dat1 & 0xEF) | (value ? 0x10 : 0)); } }
-        public BlendFactor DstFactor { get { return (BlendFactor)(dat1 >> 5); } set { dat1 = (byte)((dat1 & 0x1F) | ((int)value << 5)); } }
-        public BlendFactor SrcFactor { get { return (BlendFactor)(dat2 & 7); } set { dat2 = (byte)((dat2 & 0xF8) | (int)value); } }
-        public bool Subtract { get { return (dat2 & 8) != 0; } set { dat2 = (byte)((dat2 & 0xF7) | (value ? 8 : 0)); } }
-        public GXLogicOp LogicOp { get { return (GXLogicOp)(dat2 >> 4); } set { dat2 = (byte)((dat2 & 0xF) | ((int)value << 4)); } }
+        public bool EnableBlend
+        {
+            get => _data[0];
+            set => _data[0] = value;
+        }
+
+        public bool EnableLogicOp
+        {
+            get => _data[1];
+            set => _data[1] = value;
+        }
+
+        public bool EnableDither
+        {
+            get => _data[2];
+            set => _data[2] = value;
+        }
+
+        public bool EnableColorUpdate
+        {
+            get => _data[3];
+            set => _data[3] = value;
+        }
+
+        public bool EnableAlphaUpdate
+        {
+            get => _data[4];
+            set => _data[4] = value;
+        }
+
+        public BlendFactor DstFactor
+        {
+            get => (BlendFactor) _data[5, 3];
+            set => _data[5, 3] = (ushort) value;
+        }
+
+        public BlendFactor SrcFactor
+        {
+            get => (BlendFactor) _data[8, 3];
+            set => _data[8, 3] = (ushort) value;
+        }
+
+        public bool Subtract
+        {
+            get => _data[11];
+            set => _data[11] = value;
+        }
+
+        public GXLogicOp LogicOp
+        {
+            get => (GXLogicOp) _data[12, 4];
+            set => _data[12, 4] = (ushort) value;
+        }
     }
 
     [StructLayout(LayoutKind.Sequential, Pack = 1)]
     public struct ColorEnv
     {
+        public static implicit operator int(ColorEnv val)
+        {
+            return val._data;
+        }
+
+        public static implicit operator uint(ColorEnv val)
+        {
+            return val._data;
+        }
+
+        public static implicit operator ColorEnv(int val)
+        {
+            return new ColorEnv((uint) val);
+        }
+
+        public static implicit operator ColorEnv(uint val)
+        {
+            return new ColorEnv(val);
+        }
+
+        public static implicit operator BUInt24(ColorEnv val)
+        {
+            return val._data;
+        }
+
+        public static implicit operator ColorEnv(BUInt24 val)
+        {
+            return new ColorEnv(val);
+        }
+
+        public ColorEnv(BUInt24 value)
+        {
+            _data = value;
+        }
+
+        public ColorEnv(uint value)
+        {
+            _data = value;
+        }
+
+        public Bin24 _data;
+
         //0000 0000 0000 0000 0000 1111   SelD
         //0000 0000 0000 0000 1111 0000   SelC
         //0000 0000 0000 1111 0000 0000   SelB
@@ -94,47 +220,137 @@ namespace BrawlLib.Wii.Graphics
         //0011 0000 0000 0000 0000 0000   Shift
         //1100 0000 0000 0000 0000 0000   Dest
 
-        public byte _dat0, _dat1, _dat2;
-
-        public int SelD { get { return (int)(_dat2 & 0xF); } set { _dat2 = (byte)((_dat2 & 0xF0) | ((int)value & 0xF)); } }
-        public int SelC { get { return (int)((_dat2 >> 4) & 0xF); } set { _dat2 = (byte)((_dat2 & 0xF) | ((int)value & 0xF) << 4); } }
-        public int SelB { get { return (int)(_dat1 & 0xF); } set { _dat1 = (byte)((_dat1 & 0xF0) | ((int)value & 0xF)); } }
-        public int SelA { get { return (int)((_dat1 >> 4) & 0xF); } set { _dat1 = (byte)((_dat1 & 0xF) | ((int)value & 0xF) << 4); } }
-        public int Bias { get { return (int)(_dat0 & 3); } set { _dat0 = (byte)((_dat0 & 0xFC) | ((int)value & 3)); } }
-
-        public bool Sub { get { return ((_dat0 >> 2) & 1) != 0; } set { _dat0 = (byte)((_dat0 & (0xFB)) | (value ? 4 : 0)); } }
-        public bool Clamp { get { return ((_dat0 >> 3) & 1) != 0; } set { _dat0 = (byte)((_dat0 & (0xF7)) | (value ? 8 : 0)); } }
-
-        public int Shift { get { return (int)((_dat0 >> 4) & 3); } set { _dat0 = (byte)((_dat0 & 0x30) | (((int)value & 3) << 4)); } }
-        public int Dest { get { return (int)((_dat0 >> 6) & 3); } set { _dat0 = (byte)((_dat0 & 0x3F) | (((int)value & 3) << 6)); } }
-
-        public ColorEnv(byte dat0, byte dat1, byte dat2)
-        { _dat0 = dat0; _dat1 = dat1; _dat2 = dat2; }
-
-        public ColorEnv(int value)
+        public ColorArg SelD
         {
-            _dat2 = (byte)((value) & 0xFF);
-            _dat1 = (byte)((value >> 8) & 0xFF);
-            _dat0 = (byte)((value >> 16) & 0xFF);
+            get => (ColorArg) _data[0, 4];
+            set => _data[0, 4] = (int) value;
         }
 
-        public static int Shiftv(int seld, int selc, int selb, int sela, int bias, int sub, int clamp, int shift, int dest)
+        public ColorArg SelC
         {
-            return (seld) |
-            ((selc) << 4) |
-            ((selb) << 8) |
-            ((sela) << 12) |
-            ((bias) << 16) |
-            ((sub) << 18) |
-            ((clamp) << 19) |
-            ((shift) << 20) |
-            ((dest) << 22);
+            get => (ColorArg) _data[4, 4];
+            set => _data[4, 4] = (int) value;
+        }
+
+        public ColorArg SelB
+        {
+            get => (ColorArg) _data[8, 4];
+            set => _data[8, 4] = (int) value;
+        }
+
+        public ColorArg SelA
+        {
+            get => (ColorArg) _data[12, 4];
+            set => _data[12, 4] = (int) value;
+        }
+
+        public Bias Bias
+        {
+            get => _data[16, 2] == 3 ? Bias.Zero : (Bias) _data[16, 2];
+            set
+            {
+                if (_data[16, 2] == 3)
+                {
+                    return;
+                }
+
+                _data[16, 2] = (int) value;
+            }
+        }
+
+        //public bool Sub { get { return _data[18]; } set { _data[18] = value; } }
+        public bool Clamp
+        {
+            get => _data[19];
+            set => _data[19] = value;
+        }
+
+        public TevScale Shift
+        {
+            get => _data[16, 2] == 3 ? TevScale.MultiplyBy1 : (TevScale) _data[20, 2];
+            set
+            {
+                if (_data[16, 2] == 3)
+                {
+                    return;
+                }
+
+                _data[20, 2] = (int) value;
+            }
+        }
+
+        public TevColorRegID Dest
+        {
+            get => (TevColorRegID) _data[22, 2];
+            set => _data[22, 2] = (int) value;
+        }
+
+        public TevColorOp Operation
+        {
+            get => _data[16, 2] == 3 ? (TevColorOp) (((_data[18] ? 1 : 0) | (_data[20, 2] << 1)) + 8) :
+                _data[18] ? TevColorOp.Subtract : TevColorOp.Add;
+            set
+            {
+                _data[18] = ((ushort) value & 1) != 0;
+                if (value <= TevColorOp.Subtract)
+                {
+                    _data[16, 2] = 0;
+                    _data[20, 2] = 0;
+                }
+                else
+                {
+                    _data[16, 2] = 3;
+                    _data[20, 2] = ((ushort) value >> 1) & 3;
+                }
+            }
         }
     }
 
     [StructLayout(LayoutKind.Sequential, Pack = 1)]
     public struct AlphaEnv
     {
+        public static implicit operator int(AlphaEnv val)
+        {
+            return val._data;
+        }
+
+        public static implicit operator uint(AlphaEnv val)
+        {
+            return val._data;
+        }
+
+        public static implicit operator AlphaEnv(int val)
+        {
+            return new AlphaEnv((uint) val);
+        }
+
+        public static implicit operator AlphaEnv(uint val)
+        {
+            return new AlphaEnv(val);
+        }
+
+        public static implicit operator BUInt24(AlphaEnv val)
+        {
+            return val._data;
+        }
+
+        public static implicit operator AlphaEnv(BUInt24 val)
+        {
+            return new AlphaEnv(val);
+        }
+
+        public AlphaEnv(BUInt24 value)
+        {
+            _data = value;
+        }
+
+        public AlphaEnv(uint value)
+        {
+            _data = value;
+        }
+
+        public Bin24 _data;
+
         //0000 0000 0000 0000 0000 0011   RSwap
         //0000 0000 0000 0000 0000 1100   TSwap
         //0000 0000 0000 0000 0111 0000   SelD
@@ -147,49 +363,145 @@ namespace BrawlLib.Wii.Graphics
         //0011 0000 0000 0000 0000 0000   Shift
         //1100 0000 0000 0000 0000 0000   Dest
 
-        public byte _dat0, _dat1, _dat2;
-
-        public int RSwap { get { return (int)(_dat2 & 3); } set { _dat2 = (byte)((_dat2 & 0xFC) | (value & 3)); } }
-        public int TSwap { get { return (int)((_dat2 >> 2) & 3); } set { _dat2 = (byte)((_dat2 & 0xF3) | (value & 0xC)); } }
-        public int SelD { get { return (int)((_dat2 >> 4) & 7); } set { _dat2 = (byte)((_dat2 & 0x8F) | (value & 0x70)); } }
-        public int SelC { get { return (int)((((_dat1 << 1) & 6) | (_dat2 >> 7) & 1) & 7); } set { _dat1 = (byte)((_dat1 & 0xFC) | (value & 3)); _dat2 = (byte)((_dat2 & 0xFE) | ((int)value & 1)); } }
-        public int SelB { get { return (int)((_dat1 >> 2) & 7); } set { _dat1 = (byte)((_dat1 & 0xF0) | (value & 0xF)); } }
-        public int SelA { get { return (int)((_dat1 >> 5) & 7); } set { _dat1 = (byte)((_dat1 & 0x1F) | (value & 0xE0)); } }
-        public int Bias { get { return (int)(_dat0 & 3); } set { _dat0 = (byte)((_dat0 & 0xFC) | (value & 3)); } }
-        public bool Sub { get { return (_dat0 & 4) != 0; } set { _dat0 = (byte)((_dat0 & (0xFB)) | (value ? 4 : 0)); } }
-        public bool Clamp { get { return (_dat0 & 8) != 0; } set { _dat0 = (byte)((_dat0 & (0xF7)) | (value ? 8 : 0)); } }
-        public int Shift { get { return (int)((_dat0 >> 4) & 3); } set { _dat0 = (byte)((_dat0 & 0x30) | ((value & 3) << 4)); } }
-        public int Dest { get { return (int)((_dat0 >> 6) & 3); } set { _dat0 = (byte)((_dat0 & 0x3F) | ((value & 3) << 6)); } }
-    
-        public AlphaEnv(byte dat0, byte dat1, byte dat2)
-        { _dat0 = dat0; _dat1 = dat1; _dat2 = dat2; }
-
-        public AlphaEnv(int value)
+        public TevSwapSel RSwap
         {
-            _dat2 = (byte)((value) & 0xFF);
-            _dat1 = (byte)((value >> 8) & 0xFF);
-            _dat0 = (byte)((value >> 16) & 0xFF);
+            get => (TevSwapSel) _data[0, 2];
+            set => _data[0, 2] = (int) value;
         }
 
-        public static int Shiftv(int rswap, int tswap, int seld, int selc, int selb, int sela, int bias, int sub, int clamp, int shift, int dest)
+        public TevSwapSel TSwap
         {
-            return (rswap) |
-            ((tswap) << 2) |
-            ((seld) << 4) |
-            ((selc )<< 7) |
-            ((selb )<< 10) |
-            ((sela) << 13) |
-            ((bias) << 16) |
-            ((sub) << 18) |
-            ((clamp) << 19) |
-            ((shift) << 20) |
-            ((dest) << 22);
+            get => (TevSwapSel) _data[2, 2];
+            set => _data[2, 2] = (int) value;
+        }
+
+        public AlphaArg SelD
+        {
+            get => (AlphaArg) _data[4, 3];
+            set => _data[4, 3] = (int) value;
+        }
+
+        public AlphaArg SelC
+        {
+            get => (AlphaArg) _data[7, 3];
+            set => _data[7, 3] = (int) value;
+        }
+
+        public AlphaArg SelB
+        {
+            get => (AlphaArg) _data[10, 3];
+            set => _data[10, 3] = (int) value;
+        }
+
+        public AlphaArg SelA
+        {
+            get => (AlphaArg) _data[13, 3];
+            set => _data[13, 3] = (int) value;
+        }
+
+        public Bias Bias
+        {
+            get => _data[16, 2] == 3 ? Bias.Zero : (Bias) _data[16, 2];
+            set
+            {
+                if (_data[16, 2] == 3)
+                {
+                    return;
+                }
+
+                _data[16, 2] = (int) value;
+            }
+        }
+
+        //public bool Sub { get { return _data[18]; } set { _data[18] = value; } }
+        public bool Clamp
+        {
+            get => _data[19];
+            set => _data[19] = value;
+        }
+
+        public TevScale Shift
+        {
+            get => _data[16, 2] == 3 ? TevScale.MultiplyBy1 : (TevScale) _data[20, 2];
+            set
+            {
+                if (_data[16, 2] == 3)
+                {
+                    return;
+                }
+
+                _data[20, 2] = (int) value;
+            }
+        }
+
+        public TevAlphaRegID Dest
+        {
+            get => (TevAlphaRegID) _data[22, 2];
+            set => _data[22, 2] = (int) value;
+        }
+
+        public TevAlphaOp Operation
+        {
+            get => _data[16, 2] == 3 ? (TevAlphaOp) (((_data[18] ? 1 : 0) | (_data[20, 2] << 1)) + 8) :
+                _data[18] ? TevAlphaOp.Subtract : TevAlphaOp.Add;
+            set
+            {
+                _data[18] = ((ushort) value & 1) != 0;
+                if (value <= TevAlphaOp.Subtract)
+                {
+                    _data[16, 2] = 0;
+                    _data[20, 2] = 0;
+                }
+                else
+                {
+                    _data[16, 2] = 3;
+                    _data[20, 2] = ((ushort) value >> 1) & 3;
+                }
+            }
         }
     }
 
     [StructLayout(LayoutKind.Sequential, Pack = 1)]
-    public struct RAS1_IRef //For indirect textures
+    public struct RAS1_IRef
     {
+        public static implicit operator int(RAS1_IRef val)
+        {
+            return val._data;
+        }
+
+        public static implicit operator uint(RAS1_IRef val)
+        {
+            return val._data;
+        }
+
+        public static implicit operator RAS1_IRef(int val)
+        {
+            return new RAS1_IRef((uint) val);
+        }
+
+        public static implicit operator RAS1_IRef(uint val)
+        {
+            return new RAS1_IRef(val);
+        }
+
+        public static implicit operator BUInt24(RAS1_IRef val)
+        {
+            return val._data;
+        }
+
+        public static implicit operator RAS1_IRef(BUInt24 val)
+        {
+            return new RAS1_IRef(val);
+        }
+
+        //public RAS1_IRef(BUInt24 value) { _data = value; }
+        public RAS1_IRef(uint value)
+        {
+            _data = value;
+        }
+
+        public Bin24 _data;
+
         //0000 0000 0000 0000 0000 0111   BI0
         //0000 0000 0000 0000 0011 1000   BC0
         //0000 0000 0000 0001 1100 0000   BI1
@@ -199,37 +511,114 @@ namespace BrawlLib.Wii.Graphics
         //0001 1100 0000 0000 0000 0000   BI3
         //1110 0000 0000 0000 0000 0000   BC3
 
-        public Int24 data;
-        
-        public int TexMap0 { get { return (int)data & 7; } }
-        public int TexCoord0 { get { return ((int)data >> 3) & 7; } }
-        public int TexMap1 { get { return ((int)data >> 6) & 7; } }
-        public int TexCoord1 { get { return ((int)data >> 9) & 7; } }
-        public int TexMap2 { get { return ((int)data >> 12) & 7; } }
-        public int TexCoord2 { get { return ((int)data >> 15) & 7; } }
-        public int TexMap3 { get { return ((int)data >> 18) & 7; } }
-        public int TexCoord3 { get { return ((int)data >> 21) & 7; } }
-        
-        public RAS1_IRef(byte dat0, byte dat1, byte dat2) { data._dat0 = dat0; data._dat1 = dat1; data._dat2 = dat2; }
-        public RAS1_IRef(int value) { data = (Int24)value; }
-        public RAS1_IRef(Int24 value) { data = value; }
-        
-        public static int Shift(int bi0, int bc0, int bi1, int bc1, int bi2, int bc2, int bi3, int bc3)
+        public TexMapID TexMap0
         {
-            return (bi0) |
-            ((bc0) << 3) |
-            ((bi1) << 6) |
-            ((bc1) << 9) |
-            ((bi2) << 12) |
-            ((bc2) << 15) |
-            ((bi3) << 18) |
-            ((bc3) << 21);
+            get => (TexMapID) _data[0, 3];
+            set => _data[0, 3] = (int) value;
+        }
+
+        public TexCoordID TexCoord0
+        {
+            get => (TexCoordID) _data[3, 3];
+            set => _data[3, 3] = (int) value;
+        }
+
+        public TexMapID TexMap1
+        {
+            get => (TexMapID) _data[6, 3];
+            set => _data[6, 3] = (int) value;
+        }
+
+        public TexCoordID TexCoord1
+        {
+            get => (TexCoordID) _data[9, 3];
+            set => _data[9, 3] = (int) value;
+        }
+
+        public TexMapID TexMap2
+        {
+            get => (TexMapID) _data[12, 3];
+            set => _data[12, 3] = (int) value;
+        }
+
+        public TexCoordID TexCoord2
+        {
+            get => (TexCoordID) _data[15, 3];
+            set => _data[15, 3] = (int) value;
+        }
+
+        public TexMapID TexMap3
+        {
+            get => (TexMapID) _data[18, 3];
+            set => _data[18, 3] = (int) value;
+        }
+
+        public TexCoordID TexCoord3
+        {
+            get => (TexCoordID) _data[21, 3];
+            set => _data[21, 3] = (int) value;
         }
     }
 
     [StructLayout(LayoutKind.Sequential, Pack = 1)]
-    public struct RAS1_TRef //For direct textures
+    public struct RAS1_TRef
     {
+        public static implicit operator int(RAS1_TRef val)
+        {
+            return val._data;
+        }
+
+        public static implicit operator uint(RAS1_TRef val)
+        {
+            return val._data;
+        }
+
+        public static implicit operator RAS1_TRef(int val)
+        {
+            return new RAS1_TRef((uint) val);
+        }
+
+        public static implicit operator RAS1_TRef(uint val)
+        {
+            return new RAS1_TRef(val);
+        }
+
+        public static implicit operator BUInt24(RAS1_TRef val)
+        {
+            return val._data;
+        }
+
+        public static implicit operator RAS1_TRef(BUInt24 val)
+        {
+            return new RAS1_TRef(val);
+        }
+
+        public RAS1_TRef(TexMapID tm0, TexCoordID tc0, bool te0, ColorSelChan cc0, TexMapID tm1, TexCoordID tc1,
+                         bool te1, ColorSelChan cc1)
+        {
+            _data =
+                ((uint) tm0 << 0) |
+                ((uint) tc0 << 3) |
+                ((uint) (te0 ? 1 : 0) << 6) |
+                ((uint) cc0 << 7) |
+                ((uint) tm1 << 12) |
+                ((uint) tc1 << 15) |
+                ((uint) (te1 ? 1 : 0) << 18) |
+                ((uint) cc1 << 19);
+        }
+
+        public RAS1_TRef(BUInt24 value)
+        {
+            _data = value;
+        }
+
+        public RAS1_TRef(uint value)
+        {
+            _data = value;
+        }
+
+        public Bin24 _data;
+
         //0000 0000 0000 0000 0000 0111   TI0
         //0000 0000 0000 0000 0011 1000   TC0
         //0000 0000 0000 0000 0100 0000   TE0
@@ -241,45 +630,120 @@ namespace BrawlLib.Wii.Graphics
         //0011 1000 0000 0000 0000 0000   CC1
         //1100 0000 0000 0000 0000 0000   PAD1
 
-        public byte _dat0, _dat1, _dat2;
-
-        public int TI0 { get { return (int)(_dat2 & 7); } set { _dat2 = (byte)((_dat2 & 0xF8) | (value & 7)); } }
-        public int TC0 { get { return (int)((_dat2 >> 3) & 7); } set { _dat2 = (byte)((_dat2 & 0xC7) | ((value & 7) << 3)); } }
-        public bool TE0 { get { return (_dat2 >> 6) != 0; } set { _dat2 = (byte)((_dat2 & (0xBF)) | ((value ? 1 : 0) << 6)); } }
-        public int CC0 { get { return (int)(((_dat1 << 1 & 6) | (_dat2 >> 7 & 1)) & 7); } set { _dat1 = (byte)((_dat1 & 0xFC) | (value & 3)); _dat2 = (byte)((_dat2 & 0xFE) | ((int)value & 1)); } }
-        public int Pad0 { get { return (int)((_dat1 >> 2) & 3); } set { _dat1 = (byte)((_dat1 & 0xF3) | ((value & 3) << 2)); } }
-        public int TI1 { get { return (int)((_dat1 >> 4) & 7); } set { _dat1 = (byte)((_dat1 & 0x8F) | ((value & 7) << 4)); } }
-        public int TC1 { get { return (int)(((_dat0 << 1 & 6) | (_dat1 >> 7 & 1))); } set { _dat0 = (byte)((_dat0 & 0xFC) | (value & 3)); _dat1 = (byte)((_dat1 & 0xFE) | ((int)value & 1)); } }
-        public bool TE1 { get { return (_dat0 & 4) != 0; } set { _dat0 = (byte)((_dat0 & (0xFB)) | (value ? 4 : 0)); } }
-        public int CC1 { get { return (int)((_dat0 >> 3) & 7); } set { _dat0 = (byte)((_dat0 & 0xC7) | ((value & 7) << 3)); } }
-        public int Pad1 { get { return (int)((_dat0 >> 6) & 3); } set { _dat0 = (byte)((_dat0 & 0x3F) | ((value & 3) << 6)); } }
-
-        public RAS1_TRef(byte dat0, byte dat1, byte dat2)
-        { _dat0 = dat0; _dat1 = dat1; _dat2 = dat2; }
-
-        public RAS1_TRef(int value)
+        public TexMapID TexMapID0
         {
-            _dat2 = (byte)((value) & 0xFF);
-            _dat1 = (byte)((value >> 8) & 0xFF);
-            _dat0 = (byte)((value >> 16) & 0xFF);
+            get => (TexMapID) _data[0, 3];
+            set => _data[0, 3] = (int) value;
         }
 
-        public static int Shift(int ti0, int tc0, int te0, int cc0, int ti1, int tc1, int te1, int cc1)
+        public TexCoordID TexCoord0
         {
-            return (ti0) |
-            ((tc0) << 3) |
-            ((te0) << 6) |
-            ((cc0) << 7) |
-            ((ti1) << 12) |
-            ((tc1) << 15) |
-            ((te1) << 18) |
-            ((cc1) << 19);
+            get => (TexCoordID) _data[3, 3];
+            set => _data[3, 3] = (int) value;
+        }
+
+        public bool TexEnabled0
+        {
+            get => _data[6];
+            set => _data[6] = value;
+        }
+
+        public ColorSelChan ColorChannel0
+        {
+            get => (ColorSelChan) _data[7, 3];
+            set => _data[7, 3] = (int) value;
+        }
+
+        public int Pad0
+        {
+            get => _data[10, 2];
+            set => _data[10, 2] = value;
+        }
+
+        public TexMapID TexMapID1
+        {
+            get => (TexMapID) _data[12, 3];
+            set => _data[12, 3] = (int) value;
+        }
+
+        public TexCoordID TexCoord1
+        {
+            get => (TexCoordID) _data[15, 3];
+            set => _data[15, 3] = (int) value;
+        }
+
+        public bool TexEnabled1
+        {
+            get => _data[18];
+            set => _data[18] = value;
+        }
+
+        public ColorSelChan ColorChannel1
+        {
+            get => (ColorSelChan) _data[19, 3];
+            set => _data[19, 3] = (int) value;
+        }
+
+        public int Pad1
+        {
+            get => _data[22, 2];
+            set => _data[22, 2] = value;
         }
     }
 
     [StructLayout(LayoutKind.Sequential, Pack = 1)]
     public struct KSel
     {
+        public static implicit operator int(KSel val)
+        {
+            return val._data;
+        }
+
+        public static implicit operator uint(KSel val)
+        {
+            return val._data;
+        }
+
+        public static implicit operator KSel(int val)
+        {
+            return new KSel((uint) val);
+        }
+
+        public static implicit operator KSel(uint val)
+        {
+            return new KSel(val);
+        }
+
+        public static implicit operator BUInt24(KSel val)
+        {
+            return val._data;
+        }
+
+        public static implicit operator KSel(BUInt24 val)
+        {
+            return new KSel(val);
+        }
+
+        public KSel(ColorChannel xrb, ColorChannel xga, TevKColorSel kc0, TevKAlphaSel ka0, TevKColorSel kc1,
+                    TevKAlphaSel ka1)
+        {
+            _data =
+                ((uint) xrb << 0) |
+                ((uint) xga << 2) |
+                ((uint) kc0 << 4) |
+                ((uint) ka0 << 9) |
+                ((uint) kc1 << 14) |
+                ((uint) ka1 << 19);
+        }
+
+        //public KSel(BUInt24 value) { _data = value; }
+        public KSel(uint value)
+        {
+            _data = value;
+        }
+
+        public Bin24 _data;
+
         //0000 0000 0000 0000 0000 0011   XRB - Swap Mode Only
         //0000 0000 0000 0000 0000 1100   XGA - Swap Mode Only
         //0000 0000 0000 0001 1111 0000   KCSEL0 - Selection Mode Only
@@ -287,40 +751,88 @@ namespace BrawlLib.Wii.Graphics
         //0000 0111 1100 0000 0000 0000   KCSEL1 - Selection Mode Only
         //1111 1000 0000 0000 0000 0000   KASEL1 - Selection Mode Only
 
-        public byte _dat0, _dat1, _dat2;
-
-        public int XRB { get { return (int)(_dat2 & 3); } set { _dat2 = (byte)((_dat2 & 0xFC) | (value & 3)); } }
-        public int XGA { get { return (int)((_dat2 >> 2) & 3); } set { _dat2 = (byte)((_dat2 & 0xF3) | (value & 0xC)); } }
-
-        public int KCSEL0 { get { return (int)((((_dat2 >> 4) & 0xF) | (_dat1 << 4)) & 0x1F); } set { } }
-        public int KASEL0 { get { return (int)((_dat1 >> 1) & 0x1F); } set { } }
-
-        public int KCSEL1 { get { return (int)((((_dat1 >> 6) & 3) | (_dat0 << 2)) & 0x1F); } set { } }
-        public int KASEL1 { get { return (int)((_dat0 >> 3) & 0x1F); } set { } }
-
-        public KSel(byte dat0, byte dat1, byte dat2)
-        { _dat0 = dat0; _dat1 = dat1; _dat2 = dat2; }
-
-        public KSel(int value)
+        public ColorChannel XRB
         {
-            _dat2 = (byte)((value) & 0xFF);
-            _dat1 = (byte)((value >> 8) & 0xFF);
-            _dat0 = (byte)((value >> 16) & 0xFF);
+            get => (ColorChannel) _data[0, 2];
+            set => _data[0, 2] = (int) value;
         }
-        
-        public static int Shift(int xrb, int xga, int kcsel0, int kasel0, int kcsel1, int kasel1)
+
+        public ColorChannel XGA
         {
-            return (xrb) | (xga << 2) | 
-                (kcsel0 << 4) |
-                (kasel0 << 9) |
-                (kcsel1 << 14) |
-                (kasel1 << 19);
+            get => (ColorChannel) _data[2, 2];
+            set => _data[2, 2] = (int) value;
+        }
+
+        public TevKColorSel KCSel0
+        {
+            get => (TevKColorSel) _data[4, 5];
+            set => _data[4, 5] = (int) value;
+        }
+
+        public TevKAlphaSel KASel0
+        {
+            get => (TevKAlphaSel) _data[9, 5];
+            set => _data[9, 5] = (int) value;
+        }
+
+        public TevKColorSel KCSel1
+        {
+            get => (TevKColorSel) _data[14, 5];
+            set => _data[14, 5] = (int) value;
+        }
+
+        public TevKAlphaSel KASel1
+        {
+            get => (TevKAlphaSel) _data[19, 5];
+            set => _data[19, 5] = (int) value;
         }
     }
 
     [StructLayout(LayoutKind.Sequential, Pack = 1)]
     public struct CMD
     {
+        public static implicit operator int(CMD val)
+        {
+            return val._data;
+        }
+
+        public static implicit operator uint(CMD val)
+        {
+            return val._data;
+        }
+
+        public static implicit operator CMD(int val)
+        {
+            return new CMD((uint) val);
+        }
+
+        public static implicit operator CMD(uint val)
+        {
+            return new CMD(val);
+        }
+
+        public static implicit operator BUInt24(CMD val)
+        {
+            return val._data;
+        }
+
+        public static implicit operator CMD(BUInt24 val)
+        {
+            return new CMD(val);
+        }
+
+        public CMD(BUInt24 value)
+        {
+            _data = value;
+        }
+
+        public CMD(uint value)
+        {
+            _data = value;
+        }
+
+        public Bin24 _data;
+
         //0000 0000 0000 0000 0000 0011   BT
         //0000 0000 0000 0000 0000 1100   Format
         //0000 0000 0000 0000 0111 0000   Bias
@@ -332,40 +844,64 @@ namespace BrawlLib.Wii.Graphics
         //0001 0000 0000 0000 0000 0000   FB
         //1110 0000 0000 0000 0000 0000   Pad
 
-        public byte _dat0, _dat1, _dat2;
-        
-        public int BT { get { return (int)((_dat2) & 3); } }
-        public int Format { get { return (int)((_dat2 >> 2) & 3); } }
-        public int Bias { get { return (int)((_dat2 >> 4) & 7); } }
-        public int BS { get { return (int)((((_dat1 << 1) & 2) | (_dat2 >> 7) & 1) & 3); } }
-        public int M { get { return (int)((_dat1 >> 1) & 0xF); } }
-        public int SW { get { return (int)((_dat1 >> 5) & 7); } }
-        public int TW { get { return (int)(_dat0 & 7); } }
-        public bool LB { get { return ((_dat0 >> 3) & 1) != 0; } }
-        public bool FB { get { return ((_dat0 >> 4) & 1) != 0; } }
-        public int Pad { get { return (int)((_dat0 >> 5) & 7); } }
-
-        public CMD(byte dat0, byte dat1, byte dat2)
-        { _dat0 = dat0; _dat1 = dat1; _dat2 = dat2; }
-
-        public CMD(int value)
+        public IndTexStageID StageID
         {
-            _dat2 = (byte)((value) & 0xFF);
-            _dat1 = (byte)((value >> 8) & 0xFF);
-            _dat0 = (byte)((value >> 16) & 0xFF);
+            get => (IndTexStageID) _data[0, 2];
+            set => _data[0, 2] = (int) value;
         }
 
-        public static int Shift(int bt, int fmt, int bias, int bs, int m, int sw, int tw, int lb, int fb)
+        public IndTexFormat Format
         {
-            return (bt) |
-            ((fmt) << 2) |
-            ((bias) << 4) |
-            ((bs) << 7) |
-            ((m) << 9) |
-            ((sw) << 13) |
-            ((tw) << 16) |
-            ((lb) << 19) |
-            ((fb) << 20);
+            get => (IndTexFormat) _data[2, 2];
+            set => _data[2, 2] = (int) value;
+        }
+
+        public IndTexBiasSel Bias
+        {
+            get => (IndTexBiasSel) _data[4, 3];
+            set => _data[4, 3] = (int) value;
+        }
+
+        public IndTexAlphaSel Alpha
+        {
+            get => (IndTexAlphaSel) _data[7, 2];
+            set => _data[7, 2] = (int) value;
+        }
+
+        public IndTexMtxID Matrix
+        {
+            get => (IndTexMtxID) _data[9, 4];
+            set => _data[9, 4] = (int) value;
+        }
+
+        public IndTexWrap SWrap
+        {
+            get => (IndTexWrap) _data[13, 3];
+            set => _data[13, 3] = (int) value;
+        }
+
+        public IndTexWrap TWrap
+        {
+            get => (IndTexWrap) _data[16, 3];
+            set => _data[16, 3] = (int) value;
+        }
+
+        public bool UsePrevStage
+        {
+            get => _data[19];
+            set => _data[19] = value;
+        }
+
+        public bool UnmodifiedLOD
+        {
+            get => _data[20];
+            set => _data[20] = value;
+        }
+
+        public int Pad
+        {
+            get => _data[21, 3];
+            set => _data[21, 3] = value;
         }
     }
 
@@ -379,19 +915,28 @@ namespace BrawlLib.Wii.Graphics
 
         public byte _pad, _dat1, _dat2;
 
-        public IndTexScale S_Scale0 { get { return (IndTexScale)((_dat2) & 0xF); } set { _dat2 = (byte)((_dat2 & 0xF0) | ((int)value & 0xF)); } }
-        public IndTexScale T_Scale0 { get { return (IndTexScale)((_dat2 >> 4) & 0xF); } set { _dat2 = (byte)((_dat2 & 0xF0) | ((int)value & 0xF)); } }
-        public IndTexScale S_Scale1 { get { return (IndTexScale)((_dat1) & 0xF); } set { _dat1 = (byte)((_dat1 & 0xF0) | ((int)value & 0xF)); } }
-        public IndTexScale T_Scale1 { get { return (IndTexScale)((_dat1 >> 4) & 0xF); } set { _dat1 = (byte)((_dat1 & 0xF0) | ((int)value & 0xF)); } }
-        
-        public RAS1_SS(byte dat1, byte dat2)
-        { _pad = 0; _dat1 = dat1; _dat2 = dat2; }
-
-        public RAS1_SS(int value)
+        public IndTexScale S_Scale0
         {
-            _dat2 = (byte)((value) & 0xFF);
-            _dat1 = (byte)((value >> 8) & 0xFF);
-            _pad = 0;
+            get => (IndTexScale) (_dat2 & 0xF);
+            set => _dat2 = (byte) ((_dat2 & 0xF0) | ((int) value & 0xF));
+        }
+
+        public IndTexScale T_Scale0
+        {
+            get => (IndTexScale) ((_dat2 >> 4) & 0xF);
+            set => _dat2 = (byte) ((_dat2 & 0xF0) | ((int) value & 0xF));
+        }
+
+        public IndTexScale S_Scale1
+        {
+            get => (IndTexScale) (_dat1 & 0xF);
+            set => _dat1 = (byte) ((_dat1 & 0xF0) | ((int) value & 0xF));
+        }
+
+        public IndTexScale T_Scale1
+        {
+            get => (IndTexScale) ((_dat1 >> 4) & 0xF);
+            set => _dat1 = (byte) ((_dat1 & 0xF0) | ((int) value & 0xF));
         }
     }
 
@@ -405,28 +950,50 @@ namespace BrawlLib.Wii.Graphics
     [StructLayout(LayoutKind.Sequential, Pack = 1)]
     public struct ColorReg
     {
-        public static readonly ColorReg Konstant = new ColorReg() { _dat0 = 0x80 };
+        public static readonly ColorReg Konstant = new ColorReg {_dat0 = 0x80};
 
-        //0000 0000 0000 1111 1111 1111 Red (Lo) / Blue (Hi) - A
-        //0111 1111 1111 0000 0000 0000 Alpha (Lo) /Green (Hi) - B
+        //0000 0000 0000 1111 1111 1111 Red (Lo) / Blue (Hi)
+        //0111 1111 1111 0000 0000 0000 Alpha (Lo) /Green (Hi)
         //1000 0000 0000 0000 0000 0000 Register Type
 
         public byte _dat0, _dat1, _dat2;
 
-        public short A { get { return (short)(((short)(_dat1 << 13) >> 5) | _dat2); } set { _dat1 = (byte)((_dat1 & 0xF8) | ((value >> 8) & 0x7)); _dat2 = (byte)(value & 0xFF); } }
-        public short B { get { return (short)(((short)(_dat0 << 9) >> 5) | (_dat1 >> 4)); } set { _dat0 = (byte)((_dat0 & 0x80) | ((value >> 4) & 0x7F)); _dat1 = (byte)((_dat1 & 0xF) | (value << 4)); } }
-        public RegType Type { get { return (RegType)((_dat0 & 0x80) != 0 ? 1 : 0); } set { _dat0 = (byte)((_dat0 & 0x7F) | ((int)value == 1 ? 0x80 : 0)); } }
+        public short RB
+        {
+            get => (short) (((short) (_dat1 << 13) >> 5) | _dat2);
+            set
+            {
+                _dat1 = (byte) ((_dat1 & 0xF8) | ((value >> 8) & 0x7));
+                _dat2 = (byte) (value & 0xFF);
+            }
+        }
+
+        public short AG
+        {
+            get => (short) (((short) (_dat0 << 9) >> 5) | (_dat1 >> 4));
+            set
+            {
+                _dat0 = (byte) ((_dat0 & 0x80) | ((value >> 4) & 0x7F));
+                _dat1 = (byte) ((_dat1 & 0xF) | (value << 4));
+            }
+        }
+
+        public RegType Type
+        {
+            get => (RegType) ((_dat0 & 0x80) != 0 ? 1 : 0);
+            set => _dat0 = (byte) ((_dat0 & 0x7F) | ((int) value == 1 ? 0x80 : 0));
+        }
 
         public override string ToString()
         {
-            return String.Format("A:{0}, B:{1}, Type:{2}", A, B, Type);
+            return $"A:{RB}, B:{AG}, Type:{Type}";
         }
     }
 
     [StructLayout(LayoutKind.Sequential, Pack = 1)]
     public struct ConstantAlpha
     {
-        public static readonly ConstantAlpha Default = new ConstantAlpha();
+        public static readonly ConstantAlpha Default;
 
         public byte Pad, Enable, Value;
     }
@@ -487,7 +1054,7 @@ namespace BrawlLib.Wii.Graphics
         BPMEM_TREF5 = 0x2D,
         BPMEM_TREF6 = 0x2E,
         BPMEM_TREF7 = 0x2F,
-        
+
         BPMEM_SU_SSIZE0 = 0x30,
         BPMEM_SU_TSIZE0 = 0x31,
         BPMEM_SU_SSIZE1 = 0x32,
@@ -533,7 +1100,7 @@ namespace BrawlLib.Wii.Graphics
         BPMEM_CLEARBBOX2 = 0x56,
 
         BPMEM_UNKNOWN_57 = 0x57,
-        
+
         BPMEM_REVBITS = 0x58,
         BPMEM_SCISSOROFFSET = 0x59,
 
@@ -553,7 +1120,7 @@ namespace BrawlLib.Wii.Graphics
         BPMEM_TX_SETMODE0_B = 0x81,
         BPMEM_TX_SETMODE0_C = 0x82,
         BPMEM_TX_SETMODE0_D = 0x83,
-        
+
         BPMEM_TX_SETMODE1_A = 0x84,
         BPMEM_TX_SETMODE1_B = 0x85,
         BPMEM_TX_SETMODE1_C = 0x86,
@@ -563,7 +1130,7 @@ namespace BrawlLib.Wii.Graphics
         BPMEM_TX_SETIMAGE0_B = 0x89,
         BPMEM_TX_SETIMAGE0_C = 0x8A,
         BPMEM_TX_SETIMAGE0_D = 0x8B,
-        
+
         BPMEM_TX_SETIMAGE1_A = 0x8C,
         BPMEM_TX_SETIMAGE1_B = 0x8D,
         BPMEM_TX_SETIMAGE1_C = 0x8E,
@@ -666,7 +1233,7 @@ namespace BrawlLib.Wii.Graphics
         BPMEM_TEV_REGISTER_H_2 = 0xE5,
         BPMEM_TEV_REGISTER_L_3 = 0xE6,
         BPMEM_TEV_REGISTER_H_3 = 0xE7,
-        
+
         BPMEM_TEV_FOG_RANGE = 0xE8,
         BPMEM_TEV_FOG_PARAM_0 = 0xEE,
         BPMEM_TEV_FOG_B_MAGNITUDE = 0xEF,

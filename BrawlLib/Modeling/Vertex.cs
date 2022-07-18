@@ -1,137 +1,244 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Runtime.InteropServices;
-using BrawlLib.Wii.Models;
-using BrawlLib.OpenGL;
-using System.Drawing;
-using System.ComponentModel;
+using BrawlLib.Internal;
 using BrawlLib.SSBB.ResourceNodes;
-using BrawlLib.Imaging;
+using BrawlLib.Wii.Models;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Drawing;
+using System.Linq;
 
 namespace BrawlLib.Modeling
 {
-    public class Vertex3
+    public class Vertex3 : IMatrixNodeUser
     {
         public Vector3 _position;
         public Vector3 _weightedPosition;
+        internal IMatrixNode _matrixNode;
 
-        public Vector3 _normal;
-        public Vector3 _weightedNormal;
+        //normals, colors and uvs aren't stored in this class
+        //because this stores a unique weighted point in space.
+        //Multiple vertices may have different normals etc but the same weighted position
 
-        internal IMatrixNode _influence;
+        [Browsable(false)]
+        public IMatrixNodeUser Parent
+        {
+            get => _parent;
+            set => _parent = value;
+        }
 
-        public RGBAPixel[] Color = new RGBAPixel[2];
-        public Vector2[] UV = new Vector2[8];
+        private IMatrixNodeUser _parent;
 
-        public int Index = 0;
+        public List<int> FaceDataIndices = new List<int>();
+
+        //Contains all the facepoints with the same position and influence.
+        //Note that the normal, etc indices may differ per facepoint
+        public List<Facepoint> Facepoints = new List<Facepoint>();
+
+        public IMatrixNode GetMatrixNode()
+        {
+            if (_parent?.MatrixNode != null)
+            {
+                return _parent.MatrixNode;
+            }
+
+            return MatrixNode;
+        }
+
+        public Matrix GetMatrix()
+        {
+            IMatrixNode node = GetMatrixNode();
+            if (node != null)
+            {
+                return node.Matrix;
+            }
+
+            return Matrix.Identity;
+        }
+
+        public Matrix GetInvMatrix()
+        {
+            IMatrixNode node = GetMatrixNode();
+            if (node != null)
+            {
+                return node.InverseMatrix;
+            }
+
+            return Matrix.Identity;
+        }
+
+        public List<BoneWeight> GetBoneWeights()
+        {
+            return MatrixNode == null ? _parent.MatrixNode.Weights : MatrixNode.Weights;
+        }
+
+        public IBoneNode[] GetBones()
+        {
+            List<BoneWeight> b = GetBoneWeights();
+            return b?.Select(x => x.Bone).ToArray();
+        }
+
+        public float[] GetWeightValues()
+        {
+            List<BoneWeight> b = GetBoneWeights();
+            return b?.Select(x => x.Weight).ToArray();
+        }
+
+        public int IndexOfBone(IBoneNode b)
+        {
+            return Array.IndexOf(GetBones(), b);
+        }
+
+        public BoneWeight WeightForBone(IBoneNode b)
+        {
+            int i = IndexOfBone(b);
+            if (i == -1)
+            {
+                return null;
+            }
+
+            return GetBoneWeights()[i];
+        }
 
         [Browsable(true)]
-        public string Influence
+        public string Influence => MatrixNode == null ? "(none)" :
+            MatrixNode.IsPrimaryNode ? ((ResourceNode) MatrixNode).Name : "(multiple)";
+
+        private bool _updateAssets = true;
+
+        public void ChangeInfluence(IMatrixNode newMatrixNode)
         {
-            get { return Inf == null ? "(none)" : Inf.IsPrimaryNode ? ((MDL0BoneNode)Inf)._name : "(multiple)"; }
-            //set { Inf = String.IsNullOrEmpty(value) ? null : Model.FindOrCreateBone(value); Model.SignalPropertyChange(); }
-        }
-        [Browsable(false)]
-        public IMatrixNode Inf
-        {
-            get { return _influence; }
-            set
+            if (_parent == null)
             {
-                if (_influence == value)
-                    return;
+                return;
+            }
 
-                if (_influence != null)
-                    _influence.ReferenceCount--;
+            IMatrixNode oldMatrixNode = GetMatrixNode();
+            if (newMatrixNode is IBoneNode && (oldMatrixNode is Influence || oldMatrixNode == null))
+            {
+                //Move to local
+                Matrix inv = ((IBoneNode) newMatrixNode).InverseBindMatrix;
 
-                if ((_influence = value) != null)
-                    _influence.ReferenceCount++;
+                _position *= inv;
+                UpdateNormals(Matrix.Identity, inv);
+
+                if (_updateAssets)
+                {
+                    SetPosition();
+                    SetNormals();
+                }
+            }
+            else if ((newMatrixNode is Influence || newMatrixNode == null) && oldMatrixNode is IBoneNode)
+            {
+                //Move to world
+                Matrix m = ((IBoneNode) oldMatrixNode).BindMatrix;
+
+                _position *= m;
+                UpdateNormals(m, Matrix.Identity);
+
+                if (_updateAssets)
+                {
+                    SetPosition();
+                    SetNormals();
+                }
+            }
+            else if (newMatrixNode is IBoneNode && oldMatrixNode is IBoneNode)
+            {
+                //Update local position
+                Matrix m = ((IBoneNode) oldMatrixNode).BindMatrix;
+                Matrix inv = ((IBoneNode) newMatrixNode).InverseBindMatrix;
+
+                _position *= m;
+                _position *= inv;
+                UpdateNormals(m, inv);
+
+                if (_updateAssets)
+                {
+                    SetPosition();
+                    SetNormals();
+                }
+            }
+
+            _updateAssets = true;
+
+            //If both are null or an influence, they're already in world position
+        }
+
+        private void SetNormals()
+        {
+            MDL0ObjectNode obj = _parent as MDL0ObjectNode;
+            obj?.SetEditedNormals();
+        }
+
+        private unsafe void UpdateNormals(Matrix m, Matrix inv)
+        {
+            MDL0ObjectNode obj = _parent as MDL0ObjectNode;
+            if (obj?._manager._faceData[1] != null)
+            {
+                Vector3* pData = (Vector3*) obj._manager._faceData[1].Address;
+                for (int i = 0; i < FaceDataIndices.Count; i++)
+                {
+                    Vector3 n = pData[i];
+                    n *= m.GetRotationMatrix();
+                    n *= inv.GetRotationMatrix();
+                    pData[i] = n;
+                }
             }
         }
-        [Browsable(true), Category("Vertex"), TypeConverter(typeof(Vector3StringConverter))]
+
+        public void DeferUpdateAssets()
+        {
+            _updateAssets = false;
+        }
+
+        [Browsable(false)]
+        public IMatrixNode MatrixNode
+        {
+            get => _matrixNode;
+            set
+            {
+                if (_matrixNode == value)
+                {
+                    return;
+                }
+
+                ChangeInfluence(value);
+
+                if (_matrixNode != null && _matrixNode.Users.Contains(this))
+                {
+                    _matrixNode.Users.Remove(this);
+                }
+
+                if ((_matrixNode = value) != null && !_matrixNode.Users.Contains(this))
+                {
+                    _matrixNode.Users.Add(this);
+                }
+            }
+        }
+
+        [Browsable(true)]
+        [Category("Vertex")]
+        [TypeConverter(typeof(Vector3StringConverter))]
         public Vector3 WeightedPosition
         {
-            get { return _weightedPosition; }
-            set { _weightedPosition = value; }
+            get => _weightedPosition;
+            set
+            {
+                _weightedPosition = value;
+                Unweight();
+            }
         }
-        [Browsable(true), Category("Vertex"), TypeConverter(typeof(Vector3StringConverter))]
+
+        [Browsable(false)]
+        [Category("Vertex")]
+        [TypeConverter(typeof(Vector3StringConverter))]
         public Vector3 Position
         {
-            get { return _position; }
-            set { _position = value; }
+            get => _position;
+            set => _position = value;
         }
-        [Browsable(true), Category("Vertex"), TypeConverter(typeof(Vector3StringConverter))]
-        public Vector3 Normal
+
+        public Vertex3()
         {
-            get { return _normal; }
-            set { _normal = value; }
-        }
-        [Browsable(true), Category("Vertex"), TypeConverter(typeof(RGBAStringConverter))]
-        public RGBAPixel Color1
-        {
-            get { return Color[0]; }
-            set { Color[0] = value; }
-        }
-        [Browsable(true), Category("Vertex"), TypeConverter(typeof(RGBAStringConverter))]
-        public RGBAPixel Color2
-        {
-            get { return Color[1]; }
-            set { Color[1] = value; }
-        }
-        [Browsable(true), Category("Vertex"), TypeConverter(typeof(Vector2StringConverter))]
-        public Vector2 UV1
-        {
-            get { return UV[0]; }
-            set { UV[0] = value; }
-        }
-        [Browsable(true), Category("Vertex"), TypeConverter(typeof(Vector2StringConverter))]
-        public Vector2 UV2
-        {
-            get { return UV[1]; }
-            set { UV[1] = value; }
-        }
-        [Browsable(true), Category("Vertex"), TypeConverter(typeof(Vector2StringConverter))]
-        public Vector2 UV3
-        {
-            get { return UV[2]; }
-            set { UV[2] = value; }
-        }
-        [Browsable(true), Category("Vertex"), TypeConverter(typeof(Vector2StringConverter))]
-        public Vector2 UV4
-        {
-            get { return UV[3]; }
-            set { UV[3] = value; }
-        }
-        [Browsable(true), Category("Vertex"), TypeConverter(typeof(Vector2StringConverter))]
-        public Vector2 UV5
-        {
-            get { return UV[4]; }
-            set { UV[4] = value; }
-        }
-        [Browsable(true), Category("Vertex"), TypeConverter(typeof(Vector2StringConverter))]
-        public Vector2 UV6
-        {
-            get { return UV[5]; }
-            set { UV[5] = value; }
-        }
-        [Browsable(true), Category("Vertex"), TypeConverter(typeof(Vector2StringConverter))]
-        public Vector2 UV7
-        {
-            get { return UV[6]; }
-            set { UV[6] = value; }
-        }
-        [Browsable(true), Category("Vertex"), TypeConverter(typeof(Vector2StringConverter))]
-        public Vector2 UV8
-        {
-            get { return UV[7]; }
-            set { UV[7] = value; }
-        }
-        [Browsable(true), Category("Normal"), TypeConverter(typeof(Vector3StringConverter))]
-        public Vector3 WeightedNormal
-        {
-            get { return _weightedNormal; }
-            set { _weightedNormal = value; }
         }
 
         public Vertex3(Vector3 position)
@@ -139,156 +246,158 @@ namespace BrawlLib.Modeling
             Position = position;
         }
 
-        public Vertex3(Vector3 position, Vector3 normal)
-        {
-            Position = position;
-            Normal = normal;
-        }
-
         public Vertex3(Vector3 position, IMatrixNode influence)
         {
             Position = position;
-            Inf = influence;
+            MatrixNode = influence;
         }
 
-        public Vertex3(Vector3 position, Vector3 normal, IMatrixNode influence)
-        {
-            Position = position;
-            Normal = normal;
-            Inf = influence;
-        }
-
-        public Vertex3(Vector3 position, IMatrixNode influence, Vector3 normal, RGBAPixel[] color, Vector2[] uv)
-        {
-            Position = position;
-            Inf = influence;
-            Normal = normal;
-            Color = color;
-            UV = uv;
-        }
-
-        //Pre-multiply vertex and normal using influence.
+        //Pre-multiply vertex using influence.
         //Influences must have already been calculated.
         public void Weight()
         {
-            _weightedPosition = (_influence != null) ? _influence.Matrix * Position : Position;
-            _weightedNormal = (_influence != null) ? _influence.Matrix.GetRotationMatrix() * Normal : Normal;
-        }
-        //Need to do this to put the vertices back in their raw positions if they were moved.
-        public void UnWeight()
-        {
-            //_position = (_influence != null) ? _influence.Matrix.Divide(Position, WeightedPosition) : Position;
-            //_position = (_influence != null) ? _influence.InverseBindMatrix * WeightedPosition : Position;
+            _weightedPosition = GetMatrix() * Position;
+
+            _weights = null;
+            _nodes = null;
         }
 
-        public void Morph(Vector3 to, float percent)
+        //Moves an edited world position back into the stored position
+        public void Unweight(bool updateVertexSets = true)
         {
-            _weightedPosition.Morph(to, percent);
+            //Unweight overall position
+            _position = GetInvMatrix() * WeightedPosition;
+
+            //Distribute weights for the position across all vertex set influences
+            if (updateVertexSets)
+            {
+                if (_weights != null && _nodes != null)
+                {
+                    Vector3 trans = _weightedPosition - _bCenter;
+                    for (int i = 0; i < _nodes.Length; i++)
+                    {
+                        MDL0VertexNode set = _nodes[i];
+                        SetPosition(set,
+                            GetInvMatrix() * (GetMatrix() * set.Vertices[Facepoints[0]._vertexIndex] + trans));
+                    }
+
+                    MDL0ObjectNode obj = (MDL0ObjectNode) _parent;
+                    SetPosition(obj._vertexNode,
+                        GetInvMatrix() * (GetMatrix() * obj._vertexNode.Vertices[Facepoints[0]._vertexIndex] + trans));
+                }
+                else
+                {
+                    SetPosition();
+                }
+            }
         }
+
+        internal float _baseWeight = 0;
+        internal float[] _weights;
+        internal MDL0VertexNode[] _nodes;
+        internal Vector3 _bCenter = new Vector3();
+
+        public void SetPosition(MDL0VertexNode node, Vector3 pos)
+        {
+            //if (node == null)
+            //    return;
+
+            //node.Vertices[_facepoints[0]._vertexIndex] = pos;
+            //node.ForceRebuild = true;
+            //if (node.Format == WiiVertexComponentType.Float)
+            //    node.ForceFloat = true;
+
+            //Have to use this function instead of setting the vertices directly
+            //This is because the vertex set may be used by other objects
+            MDL0ObjectNode obj = _parent as MDL0ObjectNode;
+            obj?.SetEditedVertices();
+        }
+
+        public void SetPosition()
+        {
+            MDL0VertexNode node = ((MDL0ObjectNode) _parent)?._vertexNode;
+
+            if (node == null || Facepoints.Count < 1 || node.Vertices.Length <= Facepoints[0]._vertexIndex)
+            {
+                return;
+            }
+
+            node.Vertices[Facepoints[0]._vertexIndex] = Position;
+            node.ForceRebuild = true;
+            if (node.Format == WiiVertexComponentType.Float)
+            {
+                node.ForceFloat = true;
+            }
+        }
+
+        //Call only after weighting
+        public void Morph(Vector3 dest, float percent)
+        {
+            _weightedPosition.Lerp(dest, percent);
+        }
+
+        public Color GetWeightColor(IBoneNode targetBone)
+        {
+            float weight = -1.0f;
+            if (_matrixNode == null || targetBone == null)
+            {
+                return Color.Transparent;
+            }
+
+            if (_matrixNode is MDL0BoneNode mNode)
+            {
+                if (mNode == targetBone)
+                {
+                    weight = 1.0f;
+                }
+                else
+                {
+                    return Color.Transparent;
+                }
+            }
+            else
+            {
+                foreach (BoneWeight b in ((Influence) _matrixNode).Weights)
+                {
+                    if (b.Bone == targetBone)
+                    {
+                        weight = b.Weight;
+                        break;
+                    }
+                }
+            }
+
+            if (weight < 0.0f || weight > 1.0f)
+            {
+                return Color.Transparent;
+            }
+
+            int r = ((int) (weight * 255.0f)).Clamp(0, 0xFF);
+            return Color.FromArgb(r, 0, 0xFF - r);
+        }
+
         public bool Equals(Vertex3 v)
         {
-            if (object.ReferenceEquals(this, v))
+            if (ReferenceEquals(this, v))
+            {
                 return true;
+            }
 
-            return (Position == v.Position) && (_influence == v._influence);
+            return Position == v.Position && _matrixNode == v._matrixNode;
+        }
+
+        public Color HighlightColor = Color.Transparent;
+        private bool _selected;
+
+        [Browsable(false)]
+        public bool Selected
+        {
+            get => _selected;
+            set
+            {
+                _selected = value;
+                HighlightColor = _selected ? Color.Orange : Color.Transparent;
+            }
         }
     }
-
-    //[StructLayout(LayoutKind.Sequential, Pack = 1)]
-    //public unsafe struct VertData
-    //{
-    //    public const int Size = 12 + 12 + 4 + 4 * 2 + 8 * 8;
-
-    //    public Vector3 _position;
-    //    public Vector3 _normal;
-    //    public int _weight;
-
-    //    public RGBAPixel _color1;
-    //    public RGBAPixel _color2;
-
-    //    public Vector2 _uv1;
-    //    public Vector2 _uv2;
-    //    public Vector2 _uv3;
-    //    public Vector2 _uv4;
-    //    public Vector2 _uv5;
-    //    public Vector2 _uv6;
-    //    public Vector2 _uv7;
-    //    public Vector2 _uv8;
-        
-    //    public VertData(Vector3 position, int weight, Vector3 normal, RGBAPixel[] color, Vector2[] uv)
-    //    {
-    //        _position = position;
-    //        _weight = weight;
-    //        _normal = normal;
-
-    //        _color1 = color[0];
-    //        _color2 = color[1];
-
-    //        _uv1 = uv[0];
-    //        _uv2 = uv[1];
-    //        _uv3 = uv[2];
-    //        _uv4 = uv[3];
-    //        _uv5 = uv[4];
-    //        _uv6 = uv[5];
-    //        _uv7 = uv[6];
-    //        _uv8 = uv[7];
-    //    }
-
-    //    public bool Equals(VertData v)
-    //    {
-    //        if (object.ReferenceEquals(this, v))
-    //            return true;
-
-    //        return
-    //            (_position == v._position) &&
-    //            (_normal == v._normal) &&
-    //            (_weight == v._weight) &&
-    //            (_color1 == v._color1) &&
-    //            (_color2 == v._color2) &&
-    //            (_uv1 == v._uv1) &&
-    //            (_uv2 == v._uv2) &&
-    //            (_uv3 == v._uv3) &&
-    //            (_uv4 == v._uv4) &&
-    //            (_uv5 == v._uv5) &&
-    //            (_uv6 == v._uv6) &&
-    //            (_uv7 == v._uv7) &&
-    //            (_uv8 == v._uv8); 
-    //    }
-
-    //    public static bool operator !=(VertData v1, VertData v2)
-    //    {
-    //        return
-    //            (v1._position != v2._position) ||
-    //            (v1._normal != v2._normal) ||
-    //            (v1._weight != v2._weight) ||
-    //            (v1._color1 != v2._color1) ||
-    //            (v1._color2 != v2._color2) ||
-    //            (v1._uv1 != v2._uv1) ||
-    //            (v1._uv2 != v2._uv2) ||
-    //            (v1._uv3 != v2._uv3) ||
-    //            (v1._uv4 != v2._uv4) ||
-    //            (v1._uv5 != v2._uv5) ||
-    //            (v1._uv6 != v2._uv6) ||
-    //            (v1._uv7 != v2._uv7) ||
-    //            (v1._uv8 != v2._uv8);
-    //    }
-
-    //    public static bool operator ==(VertData v1, VertData v2)
-    //    {
-    //        return
-    //            (v1._position == v2._position) &&
-    //            (v1._normal == v2._normal) &&
-    //            (v1._weight == v2._weight) &&
-    //            (v1._color1 == v2._color1) &&
-    //            (v1._color2 == v2._color2) &&
-    //            (v1._uv1 == v2._uv1) &&
-    //            (v1._uv2 == v2._uv2) &&
-    //            (v1._uv3 == v2._uv3) &&
-    //            (v1._uv4 == v2._uv4) &&
-    //            (v1._uv5 == v2._uv5) &&
-    //            (v1._uv6 == v2._uv6) &&
-    //            (v1._uv7 == v2._uv7) &&
-    //            (v1._uv8 == v2._uv8);
-    //    }
-    //}
 }

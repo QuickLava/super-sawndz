@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Runtime.InteropServices;
+﻿using BrawlLib.Internal;
 using BrawlLib.Wii.Models;
+using System;
+using System.Runtime.InteropServices;
 
 namespace BrawlLib.Wii.Graphics
 {
@@ -53,14 +51,29 @@ namespace BrawlLib.Wii.Graphics
     //0000 0000 0000 0000 0011 0000 0000 0000     - Tex6 format
     //0000 0000 0000 0000 1100 0000 0000 0000     - Tex7 format
 
+    [Serializable]
     [StructLayout(LayoutKind.Sequential, Pack = 1)]
     public struct CPVertexFormat
     {
         public buint _lo, _hi;
 
-        public bool HasPosMatrix { get { return (_lo & 1) != 0; } set { _lo = _lo & 0xFFFFFFFE | (uint)(value ? 1 : 0); } }
-        public XFDataFormat PosFormat { get { return (XFDataFormat)(_lo >> 9 & 3); } set { _lo = _lo & 0xFFFFF9FF | (uint)value; } }
-        public XFDataFormat NormalFormat { get { return (XFDataFormat)(_lo >> 11 & 3); } set { _lo = _lo & 0xFFFFE7FF | (uint)value; } }
+        public bool HasPosMatrix
+        {
+            get => (_lo & 1) != 0;
+            set => _lo = (_lo & 0xFFFFFFFE) | (uint) (value ? 1 : 0);
+        }
+
+        public XFDataFormat PosFormat
+        {
+            get => (XFDataFormat) ((_lo >> 9) & 3);
+            set => _lo = (_lo & 0xFFFFF9FF) | (uint) value;
+        }
+
+        public XFDataFormat NormalFormat
+        {
+            get => (XFDataFormat) ((_lo >> 11) & 3);
+            set => _lo = (_lo & 0xFFFFE7FF) | (uint) value;
+        }
 
         public CPVertexFormat(uint lo, uint hi)
         {
@@ -69,15 +82,35 @@ namespace BrawlLib.Wii.Graphics
         }
 
         //public XFDataFormat GetColorFormat(int index) { return (XFDataFormat)(_lo >> 13 & 3); }
-        public XFDataFormat GetColorFormat(int index) { return (XFDataFormat)((_lo >> (index * 2 + 13)) & 3); }
+        public XFDataFormat GetColorFormat(int index)
+        {
+            return (XFDataFormat) ((_lo >> (index * 2 + 13)) & 3);
+        }
 
-        public void SetColorFormat(int index, XFDataFormat format) { _lo = _lo & ~((uint)3 << (index * 2 + 13)) | ((uint)format << (index * 2 + 13)); }
+        public void SetColorFormat(int index, XFDataFormat format)
+        {
+            _lo = (_lo & ~((uint) 3 << (index * 2 + 13))) | ((uint) format << (index * 2 + 13));
+        }
 
-        public bool GetHasTexMatrix(int index) { return (_lo >> (index + 1) & 1) != 0; }
-        public void SetHasTexMatrix(int index, bool value) { _lo = _lo & ~(uint)(1 << (index + 1)) | ((uint)(value ? 1 : 0) << (index + 1)); }
+        public bool GetHasTexMatrix(int index)
+        {
+            return ((_lo >> (index + 1)) & 1) != 0;
+        }
 
-        public XFDataFormat GetUVFormat(int index) { return (XFDataFormat)(_hi >> (index * 2) & 3); }
-        public void SetUVFormat(int index, XFDataFormat format) { _hi = (_hi & ~(uint)(3 << index * 2) | (uint)((int)format << index * 2)); }
+        public void SetHasTexMatrix(int index, bool value)
+        {
+            _lo = (_lo & ~(uint) (1 << (index + 1))) | ((uint) (value ? 1 : 0) << (index + 1));
+        }
+
+        public XFDataFormat GetUVFormat(int index)
+        {
+            return (XFDataFormat) ((_hi >> (index * 2)) & 3);
+        }
+
+        public void SetUVFormat(int index, XFDataFormat format)
+        {
+            _hi = (_hi & ~(uint) (3 << (index * 2))) | (uint) ((int) format << (index * 2));
+        }
 
         public override string ToString()
         {
@@ -86,56 +119,65 @@ namespace BrawlLib.Wii.Graphics
             string texmtx = "";
             bool hasTex = false;
             for (int i = 0; i < 8; i++)
+            {
                 if (GetHasTexMatrix(i))
                 {
                     hasTex = true;
-                    texmtx += i.ToString() + " ";
+                    texmtx += i + " ";
                 }
+            }
 
-            string uvs = ""; 
+            string uvs = "";
             bool hasUVs = false;
             for (int i = 0; i < 8; i++)
+            {
                 if ((f = GetUVFormat(i)) != XFDataFormat.None)
                 {
                     hasUVs = true;
-                    uvs += i + ":" + f.ToString() + " ";
+                    uvs += i + ":" + f + " ";
                 }
+            }
 
-            string colors = ""; 
+            string colors = "";
             bool hasColors = false;
             for (int i = 0; i < 2; i++)
+            {
                 if ((f = GetColorFormat(i)) != XFDataFormat.None)
                 {
                     hasColors = true;
-                    colors += i + ":" + f.ToString() + " ";
+                    colors += i + ":" + f + " ";
                 }
+            }
 
-            return String.Format("PosMtx: {0} | TexMtx: {1}| PosFmt: {2} | NormFmt: {3} | ColorFmt: {5}| UVFmt: {4}[Lo: {6}, Hi: {7} ]", HasPosMatrix ? "True" : "False", hasTex ? texmtx : "False ", PosFormat.ToString(), NormalFormat.ToString(), hasUVs ? uvs : "None ", hasColors ? colors : "None ", (int)_lo, (int)_hi);
+            return string.Format(
+                "PosMtx: {0} | TexMtx: {1}| PosFmt: {2} | NormFmt: {3} | ColorFmt: {5}| UVFmt: {4}[Lo: {6}, Hi: {7} ]",
+                HasPosMatrix ? "True" : "False", hasTex ? texmtx : "False ", PosFormat.ToString(),
+                NormalFormat.ToString(), hasUVs ? uvs : "None ", hasColors ? colors : "None ", (int) _lo, (int) _hi);
         }
 
-        #region ElementFlags
-        public bool HasVertexData { get { return (_lo & 0x400) != 0; } }
-        public int VertexEntryLength { get { return (HasVertexData) ? (((_lo & 0x200) != 0) ? 2 : 1) : 0; } }
-        public bool HasNormalData { get { return (_lo & 0x1000) != 0; } }
-        public int NormalEntryLength { get { return (HasNormalData) ? (((_lo & 0x800) != 0) ? 2 : 1) : 0; } }
+        //#region ElementFlags
+        //public bool HasVertexData { get { return (_lo & 0x400) != 0; } }
+        //public int VertexEntryLength { get { return (HasVertexData) ? (((_lo & 0x200) != 0) ? 2 : 1) : 0; } }
+        //public bool HasNormalData { get { return (_lo & 0x1000) != 0; } }
+        //public int NormalEntryLength { get { return (HasNormalData) ? (((_lo & 0x800) != 0) ? 2 : 1) : 0; } }
 
-        public bool HasColorData { get { return (_lo & 0x4000) != 0; } }
-        public int ColorEntryLength { get { return (HasColorData) ? (((_lo & 0x2000) != 0) ? 2 : 1) : 0; } }
+        //public bool HasColorData { get { return (_lo & 0x4000) != 0; } }
+        //public int ColorEntryLength { get { return (HasColorData) ? (((_lo & 0x2000) != 0) ? 2 : 1) : 0; } }
 
-        public bool HasColor(int index) { return (_lo & (0x4000 << (index * 2))) != 0; }
-        public int ColorLength(int index) { return HasColor(index) ? (((_lo & (0x2000 << (index * 2))) != 0) ? 2 : 1) : 0; }
-        public int ColorTotalLength { get { int len = 0; for (int i = 0; i < 2; )len += ColorLength(i++); return len; } }
+        //public bool HasColor(int index) { return (_lo & (0x4000 << (index * 2))) != 0; }
+        //public int ColorLength(int index) { return HasColor(index) ? (((_lo & (0x2000 << (index * 2))) != 0) ? 2 : 1) : 0; }
+        //public int ColorTotalLength { get { int len = 0; for (int i = 0; i < 2; )len += ColorLength(i++); return len; } }
 
-        public bool HasUV(int index) { return (_hi & (2 << (index * 2))) != 0; }
-        public int UVLength(int index) { return HasUV(index) ? (((_hi & (1 << (index * 2))) != 0) ? 2 : 1) : 0; }
-        public int UVTotalLength { get { int len = 0; for (int i = 0; i < 8; )len += UVLength(i++); return len; } }
+        //public bool HasUV(int index) { return (_hi & (2 << (index * 2))) != 0; }
+        //public int UVLength(int index) { return HasUV(index) ? (((_hi & (1 << (index * 2))) != 0) ? 2 : 1) : 0; }
+        //public int UVTotalLength { get { int len = 0; for (int i = 0; i < 8; )len += UVLength(i++); return len; } }
 
-        public bool HasExtra(int index) { return (_lo & (1 << index)) != 0; }
-        public int ExtraLength { get { int len = 0; for (int i = 0; i < 8; ) if (HasExtra(i++))len++; return len; } }
+        //public bool HasExtra(int index) { return (_lo & (1 << index)) != 0; }
+        //public int ExtraLength { get { int len = 0; for (int i = 0; i < 8; ) if (HasExtra(i++))len++; return len; } }
 
-        public bool HasWeights { get { return (_lo & 0xFF) != 0; } }
-        public int WeightLength { get { return ExtraLength; } }
-        #endregion
+        //public bool HasWeights { get { return (_lo & 0xFF) != 0; } }
+        //public int WeightLength { get { return ExtraLength; } }
+        //#endregion
     }
 
     //UVAT Group 0
@@ -185,34 +227,66 @@ namespace BrawlLib.Wii.Graphics
         internal uint _grp0;
         internal ulong _grp12;
 
-        public bool ByteDequant { get { return (_grp0 & 0x40000000) != 0; } set { _grp0 = _grp0 & 0xBFFFFFFF | (uint)(value ? 0x40000000 : 0); } }
-        public bool NormalIndex3 { get { return (_grp0 & 0x80000000) != 0; } set { _grp0 = _grp0 & 0x7FFFFFFF | (uint)(value ? 0x80000000 : 0); } }
+        public bool ByteDequant
+        {
+            get => (_grp0 & 0x40000000) != 0;
+            set => _grp0 = (_grp0 & 0xBFFFFFFF) | (uint) (value ? 0x40000000 : 0);
+        }
 
-        public CPElementDef PositionDef { get { return new CPElementDef(_grp0 & 0x1FF); } set { _grp0 = (_grp0 & 0xFFFFFE00) | (value._data & 0x1FF); } }
-        public CPElementDef NormalDef { get { return new CPElementDef((_grp0 >> 9) & 0xF); } set { _grp0 = (_grp0 & 0xFFFFE1FF) | ((value._data & 0xF) << 9); } }
+        public bool NormalIndex3
+        {
+            get => (_grp0 & 0x80000000) != 0;
+            set => _grp0 = (_grp0 & 0x7FFFFFFF) | (value ? 0x80000000 : 0);
+        }
+
+        public CPElementDef PositionDef
+        {
+            get => new CPElementDef(_grp0 & 0x1FF);
+            set => _grp0 = (_grp0 & 0xFFFFFE00) | (value._data & 0x1FF);
+        }
+
+        public CPElementDef NormalDef
+        {
+            get => new CPElementDef((_grp0 >> 9) & 0xF);
+            set => _grp0 = (_grp0 & 0xFFFFE1FF) | ((value._data & 0xF) << 9);
+        }
 
         public CPElementSpec(uint grp0, uint grp1, uint grp2)
         {
             _grp0 = grp0;
-            _grp12 = ((ulong)grp2 << 31) | grp1;
+            _grp12 = ((ulong) grp2 << 31) | grp1;
         }
 
-        public CPElementDef GetColorDef(int index) { return new CPElementDef((_grp0 >> (index * 4 + 13)) & 0xF); }
-        public void SetColorDef(int index, CPElementDef def) { _grp0 = _grp0 & ~((uint)0xF << (index * 4 + 13)) | ((def._data & 0xF) << (index * 4 + 13)); }
+        public CPElementDef GetColorDef(int index)
+        {
+            return new CPElementDef((_grp0 >> (index * 4 + 13)) & 0xF);
+        }
+
+        public void SetColorDef(int index, CPElementDef def)
+        {
+            _grp0 = (_grp0 & ~((uint) 0xF << (index * 4 + 13))) | ((def._data & 0xF) << (index * 4 + 13));
+        }
 
         public CPElementDef GetUVDef(int index)
         {
             if (index == 0)
+            {
                 return new CPElementDef((_grp0 >> 21) & 0x1FF);
-            else
-                return new CPElementDef((uint)((_grp12 >> (--index * 9)) & 0x1FF));
+            }
+
+            return new CPElementDef((uint) ((_grp12 >> (--index * 9)) & 0x1FF));
         }
+
         public void SetUVDef(int index, CPElementDef def)
         {
             if (index == 0)
-                _grp0 = _grp0 & 0xC01FFFFF | ((def._data & 0x1FF) << 21);
+            {
+                _grp0 = (_grp0 & 0xC01FFFFF) | ((def._data & 0x1FF) << 21);
+            }
             else
-                _grp12 = _grp12 & ~((ulong)0x1FF << --index * 9) | (((ulong)def._data & 0x1FF) << index * 9);
+            {
+                _grp12 = (_grp12 & ~((ulong) 0x1FF << (--index * 9))) | (((ulong) def._data & 0x1FF) << (index * 9));
+            }
         }
     }
 
@@ -220,34 +294,68 @@ namespace BrawlLib.Wii.Graphics
     {
         internal uint _data;
 
-        public bool IsSpecial { get { return (_data & 1) != 0; } set { _data = _data & 0xFFFFFFFE | (uint)(value ? 1 : 0); } }
-        public int Scale { get { return (int)(_data >> 4 & 0x1F); } set { _data = _data & 0xFFFFFE0F | (uint)(value << 4); } }
+        public bool IsSpecial
+        {
+            get => (_data & 1) != 0;
+            set => _data = (_data & 0xFFFFFFFE) | (uint) (value ? 1 : 0);
+        }
 
-        public WiiVertexComponentType DataFormat { get { return (WiiVertexComponentType)(_data >> 1 & 7); } set { _data = _data & 0xFFFFFFF1 | ((uint)value << 1); } }
-        public WiiColorComponentType ColorFormat { get { return (WiiColorComponentType)DataFormat; } set { DataFormat = (WiiVertexComponentType)value; } }
+        public int Scale
+        {
+            get => (int) ((_data >> 4) & 0x1F);
+            set => _data = (_data & 0xFFFFFE0F) | (uint) (value << 4);
+        }
 
-        public CPElementDef(uint raw) { _data = raw; }
+        public WiiVertexComponentType DataFormat
+        {
+            get => (WiiVertexComponentType) ((_data >> 1) & 7);
+            set => _data = (_data & 0xFFFFFFF1) | ((uint) value << 1);
+        }
+
+        public WiiColorComponentType ColorFormat
+        {
+            get => (WiiColorComponentType) DataFormat;
+            set => DataFormat = (WiiVertexComponentType) value;
+        }
+
+        public CPElementDef(uint raw)
+        {
+            _data = raw;
+        }
+
         public CPElementDef(bool isSpecial, int format, int scale)
-        { _data = (uint)(((scale & 0x1F) << 4) | ((format & 0x7) << 1) | (isSpecial ? 1 : 0)); }
+        {
+            _data = (uint) (((scale & 0x1F) << 4) | ((format & 0x7) << 1) | (isSpecial ? 1 : 0));
+        }
 
         public string asColor()
         {
-            return String.Format("IsSpecial: {0} | Scale: {1} | Color Format: {2}", IsSpecial ? "True" : "False", Scale.ToString(), ColorFormat);
+            return
+                $"IsSpecial: {(IsSpecial ? "True" : "False")} | Scale: {Scale.ToString()} | Color Format: {ColorFormat}";
         }
 
         public override string ToString()
         {
-            return String.Format("IsSpecial: {0} | Scale: {1} | Data Format: {2}", IsSpecial ? "True" : "False", Scale.ToString(), DataFormat);
+            return
+                $"IsSpecial: {(IsSpecial ? "True" : "False")} | Scale: {Scale.ToString()} | Data Format: {DataFormat}";
         }
     }
 
     [StructLayout(LayoutKind.Sequential, Pack = 1)]
-    public struct GXVtxAttrFmtList
+    public struct VertexAttributeFormat
     {
-        public GXAttr attr;
-        public GXCompCnt cnt;
-        public GXCompType type;
-        public byte frac; //scale/divisor
+        public VertexAttributeFormat(GXAttribute attr, GXCompType type, GXCompCnt cnt, byte frac)
+        {
+            _attr = attr;
+            _cnt = cnt;
+            _type = type;
+            _frac = frac;
+        }
+
+        public GXAttribute _attr;
+        public GXCompCnt _cnt;
+        public GXCompType _type;
+        public byte _frac; //scale/divisor
     }
 
     public enum GXVtxFmt
@@ -265,15 +373,15 @@ namespace BrawlLib.Wii.Graphics
 
     public enum GXCompCnt
     {
-        GX_POS_XY = 0,
-        GX_POS_XYZ = 1,
-        GX_NRM_XYZ = 0,
-        GX_NRM_NBT = 1, // one index per NBT
-        GX_NRM_NBT3 = 2, // one index per each of N/B/T
-        GX_CLR_RGB = 0,
-        GX_CLR_RGBA = 1,
-        GX_TEX_S = 0,
-        GX_TEX_ST = 1
+        PosXY = 0,
+        PosXYZ = 1,
+        NrmXYZ = 0,
+        NrmNBT = 1,  // one index per NBT
+        NrmNBT3 = 2, // one index per each of N/B/T
+        ClrRGB = 0,
+        ClrRGBA = 1,
+        TexS = 0,
+        TexST = 1
     }
 
     public enum GXCompType
@@ -292,27 +400,3 @@ namespace BrawlLib.Wii.Graphics
         RGBA8 = 5
     }
 }
-
-//tev_z_env_0 struct
-//111111111111111111111111 ZOFF_SHIFT
-// *  tev_z_env_1 struct
-//000000000000000000000011 TEV_Z_ENV_1_TYPE_SHIFT
-//111111111111111111111100 TEV_Z_ENV_1_OP_SHIFT
-//*  tev_ksel struct
-//000000000000000000000011 TEV_KSEL_XRB_SHIFT
-//000000000000000000001100 TEV_KSEL_XGA_SHIFT
-//000000000000000111110000 TEV_KSEL_KCSEL0_SHIFT
-//000000000011111000000000 TEV_KSEL_KASEL0_SHIFT
-//000001111100000000000000 TEV_KSEL_KCSEL1_SHIFT
-//111110000000000000000000 TEV_KSEL_KASEL1_SHIFT
-// *  ras1_tref struct
-//000000000000000000000111 RAS1_TREF_TI0_SHIFT
-//000000000000000000111000 RAS1_TREF_TC0_SHIFT
-//000000000000000001000000 RAS1_TREF_TE0_SHIFT
-//000000000000001110000000 RAS1_TREF_CC0_SHIFT
-//000000000000110000000000 RAS1_TREF_PAD0_SHIFT
-//000000000111000000000000 RAS1_TREF_TI1_SHIFT
-//000000111000000000000000 RAS1_TREF_TC1_SHIFT
-//000001000000000000000000 RAS1_TREF_TE1_SHIFT
-//001110000000000000000000 RAS1_TREF_CC1_SHIFT
-//110000000000000000000000 RAS1_TREF_PAD1_SHIFT

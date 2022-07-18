@@ -1,14 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using BrawlLib.Imaging;
+using BrawlLib.Internal;
+using System;
 using System.Runtime.InteropServices;
-using BrawlLib.Imaging;
-using BrawlLib.Wii.Graphics;
 
-namespace BrawlLib.SSBBTypes
+namespace BrawlLib.SSBB.Types
 {
     [StructLayout(LayoutKind.Sequential, Pack = 1)]
-    public unsafe struct SCN0
+    public unsafe struct SCN0v4
     {
         public const uint Tag = 0x304E4353;
         public const int Size = 0x44;
@@ -21,16 +19,16 @@ namespace BrawlLib.SSBBTypes
         public bint _fogOffset;
         public bint _cameraOffset;
         public bint _stringOffset;
-        public bint _unk1; //v5 stringOffset
-        public bshort _frameCount;
-        public bshort _unk3;
-        public bint _unk4;
+        public bint _origPathOffset;
+        public bushort _frameCount;
+        public bushort _specLightCount;
+        public bint _loop;
         public bshort _lightSetCount;
         public bshort _ambientCount;
         public bshort _lightCount;
         public bshort _fogCount;
         public bshort _cameraCount;
-        public bshort _unk10;
+        public bshort _pad;
 
         public void Set(int groupLen, int lightSetLen, int ambLightLen, int lightLen, int fogLen, int cameraLen)
         {
@@ -47,28 +45,174 @@ namespace BrawlLib.SSBBTypes
             _cameraOffset = _fogOffset + fogLen;
             _header._size = _cameraOffset + cameraLen;
 
-            if (lightSetLen == 0) _lightSetOffset = 0;
-            if (ambLightLen == 0) _ambLightOffset = 0;
-            if (lightLen == 0) _lightOffset = 0;
-            if (fogLen == 0) _fogOffset = 0;
-            if (cameraLen == 0) _cameraOffset = 0;
+            if (lightSetLen == 0)
+            {
+                _lightSetOffset = 0;
+            }
+
+            if (ambLightLen == 0)
+            {
+                _ambLightOffset = 0;
+            }
+
+            if (lightLen == 0)
+            {
+                _lightOffset = 0;
+            }
+
+            if (fogLen == 0)
+            {
+                _fogOffset = 0;
+            }
+
+            if (cameraLen == 0)
+            {
+                _cameraOffset = 0;
+            }
         }
 
-        private VoidPtr Address { get { fixed (void* ptr = &this)return ptr; } }
+        private VoidPtr Address
+        {
+            get
+            {
+                fixed (void* ptr = &this)
+                {
+                    return ptr;
+                }
+            }
+        }
 
-        public ResourceGroup* Group { get { return (ResourceGroup*)(Address + _dataOffset); } }
+        public ResourceGroup* Group => (ResourceGroup*) (Address + _dataOffset);
 
-        public SCN0LightSet* LightSets { get { return (SCN0LightSet*)(Address + _lightSetOffset); } }
-        public SCN0AmbientLight* AmbientLights { get { return (SCN0AmbientLight*)(Address + _ambLightOffset); } }
-        public SCN0Light* Lights { get { return (SCN0Light*)(Address + _lightOffset); } }
-        public SCN0Fog* Fogs { get { return (SCN0Fog*)(Address + _fogOffset); } }
-        public SCN0Camera* Cameras { get { return (SCN0Camera*)(Address + _cameraOffset); } }
+        public SCN0LightSet* LightSets => (SCN0LightSet*) (Address + _lightSetOffset);
+        public SCN0AmbientLight* AmbientLights => (SCN0AmbientLight*) (Address + _ambLightOffset);
+        public SCN0Light* Lights => (SCN0Light*) (Address + _lightOffset);
+        public SCN0Fog* Fogs => (SCN0Fog*) (Address + _fogOffset);
+        public SCN0Camera* Cameras => (SCN0Camera*) (Address + _cameraOffset);
 
-        public string ResourceString { get { return new String((sbyte*)this.ResourceStringAddress); } }
+        public string ResourceString => new string((sbyte*) ResourceStringAddress);
+
         public VoidPtr ResourceStringAddress
         {
-            get { return (VoidPtr)this.Address + _stringOffset; }
-            set { _stringOffset = (int)value - (int)Address; }
+            get => Address + _stringOffset;
+            set => _stringOffset = (int) value - (int) Address;
+        }
+
+        public string OrigPath => new string((sbyte*) OrigPathAddress);
+
+        public VoidPtr OrigPathAddress
+        {
+            get => Address + _origPathOffset;
+            set => _origPathOffset = (int) value - (int) Address;
+        }
+    }
+
+    [StructLayout(LayoutKind.Sequential, Pack = 1)]
+    public unsafe struct SCN0v5
+    {
+        public const uint Tag = 0x304E4353;
+        public const int Size = 0x48;
+
+        public BRESCommonHeader _header;
+        public bint _dataOffset;
+        public bint _lightSetOffset;
+        public bint _ambLightOffset;
+        public bint _lightOffset;
+        public bint _fogOffset;
+        public bint _cameraOffset;
+        public bint _userDataOffset;
+        public bint _stringOffset;
+        public bint _origPathOffset;
+        public bushort _frameCount;
+        public bushort _specLightCount;
+        public bint _loop;
+        public bshort _lightSetCount;
+        public bshort _ambientCount;
+        public bshort _lightCount;
+        public bshort _fogCount;
+        public bshort _cameraCount;
+        public bshort _pad;
+
+        public void Set(int groupLen, int lightSetLen, int ambLightLen, int lightLen, int fogLen, int cameraLen)
+        {
+            _dataOffset = Size;
+
+            _header._tag = Tag;
+            _header._version = 5;
+            _header._bresOffset = 0;
+
+            _lightSetOffset = _dataOffset + groupLen;
+            _ambLightOffset = _lightSetOffset + lightSetLen;
+            _lightOffset = _ambLightOffset + ambLightLen;
+            _fogOffset = _lightOffset + lightLen;
+            _cameraOffset = _fogOffset + fogLen;
+            _header._size = _cameraOffset + cameraLen;
+
+            if (lightSetLen == 0)
+            {
+                _lightSetOffset = 0;
+            }
+
+            if (ambLightLen == 0)
+            {
+                _ambLightOffset = 0;
+            }
+
+            if (lightLen == 0)
+            {
+                _lightOffset = 0;
+            }
+
+            if (fogLen == 0)
+            {
+                _fogOffset = 0;
+            }
+
+            if (cameraLen == 0)
+            {
+                _cameraOffset = 0;
+            }
+        }
+
+        private VoidPtr Address
+        {
+            get
+            {
+                fixed (void* ptr = &this)
+                {
+                    return ptr;
+                }
+            }
+        }
+
+        public ResourceGroup* Group => (ResourceGroup*) (Address + _dataOffset);
+
+        public VoidPtr UserData
+        {
+            get => _userDataOffset == 0 ? null : Address + _userDataOffset;
+            set => _userDataOffset = (int) value - (int) Address;
+        }
+
+        public SCN0LightSet* LightSets => (SCN0LightSet*) (Address + _lightSetOffset);
+        public SCN0AmbientLight* AmbientLights => (SCN0AmbientLight*) (Address + _ambLightOffset);
+        public SCN0Light* Lights => (SCN0Light*) (Address + _lightOffset);
+        public SCN0Fog* Fogs => (SCN0Fog*) (Address + _fogOffset);
+        public SCN0Camera* Cameras => (SCN0Camera*) (Address + _cameraOffset);
+
+        public string ResourceString => new string((sbyte*) ResourceStringAddress);
+
+        public VoidPtr ResourceStringAddress
+        {
+            get => Address + _stringOffset;
+            set => _stringOffset = (int) value - (int) Address;
+        }
+
+        public string OrigPath => new string((sbyte*) OrigPathAddress);
+
+        public VoidPtr OrigPathAddress
+        {
+            get => Address + _origPathOffset;
+            set => _origPathOffset = (int) value - (int) Address;
         }
     }
 
@@ -83,13 +227,23 @@ namespace BrawlLib.SSBBTypes
         public bint _nodeIndex;
         public bint _realIndex;
 
-        private VoidPtr Address { get { fixed (void* ptr = &this)return ptr; } }
+        private VoidPtr Address
+        {
+            get
+            {
+                fixed (void* ptr = &this)
+                {
+                    return ptr;
+                }
+            }
+        }
 
-        public string ResourceString { get { return new String((sbyte*)ResourceStringAddress); } }
+        public string ResourceString => new string((sbyte*) ResourceStringAddress);
+
         public VoidPtr ResourceStringAddress
         {
-            get { return (VoidPtr)Address + _stringOffset; }
-            set { _stringOffset = (int)value - (int)Address; }
+            get => Address + _stringOffset;
+            set => _stringOffset = (int) value - (int) Address;
         }
     }
 
@@ -101,39 +255,59 @@ namespace BrawlLib.SSBBTypes
         public SCN0CommonHeader _header;
 
         public bint _ambNameOffset;
-        public bshort _magic; //0xFFFF
+        public bshort _id; //ambient set here as id at runtime
         public byte _numLights;
-        public byte _unk1;
-        public fixed int _entries[8]; //string offsets
+        public byte _pad;
+        public fixed int _entries[8];    //string offsets
+        public fixed short _lightIds[8]; //entry ids are set here at runtime
 
-        public bint _pad1, _pad2, _pad3, _pad4; //0xFFFFFFFF
-
-        private VoidPtr Address { get { fixed (void* ptr = &this)return ptr; } }
-        public bint* Offsets { get { fixed (void* ptr = _entries)return (bint*)ptr; } }
-
-        public string AmbientString { get { return new String((sbyte*)AmbientStringAddress); } }
-        public VoidPtr AmbientStringAddress
+        private VoidPtr Address
         {
-            get { return (VoidPtr)Address + _ambNameOffset; }
-            set { _ambNameOffset = (int)value - (int)Address; }
+            get
+            {
+                fixed (void* ptr = &this)
+                {
+                    return ptr;
+                }
+            }
         }
 
-        public bint* StringOffsets { get { return (bint*)(Address + 0x1C); } }
+        public bint* Offsets
+        {
+            get
+            {
+                fixed (void* ptr = _entries)
+                {
+                    return (bint*) ptr;
+                }
+            }
+        }
+
+        public string AmbientString => new string((sbyte*) AmbientStringAddress);
+
+        public VoidPtr AmbientStringAddress
+        {
+            get => Address + _ambNameOffset;
+            set => _ambNameOffset = (int) value - (int) Address;
+        }
+
+        public bint* StringOffsets => (bint*) (Address + 0x1C);
+        public bshort* IDs => (bshort*) (Address + 0x3C);
+    }
+
+    [Flags]
+    public enum SCN0AmbLightFixedFlags
+    {
+        None = 0,
+        FixedLighting = 128
     }
 
     [Flags]
     public enum SCN0AmbLightFlags
     {
         None = 0,
-        FixedLighting = 128,
-    }
-
-    [Flags]
-    public enum SCN0AmbLightEnableFlags
-    {
-        None = 0,
-        Enabled = 1,
-        UseLightSet = 2
+        ColorEnabled = 1,
+        AlphaEnabled = 2
     }
 
     [Flags]
@@ -151,16 +325,41 @@ namespace BrawlLib.SSBBTypes
 
         public SCN0CommonHeader _header;
 
-        public byte _fixedFlags; //0x80
-        public byte _unk2; //0x00
-        public byte _unk3; //0x00
-        public byte _unk4; //0x03, entries?
+        public byte _fixedFlags;
+        public byte _pad1;
+        public byte _pad2;
+        public byte _flags;
 
         public RGBAPixel _lighting;
 
-        public RGBAPixel* lightEntries { get { return (RGBAPixel*)((byte*)Address + 24 + *(bint*)((byte*)Address + 24)); } }
-        
-        private VoidPtr Address { get { fixed (void* ptr = &this)return ptr; } }
+        private VoidPtr Address
+        {
+            get
+            {
+                fixed (void* ptr = &this)
+                {
+                    return ptr;
+                }
+            }
+        }
+    }
+
+    [Flags]
+    public enum UsageFlags : ushort
+    {
+        Enabled = 0x1,
+        SpecularEnabled = 0x2, //Use NonSpecLightId, SpecularColor, Brightness
+        ColorEnabled = 0x4,
+        AlphaEnabled = 0x8
+    }
+
+    [Flags]
+    public enum LightType : ushort
+    {
+        //All use pos and color
+        Point = 0x0,       //Don't use aim, use dist func
+        Directional = 0x1, //Use aim
+        Spotlight = 0x2    //Use aim, spot func and dist func
     }
 
     [StructLayout(LayoutKind.Sequential, Pack = 1)]
@@ -170,34 +369,52 @@ namespace BrawlLib.SSBBTypes
 
         public SCN0CommonHeader _header;
 
-        public bint _unk1;
-        public bint _unk2;
-        public bushort _flags1;
-        public bushort _flags2;
-        public bint _unk5;
+        public bint _nonSpecLightId;
+        public bint _userDataOffset;
 
-        public BVec3 _vec1;
-        public RGBAPixel _lighting1;
-        public BVec3 _vec2;
+        public bushort _fixedFlags;
+        public bushort _usageFlags;
 
-        public bint _unk6;
-        public bfloat _unk7;
-        public bfloat _unk8;
-        public bint _unk9; //2
-        public bfloat _unk10;
-        public RGBAPixel _lighting2;
-        public bfloat _unk12;
+        public bint _visOffset;
+        public BVec3 _startPoint;
+        public RGBAPixel _lightColor;
+        public BVec3 _endPoint;
 
-        public SCN0KeyframesHeader* xEndKeyframes { get { return (SCN0KeyframesHeader*)((byte*)Address + 0x24 + *(bint*)((byte*)Address + 0x24)); } }
-        public SCN0KeyframesHeader* yEndKeyframes { get { return (SCN0KeyframesHeader*)((byte*)Address + 0x28 + *(bint*)((byte*)Address + 0x28)); } }
-        public SCN0KeyframesHeader* zEndKeyframes { get { return (SCN0KeyframesHeader*)((byte*)Address + 0x2C + *(bint*)((byte*)Address + 0x2C)); } }
-        public RGBAPixel* light1Entries { get { return (RGBAPixel*)((byte*)Address + 0x30 + *(bint*)((byte*)Address + 0x30)); } }
-        public SCN0KeyframesHeader* xStartKeyframes { get { return (SCN0KeyframesHeader*)((byte*)Address + 0x34 + *(bint*)((byte*)Address + 0x34)); } }
-        public SCN0KeyframesHeader* yStartKeyframes { get { return (SCN0KeyframesHeader*)((byte*)Address + 0x38 + *(bint*)((byte*)Address + 0x38)); } }
-        public SCN0KeyframesHeader* zStartKeyframes { get { return (SCN0KeyframesHeader*)((byte*)Address + 0x3C + *(bint*)((byte*)Address + 0x3C)); } }
-        public RGBAPixel* light2Entries { get { return (RGBAPixel*)((byte*)Address + 0x54 + *(bint*)((byte*)Address + 0x54)); } }
-        
-        private VoidPtr Address { get { fixed (void* ptr = &this)return ptr; } }
+        //Used for point or spotlight
+        public bint _distFunc;
+        public bfloat _refDistance;
+        public bfloat _refBrightness;
+
+        //Used for spotlight
+        public bint _spotFunc;
+        public bfloat _cutoff;
+
+        //Used when specular enabled
+        public RGBAPixel _specularColor;
+        public bfloat _shininess;
+
+        private VoidPtr Address
+        {
+            get
+            {
+                fixed (void* ptr = &this)
+                {
+                    return ptr;
+                }
+            }
+        }
+
+        public byte* VisBitEntries => (byte*) _visOffset.Address + _visOffset;
+        public RGBAPixel* LightColorEntries => (RGBAPixel*) (_lightColor.Address + *(bint*) _lightColor.Address);
+
+        public RGBAPixel* SpecularColorEntries =>
+            (RGBAPixel*) (_specularColor.Address + *(bint*) _specularColor.Address);
+
+        public VoidPtr UserData
+        {
+            get => _userDataOffset == 0 ? null : Address + _userDataOffset;
+            set => _userDataOffset = (int) value - (int) Address;
+        }
     }
 
     [StructLayout(LayoutKind.Sequential, Pack = 1)]
@@ -206,22 +423,29 @@ namespace BrawlLib.SSBBTypes
         public const int Size = 40;
 
         public SCN0CommonHeader _header;
-        
-        //Flags determine if there's an offset
-        public byte _flags;
-        public Int24 _pad;
-        public bint _density;
 
-        //Each of these is a bint offset if not fixed
-        public bfloat _start; 
-        public bfloat _end; 
+        public byte _flags;
+        public BUInt24 _pad;
+        public bint _type;
+
+        public bfloat _start;
+        public bfloat _end;
         public RGBAPixel _color;
 
-        public SCN0KeyframesHeader* startKeyframes { get { return (SCN0KeyframesHeader*)((byte*)Address + 28 + *(bint*)((byte*)Address + 28)); } }
-        public SCN0KeyframesHeader* endKeyframes { get { return (SCN0KeyframesHeader*)((byte*)Address + 32 + *(bint*)((byte*)Address + 32)); } }
-        public RGBAPixel* colorEntries { get { return (RGBAPixel*)((byte*)Address + 36 + *(bint*)((byte*)Address + 36)); } }
+        private VoidPtr Address
+        {
+            get
+            {
+                fixed (void* ptr = &this)
+                {
+                    return ptr;
+                }
+            }
+        }
 
-        private VoidPtr Address { get { fixed (void* ptr = &this)return ptr; } }
+        public SCN0KeyframesHeader* StartKeyframes => (SCN0KeyframesHeader*) (_start.Address + *(bint*) _start.Address);
+        public SCN0KeyframesHeader* EndKeyframes => (SCN0KeyframesHeader*) (_end.Address + *(bint*) _end.Address);
+        public RGBAPixel* ColorEntries => (RGBAPixel*) (_color.Address + *(bint*) _color.Address);
     }
 
     [Flags]
@@ -234,21 +458,37 @@ namespace BrawlLib.SSBBTypes
     }
 
     [Flags]
-    public enum SCN0CameraVectorFlags
+    public enum SCN0CameraFlags
     {
-        None = 0,
-        Unknown = 1,
-        FixedX = 2,
-        FixedY = 4,
-        FixedZ = 8
+        PosXConstant = 0x2,
+        PosYConstant = 0x4,
+        PosZConstant = 0x8,
+        AspectConstant = 0x10,
+        NearConstant = 0x20,
+        FarConstant = 0x40,
+        PerspFovYConstant = 0x80,
+        OrthoHeightConstant = 0x100,
+        AimXConstant = 0x200,
+        AimYConstant = 0x400,
+        AimZConstant = 0x800,
+        TwistConstant = 0x1000,
+        RotXConstant = 0x2000,
+        RotYConstant = 0x4000,
+        RotZConstant = 0x8000
     }
 
     [Flags]
     public enum SCN0CameraFlags2
     {
         None = 0,
-        UseVec4 = 2,
-        UseVec3 = 1
+        CameraTypeMask = 1,
+        AlwaysOn = 2
+    }
+
+    public enum SCN0CameraType
+    {
+        Rotate = 0,
+        Aim = 1
     }
 
     [StructLayout(LayoutKind.Sequential, Pack = 1)]
@@ -258,34 +498,37 @@ namespace BrawlLib.SSBBTypes
 
         public SCN0CommonHeader _header;
 
-        public bint _pad1; //0
+        public bint _projectionType;
         public bushort _flags1;
         public bushort _flags2;
-        public bint _pad2; //0
+        public bint _userDataOffset;
 
-        public BVec3 _vec1;
-        public BVec3 _camSettings;
-        public BVec3 _vec2;
-        public BVec3 _vec3;
-        public BVec3 _vec4;
+        public BVec3 _position;
+        public bfloat _aspect;
+        public bfloat _nearZ;
+        public bfloat _farZ;
+        public BVec3 _rotate;
+        public BVec3 _aim;
+        public bfloat _twist;
+        public bfloat _perspFovY;
+        public bfloat _orthoHeight;
 
-        public SCN0KeyframesHeader* v1xKfs { get { return (SCN0KeyframesHeader*)((byte*)Address + 0x20 + *(bint*)((byte*)Address + 0x20)); } }
-        public SCN0KeyframesHeader* v1yKfs { get { return (SCN0KeyframesHeader*)((byte*)Address + 0x24 + *(bint*)((byte*)Address + 0x24)); } }
-        public SCN0KeyframesHeader* v1zKfs { get { return (SCN0KeyframesHeader*)((byte*)Address + 0x28 + *(bint*)((byte*)Address + 0x28)); } }
+        private VoidPtr Address
+        {
+            get
+            {
+                fixed (void* ptr = &this)
+                {
+                    return ptr;
+                }
+            }
+        }
 
-        public SCN0KeyframesHeader* v2xKfs { get { return (SCN0KeyframesHeader*)((byte*)Address + 0x38 + *(bint*)((byte*)Address + 0x38)); } }
-        public SCN0KeyframesHeader* v2yKfs { get { return (SCN0KeyframesHeader*)((byte*)Address + 0x3C + *(bint*)((byte*)Address + 0x3C)); } }
-        public SCN0KeyframesHeader* v2zKfs { get { return (SCN0KeyframesHeader*)((byte*)Address + 0x40 + *(bint*)((byte*)Address + 0x40)); } }
-        
-        public SCN0KeyframesHeader* v3xKfs { get { return (SCN0KeyframesHeader*)((byte*)Address + 0x44 + *(bint*)((byte*)Address + 0x44)); } }
-        public SCN0KeyframesHeader* v3yKfs { get { return (SCN0KeyframesHeader*)((byte*)Address + 0x48 + *(bint*)((byte*)Address + 0x48)); } }
-        public SCN0KeyframesHeader* v3zKfs { get { return (SCN0KeyframesHeader*)((byte*)Address + 0x4C + *(bint*)((byte*)Address + 0x4C)); } }
-        
-        public SCN0KeyframesHeader* v4xKfs { get { return (SCN0KeyframesHeader*)((byte*)Address + 0x50 + *(bint*)((byte*)Address + 0x50)); } }
-        public SCN0KeyframesHeader* v4yKfs { get { return (SCN0KeyframesHeader*)((byte*)Address + 0x54 + *(bint*)((byte*)Address + 0x54)); } }
-        public SCN0KeyframesHeader* v4zKfs { get { return (SCN0KeyframesHeader*)((byte*)Address + 0x58 + *(bint*)((byte*)Address + 0x58)); } }
-
-        private VoidPtr Address { get { fixed (void* ptr = &this)return ptr; } }
+        public VoidPtr UserData
+        {
+            get => _userDataOffset == 0 ? null : Address + _userDataOffset;
+            set => _userDataOffset = (int) value - (int) Address;
+        }
     }
 
     [StructLayout(LayoutKind.Sequential, Pack = 1)]
@@ -298,50 +541,117 @@ namespace BrawlLib.SSBBTypes
 
         public SCN0KeyframesHeader(int entries)
         {
-            _numFrames = (ushort)entries;
+            _numFrames = (ushort) entries;
             _unk = 0;
         }
 
-        private VoidPtr Address { get { fixed (void* p = &this)return p; } }
-        public SCN0KeyframeStruct* Data { get { return (SCN0KeyframeStruct*)(Address + Size); } }
+        private VoidPtr Address
+        {
+            get
+            {
+                fixed (void* p = &this)
+                {
+                    return p;
+                }
+            }
+        }
+
+        public SCN0KeyframeStruct* Data => (SCN0KeyframeStruct*) (Address + Size);
     }
 
     public struct SCN0KeyframeStruct
     {
+        public const int Size = 12;
+
         public bfloat _tangent, _index, _value;
 
-        public static implicit operator SCN0Keyframe(SCN0KeyframeStruct v) { return new SCN0Keyframe(v._tangent, v._index, v._value); }
-        public static implicit operator SCN0KeyframeStruct(SCN0Keyframe v) { return new SCN0KeyframeStruct(v._tangent, v._index, v._value); }
+        public static implicit operator SCN0Keyframe(SCN0KeyframeStruct v)
+        {
+            return new SCN0Keyframe(v._tangent, v._index, v._value);
+        }
 
-        public SCN0KeyframeStruct(float tan, float index, float value) { _index = index; _value = value; _tangent = tan; }
+        public static implicit operator SCN0KeyframeStruct(SCN0Keyframe v)
+        {
+            return new SCN0KeyframeStruct(v._tangent, v._index, v._value);
+        }
 
-        public float Index { get { return _index; } set { _index = value; } }
-        public float Value { get { return _value; } set { _value = value; } }
-        public float Tangent { get { return _tangent; } set { _tangent = value; } }
+        public SCN0KeyframeStruct(float tan, float index, float value)
+        {
+            _index = index;
+            _value = value;
+            _tangent = tan;
+        }
+
+        public float Index
+        {
+            get => _index;
+            set => _index = value;
+        }
+
+        public float Value
+        {
+            get => _value;
+            set => _value = value;
+        }
+
+        public float Tangent
+        {
+            get => _tangent;
+            set => _tangent = value;
+        }
 
         public override string ToString()
         {
-            return String.Format("Tangent={0}, Index={1}, Value={2}", _tangent, _index, _value);
+            return $"Tangent={_tangent}, Index={_index}, Value={_value}";
         }
     }
 
     public class SCN0Keyframe
     {
         public float _tangent, _index, _value;
-        
-        public static implicit operator SCN0Keyframe(Vector3 v) { return new SCN0Keyframe(v._x, v._y, v._z); }
-        public static implicit operator Vector3(SCN0Keyframe v) { return new Vector3(v._tangent, v._index, v._value); }
 
-        public SCN0Keyframe(float tan, float index, float value) { _index = index; _value = value; _tangent = tan; }
-        public SCN0Keyframe() { }
+        public static implicit operator SCN0Keyframe(Vector3 v)
+        {
+            return new SCN0Keyframe(v._x, v._y, v._z);
+        }
 
-        public float Index { get { return _index; } set { _index = value; } }
-        public float Value { get { return _value; } set { _value = value; } }
-        public float Tangent { get { return _tangent; } set { _tangent = value; } }
+        public static implicit operator Vector3(SCN0Keyframe v)
+        {
+            return new Vector3(v._tangent, v._index, v._value);
+        }
+
+        public SCN0Keyframe(float tan, float index, float value)
+        {
+            _index = index;
+            _value = value;
+            _tangent = tan;
+        }
+
+        public SCN0Keyframe()
+        {
+        }
+
+        public float Index
+        {
+            get => _index;
+            set => _index = value;
+        }
+
+        public float Value
+        {
+            get => _value;
+            set => _value = value;
+        }
+
+        public float Tangent
+        {
+            get => _tangent;
+            set => _tangent = value;
+        }
 
         public override string ToString()
         {
-            return String.Format("Tangent={0}, Index={1}, Value={2}", _tangent, _index, _value);
+            return $"Tangent={_tangent}, Index={_index}, Value={_value}";
         }
     }
 }

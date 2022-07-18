@@ -1,55 +1,88 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using BrawlLib.Internal;
+using BrawlLib.Internal.IO;
+using System.ComponentModel;
 using System.IO;
-using BrawlLib.IO;
 
 namespace BrawlLib.SSBB.ResourceNodes
 {
-    unsafe class RawDataNode : ResourceNode
+    public interface IBufferNode
     {
-        internal byte* Header { get { return (byte*)WorkingUncompressed.Address; } }
-        internal byte[] data;
+        bool IsValid();
+        VoidPtr GetAddress();
+        int GetLength();
+    }
 
-        public int Size { get { return WorkingUncompressed.Length; } }
+    public unsafe class RawDataNode : ResourceNode, IBufferNode
+    {
+        internal byte* Header => (byte*) WorkingUncompressed.Address;
 
-        public RawDataNode(string name) { _name = name; }
+        public UnsafeBuffer _buffer;
 
-        protected override bool OnInitialize()
+        [Browsable(false)] public override bool AllowDuplicateNames => true;
+
+        public RawDataNode()
         {
-            data = new byte[WorkingUncompressed.Length];
+        }
 
-            for (int i = 0; i < data.Length; i++)
-                data[i] = Header[i];
+        public RawDataNode(string name)
+        {
+            _name = name;
+        }
+
+        [Browsable(true)]
+        [TypeConverter(typeof(DropDownListCompression))]
+        public override string Compression
+        {
+            get => base.Compression;
+            set => base.Compression = value;
+        }
+
+        public override bool OnInitialize()
+        {
+            _buffer = new UnsafeBuffer(WorkingUncompressed.Length);
+
+            Memory.Move(_buffer.Address, Header, (uint) _buffer.Length);
 
             return false;
         }
 
-        protected override int OnCalculateSize(bool force)
+        public override int OnCalculateSize(bool force)
         {
-            return data.Length;
+            return _buffer.Length;
         }
 
-        //public override unsafe void Export(string outPath)
-        //{
-        //    using (FileStream stream = new FileStream(outPath, FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.None, 8, FileOptions.SequentialScan))
-        //    {
-        //        stream.SetLength(data.Length);
-        //        using (FileMap map = FileMap.FromStream(stream))
-        //        {
-        //            for (int i = 0; i < data.Length; i++)
-        //                ((byte*)map.Address)[i] = data[i];
-        //        }
-        //    }
-
-        //}
-
-        protected internal override void OnRebuild(VoidPtr address, int length, bool force)
+        public override void Export(string outPath)
         {
-            byte* header = (byte*)address;
-            for (int i = 0; i < data.Length; i++)
-                header[i] = data[i];
+            using (FileStream stream = new FileStream(outPath, FileMode.OpenOrCreate, FileAccess.ReadWrite,
+                FileShare.None, 8, FileOptions.SequentialScan))
+            {
+                stream.SetLength(_buffer.Length);
+                using (FileMap map = FileMap.FromStream(stream))
+                {
+                    Memory.Move(map.Address, _buffer.Address, (uint) _buffer.Length);
+                }
+            }
+        }
+
+        public override void OnRebuild(VoidPtr address, int length, bool force)
+        {
+            VoidPtr header = address;
+            Memory.Move(header, _buffer.Address, (uint) length);
+        }
+
+        public VoidPtr GetAddress()
+        {
+            return _buffer.Address;
+        }
+
+        public int GetLength()
+        {
+            return _buffer.Length;
+        }
+
+        public bool IsValid()
+        {
+            return _buffer != null && _buffer.Length > 0;
         }
     }
 }

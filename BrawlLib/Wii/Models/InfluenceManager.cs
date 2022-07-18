@@ -1,8 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using BrawlLib.SSBB.ResourceNodes;
+﻿using BrawlLib.Internal;
 using BrawlLib.Modeling;
-using System.Windows.Forms;
+using BrawlLib.Modeling.Collada;
+using BrawlLib.SSBB.ResourceNodes;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
 
 namespace BrawlLib.Wii.Models
 {
@@ -13,61 +15,42 @@ namespace BrawlLib.Wii.Models
     public class InfluenceManager
     {
         internal List<Influence> _influences = new List<Influence>();
-        public List<Influence> Influences { get { return _influences; } }
+        public List<Influence> Influences => _influences;
 
-        public Influence AddOrCreate(Influence inf)
+        public Influence FindOrCreate(Influence inf)
         {
             //Search for influence in list. If it exists, return it.
             foreach (Influence i in _influences)
+            {
                 if (i.Equals(inf))
+                {
                     return i;
+                }
+            }
 
             //Not found, add it to the list.
             _influences.Add(inf);
+
             return inf;
         }
 
-        public int Count { get { return _influences.Count; } }
-        public int CountPrimary
-        {
-            get
-            {
-                int count = 0;
-                foreach (Influence i in _influences)
-                    if (i.IsPrimaryNode)
-                        count++;
-                return count;
-            }
-        }
-        public int CountWeighted
-        {
-            get
-            {
-                int count = 0;
-                foreach (Influence i in _influences)
-                    if (i.IsWeighted)
-                        count++;
-                return count;
-            }
-        }
+        public int Count => _influences.Count;
 
-        //Increases reference count
-        public Influence AddOrCreateInf(Influence inf)
+        public void Remove(Influence inf, IMatrixNodeUser user)
         {
-            Influence i = AddOrCreate(inf);
-            i._refCount++;
-            return i;
-        }
-
-        public void Remove(Influence inf)
-        {
-            for (int i = 0; i < _influences.Count; i++)
-                if (object.ReferenceEquals(_influences[i], inf))
+            for (int i = 0; i < Count; i++)
+            {
+                if (ReferenceEquals(_influences[i], inf) && inf.Users.Contains(user))
                 {
-                    if (inf._refCount-- <= 0)
+                    inf.Users.Remove(user);
+                    if (inf.Users.Count <= 0)
+                    {
                         _influences.RemoveAt(i);
+                    }
+
                     break;
                 }
+            }
         }
 
         //Get all weighted influences
@@ -75,8 +58,12 @@ namespace BrawlLib.Wii.Models
         {
             List<Influence> list = new List<Influence>(_influences.Count);
             foreach (Influence i in _influences)
+            {
                 if (i.IsWeighted)
+                {
                     list.Add(i);
+                }
+            }
 
             return list.ToArray();
         }
@@ -85,12 +72,16 @@ namespace BrawlLib.Wii.Models
         public void Clean()
         {
             int i = 0;
-            while (i < _influences.Count)
+            while (i < Count)
             {
-                if (_influences[i]._refCount <= 0)
+                if (_influences[i].Users.Count <= 0)
+                {
                     _influences.RemoveAt(i);
+                }
                 else
+                {
                     i++;
+                }
             }
         }
 
@@ -108,160 +99,351 @@ namespace BrawlLib.Wii.Models
             return "";
         }
 
-        internal int _refCount;
+        internal List<IMatrixNodeUser> _references = new List<IMatrixNodeUser>();
         internal int _index;
-        internal int _permanentID;
         internal Matrix _matrix;
-        internal Matrix _invMatrix;
-        internal BoneWeight[] _weights;
+        internal Matrix? _invMatrix;
+        private List<BoneWeight> _weights;
 
-        public BoneWeight[] Weights { get { return _weights; } }
+        /// <summary>
+        /// Don't modify this array!
+        /// </summary>
+        public List<BoneWeight> Weights => _weights;
 
-        public int ReferenceCount { get { return _refCount; } set { _refCount = value; } }
-        public int NodeIndex { get { return _index; } }
-        public int PermanentID { get { return _permanentID; } }
+        public List<IMatrixNodeUser> Users
+        {
+            get => _references;
+            set => _references = value;
+        }
 
-        public Matrix Matrix { get { return _matrix; } }
-        public Matrix InverseBindMatrix { get { return _invMatrix; } }
+        public void AddWeight(BoneWeight weight)
+        {
+            _weights.Add(weight);
+            if (weight.Bone != null && !weight.Bone.LinkedInfluences.Contains(this))
+            {
+                weight.Bone.LinkedInfluences.Add(this);
+            }
+        }
 
-        public bool IsPrimaryNode { get { return false; } }
+        public void RemoveWeight(BoneWeight weight)
+        {
+            if (_weights.Contains(weight))
+            {
+                _weights.Remove(weight);
+                if (weight.Bone != null && weight.Bone.LinkedInfluences.Contains(this))
+                {
+                    weight.Bone.LinkedInfluences.Remove(this);
+                }
+            }
+        }
 
-        public bool IsWeighted { get { return _weights.Length > 1; } }
-        public MDL0BoneNode Bone { get { return _weights[0].Bone; } }
+        public void SetWeights(List<BoneWeight> newWeights)
+        {
+            foreach (BoneWeight b in _weights)
+            {
+                if (b.Bone != null && b.Bone.LinkedInfluences.Contains(this))
+                {
+                    b.Bone.LinkedInfluences.Remove(this);
+                }
+            }
 
-        public Influence(int capacity) { _weights = new BoneWeight[capacity]; }
-        public Influence(BoneWeight[] weights) { _weights = weights; }
-        public Influence(MDL0BoneNode bone) { _weights = new BoneWeight[] { new BoneWeight(bone) }; }
+            _weights = newWeights;
+            foreach (BoneWeight b in _weights)
+            {
+                if (b.Bone != null && !b.Bone.LinkedInfluences.Contains(this))
+                {
+                    b.Bone.LinkedInfluences.Add(this);
+                }
+            }
+        }
+
+        //Makes sure all weights add up to 1.0f.
+        //Does not modify any locked weights.
+        public void Normalize()
+        {
+            //Denominator and numerator to convert each unlocked weight with
+            float denom = 0.0f, num = 1.0f;
+
+            foreach (BoneWeight b in Weights)
+            {
+                if (b.Locked)
+                {
+                    num -= b.Weight;
+                }
+                else
+                {
+                    denom += b.Weight;
+                }
+            }
+
+            //Don't do anything if all weights are locked
+            if (denom != 0.0f && num != 0.0f)
+            {
+                foreach (BoneWeight b in Weights)
+                {
+                    if (!b.Locked) //Only normalize unlocked weights used in the calculation
+                    {
+                        b.Weight = (float) Math.Round(b.Weight / denom * num, 7);
+                    }
+                }
+            }
+        }
 
         public Influence Clone()
         {
-            Influence i = new Influence(_weights.Length);
-            _weights.CopyTo(i._weights, 0);
+            Influence i = new Influence();
+            foreach (BoneWeight b in _weights)
+            {
+                i.AddWeight(new BoneWeight(b.Bone, b.Weight) {Locked = b.Locked});
+            }
+
             return i;
         }
 
-        public Influence Splice(BoneWeight weight)
+        [Browsable(false)] public int NodeIndex => _index;
+        [Browsable(false)] public Matrix Matrix => _matrix;
+
+        [Browsable(false)]
+        public Matrix InverseMatrix
         {
-            Influence i = new Influence(_weights.Length + 1);
-            _weights.CopyTo(i._weights, 0);
-            i._weights[_weights.Length] = weight;
-            return i;
+            get
+            {
+                if (_invMatrix == null)
+                {
+                    try
+                    {
+                        _invMatrix = Matrix.Invert(_matrix);
+                    }
+                    catch
+                    {
+                        _invMatrix = Matrix.Identity;
+                    }
+                }
+
+                return (Matrix) _invMatrix;
+            }
+        }
+
+        [Browsable(false)] public bool IsPrimaryNode => false;
+        [Browsable(false)] public bool IsWeighted => _weights.Count > 1;
+        [Browsable(false)] public IBoneNode Bone => _weights[0].Bone;
+
+        public Influence()
+        {
+            _weights = new List<BoneWeight>();
+        }
+
+        public Influence(List<BoneWeight> weights)
+        {
+            _weights = weights;
+            foreach (BoneWeight b in _weights)
+            {
+                if (b.Bone != null && !b.Bone.LinkedInfluences.Contains(this))
+                {
+                    b.Bone.LinkedInfluences.Add(this);
+                }
+            }
+        }
+
+        public Influence(IBoneNode bone)
+        {
+            _weights = new List<BoneWeight> {new BoneWeight(bone)};
+            if (!bone.LinkedInfluences.Contains(this))
+            {
+                bone.LinkedInfluences.Add(this);
+            }
+        }
+
+        ~Influence()
+        {
+            if (_weights != null)
+            {
+                foreach (BoneWeight b in _weights)
+                {
+                    if (b.Bone != null && b.Bone.LinkedInfluences.Contains(this))
+                    {
+                        b.Bone.LinkedInfluences.Remove(this);
+                    }
+                }
+            }
         }
 
         public void CalcMatrix()
         {
-            if (_weights.Length > 1)
+            if (IsWeighted)
             {
-                _matrix = new Matrix();
-                foreach (BoneWeight w in _weights)
-                    if (w.Bone != null)
-                        _matrix += (w.Bone.Matrix * w.Bone.InverseBindMatrix) * w.Weight;
-                _invMatrix = _matrix.Inverse();
+                _matrix = Matrix.InfluenceMatrix(_weights);
+                _invMatrix = Matrix.ReverseInfluenceMatrix(_weights);
             }
-            else if (_weights.Length == 1)
+            else if (_weights.Count == 1 && Bone != null)
             {
-                if (_weights[0].Bone != null)
-                {
-                    _matrix = _weights[0].Bone.Matrix;
-                    _invMatrix = _weights[0].Bone.InverseBindMatrix;
-                }
+                _matrix = Bone.Matrix;
+                _invMatrix = Bone.InverseMatrix;
             }
             else
-                _matrix = _invMatrix = Matrix.Identity;
-
+            {
+                _invMatrix = _matrix = Matrix.Identity;
+            }
         }
 
-        //public override bool Equals(object obj)
-        //{
-        //    if (obj is Influence)
-        //        return Equals(obj as Influence);
-        //    return false;
-        //}
         public static int Compare(Influence i1, Influence i2)
         {
-            if (i1._weights.Length < i2._weights.Length)
+            if (i1._weights.Count < i2._weights.Count)
+            {
                 return -1;
-            if (i1._weights.Length > i2._weights.Length)
-                return 1;
+            }
 
-            if (i1._refCount > i2._refCount)
-                return -1;
-            if (i1._refCount < i2._refCount)
+            if (i1._weights.Count > i2._weights.Count)
+            {
                 return 1;
+            }
+
+            if (i1.Users.Count > i2.Users.Count)
+            {
+                return -1;
+            }
+
+            if (i1.Users.Count < i2.Users.Count)
+            {
+                return 1;
+            }
 
             return 0;
+        }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (obj is Influence)
+            {
+                return Equals(obj as Influence);
+            }
+
+            return false;
         }
 
         public bool Equals(Influence inf)
         {
             bool found;
 
-            if (object.ReferenceEquals(this, inf))
+            if (ReferenceEquals(this, inf))
+            {
                 return true;
+            }
 
-            if (_weights.Length != inf._weights.Length)
+            if (ReferenceEquals(inf, null))
+            {
                 return false;
+            }
+
+            if (_weights.Count != inf._weights.Count)
+            {
+                return false;
+            }
 
             foreach (BoneWeight w1 in _weights)
             {
                 found = false;
-                foreach (BoneWeight w2 in inf._weights) { if (w1 == w2) { found = true; break; } }
+                foreach (BoneWeight w2 in inf._weights)
+                {
+                    if (w1 == w2)
+                    {
+                        found = true;
+                        break;
+                    }
+                }
+
                 if (!found)
+                {
                     return false;
+                }
             }
+
             return true;
         }
 
-        public void Merge(Influence inf, float weight)
+        public static bool operator ==(Influence i1, Influence i2)
         {
-            _weights[_weights.Length + 1] = new BoneWeight(inf._weights[0].Bone, weight);
+            return i1.Equals(i2);
         }
 
-        public void CalcBase()
+        public static bool operator !=(Influence i1, Influence i2)
         {
-            if (_weights.Length == 1)
-            {
-                _matrix = _weights[0].Bone.Matrix;
-                _invMatrix = _weights[0].Bone.InverseBindMatrix;
-            }
-            else
-                _matrix = _invMatrix = Matrix.Identity;
-        }
-        public void CalcWeighted()
-        {
-            if (_weights.Length > 1)
-            {
-                //Multiply the current matrix by the inverse bind matrix and scale
-                _matrix = new Matrix();
-                foreach (BoneWeight w in _weights)
-                    _matrix += (w.Bone.Matrix * w.Bone.InverseBindMatrix) * w.Weight;
-            }
-            else
-                _matrix = _weights[0].Bone.Matrix;
+            return !i1.Equals(i2);
         }
     }
 
-    public struct BoneWeight
+    public class BoneWeight
     {
         public override string ToString()
         {
-            return Bone.Name + " - Weight: " + Weight;
+            return Bone.Name + " - " + Weight * 100.0f + "%";
         }
 
-        public MDL0BoneNode Bone;
+        public IBoneNode Bone;
         public float Weight;
 
-        public BoneWeight(MDL0BoneNode bone) : this(bone, 1.0f) { }
-        public BoneWeight(MDL0BoneNode bone, float weight) { Bone = bone; Weight = weight; }
+        public bool Locked
+        {
+            get => Bone.Locked;
+            set => Bone.Locked = value;
+        }
 
-        public static bool operator ==(BoneWeight b1, BoneWeight b2) { return (b1.Bone == b2.Bone) && (b1.Weight - b2.Weight < 0.0001); }
-        public static bool operator !=(BoneWeight b1, BoneWeight b2) { return !(b1 == b2); }
+        public BoneWeight() : this(null, 1.0f)
+        {
+        }
+
+        public BoneWeight(IBoneNode bone) : this(bone, 1.0f)
+        {
+        }
+
+        public BoneWeight(IBoneNode bone, float weight)
+        {
+            Bone = bone;
+            Weight = weight;
+        }
+
+        public static bool operator ==(BoneWeight b1, BoneWeight b2)
+        {
+            if (ReferenceEquals(b1, b2))
+            {
+                return true;
+            }
+
+            return b1.Equals(b2);
+        }
+
+        public static bool operator !=(BoneWeight b1, BoneWeight b2)
+        {
+            return !(b1 == b2);
+        }
+
         public override bool Equals(object obj)
         {
+            if (obj == null)
+            {
+                return false;
+            }
+
             if (obj is BoneWeight)
-                return this == (BoneWeight)obj;
+            {
+                if (Bone == ((BoneWeight) obj).Bone && Math.Abs(Weight - ((BoneWeight) obj).Weight) <
+                    Collada._importOptions._weightPrecision)
+                {
+                    return true;
+                }
+            }
+
             return false;
         }
-        public override int GetHashCode() { return base.GetHashCode(); }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
     }
 }

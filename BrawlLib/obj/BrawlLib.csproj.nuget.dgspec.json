@@ -1,0 +1,47 @@
+{
+  "format": 1,
+  "restore": {
+    "D:\\Users\\MissionWhitaker\\Documents\\Visual Studio 2019\\Github\\BrawlCrate\\BrawlLib\\BrawlLib.csproj": {}
+  },
+  "projects": {
+    "D:\\Users\\MissionWhitaker\\Documents\\Visual Studio 2019\\Github\\BrawlCrate\\BrawlLib\\BrawlLib.csproj": {
+      "version": "37.0.0",
+      "restore": {
+        "projectUniqueName": "D:\\Users\\MissionWhitaker\\Documents\\Visual Studio 2019\\Github\\BrawlCrate\\BrawlLib\\BrawlLib.csproj",
+        "projectName": "BrawlCrateLib",
+        "projectPath": "D:\\Users\\MissionWhitaker\\Documents\\Visual Studio 2019\\Github\\BrawlCrate\\BrawlLib\\BrawlLib.csproj",
+        "packagesPath": "C:\\Users\\MissionWhitaker\\.nuget\\packages\\",
+        "outputPath": "D:\\Users\\MissionWhitaker\\Documents\\Visual Studio 2019\\Github\\BrawlCrate\\BrawlLib\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\MissionWhitaker\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net472"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net472": {
+            "targetAlias": "net472",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net472": {
+          "targetAlias": "net472",
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.408\\RuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}

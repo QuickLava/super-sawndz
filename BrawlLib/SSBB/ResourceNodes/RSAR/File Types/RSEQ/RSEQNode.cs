@@ -1,118 +1,92 @@
-﻿using System;
-using BrawlLib.SSBBTypes;
-using System.IO;
-using System.Runtime.InteropServices;
+﻿using BrawlLib.Internal;
+using BrawlLib.SSBB.Types;
+using BrawlLib.SSBB.Types.Audio;
 
 namespace BrawlLib.SSBB.ResourceNodes
 {
     public unsafe class RSEQNode : RSARFileNode
     {
-        internal RSEQHeader* Header { get { return (RSEQHeader*)WorkingUncompressed.Address; } }
-        public override ResourceType ResourceType { get { return ResourceType.RSEQ; } }
+        internal RSEQHeader* Header => (RSEQHeader*) WorkingUncompressed.Address;
+        public override ResourceType ResourceFileType => ResourceType.RSEQ;
 
-        protected override bool OnInitialize()
+        public MMLCommand[] _cmds;
+        public MMLCommand[] Commands => _cmds;
+
+        private UnsafeBuffer _dataBuffer;
+
+        public override bool OnInitialize()
         {
             base.OnInitialize();
 
-            RSARNode rsar = RSARNode;
-            if (_name == null)
-            if (rsar == null)
-                _name = Path.GetFileNameWithoutExtension(_origPath);
-            else
-                _name = String.Format("[0x{0:X}] Sequence", _fileIndex);
+            _dataBuffer = new UnsafeBuffer(Header->_dataLength);
+            Memory.Move(_dataBuffer.Address, Header->Data, (uint) Header->_dataLength);
+            SetSizeInternal(Header->_dataLength + Header->_header._firstOffset);
+
+            _cmds = MMLParser.Parse(Header->Data + 12);
+
             return true;
         }
 
-        protected override void OnPopulate()
+        public override void OnPopulate()
         {
-            //RSARNode rsar = RSARNode;
-            //SYMBHeader* symb = null;
-            //RuintList* soundList = null;
-            //INFOSoundEntry** soundIndices = null;
-            //VoidPtr soundOffset = null;
-            //INFOSoundEntry* sEntry;
-            RSEQGroupNode g;
-            //RSEQHeader* rwsd = Header;
-            //RSEQ_DATAHeader* data = rwsd->Data;
-            ////RWSD_WAVEHeader* wave = rwsd->Wave;
-            //RuintList* list = &data->_list;
-            ////RuintList* waveList = &wave->_list;
-            //int count = data->_numEntries;
-
-            ////Get sound info from RSAR (mainly for names)
-            //if (rsar != null)
-            //{
-            //    symb = rsar.Header->SYMBBlock;
-            //    soundOffset = &rsar.Header->INFOBlock->_collection;
-            //    soundList = rsar.Header->INFOBlock->Sounds;
-            //    soundIndices = (INFOSoundEntry**)Marshal.AllocHGlobal(count * 4);
-
-            //    //int sIndex = 0;
-            //    int soundCount = soundList->_numEntries;
-            //    for (int i = 0; i < soundCount; i++)
-            //        if ((sEntry = (INFOSoundEntry*)soundList->Get(soundOffset, i))->_fileId == _fileIndex)
-            //            soundIndices[((INFOSoundPart2*)sEntry->GetPart2(soundOffset))->_soundIndex] = sEntry;
-            //}
-            (g = new RSEQGroupNode()).Initialize(this, Header->Data, Header->_dataLength);
-            //for (int i = 0; i < count; i++)
-            //{
-            //    RWSD_DATAEntry* entry = (RWSD_DATAEntry*)list->Get(list, i);
-            //    RWSDDataNode node = new RWSDDataNode();
-            //    node._offset = list;
-            //    node.Initialize(g, entry, 0);
-
-            //    //Attach from INFO block
-            //    if (soundIndices != null)
-            //    {
-            //        sEntry = soundIndices[i];
-            //        node._name = symb->GetStringEntry(sEntry->_stringId);
-            //    }
-            //}
-
-            //if (soundIndices != null)
-            //    Marshal.FreeHGlobal((IntPtr)soundIndices);
-
-            ////Get labels
-            //RSARNode parent;
-            //int count2 = Header->Data->_list._numEntries;
-            //if ((_labels == null) && ((parent = RSARNode) != null))
-            //{
-            //    _labels = new LabelItem[count2];// new string[count];
-
-            //    //Get them from RSAR
-            //    SYMBHeader* symb2 = parent.Header->SYMBBlock;
-            //    INFOHeader* info = parent.Header->INFOBlock;
-
-            //    VoidPtr offset = &info->_collection;
-            //    RuintList* soundList2 = info->Sounds;
-            //    count2 = soundList2->_numEntries;
-
-            //    INFOSoundEntry* entry;
-            //    for (int i = 0; i < count2; i++)
-            //        if ((entry = (INFOSoundEntry*)soundList2->Get(offset, i))->_fileId == _fileIndex)
-            //            _labels[((INFOSoundPart2*)entry->GetPart2(offset))->_soundIndex] = new LabelItem() { Tag = i, String = symb2->GetStringEntry(entry->_stringId) };
-            //}
-
-            new RSEQGroupNode().Initialize(this, Header->Labl, Header->_lablLength);
+            for (int i = 0; i < Header->Labl->_numEntries; i++)
+            {
+                new RSEQLabelNode().Initialize(this, Header->Labl->Get(i), 0);
+            }
         }
 
-        protected override int OnCalculateSize(bool force)
+        protected override void GetStrings(LabelBuilder builder)
         {
-            return base.OnCalculateSize(force);
+            foreach (RSEQLabelNode node in Children)
+            {
+                builder.Add(node.Id, node._name);
+            }
         }
 
-        protected internal override void OnRebuild(VoidPtr address, int length, bool force)
+        private LabelBuilder builder;
+
+        public override int OnCalculateSize(bool force)
         {
-            base.OnRebuild(address, length, force);
+            builder = new LabelBuilder();
+            foreach (RSEQLabelNode node in Children)
+            {
+                builder.Add(node.Id, node._name);
+            }
+
+            _audioLen = 0;
+            return _headerLen = 0x20 + _dataBuffer.Length + builder.GetSize();
+        }
+
+        public override void OnRebuild(VoidPtr address, int length, bool force)
+        {
+            RSEQHeader* header = (RSEQHeader*) address;
+            header->_header.Endian = Endian.Big;
+            header->_header._tag = RSEQHeader.Tag;
+            header->_header._version = 0x100;
+            header->_header._length = length;
+            header->_header._numEntries = 2;
+            header->_header._firstOffset = 0x20;
+            header->_dataOffset = 0x20;
+            header->_dataLength = _dataBuffer.Length;
+            header->_lablOffset = 0x20 + _dataBuffer.Length;
+            header->_lablLength = builder.GetSize();
+
+            //MML Parser is not complete yet, so copy raw data over
+            Memory.Move((VoidPtr) header + header->_dataOffset, _dataBuffer.Address, (uint) _dataBuffer.Length);
+
+            builder.Write((VoidPtr) header + header->_lablOffset);
         }
 
         public override void Remove()
         {
-            if (RSARNode != null)
-                RSARNode.Files.Remove(this);
+            RSARNode?.Files.Remove(this);
+
             base.Remove();
         }
 
-        internal static ResourceNode TryParse(DataSource source) { return ((RSEQHeader*)source.Address)->_header._tag == RSEQHeader.Tag ? new RSEQNode() : null; }
+        internal static ResourceNode TryParse(DataSource source, ResourceNode parent)
+        {
+            return ((RSEQHeader*) source.Address)->_header._tag == RSEQHeader.Tag ? new RSEQNode() : null;
+        }
     }
 }

@@ -1,240 +1,498 @@
-﻿using System;
-using BrawlLib.SSBBTypes;
+﻿using BrawlLib.Internal;
+using BrawlLib.Internal.IO;
+using BrawlLib.SSBB.Types;
+using BrawlLib.Wii;
+using BrawlLib.Wii.Compression;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
-using BrawlLib.IO;
-using BrawlLib.Wii.Compression;
-using System.Windows;
 
 namespace BrawlLib.SSBB.ResourceNodes
 {
-    public unsafe class U8Node : ARCEntryNode
+    public unsafe class U8Node : U8EntryNode
     {
-        internal U8* Header { get { return (U8*)WorkingUncompressed.Address; } }
-        
-        public override ResourceType ResourceType { get { return ResourceType.Unknown; } }
+        internal U8* Header => (U8*) WorkingUncompressed.Address;
 
-        protected override void OnPopulate()
+        public override ResourceType ResourceFileType => ResourceType.U8;
+        public override Type[] AllowedChildTypes => new Type[] {typeof(U8EntryNode)};
+
+        [Browsable(true)]
+        [TypeConverter(typeof(DropDownListCompression))]
+        public override string Compression
+        {
+            get => base.Compression;
+            set => base.Compression = value;
+        }
+
+        public override void OnPopulate()
         {
             U8Entry* first = Header->Entries;
             uint count = first->_dataLength - 1;
             U8Entry* entry = first + 1;
-            sbyte* table = (sbyte*)entry + count * 12;
+            sbyte* table = (sbyte*) entry + count * 12;
             List<U8EntryNode> nodes = new List<U8EntryNode>();
             U8EntryNode e = null;
             for (int i = 0; i < count; i++)
             {
                 if (entry->isFolder)
                 {
-                    (e = new U8FolderNode() { index = i, _name = new String(table + (int)entry->_stringOffset) }).Initialize(this, entry, 12);
+                    e = new U8FolderNode {_u8Index = i, _name = new string(table + entry->_stringOffset)};
+
+                    e._name = new string(table + entry->_stringOffset);
+                    e._u8Index = i;
+                    e._u8Parent = (int) entry->_dataOffset;
+                    e._u8FirstNotChild = (int) entry->_dataLength;
+                    e._u8Type = entry->_type;
+
+                    e.Initialize(this, entry, 12);
+
                     nodes.Add(e);
                 }
                 else
                 {
-                    if ((entry->_dataLength == 0) || (e = NodeFactory.FromAddress(this, (VoidPtr)Header + entry->_dataOffset, (int)entry->_dataLength) as ARCEntryNode) == null)
-                        (e = new U8EntryNode()).Initialize(this, (VoidPtr)Header + entry->_dataOffset, (int)entry->_dataLength);
-                    e._name = new String(table + (int)entry->_stringOffset);
-                    e.index = i;
-                    e.parent = (int)entry->_dataOffset;
-                    e.firstChild = (int)entry->_dataLength;
+                    DataSource source = new DataSource((VoidPtr) Header + entry->_dataOffset, (int) entry->_dataLength);
+
+                    if (entry->_dataLength == 0 || (e = NodeFactory.FromSource(this, source) as U8EntryNode) == null)
+                    {
+                        e = new ARCEntryNode();
+                        e._origSource = source;
+                        e._uncompSource = source;
+                    }
+
+                    e._name = new string(table + entry->_stringOffset);
+                    e._u8Index = i;
+                    e._u8Parent = -1;
+                    e._u8FirstNotChild = -1;
+                    e._u8Type = entry->_type;
+
+                    e.Initialize(this, e.OriginalSource, e.UncompressedSource);
+
                     nodes.Add(e);
                 }
+
                 entry++;
             }
+
             foreach (U8EntryNode x in nodes)
             {
-                if (x.type == 1)
+                if (x._u8Type == 1)
                 {
-                    if (x.parent == 0)
+                    if (x._u8Parent == 0)
+                    {
                         x.Parent = this;
-                    else if (x.parent < nodes.Count)
-                        x.Parent = nodes[x.parent - 1];
+                    }
+                    else if (x._u8Parent < nodes.Count)
+                    {
+                        x.Parent = nodes[x._u8Parent - 1];
+                    }
+
                     U8EntryNode t = null;
-                    if (x.index + 1 < nodes.Count)
-                        t = nodes[x.index + 1];
+                    if (x._u8Index + 1 < nodes.Count)
+                    {
+                        t = nodes[x._u8Index + 1];
+                    }
+
                     while (t != null)
                     {
                         t.Parent = x;
-                        if (t.index + 1 < nodes.Count && t.ChildEndIndex != nodes[t.index + 1].index)
-                            t = nodes[t.index + 1];
+                        if (t._u8Index + 1 < nodes.Count && t.ChildEndIndex != nodes[t._u8Index + 1]._u8Index)
+                        {
+                            t = nodes[t._u8Index + 1];
+                        }
                         else
+                        {
                             t = null;
+                        }
                     }
                 }
             }
+
             IsDirty = false; //Clear up changes from parent reassignments
         }
 
-        protected override bool OnInitialize()
+        public override bool OnInitialize()
         {
             return true;
         }
 
-        int entrySize = 0, id = 0;
-        U8StringTable table;
-        public int GetSize(ResourceNode node, bool force)
+        private int _entrySize;
+        private OrderedStringTable _stringTable;
+
+        private int GetEntrySize(U8EntryNode node, bool force, ref int id)
         {
-            if (node is U8EntryNode)
+            node._u8Index = id++;
+
+            _stringTable.Add(node.Name);
+            _entrySize += 12;
+
+            int size = node is U8FolderNode ? 0 : node.CalculateSize(force).Align(0x20);
+            foreach (ResourceNode r in node.Children)
             {
-                (node as U8EntryNode).index = id++;
-                table.Add(node.Name);
-                int size = node is U8FolderNode ? 0 : node.CalculateSize(force).Align(0x20);
-                entrySize += 12;
-                table.Add(node.Name);
-                foreach (ResourceNode r in node.Children)
-                    size += GetSize(r, force);
-                return size;
+                if (r is U8EntryNode)
+                {
+                    size += GetEntrySize(r as U8EntryNode, force, ref id);
+                }
             }
-            return 0;
+
+            return size;
         }
 
-        protected override int OnCalculateSize(bool force)
+        public override int OnCalculateSize(bool force)
         {
-            entrySize = 12;
-            id = 1;
-            table = new U8StringTable();
-            table._table.Add("", 0);
+            _entrySize = 12;
+            int id = 1;
+
+            _stringTable = new OrderedStringTable();
+            _stringTable.Add("");
+
             int childSize = 0;
             foreach (ResourceNode e in Children)
-                childSize += GetSize(e, force);
-            entryLength = (table.TotalSize + entrySize);
-            return 0x20 + childSize + entryLength.Align(0x20);
+            {
+                if (e is U8EntryNode)
+                {
+                    childSize += GetEntrySize(e as U8EntryNode, force, ref id);
+                }
+            }
+
+            return 0x20 + childSize + (entryLength = _stringTable.TotalSize + _entrySize).Align(0x20);
         }
 
-        public void RebuildNode(VoidPtr header, U8EntryNode node, ref U8Entry* entry, VoidPtr sTableStart, ref VoidPtr dataAddr, U8StringTable sTable, bool force)
+        private void RebuildNode(VoidPtr header, U8EntryNode node, ref U8Entry* entry, VoidPtr sTableStart,
+                                 ref VoidPtr dataAddr, bool force)
         {
-            entry->_type = (byte)((node is U8FolderNode) ? 1 : 0);
-            entry->_stringOffset.Value = (int)sTable[node.Name] - (int)sTableStart;
+            entry->_type = (byte) (node is U8FolderNode ? 1 : 0);
+            entry->_stringOffset.Value = checked((uint) ( _stringTable[node.Name] - sTableStart));
             if (entry->_type == 1)
             {
+                int index = node.Index + 1, parentIndex = 0, endIndex = _entrySize / 12;
+
                 if (node.Parent != this && node.Parent != null)
-                    entry->_dataOffset = (uint)(node.Parent as U8EntryNode).index;
-                (entry++)->_dataLength = (uint)(node.index + node.Children.Count + 1);
+                {
+                    parentIndex = ((U8EntryNode) node.Parent)._u8Index;
+                }
+
+                if (index < node.Parent?.Children.Count)
+                {
+                    if (node.Parent.Children[index] is U8EntryNode u8en)
+                    {
+                        endIndex = u8en._u8Index;
+                    }
+                }
+
+                entry->_dataLength = (uint) endIndex;
+                entry->_dataOffset = (uint) parentIndex;
+                entry++;
+
                 foreach (ResourceNode b in node.Children)
+                {
                     if (b is U8EntryNode)
-                        RebuildNode(header, b as U8EntryNode, ref entry, sTableStart, ref dataAddr, table, force);
+                    {
+                        RebuildNode(header, b as U8EntryNode, ref entry, sTableStart, ref dataAddr, force);
+                    }
+                }
             }
             else
             {
+                entry->_dataOffset = checked((uint) (dataAddr - header));
+                entry->_dataLength = checked((uint) node._calcSize);
+                entry++;
+
                 node.Rebuild(dataAddr, node._calcSize, force);
-                entry->_dataOffset = (uint)dataAddr - (uint)header;
-                (entry++)->_dataLength = (uint)node._calcSize.Align(0x10);
                 dataAddr += node._calcSize.Align(0x20);
             }
         }
 
-        int entryLength = 0;
-        protected internal override void OnRebuild(VoidPtr address, int length, bool force)
+        private int entryLength;
+
+        public override void OnRebuild(VoidPtr address, int length, bool force)
         {
-            U8* header = (U8*)address;
+            U8* header = (U8*) address;
             header->_tag = U8.Tag;
-            header->_entriesLength = (uint)entryLength;
+            header->_entriesLength = (uint) entryLength;
             header->_entriesOffset = 0x20;
 
             VoidPtr dataAddress = address + 0x20 + entryLength.Align(0x20);
-            U8Entry* entries = (U8Entry*)(address + 0x20);
-            VoidPtr tableAddr = address + 0x20 + entrySize;
-            table.WriteTable(tableAddr);
+            U8Entry* entries = (U8Entry*) (address + 0x20);
+            VoidPtr tableAddr = address + 0x20 + _entrySize;
+            _stringTable.WriteTable(tableAddr);
 
-            header->_firstOffset = (uint)(dataAddress - address);
+            header->_firstOffset = (uint) (dataAddress - address);
 
-            entries->_dataLength = (uint)(entrySize / 12);
+            entries->_dataLength = (uint) (_entrySize / 12);
             entries->_type = 1;
             entries++;
 
             foreach (U8EntryNode b in Children)
-                RebuildNode(address, b, ref entries, tableAddr, ref dataAddress, table, force);
+            {
+                RebuildNode(address, b, ref entries, tableAddr, ref dataAddress, force);
+            }
         }
 
-        public override unsafe void Export(string outPath)
+        public override void Export(string outPath)
         {
             ExportNonYaz0(outPath);
         }
 
-        public void ExportAsMRG(string path)
+        public void ExportSZS(string outPath)
         {
-            MRGNode node = new MRGNode();
-            node._children = Children;
-            node._changed = true;
-            node.Export(path);
+            ExportCompressed(outPath);
+        }
+
+        public void ExportPair(string outPath)
+        {
+            if (Path.HasExtension(outPath))
+            {
+                outPath = outPath.Substring(0, outPath.LastIndexOf('.'));
+            }
+
+            ExportNonYaz0(outPath + ".arc");
+            ExportCompressed(outPath + ".szs");
         }
 
         public void ExportNonYaz0(string outPath)
         {
-            //Rebuild();
-            ExportUncompressed(outPath);
+            base.Export(outPath);
         }
+
         public void ExportCompressed(string outPath)
         {
-            //Rebuild();
-            if (Compression == CompressionType.RunLength)
-                Export(outPath);
+            if (_compression != CompressionType.None)
+            {
+                base.Export(outPath);
+            }
             else
             {
-                using (FileStream inStream = new FileStream(Path.GetTempFileName(), FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.None, 0x8, FileOptions.SequentialScan | FileOptions.DeleteOnClose))
-                using (FileStream outStream = new FileStream(outPath, FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.None, 8, FileOptions.SequentialScan))
+                using (FileStream inStream = new FileStream(Path.GetTempFileName(), FileMode.OpenOrCreate,
+                    FileAccess.ReadWrite, FileShare.None, 0x8, FileOptions.SequentialScan | FileOptions.DeleteOnClose))
                 {
-                    Compressor.CompactYAZ0(WorkingUncompressed.Address, WorkingUncompressed.Length, inStream);
-                    outStream.SetLength(inStream.Length);
-                    using (FileMap map = FileMap.FromStream(inStream))
-                    using (FileMap outMap = FileMap.FromStream(outStream))
-                        Memory.Move(outMap.Address, map.Address, (uint)map.Length);
+                    using (FileStream outStream = new FileStream(outPath, FileMode.OpenOrCreate, FileAccess.ReadWrite,
+                        FileShare.None, 8, FileOptions.SequentialScan))
+                    {
+                        Compressor.Compact(CompressionType.RunLengthYAZ0, WorkingUncompressed.Address,
+                            WorkingUncompressed.Length, inStream, this);
+                        outStream.SetLength(inStream.Length);
+                        using (FileMap map = FileMap.FromStream(inStream))
+                        {
+                            using (FileMap outMap = FileMap.FromStream(outStream))
+                            {
+                                Memory.Move(outMap.Address, map.Address, (uint) map.Length);
+                            }
+                        }
+                    }
                 }
             }
         }
 
-        internal static ResourceNode TryParse(DataSource source) 
+        internal static ResourceNode TryParse(DataSource source, ResourceNode parent)
         {
-            return ((U8*)source.Address)->_tag == U8.Tag ? new U8Node() : null;
+            return ((U8*) source.Address)->_tag == U8.Tag ? new U8Node() : null;
+        }
+
+        public void ExtractToFolder(string outFolder)
+        {
+            ExtractToFolder(outFolder, ".tex0", ".mdl0");
+        }
+
+        public void ExtractToFolder(string outFolder, string imageExtension)
+        {
+            ExtractToFolder(outFolder, imageExtension, ".mdl0");
+        }
+
+        public void ExtractToFolder(string outFolder, string imageExtension, string modelExtension)
+        {
+            if (!Directory.Exists(outFolder))
+            {
+                Directory.CreateDirectory(outFolder);
+            }
+
+            List<string> directChildrenExportedPaths = new List<string>();
+            foreach (ResourceNode entry in Children)
+            {
+                if (entry is ARCNode)
+                {
+                    ((ARCNode) entry).ExtractToFolder(
+                        Path.Combine(outFolder,
+                            entry.Name == null || entry.Name.Contains("<Null>", StringComparison.OrdinalIgnoreCase)
+                                ? "Null"
+                                : entry.Name), imageExtension, modelExtension);
+                }
+                else if (entry is BRRESNode)
+                {
+                    ((BRRESNode) entry).ExportToFolder(
+                        Path.Combine(outFolder,
+                            entry.Name == null || entry.Name.Contains("<Null>", StringComparison.OrdinalIgnoreCase)
+                                ? "Null"
+                                : entry.Name), imageExtension, modelExtension);
+                }
+                else if (entry is U8Node)
+                {
+                    ((U8Node) entry).ExtractToFolder(
+                        Path.Combine(outFolder,
+                            entry.Name == null || entry.Name.Contains("<Null>", StringComparison.OrdinalIgnoreCase)
+                                ? "Null"
+                                : entry.Name), imageExtension, modelExtension);
+                }
+                else if (entry is U8FolderNode)
+                {
+                    ((U8FolderNode) entry).ExportToFolder(
+                        Path.Combine(outFolder,
+                            entry.Name == null || entry.Name.Contains("<Null>", StringComparison.OrdinalIgnoreCase)
+                                ? "Null"
+                                : entry.Name), imageExtension, modelExtension);
+                }
+                else
+                {
+                    if (entry.WorkingSource.Length == 0)
+                    {
+                        continue;
+                    }
+
+                    string ext = FileFilters.GetDefaultExportAllExtension(entry.GetType());
+                    string path = Path.Combine(outFolder, entry.Name + ext);
+
+                    if (directChildrenExportedPaths.Contains(path))
+                    {
+                        throw new Exception(
+                            $"There is more than one node underneath {Name} with the name {entry.Name}.");
+                    }
+
+                    directChildrenExportedPaths.Add(path);
+                    entry.Export(path);
+                }
+            }
         }
     }
+
     public unsafe class U8EntryNode : ResourceNode
     {
-        internal U8Entry* U8EntryHeader { get { return (U8Entry*)WorkingSource.Address; } }
+        internal U8Entry* U8EntryHeader => (U8Entry*) WorkingSource.Address;
 
-        public int parent, firstChild, type, index;
+        public int _u8Parent, _u8FirstNotChild, _u8Type, _u8Index;
 
-        [Browsable(false)]
-        public int ParentIndex { get { return parent; } }
-        [Browsable(false)]
-        public int ChildEndIndex { get { return firstChild; } }
-        [Browsable(false)]
-        public int Type { get { return type; } }
-        [Browsable(false)]
-        public int ID { get { return index; } }
+        [Browsable(false)] public int ParentIndex => _u8Parent;
+        [Browsable(false)] public int ChildEndIndex => _u8FirstNotChild;
+        [Browsable(false)] public int Type => _u8Type;
+        [Browsable(false)] public int ID => _u8Index;
 
-        protected override bool OnInitialize()
+        public override bool OnInitialize()
         {
-            type = U8EntryHeader->_type;
-            parent = (int)U8EntryHeader->_dataOffset;
-            firstChild = (int)U8EntryHeader->_dataLength;
-            return type == 1;
+            base.OnInitialize();
+            return this is U8FolderNode && _u8FirstNotChild - 1 > _u8Index;
         }
     }
-    public unsafe class U8FolderNode : U8EntryNode
-    {
-        public override ResourceType ResourceType { get { return ResourceType.Container; } }
 
-        protected override bool OnInitialize()
+    public class U8FolderNode : U8EntryNode
+    {
+        public override ResourceType ResourceFileType => ResourceType.U8Folder;
+        public override Type[] AllowedChildTypes => new Type[] {typeof(U8EntryNode)};
+
+        public override bool OnInitialize()
         {
             return base.OnInitialize();
         }
 
-        protected override int OnCalculateSize(bool force)
+        public override int OnCalculateSize(bool force)
         {
             return 0;
         }
+
+        public T CreateResource<T>(string name) where T : U8EntryNode
+        {
+            T n = Activator.CreateInstance<T>();
+            n.Name = FindName(name);
+            AddChild(n);
+
+            return n;
+        }
+
+        public void ExportToFolder(string outFolder)
+        {
+            ExportToFolder(outFolder, ".tex0");
+        }
+
+        public void ExportToFolder(string outFolder, string imageExtension)
+        {
+            ExportToFolder(outFolder, imageExtension, ".mdl0");
+        }
+
+        public void ExportToFolder(string outFolder, string imageExtension, string modelExtension)
+        {
+            if (!Directory.Exists(outFolder))
+            {
+                Directory.CreateDirectory(outFolder);
+            }
+
+            List<string> directChildrenExportedPaths = new List<string>();
+            foreach (ResourceNode entry in Children)
+            {
+                if (entry is ARCNode)
+                {
+                    ((ARCNode) entry).ExtractToFolder(
+                        Path.Combine(outFolder,
+                            entry.Name == null || entry.Name.Contains("<Null>", StringComparison.OrdinalIgnoreCase)
+                                ? "Null"
+                                : entry.Name), imageExtension, modelExtension);
+                }
+                else if (entry is BRRESNode)
+                {
+                    ((BRRESNode) entry).ExportToFolder(
+                        Path.Combine(outFolder,
+                            entry.Name == null || entry.Name.Contains("<Null>", StringComparison.OrdinalIgnoreCase)
+                                ? "Null"
+                                : entry.Name), imageExtension, modelExtension);
+                }
+                else if (entry is U8Node)
+                {
+                    ((U8Node) entry).ExtractToFolder(
+                        Path.Combine(outFolder,
+                            entry.Name == null || entry.Name.Contains("<Null>", StringComparison.OrdinalIgnoreCase)
+                                ? "Null"
+                                : entry.Name), imageExtension, modelExtension);
+                }
+                else if (entry is U8FolderNode)
+                {
+                    ((U8FolderNode) entry).ExportToFolder(
+                        Path.Combine(outFolder,
+                            entry.Name == null || entry.Name.Contains("<Null>", StringComparison.OrdinalIgnoreCase)
+                                ? "Null"
+                                : entry.Name), imageExtension, modelExtension);
+                }
+                else
+                {
+                    if (entry.WorkingSource.Length == 0)
+                    {
+                        continue;
+                    }
+
+                    string ext = FileFilters.GetDefaultExportAllExtension(entry.GetType());
+                    string path = Path.Combine(outFolder, entry.Name + ext);
+
+                    if (directChildrenExportedPaths.Contains(path))
+                    {
+                        throw new Exception(
+                            $"There is more than one node underneath {Name} with the name {entry.Name}.");
+                    }
+
+                    directChildrenExportedPaths.Add(path);
+                    entry.Export(path);
+                }
+            }
+        }
     }
 
-    public unsafe class U8StringTable
+    public unsafe class OrderedStringTable
     {
-        public SortedList<string, VoidPtr> _table = new SortedList<string, VoidPtr>(StringComparer.OrdinalIgnoreCase);
+        public List<string> _keys = new List<string>();
+        public List<VoidPtr> _values = new List<VoidPtr>();
 
         public void Add(string s)
         {
-            if ((!String.IsNullOrEmpty(s)) && (!_table.ContainsKey(s)))
-                _table.Add(s, 0);
+            if (!_keys.Contains(s))
+            {
+                _keys.Add(s);
+                _values.Add(0);
+            }
         }
 
         public int TotalSize
@@ -242,23 +500,30 @@ namespace BrawlLib.SSBB.ResourceNodes
             get
             {
                 int len = 0;
-                foreach (string s in _table.Keys)
-                    len += (s.Length + 1);
+                foreach (string s in _keys)
+                {
+                    len += s.Length + 1;
+                }
+
                 return len;
             }
         }
 
-        public void Clear() { _table.Clear(); }
+        public void Clear()
+        {
+            _keys.Clear();
+            _values.Clear();
+        }
 
-        public VoidPtr this[string s] { get { return _table[s]; } }
+        public VoidPtr this[string s] => _values[_keys.IndexOf(s)];
 
         public void WriteTable(VoidPtr address)
         {
-            FDefReferenceString* entry = (FDefReferenceString*)address;
-            for (int i = 0; i < _table.Count; i++)
+            CompactStringEntry* entry = (CompactStringEntry*) address;
+            for (int i = 0; i < _keys.Count; i++)
             {
-                string s = _table.Keys[i];
-                _table[s] = entry;
+                string s = _keys[i];
+                _values[i] = entry;
                 entry->Value = s;
                 entry = entry->Next;
             }

@@ -1,60 +1,72 @@
-﻿using System;
-using BrawlLib.SSBBTypes;
-using System.Collections.Generic;
+﻿using BrawlLib.Internal;
+using BrawlLib.SSBB.Types;
+using BrawlLib.SSBB.Types.Audio;
+using System.ComponentModel;
 
 namespace BrawlLib.SSBB.ResourceNodes
 {
     public unsafe class RSARGroupNode : RSAREntryNode
     {
-        internal INFOGroupHeader* Header { get { return (INFOGroupHeader*)WorkingUncompressed.Address; } }
-        internal override int StringId { get { return Header->_id; } }
+        internal INFOGroupHeader* Header => (INFOGroupHeader*) WorkingUncompressed.Address;
 
-        public override ResourceType ResourceType { get { return ResourceType.RSARGroup; } }
+        [Category("Data")]
+        [DisplayName("Group ID")]
+        public override int StringId => Header == null ? -1 : (int) Header->_stringId;
 
-        internal List<RSARFileNode> _files = new List<RSARFileNode>();
+        public override ResourceType ResourceFileType => ResourceType.RSARGroup;
 
-        private int _id;
-        private int _magic;
-        private int _unk1, _unk2;
+        public BindingList<RSARFileNode> _files = new BindingList<RSARFileNode>();
 
-        public int Id { get { return _id; } }
-        public int Magic { get { return _magic; } }
-        public int Unknown1 { get { return _unk1; } }
-        public int Unknown2 { get { return _unk2; } }
-
-        public List<RSARFileNode> Files { get { return _files; } }
-
-        protected override bool OnInitialize()
+        public override bool OnInitialize()
         {
             base.OnInitialize();
-
-            _id = Header->_id;
-            _magic = Header->_magic;
-            _unk1 = Header->_unk1;
-            _unk2 = Header->_unk2;
 
             //Get file references
             RSARNode rsar = RSARNode;
             VoidPtr offset = &rsar.Header->INFOBlock->_collection;
-            //ResourceNode parent = rsar.Children[1];
             RuintList* list = Header->GetCollection(offset);
             int count = list->_numEntries;
             for (int i = 0; i < count; i++)
             {
-                INFOGroupEntry* entry = (INFOGroupEntry*)list->Get(offset, i);
+                INFOGroupEntry* entry = (INFOGroupEntry*) list->Get(offset, i);
                 int id = entry->_fileId;
-                foreach (RSARFileNode node in rsar.Files)
-                {
-                    if (id == node._fileIndex)
-                    {
-                        _files.Add(node);
-                        break;
-                    }
-                }
-                //_files.Add(rsar.Files[id] as RSARFileNode);
+                _files.Add(rsar.Files[id]);
+                rsar.Files[id]._groupRefs.Add(this);
             }
 
+            SetSizeInternal(INFOGroupHeader.Size + 4 + _files.Count * (8 + INFOGroupEntry.Size));
+
             return false;
+        }
+
+        public override int OnCalculateSize(bool force)
+        {
+            return INFOGroupHeader.Size + 4 + _files.Count * (8 + INFOGroupEntry.Size);
+        }
+
+        internal INFOGroupHeader* _headerAddr;
+
+        public override void OnRebuild(VoidPtr address, int length, bool force)
+        {
+            INFOGroupHeader* header = (INFOGroupHeader*) address;
+            RuintList* list = (RuintList*) (address + INFOGroupHeader.Size);
+            INFOGroupEntry* entries = (INFOGroupEntry*) ((VoidPtr) list + 4 + _files.Count * 8);
+
+            _headerAddr = header;
+
+            //I believe these two values are set at runtime
+            header->_entryNum = -1;
+            header->_extFilePathRef = new ruint(ruint.RefType.Address, 0, 0);
+
+            header->_stringId = _rebuildStringId;
+            header->_listOffset = (uint) (list - _rebuildBase);
+
+            list->_numEntries = _files.Count;
+            for (int i = 0; i < _files.Count; ++i)
+            {
+                list->Entries[i] = (uint) (&entries[i] - _rebuildBase);
+                entries[i]._fileId = _files[i]._fileIndex;
+            }
         }
     }
 }

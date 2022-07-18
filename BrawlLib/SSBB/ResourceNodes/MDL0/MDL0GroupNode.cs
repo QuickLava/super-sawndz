@@ -1,59 +1,88 @@
-﻿using System;
+﻿using BrawlLib.Internal;
+using BrawlLib.Modeling;
+using BrawlLib.OpenGL;
+using BrawlLib.SSBB.Types;
+using BrawlLib.Wii.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using BrawlLib.SSBBTypes;
+#if !DEBUG
 using System.ComponentModel;
-using BrawlLib.OpenGL;
-using BrawlLib.Wii.Models;
-using BrawlLib.Modeling;
-using System.Windows.Forms;
+#endif
 
 namespace BrawlLib.SSBB.ResourceNodes
 {
-    public unsafe abstract class MDL0EntryNode : ResourceNode
+    public abstract class MDL0EntryNode : ResourceNode
     {
-        internal virtual void GetStrings(StringTable table) { table.Add(Name); }
+        internal virtual void GetStrings(StringTable table)
+        {
+            table.Add(_name);
+        }
 
-        internal int _entryIndex;
+        public int _entryIndex;
 
+#if !DEBUG
         [Browsable(false)]
+#endif
         public MDL0Node Model
         {
             get
             {
                 ResourceNode n = _parent;
-                while (!(n is MDL0Node) && (n != null))
+                while (!(n is MDL0Node) && n != null)
+                {
                     n = n._parent;
+                }
+
                 return n as MDL0Node;
             }
         }
 
+#if !DEBUG
         [Browsable(false)]
-        public BRESNode BRESNode
+#endif
+        public BRRESNode BRESNode
         {
             get
             {
                 ResourceNode n = _parent;
-                while (!(n is BRESNode) && (n != null))
+                while (!(n is BRRESNode) && n != null)
+                {
                     n = n._parent;
-                return n as BRESNode;
+                }
+
+                return n as BRRESNode;
             }
         }
 
-        internal virtual void Bind(GLContext ctx) { }
-        internal virtual void Unbind(GLContext ctx) { }
+        internal virtual void Bind()
+        {
+        }
 
-        protected internal virtual void PostProcess(VoidPtr mdlAddress, VoidPtr dataAddress, StringTable stringTable) { }
+        internal virtual void Unbind()
+        {
+        }
+
+        public override void SignalPropertyChange()
+        {
+            base.SignalPropertyChange();
+
+            TKContext.InvalidateModelPanels(Model);
+        }
+
+        protected internal virtual void PostProcess(VoidPtr mdlAddress, VoidPtr dataAddress, StringTable stringTable)
+        {
+        }
     }
 
     public unsafe class MDL0GroupNode : ResourceNode
     {
-        internal ResourceGroup* Header { get { return (ResourceGroup*)WorkingUncompressed.Address; } }
+        internal ResourceGroup* Header => (ResourceGroup*) WorkingUncompressed.Address;
 
-        public override ResourceType ResourceType { get { return ResourceType.MDL0Group; } }
+        public override ResourceType ResourceFileType => ResourceType.MDL0Group;
 
         public MDLResourceType _type;
+
         internal int _index;
         //internal List<ResourceNode> _nodeCache;
 
@@ -66,215 +95,360 @@ namespace BrawlLib.SSBB.ResourceNodes
         internal void GetStrings(StringTable table)
         {
             foreach (MDL0EntryNode n in Children)
+            {
                 n.GetStrings(table);
+            }
         }
 
         internal void Initialize(ResourceNode parent, DataSource source, int index)
         {
             _index = index;
-            base.Initialize(parent, source);
+            Initialize(parent, source);
         }
 
         public override void RemoveChild(ResourceNode child)
         {
-            if ((_children != null) && (_children.Count == 1) && (_children.Contains(child)))
+            base.RemoveChild(child);
+            if (_children == null || _children.Count == 0)
+            {
                 _parent.RemoveChild(this);
-            else
-                base.RemoveChild(child);
+            }
         }
 
         internal void Parse(MDL0Node model)
         {
             Influence inf;
             ModelLinker linker = model._linker;
-            switch (_type)
+
+            int typeIndex = (int) _type;
+            fixed (ResourceGroup** gList = &linker.Defs)
             {
-                case MDLResourceType.Definitions:
-                    if (linker.Defs != null)
-                        ExtractGroup(linker.Defs, typeof(MDL0DefNode));
-                    break;
+                if (gList[typeIndex] != null)
+                {
+                    ExtractGroup(gList[typeIndex], ModelLinker.TypeBank[typeIndex]);
+                }
+                else
+                {
+                    return; //Nothing to read
+                }
+            }
 
-                case MDLResourceType.Bones:
-                    //Break if there are no bones defined
-                    if (linker.Bones == null)
-                        break;
+            //Special handling for bones and objects
+            if (_type == MDLResourceType.Bones)
+            {
+                //Bones have been parsed from raw data as a flat list.
+                //Bones re-assign parents in their Initialize block, so parents are true.
+                //Parents must be assigned now as bones will be moved in memory when assigned as children.
 
-                    //Parse bones from raw data (flat list).
-                    //Bones re-assign parents in their Initialize block, so parents are true.
-                    ExtractGroup(linker.Bones, typeof(MDL0BoneNode));
+                //Cache flat list
+                linker.BoneCache = _children.Select(x => x as MDL0BoneNode).ToArray();
 
-                    //Cache flat list
-                    linker.BoneCache = _children.ToArray();
+                //Reset children so we can rebuild
+                _children.Clear();
 
-                    //Make sure the node cache is the correct size
-                    int highest = 0;
-                    foreach (MDL0BoneNode b in _children)
-                        if (b._nodeIndex >= linker.NodeCache.Length && b._nodeIndex > highest)
-                            highest = b._nodeIndex;
-                    if (highest >= linker.NodeCache.Length)
-                        linker.NodeCache = new IMatrixNode[highest + 1];
+                //Assign children using each bones' parent offset in case NodeTree is corrupted.
+                //Bone parents are assigned when they are initialized in a flat array.
+                foreach (MDL0BoneNode b in linker.BoneCache)
+                {
+                    MDL0Bone* header = b.Header;
 
-                    //Reset children so we can rebuild
-                    _children.Clear();
-
-                    //Populate node cache
-                    MDL0BoneNode bone = null;
-                    int index;
-                    int count = linker.BoneCache.Length;
-                    for (int i = 0; i < count; i++)
-                        linker.NodeCache[(bone = linker.BoneCache[i] as MDL0BoneNode)._nodeIndex] = bone;
-                    
-                    //Now that bones and primary influences have been cached, we can create weighted influences.
-                    foreach (ResourcePair p in *linker.Defs)
-                        if (p.Name == "NodeTree")
+                    //Assign true parent using parent header offset
+                    int offset = header->_parentOffset;
+                    if (offset != 0)
+                    {
+                        //Get address of parent header
+                        MDL0Bone* pHeader = (MDL0Bone*) ((byte*) header + offset);
+                        //Search bone list for matching header
+                        foreach (MDL0BoneNode b2 in linker.BoneCache)
                         {
-                            //Use node tree to rebuild bone heirarchy
-                            byte* pData = (byte*)p.Data;
-
-                        Top:
-                            if (*pData == 2)
+                            if (pHeader == b2.Header)
                             {
-                                bone = linker.BoneCache[*(bushort*)(pData + 1)] as MDL0BoneNode;
-                                index = *(bushort*)(pData + 3);
-
-                                if (bone.Header->_parentOffset == 0)
-                                    _children.Add(bone);
-                                else
-                                    (bone._parent = linker.NodeCache[index] as ResourceNode)._children.Add(bone);
-
-                                pData += 5;
-                                goto Top;
+                                b._parent = b2;
+                                break;
                             }
                         }
-                        else if (p.Name == "NodeMix")
+                    }
+
+                    if (b._boneFlags.HasFlag(BoneFlags.HasBillboardParent))
+                    {
+                        b._bbRefNode = model._linker.BoneCache[header->_bbIndex];
+                    }
+                }
+
+                //Make sure the node cache is the correct size
+                int highest = 0;
+
+                //Add bones to their parent's child lists and find highest node id
+                foreach (MDL0BoneNode b in linker.BoneCache)
+                {
+                    b._parent._children.Add(b);
+
+                    if (b._nodeIndex >= linker.NodeCache.Length && b._nodeIndex > highest)
+                    {
+                        highest = b._nodeIndex;
+                    }
+                }
+
+                if (highest >= linker.NodeCache.Length)
+                {
+                    linker.NodeCache = new IMatrixNode[highest + 1];
+                }
+
+                //Populate node cache
+                MDL0BoneNode bone = null;
+                int index;
+                int count = linker.BoneCache.Length;
+                for (int i = 0; i < count; i++)
+                {
+                    linker.NodeCache[(bone = linker.BoneCache[i])._nodeIndex] = bone;
+                }
+
+                int nullCount = 0;
+
+                bool nodeTreeError = false;
+
+                //Now that bones and primary influences have been cached, we can create weighted influences.
+                foreach (ResourcePair p in *linker.Defs)
+                {
+                    if (p.Name == "NodeTree")
+                    {
+                        //Double check bone tree using the NodeTree definition.
+                        //If the NodeTree is corrupt, the user will be informed that it needs to be rebuilt.
+                        byte* pData = (byte*) p.Data;
+                        bool fixCS0159 = false;
+
+                        List<MDL0BoneNode> bones = linker.BoneCache.ToList();
+
+                        STop:
+                        if (*pData == 2)
                         {
-                            //Use node mix to create weight groups
-                            byte* pData = (byte*)p.Data;
+                            bone = linker.BoneCache[*(bushort*) (pData + 1)];
+                            index = *(bushort*) (pData + 3); //Parent bone node index
 
-                        Top:
-                            switch (*pData)
+                            if (bone.Header->_parentOffset == 0)
                             {
-                                //Type 3 is for weighted influences
-                                case 3:
-                                    //Get index/count fields
-                                    index = *(bushort*)(pData + 1);
-                                    count = pData[3];
-                                    //Get data pointer (offset of 4)
-                                    MDL0NodeType3Entry* nEntry = (MDL0NodeType3Entry*)(pData + 4);
-                                    //Create influence with specified count
-                                    inf = new Influence(count);
-                                    //Iterate through weights, adding each to the influence
-                                    //Here, we are referring back to the NodeCache to grab the bone.
-                                    //Note that the weights do not reference other influences, only bones. There is a good reason for this.
-                                    for (int i = 0; i < count; i++, nEntry++)
-                                        if ((linker.NodeCache[nEntry->_id] as MDL0BoneNode) == null)
-                                            Console.WriteLine("Null bone entry!");
-                                        else
-                                            inf._weights[i] = new BoneWeight(linker.NodeCache[nEntry->_id] as MDL0BoneNode, nEntry->_value);
-
-                                    //Add influence to model object, while adding it to the cache.
-                                    linker.NodeCache[index] = model._influences.AddOrCreate(inf);
-
-                                    //Move data pointer to next entry
-                                    pData = (byte*)nEntry;
-                                    goto Top;
-
-                                //Type 5 is for primary influences
-                                case 5:
-                                    pData += 5;
-                                    goto Top;
-                            }
-                        }
-                    int z = 0;
-                    foreach (IMatrixNode m in linker.NodeCache)
-                    { if (!m.IsPrimaryNode) { ((Influence)m)._permanentID = z; break; } z++; }
-                    break;
-
-                case MDLResourceType.Materials:
-                    if (linker.Materials != null)
-                        ExtractGroup(linker.Materials, typeof(MDL0MaterialNode));
-                    break;
-
-                case MDLResourceType.Shaders:
-                    if (linker.Shaders != null)
-                        ExtractGroup(linker.Shaders, typeof(MDL0ShaderNode));
-                    break;
-
-                case MDLResourceType.Vertices:
-                    if (linker.Vertices != null)
-                        ExtractGroup(linker.Vertices, typeof(MDL0VertexNode));
-                    break;
-
-                case MDLResourceType.Normals:
-                    if (linker.Normals != null)
-                        ExtractGroup(linker.Normals, typeof(MDL0NormalNode));
-                    break;
-
-                case MDLResourceType.UVs:
-                    if (linker.UVs != null)
-                        ExtractGroup(linker.UVs, typeof(MDL0UVNode));
-                    break;
-
-                case MDLResourceType.Objects:
-                    //Break if no polygons defined
-                    if (linker.Polygons == null)
-                        break;
-
-                    //Extract
-                    ExtractGroup(linker.Polygons, typeof(MDL0PolygonNode));
-
-                    //Attach materials to polygons.
-                    //This assumes that materials have already been parsed.
-
-                    List<ResourceNode> matList = ((MDL0Node)_parent)._matList;
-                    MDL0PolygonNode poly;
-                    MDL0MaterialNode mat;
-
-                    //Find DrawOpa or DrawXlu entry in Definition list
-                    foreach (ResourcePair p in *linker.Defs)
-                        if ((p.Name == "DrawOpa") || (p.Name == "DrawXlu"))
-                        {
-                            ushort dIndex = 0;
-                            byte* pData = (byte*)p.Data;
-                            while (*pData++ == 4)
-                            {
-                                //Get polygon from index
-                                dIndex = *(bushort*)(pData + 2);
-                                if (dIndex >= _children.Count || dIndex < 0)
+                                if (!_children.Contains(bone))
                                 {
-                                    ((MDL0Node)Parent)._errors.Add("Object index was greater than the actual object count.");
-                                    SignalPropertyChange();
-                                    dIndex = 0;
+                                    nodeTreeError = true;
+                                    continue;
                                 }
-                                poly = _children[dIndex] as MDL0PolygonNode;
-                                //Get material from index
-                                mat = matList[*(bushort*)pData] as MDL0MaterialNode;
-                                //Get bone from index and assign
-                                int boneIndex = *(bushort*)(pData + 4);
-                                if (linker.BoneCache != null && boneIndex >= 0 && boneIndex < linker.BoneCache.Length)
-                                    poly.BoneNode = linker.BoneCache[boneIndex] as MDL0BoneNode;
-                                //Assign material to polygon and add polygon to material reference list
-                                (poly._material = mat)._polygons.Add(poly);
-                                //Increment pointer
-                                pData += 7;
+
+                                bones.Remove(bone);
+                            }
+                            else
+                            {
+                                MDL0BoneNode parent = linker.NodeCache[index] as MDL0BoneNode;
+                                if (parent == null || bone._parent != parent || !parent._children.Contains(bone))
+                                {
+                                    nodeTreeError = true;
+                                    continue;
+                                }
+
+                                bones.Remove(bone);
+                            }
+
+                            pData += 5;
+                            fixCS0159 = true;
+                        }
+
+                        if (fixCS0159)
+                        {
+                            fixCS0159 = false;
+                            goto STop;
+                        }
+
+                        if (bones.Count > 0)
+                        {
+                            nodeTreeError = true;
+                        }
+                    }
+                    else if (p.Name == "NodeMix")
+                    {
+                        //Use node mix to create weight groups
+                        byte* pData = (byte*) p.Data;
+                        bool fixCS0159 = false;
+                        TTop:
+                        switch (*pData)
+                        {
+                            //Type 3 is for weighted influences
+                            case 3:
+                                //Get index/count fields
+                                index = *(bushort*) (pData + 1);
+                                count = pData[3];
+                                //Get data pointer (offset of 4)
+                                MDL0NodeType3Entry* nEntry = (MDL0NodeType3Entry*) (pData + 4);
+                                //Create influence with specified count
+                                inf = new Influence();
+                                //Iterate through weights, adding each to the influence
+                                //Here, we are referring back to the NodeCache to grab the bone.
+                                //Note that the weights do not reference other influences, only bones. There is a good reason for this.
+                                MDL0BoneNode b = null;
+                                List<int> nullIndices = new List<int>();
+                                for (int i = 0; i < count; i++, nEntry++)
+                                {
+                                    if (nEntry->_id < linker.NodeCache.Length &&
+                                        (b = linker.NodeCache[nEntry->_id] as MDL0BoneNode) != null)
+                                    {
+                                        inf.AddWeight(new BoneWeight(b, nEntry->_value));
+                                    }
+                                    else
+                                    {
+                                        nullIndices.Add(i);
+                                    }
+                                }
+
+                                bool noWeights = false;
+                                if ((nullCount = nullIndices.Count) > 0)
+                                {
+                                    List<BoneWeight> newWeights = new List<BoneWeight>();
+                                    for (int i = 0; i < inf.Weights.Count; i++)
+                                    {
+                                        if (!nullIndices.Contains(i))
+                                        {
+                                            newWeights.Add(inf.Weights[i]);
+                                        }
+                                    }
+
+                                    if (newWeights.Count == 0)
+                                    {
+                                        noWeights = true;
+                                    }
+                                    else
+                                    {
+                                        inf.SetWeights(newWeights);
+                                    }
+                                }
+
+                                //Add influence to model object, while adding it to the cache.
+                                //Don't add user references here, they will be added during each object's initialization
+                                if (!noWeights)
+                                {
+                                    ((Influence) (linker.NodeCache[index] = model._influences.FindOrCreate(inf)))
+                                        ._index = index;
+                                }
+
+                                //Move data pointer to next entry
+                                pData = (byte*) nEntry;
+                                fixCS0159 = true;
+                                break;
+                            //Type 5 is for primary influences
+                            case 5:
+                                pData += 5;
+                                fixCS0159 = true;
+                                break;
+                        }
+
+                        if (fixCS0159)
+                        {
+                            fixCS0159 = false;
+                            goto TTop;
+                        }
+                    }
+                }
+
+                if (nullCount > 0)
+                {
+                    model._errors.Add("There were " + nullCount + " null weights in NodeMix.");
+                }
+
+                if (nodeTreeError)
+                {
+                    model._errors.Add("The NodeTree definition did not match the bone tree.");
+                }
+            }
+            else if (_type == MDLResourceType.Objects)
+            {
+                //Attach materials to polygons.
+                //This assumes that materials have already been parsed.
+
+                List<ResourceNode> matList = ((MDL0Node) _parent)._matList;
+                MDL0ObjectNode obj;
+                MDL0MaterialNode mat;
+
+                //Find DrawOpa or DrawXlu entry in Definition list
+                foreach (ResourcePair p in *linker.Defs)
+                {
+                    if (p.Name == "DrawOpa" || p.Name == "DrawXlu")
+                    {
+                        bool isXLU = p.Name == "DrawXlu";
+
+                        ushort objectIndex = 0;
+                        byte* pData = (byte*) p.Data;
+                        while (*pData++ == 4)
+                        {
+                            //Get object with index
+                            objectIndex = *(bushort*) (pData + 2);
+                            if (objectIndex >= _children.Count || objectIndex < 0)
+                            {
+                                model._errors.Add("Object index was greater than the actual object count.");
+                                objectIndex = 0;
+                            }
+
+                            obj = _children[objectIndex] as MDL0ObjectNode;
+
+                            //Get material with index
+                            mat = matList[*(bushort*) pData] as MDL0MaterialNode;
+
+                            //Get bone with index
+                            int boneIndex = *(bushort*) (pData + 4);
+                            MDL0BoneNode visBone = null;
+                            if (linker.BoneCache != null && boneIndex >= 0 && boneIndex < linker.BoneCache.Length)
+                            {
+                                visBone = linker.BoneCache[boneIndex];
+                            }
+
+                            obj._drawCalls.Add(new DrawCall(obj)
+                            {
+                                _drawOrder = pData[6],
+                                _isXLU = isXLU,
+                                MaterialNode = mat,
+                                VisibilityBoneNode = visBone
+                            });
+
+                            //Increment pointer
+                            pData += 7;
+                        }
+                    }
+                }
+
+                foreach (MDL0ObjectNode m in _children)
+                {
+                    int max = 0;
+                    foreach (DrawCall c in m._drawCalls)
+                    {
+                        max = Maths.Max(max, c.MaterialNode.Children.Count);
+                        if (c.MaterialNode.MetalMaterial != null)
+                        {
+                            max = Maths.Max(max, c.MaterialNode.MetalMaterial.Children.Count);
+                        }
+                    }
+
+                    bool hasUnused = false;
+                    if (m._manager != null)
+                    {
+                        for (int i = max; i < 8; i++)
+                        {
+                            if (m._manager.HasTextureMatrix[i])
+                            {
+                                m._manager.HasTextureMatrix[i] = false;
+                                m._forceRebuild = true;
+                                hasUnused = true;
                             }
                         }
-                    break;
+                    }
 
-                case MDLResourceType.Colors:
-                    if (linker.Colors != null)
-                        ExtractGroup(linker.Colors, typeof(MDL0ColorNode));
-                    break;
+                    if (hasUnused)
+                    {
+                        ((MDL0Node) Parent)._errors.Add("Object " + m.Index + " has unused texture matrices.");
+                    }
 
-                case MDLResourceType.Textures:
-                    if (linker.Textures != null)
-                        ExtractGroup(linker.Textures, typeof(MDL0TextureNode));
-                    break;
-
-                case MDLResourceType.Palettes:
-                    if (linker.Palettes != null)
-                        ExtractGroup(linker.Palettes, typeof(MDL0TextureNode));
-                    break;
+                    //This error doesn't seem to always be true for factory models...
+                    //if (m.HasTexMtx && m.HasNonFloatVertices)
+                    //{
+                    //    ((MDL0Node)Parent)._errors.Add("Object " + m.Index + " has texture matrices and non-float vertices, meaning it will explode in-game.");
+                    //    m.SignalPropertyChange();
+                    //}
+                }
             }
         }
 
@@ -287,25 +461,33 @@ namespace BrawlLib.SSBB.ResourceNodes
 
             MDL0CommonHeader* pHeader;
             ResourceNode node;
-            int* offsetCache = stackalloc int[128];
-            int offsetCount = 0, offset, x;
+            VoidPtr* offsetCache = stackalloc VoidPtr[128];
+            VoidPtr offsetCount = 0, offset, x;
 
             foreach (ResourcePair p in *pGroup)
             {
                 //Get data offset
-                offset = (int)p.Data;
+                offset = p.Data;
                 if (useCache)
                 {
                     //search for entry within offset cache
-                    for (x = 0; (x < offsetCount) && (offsetCache[x] != offset); x++);
+                    for (x = 0; x < offsetCount && offsetCache[x] != offset; x++)
+                    {
+                        ;
+                    }
+
                     //If found, skip to next entry
-                    if (x < offsetCount) continue;
+                    if (x < offsetCount)
+                    {
+                        continue;
+                    }
+
                     //Otherwise, store offset
                     offsetCache[offsetCount++] = offset;
                 }
 
                 //Create resource instance
-                pHeader = (MDL0CommonHeader*)p.Data;
+                pHeader = (MDL0CommonHeader*) p.Data;
                 node = Activator.CreateInstance(t) as ResourceNode;
 
                 //Initialize
@@ -315,48 +497,71 @@ namespace BrawlLib.SSBB.ResourceNodes
                 //Make sure we're not naming the shaders,
                 //or it will name it the name of the first material it's linked to.
                 if (t != typeof(MDL0ShaderNode))
-                    node._name = (string)p.Name;
+                {
+                    node._name = (string) p.Name;
+                }
             }
         }
-        
+
         protected internal virtual void PostProcess(VoidPtr mdlAddress, VoidPtr dataAddress, StringTable stringTable)
         {
-            ResourceGroup* pGroup = (ResourceGroup*)dataAddress;
+            if (dataAddress <= mdlAddress)
+            {
+                return;
+            }
+
+            ResourceGroup* pGroup = (ResourceGroup*) dataAddress;
             ResourceEntry* rEntry = &pGroup->_first;
             int index = 1;
             (*rEntry++) = new ResourceEntry(0xFFFF, 0, 0, 0, 0);
 
-            if (_name == "Bones")
-                foreach (MDL0EntryNode n in _children)
-                    PostProcessBone(mdlAddress, n, pGroup, ref index, stringTable);
-            else
-                foreach (MDL0EntryNode n in _children)
+            if (_name == "Definitions")
+            {
+                return;
+            }
+
+            List<ResourceNode> entries = _name == "Bones"
+                ? ((MDL0Node) Parent)._linker.BoneCache.Select(x => x as ResourceNode).ToList()
+                : Children;
+
+            foreach (MDL0EntryNode n in entries)
+            {
+                dataAddress = (VoidPtr) pGroup + (rEntry++)->_dataOffset;
+                ResourceEntry.Build(pGroup, index++, dataAddress, (BRESString*) stringTable[n.Name]);
+
+                if (dataAddress > mdlAddress)
                 {
-                    dataAddress = (VoidPtr)pGroup + (rEntry++)->_dataOffset;
-                    ResourceEntry.Build(pGroup, index++, dataAddress, (BRESString*)stringTable[n.Name]);
                     n.PostProcess(mdlAddress, dataAddress, stringTable);
                 }
+            }
         }
 
-        private void PostProcessBone(VoidPtr mdlAddress, MDL0EntryNode node, ResourceGroup* group, ref int index, StringTable stringTable)
-        {
-            VoidPtr dataAddress = (VoidPtr)group + (&group->_first)[index]._dataOffset;
-            ResourceEntry.Build(group, index++, dataAddress, (BRESString*)stringTable[node.Name]);
-            node.PostProcess(mdlAddress, dataAddress, stringTable);
-
-            foreach (MDL0EntryNode n in node.Children)
-                PostProcessBone(mdlAddress, n, group, ref index, stringTable);
-        }
-
-        internal void Bind(GLContext ctx)
+        internal void Bind()
         {
             foreach (MDL0EntryNode e in Children)
-                e.Bind(ctx);
+            {
+                e.Bind();
+            }
         }
-        internal void Unbind(GLContext ctx)
+
+        internal void Unbind()
         {
             foreach (MDL0EntryNode e in Children)
-                e.Unbind(ctx);
+            {
+                e.Unbind();
+            }
+        }
+
+        public override void SortChildren()
+        {
+            if (Children == null || Children.Count <= 0 || !(Children[0] is MDL0MaterialNode))
+            {
+                base.SortChildren();
+                return;
+            }
+
+            _children = _children.OrderBy(o => ((MDL0MaterialNode) o).IsMetal).ThenBy(o => o.Name).ToList();
+            SignalPropertyChange();
         }
     }
 }

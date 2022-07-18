@@ -1,205 +1,387 @@
-﻿using System;
-using System.Runtime.InteropServices;
+﻿using BrawlLib.Internal;
+using BrawlLib.Internal.IO;
+using BrawlLib.Internal.Windows.Forms;
+using BrawlLib.SSBB.ResourceNodes;
+using System;
+using System.Collections.Generic;
 using System.IO;
-using System.Windows.Forms;
-using BrawlLib.SSBBTypes;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace BrawlLib.Wii.Compression
 {
-    public unsafe class RunLength : IDisposable
+    public unsafe class RunLength
     {
-        public const int WindowMask = 0xFFF;
-        public const int WindowLength = 4096; //12 bits - 1, 1 - 4096
-        public const int PatternLength = 18; //4 bits + 3, 3 - 18
-        public const int MinMatch = 3;
-
-        VoidPtr _dataAddr;
-
-        ushort* _Next;
-        ushort* _First;
-        ushort* _Last;
-
-        int _wIndex;
-        int _wLength;
-
-        private RunLength()
+        //Credit goes to Chadderz for this compressor included in CTools.
+        //http://wiki.tockdom.com/wiki/User:Chadderz
+        private struct Contraction
         {
-            _dataAddr = Marshal.AllocHGlobal((0x1000 + 0x10000 + 0x10000) * 2);
+            public int Location;
+            public int Size;
+            public int Offset;
 
-            _Next = (ushort*)_dataAddr;
-            _First = _Next + WindowLength;
-            _Last = _First + 0x10000;
-
-        }
-
-        ~RunLength() { Dispose(); }
-        public void Dispose()
-        {
-            if (_dataAddr) { Marshal.FreeHGlobal(_dataAddr); _dataAddr = 0; }
-            GC.SuppressFinalize(this);
-        }
-
-        public int CompressYAZ0(VoidPtr srcAddr, int srcLen, Stream outStream, IProgressTracker progress)
-        {
-            int dstLen = 4, bitCount;
-            byte control;
-
-            byte* sPtr = (byte*)srcAddr;//, ceil = sPtr + srcLen;
-            int matchLength, matchOffset = 0;
-
-            //Initialize
-            Memory.Fill(_First, 0x40000, 0xFF);
-            _wIndex = _wLength = 0;
-
-            //Write header
-            YAZ0 header = new YAZ0();
-            header._tag = YAZ0.Tag;
-            header._unCompDataLen = (uint)srcLen;
-            outStream.Write(&header, YAZ0.Size);
-
-            byte[] blockBuffer = new byte[17];
-            int dInd;
-            int lastUpdate = srcLen;
-            int remaining = srcLen;
-
-            if (progress != null)
-                progress.Begin(0, remaining, 0);
-
-            while (remaining > 0)
+            public Contraction(int loc, int sz, int off)
             {
-                dInd = 1;
-                for (bitCount = 0, control = 0; (bitCount < 8) && (remaining > 0); bitCount++)
+                Location = loc;
+                Size = sz;
+                Offset = off;
+            }
+        }
+
+        private static readonly int _lookBackCache = 63;
+        private const int _threadChunk = 0x10000;
+        private List<Contraction>[] _contractions;
+        private int _sourceLen;
+        private byte* _pSrc;
+
+        private void FindContractions(int chunk)
+        {
+            int from, to, run, bestRun, bestOffset;
+            Contraction contraction;
+
+            _contractions[chunk] = new List<Contraction>();
+
+            from = chunk * _threadChunk;
+            to = Math.Min(from + _threadChunk, _sourceLen);
+
+            for (int i = from; i < to;)
+            {
+                bestRun = 0;
+                bestOffset = 0;
+
+                for (int j = i - 1; j > 0 && j >= i - _lookBackCache; j--)
                 {
-                    control <<= 1;
-                    if ((matchLength = FindPattern(sPtr, remaining, ref matchOffset)) != 0)
+                    run = 0;
+
+                    while (i + run < _sourceLen && run < 0x111 && _pSrc[j + run] == _pSrc[i + run])
                     {
-                        blockBuffer[dInd++] = (byte)(((matchLength - 3) << 4) | ((matchOffset - 1) >> 8));
-                        blockBuffer[dInd++] = (byte)(matchOffset - 1);
+                        run++;
+                    }
+
+                    if (run > bestRun)
+                    {
+                        bestRun = run;
+                        bestOffset = i - j - 1;
+
+                        if (run == 0x111)
+                        {
+                            break;
+                        }
+                    }
+                }
+
+                if (bestRun >= 3)
+                {
+                    contraction = new Contraction(i, bestRun, bestOffset);
+                    _contractions[chunk].Add(contraction);
+                    i += bestRun;
+                }
+                else
+                {
+                    i++;
+                }
+            }
+        }
+
+        private void WriteWord(Stream outStream, uint value)
+        {
+            outStream.WriteByte((byte) ((value >> 24) & 0xFF));
+            outStream.WriteByte((byte) ((value >> 16) & 0xFF));
+            outStream.WriteByte((byte) ((value >> 08) & 0xFF));
+            outStream.WriteByte((byte) ((value >> 00) & 0xFF));
+        }
+
+        /// <param name="type">0 is YAZ0, 1 is YAY0, anything else is CompressionHeader</param>
+        public int Compress(VoidPtr srcAddr, int srcLen, Stream outStream, IProgressTracker progress, int type)
+        {
+            _pSrc = (byte*) srcAddr;
+            _sourceLen = srcLen;
+
+            int chunkCount = (int) Math.Ceiling((double) srcLen / _threadChunk);
+
+            progress?.Begin(0, srcLen, 0);
+
+            _contractions = new List<Contraction>[chunkCount];
+
+            bool YAY0Comp = type == 1;
+
+            if (type == 0)
+            {
+                YAZ0 header = new YAZ0
+                {
+                    _tag = YAZ0.Tag,
+                    _unCompDataLen = (uint) _sourceLen
+                };
+                outStream.Write(&header, YAZ0.Size);
+            }
+            else if (type == 1)
+            {
+                //Don't write YAY0 header yet.
+                //Collect all compression data first
+            }
+            else
+            {
+                CompressionHeader header = new CompressionHeader
+                {
+                    Algorithm = CompressionType.RunLength,
+                    ExpandedSize = (uint) _sourceLen
+                };
+                outStream.Write(&header, 4 + (header.LargeSize ? 4 : 0));
+            }
+
+            ParallelLoopResult result = Parallel.For(0, chunkCount, FindContractions);
+
+            while (!result.IsCompleted)
+            {
+                Thread.Sleep(100);
+            }
+
+            List<Contraction> fullContractions;
+            int codeBits, current;
+            byte codeByte;
+            //byte[] temp;
+            int lastUpdate = srcLen;
+
+            fullContractions = new List<Contraction>();
+            for (int i = 0; i < _contractions.Length; i++)
+            {
+                fullContractions.AddRange(_contractions[i]);
+                _contractions[i].Clear();
+                _contractions[i] = null;
+            }
+
+            _contractions = null;
+
+            //temp = new byte[3 * 8];
+            codeBits = 0;
+            codeByte = 0;
+            current = 0;
+
+            List<byte> tempCounts = new List<byte>();
+            List<byte> tempData = new List<byte>();
+            List<byte> codes = new List<byte>();
+            List<List<byte>> counts = new List<List<byte>>();
+            List<List<byte>> data = new List<List<byte>>();
+
+            for (int i = 0; i < srcLen;)
+            {
+                if (codeBits == 8)
+                {
+                    codes.Add(codeByte);
+                    counts.Add(tempCounts);
+                    data.Add(tempData);
+
+                    tempCounts = new List<byte>();
+                    tempData = new List<byte>();
+
+                    codeBits = 0;
+                    codeByte = 0;
+                }
+
+                if (current < fullContractions.Count && fullContractions[current].Location == i)
+                {
+                    if (fullContractions[current].Size >= 0x12)
+                    {
+                        byte
+                            b1 = (byte) (fullContractions[current].Offset >> 8),
+                            b2 = (byte) (fullContractions[current].Offset & 0xFF);
+
+                        if (YAY0Comp)
+                        {
+                            tempCounts.Add(b1);
+                            tempCounts.Add(b2);
+                        }
+                        else
+                        {
+                            tempData.Add(b1);
+                            tempData.Add(b2);
+                        }
+
+                        tempData.Add((byte) (fullContractions[current].Size - 0x12));
                     }
                     else
                     {
-                        control |= 1;
-                        matchLength = 1;
-                        blockBuffer[dInd++] = *sPtr;
-                    }
-                    Consume(sPtr, matchLength, remaining);
-                    sPtr += matchLength;
-                    remaining -= matchLength;
-                }
-                //Left-align bits
-                control <<= 8 - bitCount;
+                        byte
+                            b1 = (byte) ((fullContractions[current].Offset >> 8) |
+                                         ((fullContractions[current].Size - 2) << 4)),
+                            b2 = (byte) (fullContractions[current].Offset & 0xFF);
 
-                //Write buffer
-                blockBuffer[0] = control;
-                outStream.Write(blockBuffer, 0, dInd);
-                dstLen += dInd;
+                        if (YAY0Comp)
+                        {
+                            tempCounts.Add(b1);
+                            tempCounts.Add(b2);
+                        }
+                        else
+                        {
+                            tempData.Add(b1);
+                            tempData.Add(b2);
+                        }
+                    }
+
+                    i += fullContractions[current++].Size;
+
+                    while (current < fullContractions.Count && fullContractions[current].Location < i)
+                    {
+                        current++;
+                    }
+                }
+                else
+                {
+                    codeByte |= (byte) (1 << (7 - codeBits));
+                    tempData.Add(_pSrc[i++]);
+                }
+
+                codeBits++;
 
                 if (progress != null)
-                    if ((lastUpdate - remaining) > 0x4000)
+                {
+                    if (i % 0x4000 == 0)
                     {
-                        lastUpdate = remaining;
-                        progress.Update(srcLen - remaining);
+                        progress.Update(i);
                     }
+                }
             }
+
+            codes.Add(codeByte);
+            counts.Add(tempCounts);
+            data.Add(tempData);
+
+            if (YAY0Comp)
+            {
+                //Write header
+                YAY0 header = new YAY0
+                {
+                    _tag = YAY0.Tag,
+                    _unCompDataLen = (uint) _sourceLen
+                };
+                uint offset = 0x10 + (uint) codes.Count;
+                header._countOffset = offset;
+                foreach (List<byte> list in counts)
+                {
+                    offset += (uint) list.Count;
+                }
+
+                header._dataOffset = offset;
+                outStream.Write(&header, YAY0.Size);
+
+                //Write codes
+                foreach (byte c in codes)
+                {
+                    outStream.WriteByte(c);
+                }
+
+                //Write counts
+                foreach (List<byte> list in counts)
+                {
+                    outStream.Write(list.ToArray(), 0, list.Count);
+                }
+
+                //Write data
+                foreach (List<byte> list in data)
+                {
+                    outStream.Write(list.ToArray(), 0, list.Count);
+                }
+            }
+            else
+            {
+                for (int i = 0; i < codes.Count; i++)
+                {
+                    //Write code
+                    outStream.WriteByte(codes[i]);
+                    //Write data
+                    outStream.Write(data[i].ToArray(), 0, data[i].Count);
+                }
+            }
+
             outStream.Flush();
 
-            if (progress != null)
-                progress.Finish();
+            progress?.Finish();
 
-            return dstLen;
-        }
-        private ushort MakeHash(byte* ptr)
-        {
-            return (ushort)((ptr[0] << 6) ^ (ptr[1] << 3) ^ ptr[2]);
+            return (int) outStream.Length;
         }
 
-        private int FindPattern(byte* sPtr, int length, ref int matchOffset)
+        public static int CompactYAZ0(VoidPtr srcAddr, int srcLen, Stream outStream, ResourceNode r)
         {
-            if (length < MinMatch) return 0;
-            length = Math.Min(length, PatternLength);
-
-            byte* mPtr;
-            int bestLen = MinMatch - 1, bestOffset = 0, index;
-            for (int offset = _First[MakeHash(sPtr)]; offset != 0xFFFF; offset = _Next[offset])
+            using (ProgressWindow prog = new ProgressWindow(r.RootNode._mainForm, "RunLength - YAZ0",
+                $"Compressing {r.Name}, please wait...", false))
             {
-                if (offset < _wIndex) mPtr = sPtr - _wIndex + offset;
-                else mPtr = sPtr - _wLength - _wIndex + offset;
-
-                if (sPtr - mPtr < 2) break;
-
-                for (index = bestLen + 1; (--index >= 0) && (mPtr[index] == sPtr[index]); ) ;
-                if (index >= 0) continue;
-                for (index = bestLen; (++index < length) && (mPtr[index] == sPtr[index]); ) ;
-
-                bestOffset = (int)(sPtr - mPtr);
-                if ((bestLen = index) == length) break;
-            }
-
-            if (bestLen < MinMatch) return 0;
-
-            matchOffset = bestOffset;
-            return bestLen;
-        }
-        private void Consume(byte* ptr, int length, int remaining)
-        {
-            int last, inOffset, inVal, outVal;
-            for (int i = Math.Min(length, remaining - 2); i-- > 0;)
-            {
-                if (_wLength == WindowLength)
-                {
-                    //Remove node
-                    outVal = MakeHash(ptr - WindowLength);
-                    if ((_First[outVal] = _Next[_First[outVal]]) == 0xFFFF)
-                        _Last[outVal] = 0xFFFF;
-                    inOffset = _wIndex++;
-                    _wIndex &= WindowMask;
-                }
-                else
-                    inOffset = _wLength++;
-
-                inVal = MakeHash(ptr++);
-                if ((last = _Last[inVal]) == 0xFFFF)
-                    _First[inVal] = (ushort)inOffset;
-                else
-                    _Next[last] = (ushort)inOffset;
-
-                _Last[inVal] = (ushort)inOffset;
-                _Next[inOffset] = 0xFFFF;
+                return new RunLength().Compress(srcAddr, srcLen, outStream, prog, 0);
             }
         }
 
-        public static int CompactYAZ0(VoidPtr srcAddr, int srcLen, Stream outStream, string name)
+        public static int CompactYAY0(VoidPtr srcAddr, int srcLen, Stream outStream, ResourceNode r)
         {
-            using (RunLength rl = new RunLength())
-            using (ProgressWindow prog = new ProgressWindow(null, "RunLength - YAZ0", String.Format("Compressing {0}, please wait...", name), false))
-                return rl.CompressYAZ0(srcAddr, srcLen, outStream, prog);
+            using (ProgressWindow prog = new ProgressWindow(r.RootNode._mainForm, "RunLength - YAY0",
+                $"Compressing {r.Name}, please wait...", false))
+            {
+                return new RunLength().Compress(srcAddr, srcLen, outStream, prog, 1);
+            }
+        }
+
+        public static int Compact(VoidPtr srcAddr, int srcLen, Stream outStream, ResourceNode r)
+        {
+            using (ProgressWindow prog = new ProgressWindow(r.RootNode._mainForm, "RunLength",
+                $"Compressing {r.Name}, please wait...", false))
+            {
+                return new RunLength().Compress(srcAddr, srcLen, outStream, prog, 2);
+            }
         }
 
         public static void ExpandYAZ0(YAZ0* header, VoidPtr dstAddress, int dstLen)
         {
-            byte control = 0, bit = 0;
-            byte* srcPtr = (byte*)header->Data, dstPtr = (byte*)dstAddress, ceiling = dstPtr + dstLen;
-            while (dstPtr < ceiling)
+            Expand(header->Data, dstAddress, dstLen);
+        }
+
+        public static void ExpandYAY0(YAY0* header, VoidPtr dstAddress, int dstLen)
+        {
+            byte*
+                codes = (byte*) header + 0x10,
+                counts = (byte*) header + header->_countOffset,
+                srcPtr = (byte*) header + header->_dataOffset;
+
+            Expand(ref srcPtr, ref codes, ref counts, (byte*) dstAddress, dstLen);
+        }
+
+        public static void Expand(CompressionHeader* header, VoidPtr dstAddress, int dstLen)
+        {
+            Expand(header->Data, dstAddress, dstLen);
+        }
+
+        /// <summary>
+        /// Expands data at an address using default RunLength compression.
+        /// Do not use this for YAY0 data, as it uses codes and counts at their own addresses.
+        /// </summary>
+        public static void Expand(VoidPtr srcAddress, VoidPtr dstAddress, int dstLen)
+        {
+            //Use this for reference in the function
+            byte* srcData = (byte*) srcAddress;
+            Expand(ref srcData, ref srcData, ref srcData, (byte*) dstAddress, dstLen);
+        }
+
+        public static void Expand(ref byte* srcPtr, ref byte* codes, ref byte* counts, byte* dstPtr, int dstLen)
+        {
+            for (byte* ceiling = dstPtr + dstLen; dstPtr < ceiling;)
             {
-                if (bit == 0)
+                for (byte control = *codes++, bit = 8; bit-- != 0 && dstPtr != ceiling;)
                 {
-                    control = *srcPtr++;
-                    bit = 8;
+                    if ((control & (1 << bit)) != 0)
+                    {
+                        *dstPtr++ = *srcPtr++;
+                    }
+                    else
+                    {
+                        for (int b1 = *counts++,
+                            b2 = *counts++,
+                            offset = (((b1 & 0xF) << 8) | b2) + 2,
+                            temp = (b1 >> 4) & 0xF,
+                            num = temp == 0 ? *srcPtr++ + 0x12 : temp + 2;
+                            num-- > 0 && dstPtr != ceiling;
+                            *dstPtr++ = dstPtr[-offset])
+                        {
+                            ;
+                        }
+                    }
                 }
-                bit--;
-                if ((control & 0x80) == 0x80)
-                    *dstPtr++ = *srcPtr++;
-                else
-                {
-                    byte b1 = *srcPtr++, b2 = *srcPtr++;
-                    byte* cpyPtr = (byte*)((VoidPtr)dstPtr - ((b1 & 0x0f) << 8 | b2) - 1);
-                    int n = b1 >> 4;
-                    if (n == 0) n = *srcPtr++ + 0x12;
-                    else n += 2;
-                    //if (!(n >= 3 && n <= 0x111)) return;
-                    while (n-- > 0) *dstPtr++ = *cpyPtr++;
-                }
-                control <<= 1;
             }
         }
     }
