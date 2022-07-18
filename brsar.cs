@@ -41,8 +41,7 @@ namespace BrawlSoundConverter
 		public static BrawlLib.SSBB.ResourceNodes.ResourceNode GetNode(int gid, int colid = -1, int wavid = -1)
 		{
 			BrawlLib.SSBB.ResourceNodes.RSARNode rsar = GetRSAR();
-			BrawlLib.SSBB.ResourceNodes.RSARFolderNode folder = ( BrawlLib.SSBB.ResourceNodes.RSARFolderNode ) rsar.FindChild( "snd/group", false );
-			BrawlLib.SSBB.ResourceNodes.ResourceNode[] groups = folder.FindChildrenByType( "", BrawlLib.SSBB.ResourceNodes.ResourceType.RSARGroup );
+			BrawlLib.SSBB.ResourceNodes.ResourceNode[] groups = rsar.FindChildrenByType("", BrawlLib.SSBB.ResourceNodes.ResourceType.RSARGroup);
 			BrawlLib.SSBB.ResourceNodes.RSARGroupNode group = null;
 			foreach( BrawlLib.SSBB.ResourceNodes.RSARGroupNode g in groups )
 			{
@@ -75,10 +74,8 @@ namespace BrawlSoundConverter
 			//Only used to count the number of nodes added, no actual function in the program
 			int nodeCount = 0;
 
-			StringBuilder sb = new StringBuilder();
 			BrawlLib.SSBB.ResourceNodes.RSARNode rsar = GetRSAR();
-			BrawlLib.SSBB.ResourceNodes.RSARFolderNode folder = (BrawlLib.SSBB.ResourceNodes.RSARFolderNode)rsar.FindChild("snd/group",false);
-			BrawlLib.SSBB.ResourceNodes.ResourceNode[] groups = folder.FindChildrenByType( "", BrawlLib.SSBB.ResourceNodes.ResourceType.RSARGroup );
+			BrawlLib.SSBB.ResourceNodes.ResourceNode[] groups = rsar.FindChildrenByType("", BrawlLib.SSBB.ResourceNodes.ResourceType.RSARGroup);
 			
 			//Create root node and add all nodes to it.
 			//Adding to the treeView collection directly will raise events, causing super slowdown when setting Text property.
@@ -99,7 +96,7 @@ namespace BrawlSoundConverter
 						continue;
 					string fName = file.Name;
 					int collectionID = file.FileNodeIndex;
-					BrawlLib.SSBB.ResourceNodes.RWSDSoundGroupNode audioFolder = ( BrawlLib.SSBB.ResourceNodes.RWSDSoundGroupNode) file.FindChild( "audio", false );
+					BrawlLib.SSBB.ResourceNodes.ResourceNode audioFolder = ( BrawlLib.SSBB.ResourceNodes.ResourceNode) file.FindChild( "audio", false );
 					BrawlLib.SSBB.ResourceNodes.RWSDDataGroupNode dataFolder = ( BrawlLib.SSBB.ResourceNodes.RWSDDataGroupNode) file.FindChild( "data", false );
 					
 					if (audioFolder == null || audioFolder.Children.Count == 0)
@@ -162,7 +159,7 @@ namespace BrawlSoundConverter
                     {
 						if (usedWaveIndeces.Contains(i))
 							continue;
-						BrawlLib.SSBB.ResourceNodes.RSARSoundNode sound = (BrawlLib.SSBB.ResourceNodes.RSARSoundNode)audioFolder.Children[i];
+						BrawlLib.SSBB.ResourceNodes.RSARFileAudioNode sound = (BrawlLib.SSBB.ResourceNodes.RSARFileAudioNode)audioFolder.Children[i];
 
 						int soundSize = 0;
 						unsafe
@@ -209,8 +206,7 @@ namespace BrawlSoundConverter
 			int nodeCount = 0;
 
 			BrawlLib.SSBB.ResourceNodes.RSARNode rsar = GetRSAR();
-			BrawlLib.SSBB.ResourceNodes.RSARFolderNode folder = (BrawlLib.SSBB.ResourceNodes.RSARFolderNode)rsar.FindChild("snd/group", false);
-			BrawlLib.SSBB.ResourceNodes.ResourceNode[] groups = folder.FindChildrenByType("", BrawlLib.SSBB.ResourceNodes.ResourceType.RSARGroup);
+			BrawlLib.SSBB.ResourceNodes.ResourceNode[] groups = rsar.FindChildrenByType("", BrawlLib.SSBB.ResourceNodes.ResourceType.RSARGroup);
 
 			TreeNodeCollection objects = treeView.Nodes;
 
