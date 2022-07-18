@@ -22,129 +22,131 @@ namespace BrawlLib.Internal.Windows.Controls
 
         private void InitializeComponent()
         {
-            components = new Container();
-            btnPlay = new Button();
-            btnRewind = new Button();
-            chkLoop = new CheckBox();
-            lblProgress = new Label();
-            tmrUpdate = new Timer(components);
-            lstStreams = new ComboBox();
-            panel2 = new Panel();
-            trackBarVolume = new CustomTrackBar();
-            trackBarPosition = new CustomTrackBar();
-            panel2.SuspendLayout();
-            ((ISupportInitialize) trackBarVolume).BeginInit();
-            ((ISupportInitialize) trackBarPosition).BeginInit();
-            SuspendLayout();
-            // 
-            // btnPlay
-            // 
-            btnPlay.Location = new System.Drawing.Point(35, 4);
-            btnPlay.Name = "btnPlay";
-            btnPlay.Size = new System.Drawing.Size(73, 20);
-            btnPlay.TabIndex = 1;
-            btnPlay.Text = "Play";
-            btnPlay.UseVisualStyleBackColor = true;
-            btnPlay.Click += new EventHandler(btnPlay_Click);
-            // 
-            // btnRewind
-            // 
-            btnRewind.Location = new System.Drawing.Point(5, 4);
-            btnRewind.Name = "btnRewind";
-            btnRewind.Size = new System.Drawing.Size(24, 20);
-            btnRewind.TabIndex = 2;
-            btnRewind.Text = "|<";
-            btnRewind.UseVisualStyleBackColor = true;
-            btnRewind.Click += new EventHandler(btnRewind_Click);
-            // 
-            // chkLoop
-            // 
-            chkLoop.Location = new System.Drawing.Point(114, 5);
-            chkLoop.Name = "chkLoop";
-            chkLoop.Size = new System.Drawing.Size(50, 20);
-            chkLoop.TabIndex = 3;
-            chkLoop.Text = "Loop";
-            chkLoop.UseVisualStyleBackColor = true;
-            chkLoop.CheckedChanged += new EventHandler(chkLoop_CheckedChanged);
-            // 
-            // lblProgress
-            // 
-            lblProgress.Anchor = AnchorStyles.Top | AnchorStyles.Left
-                                                  | AnchorStyles.Right;
-            lblProgress.Location = new System.Drawing.Point(0, 31);
-            lblProgress.Name = "lblProgress";
-            lblProgress.Size = new System.Drawing.Size(377, 23);
-            lblProgress.TabIndex = 4;
-            lblProgress.Text = "0/0";
-            lblProgress.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // tmrUpdate
-            // 
-            tmrUpdate.Interval = 10;
-            tmrUpdate.Tick += new EventHandler(tmrUpdate_Tick);
-            // 
-            // lstStreams
-            // 
-            lstStreams.Anchor = AnchorStyles.Top | AnchorStyles.Bottom;
-            lstStreams.DropDownStyle = ComboBoxStyle.DropDownList;
-            lstStreams.FormattingEnabled = true;
-            lstStreams.Location = new System.Drawing.Point(219, 34);
-            lstStreams.Name = "lstStreams";
-            lstStreams.Size = new System.Drawing.Size(73, 21);
-            lstStreams.TabIndex = 5;
-            lstStreams.SelectedIndexChanged += new EventHandler(lstStreams_SelectedIndexChanged);
-            // 
-            // panel2
-            // 
-            panel2.Anchor = AnchorStyles.Top;
-            panel2.Controls.Add(btnPlay);
-            panel2.Controls.Add(btnRewind);
-            panel2.Controls.Add(chkLoop);
-            panel2.Location = new System.Drawing.Point(116, 61);
-            panel2.Name = "panel2";
-            panel2.Size = new System.Drawing.Size(167, 30);
-            panel2.TabIndex = 9;
-            // 
-            // trackBarVolume
-            // 
-            trackBarVolume.Anchor = AnchorStyles.Top | AnchorStyles.Bottom
-                                                     | AnchorStyles.Right;
-            trackBarVolume.Location = new System.Drawing.Point(329, 31);
-            trackBarVolume.Maximum = 100;
-            trackBarVolume.Name = "trackBarVolume";
-            trackBarVolume.Orientation = Orientation.Vertical;
-            trackBarVolume.Size = new System.Drawing.Size(45, 89);
-            trackBarVolume.TabIndex = 6;
-            trackBarVolume.TickFrequency = 25;
-            trackBarVolume.Value = 100;
-            trackBarVolume.ValueChanged += new EventHandler(customTrackBar1_ValueChanged);
-            // 
-            // trackBarPosition
-            // 
-            trackBarPosition.Anchor = AnchorStyles.Top | AnchorStyles.Left
-                                                       | AnchorStyles.Right;
-            trackBarPosition.Location = new System.Drawing.Point(0, 4);
-            trackBarPosition.Name = "trackBarPosition";
-            trackBarPosition.Size = new System.Drawing.Size(377, 45);
-            trackBarPosition.TabIndex = 0;
-            trackBarPosition.TickFrequency = 2;
-            trackBarPosition.UserSeek += new EventHandler(trackBar1_UserSeek);
-            trackBarPosition.ValueChanged += new EventHandler(trackBar1_ValueChanged);
-            // 
-            // AudioPlaybackPanel
-            // 
-            Controls.Add(lstStreams);
-            Controls.Add(panel2);
-            Controls.Add(trackBarVolume);
-            Controls.Add(lblProgress);
-            Controls.Add(trackBarPosition);
-            Name = "AudioPlaybackPanel";
-            Size = new System.Drawing.Size(377, 120);
-            panel2.ResumeLayout(false);
-            ((ISupportInitialize) trackBarVolume).EndInit();
-            ((ISupportInitialize) trackBarPosition).EndInit();
-            ResumeLayout(false);
-            PerformLayout();
+			this.components = new System.ComponentModel.Container();
+			this.btnPlay = new System.Windows.Forms.Button();
+			this.btnRewind = new System.Windows.Forms.Button();
+			this.chkLoop = new System.Windows.Forms.CheckBox();
+			this.lblProgress = new System.Windows.Forms.Label();
+			this.tmrUpdate = new System.Windows.Forms.Timer(this.components);
+			this.lstStreams = new System.Windows.Forms.ComboBox();
+			this.panel2 = new System.Windows.Forms.Panel();
+			this.trackBarVolume = new BrawlLib.Internal.Windows.Controls.CustomTrackBar();
+			this.trackBarPosition = new BrawlLib.Internal.Windows.Controls.CustomTrackBar();
+			this.panel2.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.trackBarVolume)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.trackBarPosition)).BeginInit();
+			this.SuspendLayout();
+			// 
+			// btnPlay
+			// 
+			this.btnPlay.Location = new System.Drawing.Point(58, 4);
+			this.btnPlay.Name = "btnPlay";
+			this.btnPlay.Size = new System.Drawing.Size(73, 26);
+			this.btnPlay.TabIndex = 1;
+			this.btnPlay.Text = "Play";
+			this.btnPlay.UseVisualStyleBackColor = true;
+			this.btnPlay.Click += new System.EventHandler(this.btnPlay_Click);
+			// 
+			// btnRewind
+			// 
+			this.btnRewind.Location = new System.Drawing.Point(24, 3);
+			this.btnRewind.Name = "btnRewind";
+			this.btnRewind.Size = new System.Drawing.Size(28, 26);
+			this.btnRewind.TabIndex = 2;
+			this.btnRewind.Text = "|<";
+			this.btnRewind.UseVisualStyleBackColor = true;
+			this.btnRewind.Click += new System.EventHandler(this.btnRewind_Click);
+			// 
+			// chkLoop
+			// 
+			this.chkLoop.Location = new System.Drawing.Point(137, 6);
+			this.chkLoop.Name = "chkLoop";
+			this.chkLoop.Size = new System.Drawing.Size(70, 25);
+			this.chkLoop.TabIndex = 3;
+			this.chkLoop.Text = "Loop";
+			this.chkLoop.UseVisualStyleBackColor = true;
+			this.chkLoop.CheckedChanged += new System.EventHandler(this.chkLoop_CheckedChanged);
+			// 
+			// lblProgress
+			// 
+			this.lblProgress.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.lblProgress.Location = new System.Drawing.Point(0, 31);
+			this.lblProgress.Name = "lblProgress";
+			this.lblProgress.Size = new System.Drawing.Size(377, 23);
+			this.lblProgress.TabIndex = 4;
+			this.lblProgress.Text = "0/0";
+			this.lblProgress.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			// 
+			// tmrUpdate
+			// 
+			this.tmrUpdate.Interval = 10;
+			this.tmrUpdate.Tick += new System.EventHandler(this.tmrUpdate_Tick);
+			// 
+			// lstStreams
+			// 
+			this.lstStreams.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)));
+			this.lstStreams.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.lstStreams.FormattingEnabled = true;
+			this.lstStreams.Location = new System.Drawing.Point(231, 30);
+			this.lstStreams.Name = "lstStreams";
+			this.lstStreams.Size = new System.Drawing.Size(73, 24);
+			this.lstStreams.TabIndex = 5;
+			this.lstStreams.Visible = false;
+			this.lstStreams.SelectedIndexChanged += new System.EventHandler(this.lstStreams_SelectedIndexChanged);
+			// 
+			// panel2
+			// 
+			this.panel2.Anchor = System.Windows.Forms.AnchorStyles.Top;
+			this.panel2.Controls.Add(this.btnPlay);
+			this.panel2.Controls.Add(this.btnRewind);
+			this.panel2.Controls.Add(this.chkLoop);
+			this.panel2.Location = new System.Drawing.Point(93, 57);
+			this.panel2.Name = "panel2";
+			this.panel2.Size = new System.Drawing.Size(210, 34);
+			this.panel2.TabIndex = 9;
+			// 
+			// trackBarVolume
+			// 
+			this.trackBarVolume.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.trackBarVolume.Location = new System.Drawing.Point(329, 31);
+			this.trackBarVolume.Maximum = 100;
+			this.trackBarVolume.Name = "trackBarVolume";
+			this.trackBarVolume.Orientation = System.Windows.Forms.Orientation.Vertical;
+			this.trackBarVolume.Size = new System.Drawing.Size(56, 89);
+			this.trackBarVolume.TabIndex = 6;
+			this.trackBarVolume.TickFrequency = 25;
+			this.trackBarVolume.Value = 100;
+			this.trackBarVolume.ValueChanged += new System.EventHandler(this.customTrackBar1_ValueChanged);
+			// 
+			// trackBarPosition
+			// 
+			this.trackBarPosition.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.trackBarPosition.Location = new System.Drawing.Point(0, 4);
+			this.trackBarPosition.Name = "trackBarPosition";
+			this.trackBarPosition.Size = new System.Drawing.Size(377, 56);
+			this.trackBarPosition.TabIndex = 0;
+			this.trackBarPosition.TickFrequency = 2;
+			this.trackBarPosition.UserSeek += new System.EventHandler(this.trackBar1_UserSeek);
+			this.trackBarPosition.ValueChanged += new System.EventHandler(this.trackBar1_ValueChanged);
+			// 
+			// AudioPlaybackPanel
+			// 
+			this.Controls.Add(this.lstStreams);
+			this.Controls.Add(this.panel2);
+			this.Controls.Add(this.trackBarVolume);
+			this.Controls.Add(this.lblProgress);
+			this.Controls.Add(this.trackBarPosition);
+			this.Name = "AudioPlaybackPanel";
+			this.Size = new System.Drawing.Size(377, 120);
+			this.panel2.ResumeLayout(false);
+			((System.ComponentModel.ISupportInitialize)(this.trackBarVolume)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.trackBarPosition)).EndInit();
+			this.ResumeLayout(false);
+			this.PerformLayout();
+
         }
 
         #endregion
