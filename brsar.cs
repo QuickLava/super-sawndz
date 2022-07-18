@@ -46,7 +46,7 @@ namespace BrawlSoundConverter
 			BrawlLib.SSBB.ResourceNodes.RSARGroupNode group = null;
 			foreach( BrawlLib.SSBB.ResourceNodes.RSARGroupNode g in groups )
 			{
-				if( g.Id == gid )
+				if( g.StringId == gid )
 				{
 					group = g;
 					break;
@@ -55,7 +55,7 @@ namespace BrawlSoundConverter
 			if( colid == -1 )
 				return group;
 			BrawlLib.SSBB.ResourceNodes.RSARFileNode collection = null;
-			foreach( BrawlLib.SSBB.ResourceNodes.RSARFileNode file in group.Files )
+			foreach( BrawlLib.SSBB.ResourceNodes.RSARFileNode file in group._files )
 			{
 				if( file.FileNodeIndex == colid )
 				{
@@ -65,9 +65,8 @@ namespace BrawlSoundConverter
 			}
 			if( wavid == -1 )
 				return collection;
-			BrawlLib.SSBB.ResourceNodes.RWSDGroupNode audioFolder = ( BrawlLib.SSBB.ResourceNodes.RWSDGroupNode ) collection.FindChild( "audio", false );
+			BrawlLib.SSBB.ResourceNodes.ResourceNode audioFolder = ( BrawlLib.SSBB.ResourceNodes.ResourceNode ) collection.FindChild( "audio", false );
 			return audioFolder.Children[ wavid ];
-
 		}
 
 		//Populates a treeView with MappingItem nodes from the current rsar
@@ -87,19 +86,19 @@ namespace BrawlSoundConverter
 			TreeNodeCollection nodes = root.Nodes;
 			foreach( BrawlLib.SSBB.ResourceNodes.RSARGroupNode group in groups )
 			{
-				string name = "[" + group.Id.ToString("X3") + "] " + group.Name;
+				string name = "[" + group.StringId.ToString("X3") + "] " + group.Name;
 				
-				int groupID = group.Id;
+				int groupID = group.StringId;
 				MappingItem groupMap = new MappingItem( name, groupID );
 				nodes.Add( groupMap );
 				nodeCount++;
 				
-				foreach( BrawlLib.SSBB.ResourceNodes.RSARFileNode file in group.Files )
+				foreach( BrawlLib.SSBB.ResourceNodes.RSARFileNode file in group._files )
 				{
 					string fName = file.Name;
 					int collectionID = file.FileNodeIndex;
-					BrawlLib.SSBB.ResourceNodes.RWSDGroupNode audioFolder = ( BrawlLib.SSBB.ResourceNodes.RWSDGroupNode ) file.FindChild( "audio", false );
-					BrawlLib.SSBB.ResourceNodes.RWSDGroupNode dataFolder = ( BrawlLib.SSBB.ResourceNodes.RWSDGroupNode ) file.FindChild( "sounds", false );
+					BrawlLib.SSBB.ResourceNodes.RWSDSoundGroupNode audioFolder = ( BrawlLib.SSBB.ResourceNodes.RWSDSoundGroupNode) file.FindChild( "audio", false );
+					BrawlLib.SSBB.ResourceNodes.RWSDDataGroupNode dataFolder = ( BrawlLib.SSBB.ResourceNodes.RWSDDataGroupNode) file.FindChild( "sounds", false );
 					
 					if (audioFolder == null || audioFolder.Children.Count == 0)
 						continue;
@@ -122,20 +121,18 @@ namespace BrawlSoundConverter
 						if (!(dataFolder.Children[i] is BrawlLib.SSBB.ResourceNodes.RWSDDataNode))
 							continue;
 						BrawlLib.SSBB.ResourceNodes.RWSDDataNode data = (BrawlLib.SSBB.ResourceNodes.RWSDDataNode)dataFolder.Children[i];
-						if (data.Part3.Count() != 1)
-							continue;
-						int waveIndex = data.Part3[0]._index;
+						int waveIndex = data._part3._waveIndex;
 
 						if (audioFolder.Children.Count() <= waveIndex)
 							continue;
-						if (!(audioFolder.Children[waveIndex] is BrawlLib.SSBB.ResourceNodes.RWSDSoundNode))
+						if (!(audioFolder.Children[waveIndex] is BrawlLib.SSBB.ResourceNodes.RSARSoundNode))
 							continue;
-						BrawlLib.SSBB.ResourceNodes.RWSDSoundNode sound = (BrawlLib.SSBB.ResourceNodes.RWSDSoundNode)audioFolder.Children[waveIndex];
+						BrawlLib.SSBB.ResourceNodes.RSARSoundNode sound = (BrawlLib.SSBB.ResourceNodes.RSARSoundNode)audioFolder.Children[waveIndex];
 
 						int soundSize = 0;
 						unsafe
 						{
-							int samples = sound.Header->NumSamples;
+							int samples = sound.NumSamples;
 							if ((samples / 2 * 2) == samples)
 							{
 								soundSize = samples / 2;
@@ -163,12 +160,12 @@ namespace BrawlSoundConverter
                     {
 						if (usedWaveIndeces.Contains(i))
 							continue;
-						BrawlLib.SSBB.ResourceNodes.RWSDSoundNode sound = (BrawlLib.SSBB.ResourceNodes.RWSDSoundNode)audioFolder.Children[i];
+						BrawlLib.SSBB.ResourceNodes.RSARSoundNode sound = (BrawlLib.SSBB.ResourceNodes.RSARSoundNode)audioFolder.Children[i];
 
 						int soundSize = 0;
 						unsafe
 						{
-							int samples = sound.Header->NumSamples;
+							int samples = sound.NumSamples;
 							if ((samples / 2 * 2) == samples)
 							{
 								soundSize = samples / 2;
@@ -217,10 +214,10 @@ namespace BrawlSoundConverter
 
 			foreach (BrawlLib.SSBB.ResourceNodes.RSARGroupNode group in groups)
 			{
-				if (group.Files.Count > 0)
+				if (group._files.Count > 0)
 				{
-					string name = "[" + group.Id.ToString("X3") + "] " + group.Name;
-					int groupID = group.Id;
+					string name = "[" + group.StringId.ToString("X3") + "] " + group.Name;
+					int groupID = group.StringId;
 					MappingItem groupMap = new MappingItem(name, groupID);
 					objects.Add(groupMap);
 					nodeCount++;
