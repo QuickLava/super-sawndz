@@ -22,5 +22,29 @@ namespace BrawlSoundConverter.Properties {
                 return defaultInstance;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("./smashbros_sound.brsar")]
+        public string DefaultBrsarFilePath {
+            get {
+                return ((string)(this["DefaultBrsarFilePath"]));
+            }
+            set {
+                this["DefaultBrsarFilePath"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int DefaultMultiExportNameScheme {
+            get {
+                return ((int)(this["DefaultMultiExportNameScheme"]));
+            }
+            set {
+                this["DefaultMultiExportNameScheme"] = value;
+            }
+        }
     }
 }

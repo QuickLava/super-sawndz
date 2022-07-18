@@ -21,7 +21,24 @@ namespace BrawlSoundConverter
 			brsar.LoadMultiExportTreeView(treeViewGroups);
 			buttonCancel.Enabled = true;
 			treeViewGroups.CheckBoxes = true;
-			radioButtonNameDefault.Checked = true;
+			switch (Properties.Settings.Default.DefaultMultiExportNameScheme)
+			{
+				case 0:
+					radioButtonNameDefault.Checked = true;
+					break;
+				case 1:
+					radioButtonNamePM.Checked = true;
+					break;
+				case 2:
+					radioButtonNamePP.Checked = true;
+					break;
+				case 3:
+					radioButtonNameManual.Checked = true;
+					break;
+				default:
+					radioButtonNameDefault.Checked = true;
+					break;
+			}
 			toolTipNameDefault.SetToolTip(radioButtonNameDefault, "Names exported files according to their appearance in the below \"Groups\" list.");
 			toolTipNamePM.SetToolTip(radioButtonNamePM, "Names exported files according to their Group ID (in decimal).");
 			toolTipNamePP.SetToolTip(radioButtonNamePP, "Names exported files according to their Internal ID (Group ID minus 7, in hexadecimal).");
@@ -60,6 +77,7 @@ namespace BrawlSoundConverter
 				StreamWriter exportList = File.CreateText("toExport.txt");
 				if (radioButtonNamePM.Checked)
 				{
+					Properties.Settings.Default.DefaultMultiExportNameScheme = 1;
 					foreach (MappingItem item in treeViewGroups.Nodes)
 					{
 						if (item.Checked)
@@ -70,6 +88,7 @@ namespace BrawlSoundConverter
 				}
 				else if (radioButtonNamePP.Checked)
 				{
+					Properties.Settings.Default.DefaultMultiExportNameScheme = 2;
 					foreach (MappingItem item in treeViewGroups.Nodes)
 					{
 						if (item.Checked)
@@ -80,6 +99,7 @@ namespace BrawlSoundConverter
 				}
 				else if (radioButtonNameManual.Checked)
 				{
+					Properties.Settings.Default.DefaultMultiExportNameScheme = 3;
 					nameInputForm nif = new nameInputForm();
 					foreach (MappingItem item in treeViewGroups.Nodes)
 					{
@@ -104,6 +124,7 @@ namespace BrawlSoundConverter
 				}
 				else
 				{
+					Properties.Settings.Default.DefaultMultiExportNameScheme = 0;
 					foreach (MappingItem item in treeViewGroups.Nodes)
 					{
 						if (item.Checked)
@@ -112,7 +133,7 @@ namespace BrawlSoundConverter
 						}
 					}
 				}
-				
+				Properties.Settings.Default.Save();
 				exportList.Close();
 				if (doExport)
 				{

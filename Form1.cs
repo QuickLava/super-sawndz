@@ -424,5 +424,18 @@ namespace BrawlSoundConverter
 			enableStuff();
 			loadTreeView();
 		}
+		private void setCurrentBRSARAsDefaultToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			SettingsForm settings = new SettingsForm();
+			if (settings.ShowDialog() == DialogResult.OK)
+			{
+				Properties.Settings.Default.Save();
+			}
+		}
+
+		private void textBoxInputFile_TextChanged(object sender, EventArgs e)
+		{
+
+		}
 	}
 }

@@ -45,6 +45,7 @@
 			this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.openBRSARToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.ChangeSettingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.buttonCreateSawnd = new System.Windows.Forms.Button();
 			this.backgroundWorkerCreateSawnd = new System.ComponentModel.BackgroundWorker();
@@ -155,11 +156,12 @@
 			this.textBoxInputFile.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.textBoxInputFile.Enabled = false;
-			this.textBoxInputFile.Location = new System.Drawing.Point(20, 48);
+			this.textBoxInputFile.Location = new System.Drawing.Point(23, 48);
 			this.textBoxInputFile.Margin = new System.Windows.Forms.Padding(4);
 			this.textBoxInputFile.Name = "textBoxInputFile";
-			this.textBoxInputFile.Size = new System.Drawing.Size(568, 22);
+			this.textBoxInputFile.Size = new System.Drawing.Size(565, 22);
 			this.textBoxInputFile.TabIndex = 11;
+			this.textBoxInputFile.TextChanged += new System.EventHandler(this.textBoxInputFile_TextChanged);
 			// 
 			// buttonBrowse
 			// 
@@ -167,7 +169,7 @@
 			this.buttonBrowse.Location = new System.Drawing.Point(597, 48);
 			this.buttonBrowse.Margin = new System.Windows.Forms.Padding(4);
 			this.buttonBrowse.Name = "buttonBrowse";
-			this.buttonBrowse.Size = new System.Drawing.Size(33, 28);
+			this.buttonBrowse.Size = new System.Drawing.Size(33, 24);
 			this.buttonBrowse.TabIndex = 12;
 			this.buttonBrowse.Text = "...";
 			this.buttonBrowse.UseVisualStyleBackColor = true;
@@ -227,15 +229,24 @@
 			// openBRSARToolStripMenuItem
 			// 
 			this.openBRSARToolStripMenuItem.Name = "openBRSARToolStripMenuItem";
-			this.openBRSARToolStripMenuItem.Size = new System.Drawing.Size(177, 26);
+			this.openBRSARToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
 			this.openBRSARToolStripMenuItem.Text = "Open BRSAR";
 			this.openBRSARToolStripMenuItem.Click += new System.EventHandler(this.openBRSARToolStripMenuItem_Click);
 			// 
 			// toolsToolStripMenuItem
 			// 
+			this.toolsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.ChangeSettingsToolStripMenuItem});
 			this.toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
 			this.toolsToolStripMenuItem.Size = new System.Drawing.Size(58, 24);
 			this.toolsToolStripMenuItem.Text = "Tools";
+			// 
+			// ChangeSettingsToolStripMenuItem
+			// 
+			this.ChangeSettingsToolStripMenuItem.Name = "ChangeSettingsToolStripMenuItem";
+			this.ChangeSettingsToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+			this.ChangeSettingsToolStripMenuItem.Text = "Change Settings";
+			this.ChangeSettingsToolStripMenuItem.Click += new System.EventHandler(this.setCurrentBRSARAsDefaultToolStripMenuItem_Click);
 			// 
 			// aboutToolStripMenuItem
 			// 
@@ -398,6 +409,7 @@
 		private System.Windows.Forms.Button buttonMultiExportSawnd;
 		private System.Windows.Forms.Button buttonMultiInsertSawnd;
 		private System.ComponentModel.BackgroundWorker backgroundWorkerMultiInsertSawnd;
+		private System.Windows.Forms.ToolStripMenuItem ChangeSettingsToolStripMenuItem;
 	}
 }
 

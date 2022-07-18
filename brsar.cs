@@ -12,7 +12,7 @@ namespace BrawlSoundConverter
 	class brsar
 	{
 		//The current rsar filename
-		public static string RSAR_FileName = "smashbros_sound.brsar";
+		public static string RSAR_FileName = Properties.Settings.Default.DefaultBrsarFilePath;
 		//The current rsar itself
 		static BrawlLib.SSBB.ResourceNodes.RSARNode _rsar;
 
@@ -23,6 +23,7 @@ namespace BrawlSoundConverter
 			{
 				_rsar = new BrawlLib.SSBB.ResourceNodes.RSARNode();
 				_rsar.Replace( RSAR_FileName );
+				_rsar._origPath = RSAR_FileName;
 			}
 			return _rsar;
 		}
