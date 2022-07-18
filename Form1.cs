@@ -122,7 +122,7 @@ namespace BrawlSoundConverter
 					//If it's not a standard PCM style wav it'll throw an exception
 					try
 					{
-						audioPlaybackPanelWav.TargetSource = new StreamSource( System.Audio.WAV.FromFile( ofd.FileName ) );
+						audioPlaybackPanelWav.TargetSource = new StreamSource( BrawlLib.Internal.Audio.WAV.FromFile( ofd.FileName ) );
 					}
 					catch( Exception ex )
 					{

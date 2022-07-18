@@ -5,24 +5,27 @@ using System.Text;
 
 namespace BrawlSoundConverter
 {
-	public class StreamSource : System.Audio.IAudioSource
+	public class StreamSource : BrawlLib.Internal.Audio.IAudioSource
 	{
-		public System.Audio.IAudioStream stream;
+		public BrawlLib.Internal.Audio.IAudioStream stream;
 		public StreamSource()
 		{
 			stream = null;
 		}
-		public StreamSource(System.Audio.IAudioStream istream)
+		public StreamSource(BrawlLib.Internal.Audio.IAudioStream istream)
 		{
 			stream = istream;
 		}
 		#region IAudioSource Members
-
-		public System.Audio.IAudioStream CreateStream()
+		public BrawlLib.Internal.Audio.IAudioStream CreateStream()
 		{
 			return stream;
 		}
-
+		public BrawlLib.Internal.Audio.IAudioStream[] CreateStreams()
+		{
+			return new BrawlLib.Internal.Audio.IAudioStream[] { stream };
+		}
+		public bool IsLooped => (stream == null) ? false : stream.IsLooping;
 		#endregion
 	}
 }
