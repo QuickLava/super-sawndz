@@ -14,7 +14,7 @@ namespace BrawlSoundConverter
 	class MappingItem : TreeNode, BrawlLib.Internal.Audio.IAudioSource
 	{
 		public int groupID, collectionID, wavID;
-		public BrawlLib.Internal.Audio.IAudioStream sound;
+		public BrawlLib.Internal.Audio.IAudioStream[] streams;
 		public string name;
 		int _fileSize;
 		// Controls whether or not a sounds filesize propogates to its parents.
@@ -68,11 +68,11 @@ namespace BrawlSoundConverter
 			if(wavID == -1)
 				return;
 
-			BrawlLib.SSBB.ResourceNodes.RWSDSoundNode sound = brsar.GetNode( groupID, collectionID, wavID ) as BrawlLib.SSBB.ResourceNodes.RWSDSoundNode;
+			BrawlLib.SSBB.ResourceNodes.RSARFileAudioNode sound = brsar.GetNode( groupID, collectionID, wavID ) as BrawlLib.SSBB.ResourceNodes.RSARFileAudioNode;
 
 			unsafe
 			{
-				int samples = sound.Header->NumSamples;
+				int samples = sound.NumSamples;
 				if( ( samples / 2 * 2 ) == samples )
 				{
 					fileSize = samples / 2;
@@ -97,39 +97,27 @@ namespace BrawlSoundConverter
 			this.groupID = group;
 			this.collectionID = collection;
 			this.wavID = wave;
-			sound = null;
 			_sharesWave = sharesWave;
+			streams = null;
 			_fileSize = 0;
 		}
 
 		#region IAudioSource Members
 
-		static int soundBufferSize = 1024 * 2000; //Allocate 2 MB buffer for sound caching, just to be safe
-		static unsafe BrawlLib.Internal.VoidPtr soundData = Memory.Alloc( soundBufferSize );
-
-		public unsafe BrawlLib.Internal.Audio.IAudioStream CreateStream()
+		public bool IsLooped => (streams == null) ? 
+			false : 
+			(streams.Length <= 0) ? false : streams[0].IsLooping;
+		public unsafe BrawlLib.Internal.Audio.IAudioStream[] CreateStreams()
 		{
 			//If this isn't connected to an RWSD SoundNode then return null
 			if(wavID == -1)
 				return null;
 
-			BrawlLib.SSBB.ResourceNodes.RWSDSoundNode sound = brsar.GetNode( groupID, collectionID, wavID ) as BrawlLib.SSBB.ResourceNodes.RWSDSoundNode;
-			BrawlLib.Wii.Audio.ADPCMStream stream;
-			BrawlLib.SSBBTypes.RWSD_WAVEEntry header = new BrawlLib.SSBBTypes.RWSD_WAVEEntry();
-			header = *sound.Header;
-			if( header.NumSamples > soundBufferSize )
-			{
-				int breakpoint = 324;
-				System.Windows.Forms.MessageBox.Show( "Sound file is too big for playback: " + header.NumSamples.ToString() + "b / " + soundBufferSize.ToString() + "b" );
-				sound.Dispose();
-				return null;
-			}
-			//Copy the sound data
-			Memory.Copy( sound._dataAddr, soundData, header.NumSamples );
-			stream = new BrawlLib.Wii.Audio.ADPCMStream( &header, soundData );
-			brsar.CloseRSAR();
-			return stream;
+			BrawlLib.SSBB.ResourceNodes.RSARFileAudioNode sound = brsar.GetNode( groupID, collectionID, wavID ) as BrawlLib.SSBB.ResourceNodes.RSARFileAudioNode;
+			streams = sound.CreateStreams();
+			return streams;
 		}
+
 
 		#endregion
 	}

@@ -92,15 +92,9 @@ namespace BrawlSoundConverter
 			if( item.wavID > -1 )
 			{
 				textBoxWavID.Text = item.wavID.ToString();
-				audioPlaybackBRSARSound.TargetSource = item as System.Audio.IAudioSource;
-				if (audioPlaybackBRSARSound.TargetSource.CreateStream().Channels == 1)
-                {
-					audioPlaybackBRSARSound.Play();
-				}
-                else
-                {
-					Console.WriteLine("[WARNING] Sound has multiple channels, and will likely produce garbage noise. Press Enter to play manually.\n");
-                }
+				audioPlaybackBRSARSound.TargetSource = item as BrawlLib.Internal.Audio.IAudioSource;
+				audioPlaybackBRSARSound.TargetSource.CreateStreams();
+				audioPlaybackBRSARSound.Play();
 			}
 			else
 				textBoxWavID.Text = "";
