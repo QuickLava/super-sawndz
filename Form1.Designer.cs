@@ -86,7 +86,7 @@
 			this.treeViewMapping.Size = new System.Drawing.Size(629, 681);
 			this.treeViewMapping.TabIndex = 3;
 			this.treeViewMapping.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeViewMapping_AfterSelect);
-			this.treeViewMapping.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.treeViewMapping_KeyPress);
+			this.treeViewMapping.KeyDown += new System.Windows.Forms.KeyEventHandler(this.treeViewMapping_KeyDown);
 			// 
 			// textBoxGroupID
 			// 
@@ -212,7 +212,7 @@
             this.aboutToolStripMenuItem});
 			this.menuStrip1.Location = new System.Drawing.Point(0, 0);
 			this.menuStrip1.Name = "menuStrip1";
-			this.menuStrip1.Size = new System.Drawing.Size(176, 30);
+			this.menuStrip1.Size = new System.Drawing.Size(176, 28);
 			this.menuStrip1.TabIndex = 16;
 			this.menuStrip1.Text = "menuStrip1";
 			// 
@@ -221,7 +221,7 @@
 			this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.openBRSARToolStripMenuItem});
 			this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-			this.fileToolStripMenuItem.Size = new System.Drawing.Size(46, 26);
+			this.fileToolStripMenuItem.Size = new System.Drawing.Size(46, 24);
 			this.fileToolStripMenuItem.Text = "File";
 			// 
 			// openBRSARToolStripMenuItem
@@ -234,13 +234,13 @@
 			// toolsToolStripMenuItem
 			// 
 			this.toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
-			this.toolsToolStripMenuItem.Size = new System.Drawing.Size(58, 26);
+			this.toolsToolStripMenuItem.Size = new System.Drawing.Size(58, 24);
 			this.toolsToolStripMenuItem.Text = "Tools";
 			// 
 			// aboutToolStripMenuItem
 			// 
 			this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-			this.aboutToolStripMenuItem.Size = new System.Drawing.Size(64, 26);
+			this.aboutToolStripMenuItem.Size = new System.Drawing.Size(64, 24);
 			this.aboutToolStripMenuItem.Text = "About";
 			this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
 			// 
@@ -320,6 +320,7 @@
 			this.audioPlaybackBRSARSound.Name = "audioPlaybackBRSARSound";
 			this.audioPlaybackBRSARSound.Size = new System.Drawing.Size(640, 133);
 			this.audioPlaybackBRSARSound.TabIndex = 18;
+			this.audioPlaybackBRSARSound.TargetStreams = null;
 			// 
 			// audioPlaybackPanelWav
 			// 
@@ -330,6 +331,7 @@
 			this.audioPlaybackPanelWav.Name = "audioPlaybackPanelWav";
 			this.audioPlaybackPanelWav.Size = new System.Drawing.Size(611, 105);
 			this.audioPlaybackPanelWav.TabIndex = 14;
+			this.audioPlaybackPanelWav.TargetStreams = null;
 			// 
 			// Form1
 			// 

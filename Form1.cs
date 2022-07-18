@@ -68,7 +68,9 @@ namespace BrawlSoundConverter
 			//These are not the crossthread calls you are looking for
 			Control.CheckForIllegalCrossThreadCalls = false;
 			audioPlaybackPanelWav.TargetSource = null;
+			audioPlaybackPanelWav.VolumePercent = 0.66;
 			audioPlaybackBRSARSound.TargetSource = null;
+			audioPlaybackBRSARSound.VolumePercent = 0.66;
 		}
 
 		/*Called when a node is selected.
@@ -101,10 +103,13 @@ namespace BrawlSoundConverter
 		}
 
 		//Play sound if enter/return is pressed.
-		private void treeViewMapping_KeyPress( object sender, KeyPressEventArgs e )
+		private void treeViewMapping_KeyDown(object sender, KeyEventArgs e)
 		{
-			if(e.KeyChar == '\r' && audioPlaybackBRSARSound.TargetSource != null )
+			if (e.KeyCode == Keys.Enter && audioPlaybackBRSARSound.TargetSource != null)
+			{
 				audioPlaybackBRSARSound.Play();
+				e.SuppressKeyPress = true;
+			}
 		}
 
 		//Called when the ... button is pressed to get the input file.
