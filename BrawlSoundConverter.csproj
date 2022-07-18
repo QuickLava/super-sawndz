@@ -70,100 +70,629 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BrawlLib\BrawlCrate\PerSessionSettings.cs" />
+    <Compile Include="BrawlLib\BrawlManagerLib\BitmapUtilities.cs" />
+    <Compile Include="BrawlLib\BrawlManagerLib\BrawlSplitter.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="BrawlLib\BrawlManagerLib\ByteUtilities.cs" />
+    <Compile Include="BrawlLib\BrawlManagerLib\CopyDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="BrawlLib\BrawlManagerLib\CopyDialog.Designer.cs">
+      <DependentUpon>CopyDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="BrawlLib\BrawlManagerLib\FileOperations.cs" />
+    <Compile Include="BrawlLib\BrawlManagerLib\GCT\AlternateStageEntry.cs" />
+    <Compile Include="BrawlLib\BrawlManagerLib\GCT\ReadOnly\AlternateStageLoaderData.cs" />
+    <Compile Include="BrawlLib\BrawlManagerLib\GCT\ReadOnly\AltStageSongForcer.cs" />
+    <Compile Include="BrawlLib\BrawlManagerLib\GCT\ReadOnly\CMM.cs" />
+    <Compile Include="BrawlLib\BrawlManagerLib\GCT\ReadOnly\CNMT.cs" />
+    <Compile Include="BrawlLib\BrawlManagerLib\GCT\ReadOnly\StageDependentSongLoader.cs" />
+    <Compile Include="BrawlLib\BrawlManagerLib\GCT\ReadOnly\TracklistModifier.cs" />
+    <Compile Include="BrawlLib\BrawlManagerLib\GCT\ReadWrite\CustomSongVolumeCodeset.cs" />
+    <Compile Include="BrawlLib\BrawlManagerLib\GCT\ReadWrite\CustomSSSCodeset.cs" />
+    <Compile Include="BrawlLib\BrawlManagerLib\NameDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="BrawlLib\BrawlManagerLib\ProgressDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="BrawlLib\BrawlManagerLib\ProgressDialog.Designer.cs">
+      <DependentUpon>ProgressDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="BrawlLib\BrawlManagerLib\Songs\Song.cs" />
+    <Compile Include="BrawlLib\BrawlManagerLib\Songs\SongIDMap.cs" />
+    <Compile Include="BrawlLib\BrawlManagerLib\Songs\SongNameBar.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="BrawlLib\BrawlManagerLib\Songs\SongNameBar.Designer.cs">
+      <DependentUpon>SongNameBar.cs</DependentUpon>
+    </Compile>
+    <Compile Include="BrawlLib\BrawlManagerLib\Songs\SongPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="BrawlLib\BrawlManagerLib\Songs\SongPanel.Designer.cs">
+      <DependentUpon>SongPanel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="BrawlLib\BrawlManagerLib\StageIDMap.cs" />
+    <Compile Include="BrawlLib\BrawlManagerLib\TempFiles.cs" />
+    <Compile Include="BrawlLib\BrawlManagerLib\TextBoxDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="BrawlLib\BrawlManagerLib\TextBoxDialog.Designer.cs">
+      <DependentUpon>TextBoxDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="BrawlLib\BrawlManagerLib\TextureContainer.cs" />
+    <Compile Include="BrawlLib\CustomLists\CustomLists.cs" />
     <Compile Include="BrawlLib\Imaging\CIE.cs" />
     <Compile Include="BrawlLib\Imaging\DIB.cs" />
+    <Compile Include="BrawlLib\Imaging\GIF\AnimatedGifEncoder.cs" />
+    <Compile Include="BrawlLib\Imaging\GIF\GifDecoder.cs" />
+    <Compile Include="BrawlLib\Imaging\GIF\LZWEncoder.cs" />
+    <Compile Include="BrawlLib\Imaging\GIF\NeuQuant.cs" />
     <Compile Include="BrawlLib\Imaging\IColorSource.cs" />
     <Compile Include="BrawlLib\Imaging\IImageSource.cs" />
     <Compile Include="BrawlLib\Imaging\MedianCut.cs" />
     <Compile Include="BrawlLib\Imaging\NVDXT.cs" />
     <Compile Include="BrawlLib\Imaging\PixelTypes.cs" />
     <Compile Include="BrawlLib\Imaging\TGAImage.cs" />
-    <Compile Include="BrawlLib\Maths.cs" />
-    <Compile Include="BrawlLib\Modeling\Collada\Collada.cs">
+    <Compile Include="BrawlLib\Internal\ActionEventInfo.cs" />
+    <Compile Include="BrawlLib\Internal\ArrayExtension.cs" />
+    <Compile Include="BrawlLib\Internal\AttributeInfo.cs" />
+    <Compile Include="BrawlLib\Internal\Audio\alAudioBuffer.cs" />
+    <Compile Include="BrawlLib\Internal\Audio\alAudioProvider.cs" />
+    <Compile Include="BrawlLib\Internal\Audio\AudioBuffer.cs" />
+    <Compile Include="BrawlLib\Internal\Audio\AudioDevice.cs" />
+    <Compile Include="BrawlLib\Internal\Audio\AudioProvider.cs" />
+    <Compile Include="BrawlLib\Internal\Audio\BufferData.cs" />
+    <Compile Include="BrawlLib\Internal\Audio\G726.cs" />
+    <Compile Include="BrawlLib\Internal\Audio\IAudioSource.cs" />
+    <Compile Include="BrawlLib\Internal\Audio\IAudioStream.cs" />
+    <Compile Include="BrawlLib\Internal\Audio\PCMStream.cs" />
+    <Compile Include="BrawlLib\Internal\Audio\wAudioBuffer.cs" />
+    <Compile Include="BrawlLib\Internal\Audio\wAudioDevice.cs" />
+    <Compile Include="BrawlLib\Internal\Audio\wAudioProvider.cs" />
+    <Compile Include="BrawlLib\Internal\Audio\WAV.cs" />
+    <Compile Include="BrawlLib\Internal\Audio\WaveFormatEx.cs" />
+    <Compile Include="BrawlLib\Internal\Audio\WaveFormatTag.cs" />
+    <Compile Include="BrawlLib\Internal\BigEndianTypes.cs" />
+    <Compile Include="BrawlLib\Internal\BinaryHandlers.cs" />
+    <Compile Include="BrawlLib\Internal\Box.cs" />
+    <Compile Include="BrawlLib\Internal\BrawlExDropDownLists.cs" />
+    <Compile Include="BrawlLib\Internal\ByteExtension.cs" />
+    <Compile Include="BrawlLib\Internal\CoolTimer.cs" />
+    <Compile Include="BrawlLib\Internal\DoubleExtension.cs" />
+    <Compile Include="BrawlLib\Internal\Drawing\BitmapExtension.cs" />
+    <Compile Include="BrawlLib\Internal\Drawing\Imaging\ColorPaletteExtension.cs" />
+    <Compile Include="BrawlLib\Internal\DropDownLists.cs" />
+    <Compile Include="BrawlLib\Internal\DVector3.cs" />
+    <Compile Include="BrawlLib\Internal\Event.cs" />
+    <Compile Include="BrawlLib\Internal\Helpers.cs" />
+    <Compile Include="BrawlLib\Internal\Int16Extension.cs" />
+    <Compile Include="BrawlLib\Internal\Int24.cs" />
+    <Compile Include="BrawlLib\Internal\Int32Extension.cs" />
+    <Compile Include="BrawlLib\Internal\Int64Extension.cs" />
+    <Compile Include="BrawlLib\Internal\IO\FileAssociation.cs" />
+    <Compile Include="BrawlLib\Internal\IO\FileMap.cs" />
+    <Compile Include="BrawlLib\Internal\IO\GeckoStream.cs" />
+    <Compile Include="BrawlLib\Internal\IO\StreamExtension.cs" />
+    <Compile Include="BrawlLib\Internal\IO\UnsafeStream.cs" />
+    <Compile Include="BrawlLib\Internal\IO\XmlReader.cs" />
+    <Compile Include="BrawlLib\Internal\ListExtension.cs" />
+    <Compile Include="BrawlLib\Internal\Matrix.cs" />
+    <Compile Include="BrawlLib\Internal\Matrix34.cs" />
+    <Compile Include="BrawlLib\Internal\Matrix4d.cs" />
+    <Compile Include="BrawlLib\Internal\Memory.cs" />
+    <Compile Include="BrawlLib\Internal\MemoryList.cs" />
+    <Compile Include="BrawlLib\Internal\ModuleMapLoader.cs" />
+    <Compile Include="BrawlLib\Internal\PowerPCAssembly\OperandType.cs" />
+    <Compile Include="BrawlLib\Internal\PowerPCAssembly\PowerPC.cs" />
+    <Compile Include="BrawlLib\Internal\PowerPCAssembly\PPCFormat.cs" />
+    <Compile Include="BrawlLib\Internal\PowerPCAssembly\PPCInfo.cs" />
+    <Compile Include="BrawlLib\Internal\PowerPCAssembly\PPCOpCode.cs" />
+    <Compile Include="BrawlLib\Internal\PowerPCAssembly\PPCOperand.cs" />
+    <Compile Include="BrawlLib\Internal\PString.cs" />
+    <Compile Include="BrawlLib\Internal\Reflection\MemberInfoExtension.cs" />
+    <Compile Include="BrawlLib\Internal\Reflection\MethodInfoExtension.cs" />
+    <Compile Include="BrawlLib\Internal\Remapper.cs" />
+    <Compile Include="BrawlLib\Internal\RoundingExtensions.cs" />
+    <Compile Include="BrawlLib\Internal\SingleExtension.cs" />
+    <Compile Include="BrawlLib\Internal\StringConverters.cs" />
+    <Compile Include="BrawlLib\Internal\StringExtension.cs" />
+    <Compile Include="BrawlLib\Internal\TypeConverters.cs" />
+    <Compile Include="BrawlLib\Internal\UInt16Extension.cs" />
+    <Compile Include="BrawlLib\Internal\UInt24.cs" />
+    <Compile Include="BrawlLib\Internal\UInt32Extension.cs" />
+    <Compile Include="BrawlLib\Internal\UInt64Extension.cs" />
+    <Compile Include="BrawlLib\Internal\UnsafeBuffer.cs" />
+    <Compile Include="BrawlLib\Internal\Vector2.cs" />
+    <Compile Include="BrawlLib\Internal\Vector3.cs" />
+    <Compile Include="BrawlLib\Internal\Vector4.cs" />
+    <Compile Include="BrawlLib\Internal\ViewerSettingsFile.cs" />
+    <Compile Include="BrawlLib\Internal\VoidPtr.cs" />
+    <Compile Include="BrawlLib\Internal\VQuant.cs" />
+    <Compile Include="BrawlLib\Internal\Windows\Controls\AnimEditControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="BrawlLib\Internal\Windows\Controls\ASLIndicator.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="BrawlLib\Internal\Windows\Controls\AttributeGrid.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="BrawlLib\Internal\Windows\Controls\AudioPlaybackPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="BrawlLib\Internal\Windows\Controls\BufferedPanel.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="BrawlLib\Internal\Windows\Controls\CLRControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="BrawlLib\Internal\Windows\Controls\CustomTrackBar.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="BrawlLib\Internal\Windows\Controls\EditAllDialog\CHR0.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="BrawlLib\Internal\Windows\Controls\EditAllDialog\SRT0.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="BrawlLib\Internal\Windows\Controls\GLTexturePanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="BrawlLib\Internal\Windows\Controls\GoodColorControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="BrawlLib\Internal\Windows\Controls\GoodColorControl2.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="BrawlLib\Internal\Windows\Controls\GoodPictureBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="BrawlLib\Internal\Windows\Controls\GoodProgressBar.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="BrawlLib\Internal\Windows\Controls\Hex Editor\BuiltInContextMenu.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="BrawlLib\Internal\Windows\Controls\Hex Editor\ByteCharConverters.cs" />
+    <Compile Include="BrawlLib\Internal\Windows\Controls\Hex Editor\ByteCollection.cs" />
+    <Compile Include="BrawlLib\Internal\Windows\Controls\Hex Editor\BytePositionInfo.cs" />
+    <Compile Include="BrawlLib\Internal\Windows\Controls\Hex Editor\DataBlock.cs" />
+    <Compile Include="BrawlLib\Internal\Windows\Controls\Hex Editor\DataMap.cs" />
+    <Compile Include="BrawlLib\Internal\Windows\Controls\Hex Editor\DynamicByteProvider.cs" />
+    <Compile Include="BrawlLib\Internal\Windows\Controls\Hex Editor\DynamicFileByteProvider.cs" />
+    <Compile Include="BrawlLib\Internal\Windows\Controls\Hex Editor\FileByteProvider.cs" />
+    <Compile Include="BrawlLib\Internal\Windows\Controls\Hex Editor\FileDataBlock.cs" />
+    <Compile Include="BrawlLib\Internal\Windows\Controls\Hex Editor\FindOptions.cs" />
+    <Compile Include="BrawlLib\Internal\Windows\Controls\Hex Editor\HexBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="BrawlLib\Internal\Windows\Controls\Hex Editor\HexCasing.cs" />
+    <Compile Include="BrawlLib\Internal\Windows\Controls\Hex Editor\IByteProvider.cs" />
+    <Compile Include="BrawlLib\Internal\Windows\Controls\Hex Editor\MemoryDataBlock.cs" />
+    <Compile Include="BrawlLib\Internal\Windows\Controls\Hex Editor\NativeMethods.cs" />
+    <Compile Include="BrawlLib\Internal\Windows\Controls\Hex Editor\Util.cs" />
+    <Compile Include="BrawlLib\Internal\Windows\Controls\InterpolationEditor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="BrawlLib\Internal\Windows\Controls\InterpolationEditor.Designer.cs">
+      <DependentUpon>InterpolationEditor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="BrawlLib\Internal\Windows\Controls\InterpolationViewer.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="BrawlLib\Internal\Windows\Controls\InterpolationViewer.Designer.cs">
+      <DependentUpon>InterpolationViewer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="BrawlLib\Internal\Windows\Controls\MDL0ObjectControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="BrawlLib\Internal\Windows\Controls\MDL0ObjectControl.Designer.cs">
+      <DependentUpon>MDL0ObjectControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="BrawlLib\Internal\Windows\Controls\Model Panel\ModelPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="BrawlLib\Internal\Windows\Controls\Model Panel\modelpanelviewport.cs" />
+    <Compile Include="BrawlLib\Internal\Windows\Controls\Model Panel\ScreenTextHandler.cs" />
+    <Compile Include="BrawlLib\Internal\Windows\Controls\ModelViewer\Editors\CHR0Editor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="BrawlLib\Internal\Windows\Controls\ModelViewer\Editors\CLR0Editor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="BrawlLib\Internal\Windows\Controls\ModelViewer\Editors\PAT0Editor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="BrawlLib\Internal\Windows\Controls\ModelViewer\Editors\SCN0Editor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="BrawlLib\Internal\Windows\Controls\ModelViewer\Editors\SHP0Editor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="BrawlLib\Internal\Windows\Controls\ModelViewer\Editors\SRT0Editor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="BrawlLib\Internal\Windows\Controls\ModelViewer\Editors\VertexEditor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="BrawlLib\Internal\Windows\Controls\ModelViewer\Editors\VIS0Editor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="BrawlLib\Internal\Windows\Controls\ModelViewer\Editors\WeightEditor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="BrawlLib\Internal\Windows\Controls\ModelViewer\MainWindowBase\Animation.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="BrawlLib\Internal\Windows\Controls\ModelViewer\MainWindowBase\Hotkeys.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="BrawlLib\Internal\Windows\Controls\ModelViewer\MainWindowBase\Misc.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="BrawlLib\Internal\Windows\Controls\ModelViewer\MainWindowBase\Mouse.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="BrawlLib\Internal\Windows\Controls\ModelViewer\MainWindowBase\Properties.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="BrawlLib\Internal\Windows\Controls\ModelViewer\MainWindowBase\Rendering.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="BrawlLib\Internal\Windows\Controls\ModelViewer\MainWindowBase\Undo.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="BrawlLib\Internal\Windows\Controls\ModelViewer\MainWindowBase\Variables.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="BrawlLib\Internal\Windows\Controls\ModelViewer\Panels\BonesPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="BrawlLib\Internal\Windows\Controls\ModelViewer\Panels\KeyframePanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="BrawlLib\Internal\Windows\Controls\ModelViewer\Panels\KeyframePanel.Designer.cs">
+      <DependentUpon>KeyframePanel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="BrawlLib\Internal\Windows\Controls\ModelViewer\Panels\OpenedFilesPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="BrawlLib\Internal\Windows\Controls\ModelViewer\Panels\OpenedFilesPanel.Designer.cs">
+      <DependentUpon>OpenedFilesPanel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="BrawlLib\Internal\Windows\Controls\ModelViewer\Panels\PlaybackPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="BrawlLib\Internal\Windows\Controls\ModelViewer\Panels\RightPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="BrawlLib\Internal\Windows\Controls\ModelViewer\Panels\RightPanel.Designer.cs">
+      <DependentUpon>RightPanel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="BrawlLib\Internal\Windows\Controls\MSBinEditor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="BrawlLib\Internal\Windows\Controls\MSBinTextBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="BrawlLib\Internal\Windows\Controls\MultipleInterpretationAttributeGrid.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="BrawlLib\Internal\Windows\Controls\NumericInputBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="BrawlLib\Internal\Windows\Controls\PowerPcDisassembler.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="BrawlLib\Internal\Windows\Controls\PowerPcDisassembler.Designer.cs">
+      <DependentUpon>PowerPcDisassembler.cs</DependentUpon>
+    </Compile>
+    <Compile Include="BrawlLib\Internal\Windows\Controls\PPCOpCodeEditControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="BrawlLib\Internal\Windows\Controls\PPCOpCodeEditControl.Designer.cs">
+      <DependentUpon>PPCOpCodeEditControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="BrawlLib\Internal\Windows\Controls\PreviewPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="BrawlLib\Internal\Windows\Controls\PreviewPanel.designer.cs">
+      <DependentUpon>PreviewPanel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="BrawlLib\Internal\Windows\Controls\ProxySplitter.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="BrawlLib\Internal\Windows\Controls\RichTextBoxBordered.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="BrawlLib\Internal\Windows\Controls\RichTextBoxBordered.Designer.cs">
+      <DependentUpon>RichTextBoxBordered.cs</DependentUpon>
+    </Compile>
+    <Compile Include="BrawlLib\Internal\Windows\Controls\RSARGroupEditor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="BrawlLib\Internal\Windows\Controls\RSARGroupEditor.Designer.cs">
+      <DependentUpon>RSARGroupEditor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="BrawlLib\Internal\Windows\Controls\SCN0CameraEditControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="BrawlLib\Internal\Windows\Controls\SCN0FogEditControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="BrawlLib\Internal\Windows\Controls\SCN0LightEditControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="BrawlLib\Internal\Windows\Controls\ShpAnimEditControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="BrawlLib\Internal\Windows\Controls\SoundPackControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="BrawlLib\Internal\Windows\Controls\StringInputComboBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="BrawlLib\Internal\Windows\Controls\TexAnimEditControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="BrawlLib\Internal\Windows\Controls\TexCoordControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="BrawlLib\Internal\Windows\Controls\TexCoordControl.Designer.cs">
+      <DependentUpon>TexCoordControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="BrawlLib\Internal\Windows\Controls\TexCoordRenderer.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="BrawlLib\Internal\Windows\Controls\TexCoordRenderer.Designer.cs">
+      <DependentUpon>TexCoordRenderer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="BrawlLib\Internal\Windows\Controls\TransformAttributesControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="BrawlLib\Internal\Windows\Controls\TransformAttributesControl.Designer.cs">
+      <DependentUpon>TransformAttributesControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="BrawlLib\Internal\Windows\Controls\TransparentPanel.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="BrawlLib\Internal\Windows\Controls\VideoPlaybackPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="BrawlLib\Internal\Windows\Controls\VisEditor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="BrawlLib\Internal\Windows\Forms\BrstmConverterDialog.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="BrawlLib\Internal\Windows\Forms\EditAllDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="BrawlLib\Internal\Windows\Forms\EditAllKeyframesDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="BrawlLib\Internal\Windows\Forms\EditRSARFileDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="BrawlLib\Internal\Windows\Forms\ExportAllAskFormat.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="BrawlLib\Internal\Windows\Forms\ExportAllAskFormat.designer.cs">
+      <DependentUpon>ExportAllAskFormat.cs</DependentUpon>
+    </Compile>
+    <Compile Include="BrawlLib\Internal\Windows\Forms\FrameCountChanger.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="BrawlLib\Internal\Windows\Forms\FrameCountChanger.Designer.cs">
+      <DependentUpon>FrameCountChanger.cs</DependentUpon>
+    </Compile>
+    <Compile Include="BrawlLib\Internal\Windows\Forms\GCTEditor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="BrawlLib\Internal\Windows\Forms\GCTEditor.Designer.cs">
+      <DependentUpon>GCTEditor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="BrawlLib\Internal\Windows\Forms\GLTextureWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="BrawlLib\Internal\Windows\Forms\GoodColorDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="BrawlLib\Internal\Windows\Forms\GradientDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="BrawlLib\Internal\Windows\Forms\HexEntryBox.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="BrawlLib\Internal\Windows\Forms\HexEntryBox.Designer.cs">
+      <DependentUpon>HexEntryBox.cs</DependentUpon>
+    </Compile>
+    <Compile Include="BrawlLib\Internal\Windows\Forms\InterpolationForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="BrawlLib\Internal\Windows\Forms\InterpolationForm.Designer.cs">
+      <DependentUpon>InterpolationForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="BrawlLib\Internal\Windows\Forms\IProgressTracker.cs" />
+    <Compile Include="BrawlLib\Internal\Windows\Forms\ModelViewerForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="BrawlLib\Internal\Windows\Forms\ModelViewerForm.Designer.cs">
+      <DependentUpon>ModelViewerForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="BrawlLib\Internal\Windows\Forms\Moveset\ArticleAttributeGrid.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="BrawlLib\Internal\Windows\Forms\Moveset\AttributeGrid.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="BrawlLib\Internal\Windows\Forms\Moveset\EventDescription.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="BrawlLib\Internal\Windows\Forms\Moveset\EventList.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="BrawlLib\Internal\Windows\Forms\Moveset\EventList.designer.cs">
+      <DependentUpon>EventList.cs</DependentUpon>
+    </Compile>
+    <Compile Include="BrawlLib\Internal\Windows\Forms\Moveset\EventModifier.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="BrawlLib\Internal\Windows\Forms\Moveset\EventModifierWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="BrawlLib\Internal\Windows\Forms\Moveset\OffsetEditor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="BrawlLib\Internal\Windows\Forms\Moveset\ScriptEditor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="BrawlLib\Internal\Windows\Forms\NumericInputForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="BrawlLib\Internal\Windows\Forms\NumericInputForm.Designer.cs">
+      <DependentUpon>NumericInputForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="BrawlLib\Internal\Windows\Forms\ObjectImporter.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="BrawlLib\Internal\Windows\Forms\ObjectOptimizerForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="BrawlLib\Internal\Windows\Forms\ObjectOptimizerForm.Designer.cs">
+      <DependentUpon>ObjectOptimizerForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="BrawlLib\Internal\Windows\Forms\Ookii.Dialogs\Interop\COMGuids.cs" />
+    <Compile Include="BrawlLib\Internal\Windows\Forms\Ookii.Dialogs\Interop\ErrorHelper.cs" />
+    <Compile Include="BrawlLib\Internal\Windows\Forms\Ookii.Dialogs\Interop\ShellComInterfaces.cs" />
+    <Compile Include="BrawlLib\Internal\Windows\Forms\Ookii.Dialogs\Interop\ShellWrapperDefinitions.cs" />
+    <Compile Include="BrawlLib\Internal\Windows\Forms\Ookii.Dialogs\Interop\WindowHandleWrapper.cs" />
+    <Compile Include="BrawlLib\Internal\Windows\Forms\Ookii.Dialogs\NativeMethods.cs" />
+    <Compile Include="BrawlLib\Internal\Windows\Forms\Ookii.Dialogs\SafeHandles.cs" />
+    <Compile Include="BrawlLib\Internal\Windows\Forms\Ookii.Dialogs\VistaFolderBrowserDialog.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="BrawlLib\Internal\Windows\Forms\PAT0OffsetControl.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="BrawlLib\Internal\Windows\Forms\PAT0OffsetControl.Designer.cs">
+      <DependentUpon>PAT0OffsetControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="BrawlLib\Internal\Windows\Forms\ProgressWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="BrawlLib\Internal\Windows\Forms\ProgressWindow.designer.cs">
+      <DependentUpon>ProgressWindow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="BrawlLib\Internal\Windows\Forms\RenameDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="BrawlLib\Internal\Windows\Forms\Section Editor\FormFind.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="BrawlLib\Internal\Windows\Forms\Section Editor\FormGoTo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="BrawlLib\Internal\Windows\Forms\Section Editor\SectionEditor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="BrawlLib\Internal\Windows\Forms\Section Editor\SectionEditor.Designer.cs">
+      <DependentUpon>SectionEditor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="BrawlLib\Internal\Windows\Forms\SoundPathChanger.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="BrawlLib\Internal\Windows\Forms\StageModuleConverter.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="BrawlLib\Internal\Windows\Forms\StringInputDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="BrawlLib\Internal\Windows\Forms\TextureConverterDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="BrawlLib\Internal\Windows\Forms\TransformAttributesForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="BrawlLib\Internal\Windows\Forms\TransformAttributesForm.Designer.cs">
+      <DependentUpon>TransformAttributesForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="BrawlLib\Maths.cs" />
     <Compile Include="BrawlLib\Modeling\Collada\ColladaAssetDecoder.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="BrawlLib\Modeling\Collada\ColladaExporter.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="BrawlLib\Modeling\Collada\ColladaImportDialog.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="BrawlLib\Modeling\Collada\ColladaImporter.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="BrawlLib\Modeling\Collada\ColladaParser.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="BrawlLib\Modeling\Face.cs" />
     <Compile Include="BrawlLib\Modeling\FrameState.cs" />
+    <Compile Include="BrawlLib\Modeling\IBoneNode.cs" />
     <Compile Include="BrawlLib\Modeling\IMatrixNode.cs" />
-    <Compile Include="BrawlLib\Modeling\Model\Bone.cs" />
-    <Compile Include="BrawlLib\Modeling\Model\Material.cs" />
-    <Compile Include="BrawlLib\Modeling\Model\Model.cs" />
-    <Compile Include="BrawlLib\Modeling\Model\Polygon.cs" />
-    <Compile Include="BrawlLib\Modeling\Model\Primitive.cs" />
+    <Compile Include="BrawlLib\Modeling\IModel.cs" />
+    <Compile Include="BrawlLib\Modeling\IObject.cs" />
     <Compile Include="BrawlLib\Modeling\PMDModel.cs" />
     <Compile Include="BrawlLib\Modeling\PrimitiveManager.cs" />
     <Compile Include="BrawlLib\Modeling\SaveState.cs" />
-    <Compile Include="BrawlLib\Modeling\TextureManager.cs" />
-    <Compile Include="BrawlLib\Modeling\TextureRef.cs" />
-    <Compile Include="BrawlLib\Modeling\Triangle Converter\TCMain.cs" />
-    <Compile Include="BrawlLib\Modeling\Triangle Converter\TCParamDebug.cs" />
-    <Compile Include="BrawlLib\Modeling\Triangle Converter\TCTableVariables.cs" />
+    <Compile Include="BrawlLib\Modeling\Triangle Converter\CacheSimulator.cs" />
+    <Compile Include="BrawlLib\Modeling\Triangle Converter\Deque\Deque.cs" />
+    <Compile Include="BrawlLib\Modeling\Triangle Converter\Deque\GenericDeque.cs" />
+    <Compile Include="BrawlLib\Modeling\Triangle Converter\Deque\GenericDeque.Enumerator.cs" />
+    <Compile Include="BrawlLib\Modeling\Triangle Converter\Deque\GenericDeque.Node.cs" />
+    <Compile Include="BrawlLib\Modeling\Triangle Converter\Deque\GenericDeque.Synchronized.cs" />
+    <Compile Include="BrawlLib\Modeling\Triangle Converter\Deque\GenericTester.cs" />
+    <Compile Include="BrawlLib\Modeling\Triangle Converter\Deque\Tester.cs" />
+    <Compile Include="BrawlLib\Modeling\Triangle Converter\GraphArray.cs" />
+    <Compile Include="BrawlLib\Modeling\Triangle Converter\HeapArray.cs" />
+    <Compile Include="BrawlLib\Modeling\Triangle Converter\Policy.cs" />
+    <Compile Include="BrawlLib\Modeling\Triangle Converter\TriangleConverter.cs" />
+    <Compile Include="BrawlLib\Modeling\Triangle Converter\TriStripper.cs" />
+    <Compile Include="BrawlLib\Modeling\Triangle Converter\Types.cs" />
     <Compile Include="BrawlLib\Modeling\Vertex.cs" />
     <Compile Include="BrawlLib\Modeling\Wavefront.cs" />
-    <Compile Include="BrawlLib\OpenGL\CPPEnums.cs" />
-    <Compile Include="BrawlLib\OpenGL\Enums.cs" />
-    <Compile Include="BrawlLib\System\Windows\Forms\Ookii.Dialogs\Interop\COMGuids.cs" />
-    <Compile Include="BrawlLib\System\Windows\Forms\Ookii.Dialogs\Interop\ErrorHelper.cs" />
-    <Compile Include="BrawlLib\System\Windows\Forms\Ookii.Dialogs\Interop\ShellComInterfaces.cs" />
-    <Compile Include="BrawlLib\System\Windows\Forms\Ookii.Dialogs\Interop\ShellWrapperDefinitions.cs" />
-    <Compile Include="BrawlLib\System\Windows\Forms\Ookii.Dialogs\Interop\WindowHandleWrapper.cs" />
-    <Compile Include="BrawlLib\System\Windows\Forms\Ookii.Dialogs\NativeMethods.cs" />
-    <Compile Include="BrawlLib\System\Windows\Forms\Ookii.Dialogs\SafeHandles.cs" />
-    <Compile Include="BrawlLib\System\Windows\Forms\Ookii.Dialogs\VistaFolderBrowserDialog.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Form2.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Form2.Designer.cs">
-      <DependentUpon>Form2.cs</DependentUpon>
-    </Compile>
-    <Compile Include="multiSawndExportForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="multiSawndExportForm.Designer.cs">
-      <DependentUpon>multiSawndExportForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="StreamSource.cs" />
-    <Compile Include="TextBoxWriter.cs" />
-    <None Include="BrawlLib\OpenGL\GLBone.cs" />
+    <Compile Include="BrawlLib\obj\Debug\net472\.NETFramework,Version=v4.7.2.AssemblyAttributes.cs" />
+    <Compile Include="BrawlLib\obj\Debug\net472\BrawlLib.AssemblyInfo.cs" />
     <Compile Include="BrawlLib\OpenGL\GLCamera.cs" />
-    <Compile Include="BrawlLib\OpenGL\GLContext.cs" />
-    <None Include="BrawlLib\OpenGL\GLDelegates.cs" />
     <Compile Include="BrawlLib\OpenGL\GLDisplayList.cs" />
-    <Compile Include="BrawlLib\OpenGL\GLEnums.cs" />
-    <None Include="BrawlLib\OpenGL\GLMaterial.cs" />
-    <None Include="BrawlLib\OpenGL\GLModel.cs" />
-    <None Include="BrawlLib\OpenGL\GLNode.cs" />
     <Compile Include="BrawlLib\OpenGL\GLPanel.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <None Include="BrawlLib\OpenGL\GLPolygon.cs" />
-    <None Include="BrawlLib\OpenGL\GLPrimitive.cs" />
     <Compile Include="BrawlLib\OpenGL\GLTexture.cs" />
-    <Compile Include="BrawlLib\OpenGL\Half.cs" />
+    <Compile Include="BrawlLib\OpenGL\GLViewport.cs" />
     <Compile Include="BrawlLib\OpenGL\IRenderedObject.cs" />
-    <Compile Include="BrawlLib\OpenGL\wGL.cs" />
-    <Compile Include="BrawlLib\OpenGL\wGlContext.cs" />
-    <Compile Include="BrawlLib\OpenGL\wPixelFormatDescriptor.cs" />
+    <Compile Include="BrawlLib\OpenGL\TKContext.cs" />
     <Compile Include="BrawlLib\Platform\Linux.cs" />
+    <Compile Include="BrawlLib\Platform\OSX.cs" />
     <Compile Include="BrawlLib\Platform\Win32.cs" />
     <Compile Include="BrawlLib\Platform\Win32.DirectSound.cs" />
     <Compile Include="BrawlLib\Platform\Win32.DirectSoundBuffer.cs" />
-    <Compile Include="BrawlLib\Platform\Win32.OpenGL.cs" />
+    <Compile Include="BrawlLib\Properties\AssemblyInfo.cs" />
+    <Compile Include="BrawlLib\Properties\Resources.Designer.cs" />
+    <Compile Include="BrawlLib\Properties\Settings.Designer.cs" />
     <Compile Include="BrawlLib\SSBB\BinaryStringTable.cs" />
-    <Compile Include="BrawlLib\SSBB\ExportFilters.cs" />
+    <Compile Include="BrawlLib\SSBB\CompactStringTable.cs" />
+    <Compile Include="BrawlLib\SSBB\Fighter.cs" />
+    <Compile Include="BrawlLib\SSBB\FileFilters.cs" />
+    <Compile Include="BrawlLib\SSBB\IBoolArraySource.cs" />
+    <Compile Include="BrawlLib\SSBB\Item.cs" />
     <Compile Include="BrawlLib\SSBB\LabelBuilder.cs" />
-    <Compile Include="BrawlLib\SSBB\NodeComparer.cs" />
+    <Compile Include="BrawlLib\SSBB\ParameterValueManager.cs" />
     <Compile Include="BrawlLib\SSBB\ResourceNodes\AI\AIPDNode.cs" />
     <Compile Include="BrawlLib\SSBB\ResourceNodes\AI\ATKDNode.cs" />
     <Compile Include="BrawlLib\SSBB\ResourceNodes\AI\CENode.cs" />
+    <Compile Include="BrawlLib\SSBB\ResourceNodes\AllstarStageTblNode.cs" />
     <Compile Include="BrawlLib\SSBB\ResourceNodes\Animations\CHR0Node.cs" />
     <Compile Include="BrawlLib\SSBB\ResourceNodes\Animations\CLR0Node.cs" />
     <Compile Include="BrawlLib\SSBB\ResourceNodes\Animations\PAT0Node.cs" />
@@ -171,41 +700,97 @@
     <Compile Include="BrawlLib\SSBB\ResourceNodes\Animations\SRT0Node.cs" />
     <Compile Include="BrawlLib\SSBB\ResourceNodes\Animations\VIS0Node.cs" />
     <Compile Include="BrawlLib\SSBB\ResourceNodes\Archives\ARCNode.cs" />
-    <Compile Include="BrawlLib\SSBB\ResourceNodes\Archives\BRESNode.cs" />
+    <Compile Include="BrawlLib\SSBB\ResourceNodes\Archives\BRRESNode.cs" />
+    <Compile Include="BrawlLib\SSBB\ResourceNodes\Archives\FileScanNode.cs" />
+    <Compile Include="BrawlLib\SSBB\ResourceNodes\Archives\FolderNode.cs" />
     <Compile Include="BrawlLib\SSBB\ResourceNodes\Archives\MRGNode.cs" />
     <Compile Include="BrawlLib\SSBB\ResourceNodes\Archives\U8Node.cs" />
+    <Compile Include="BrawlLib\SSBB\ResourceNodes\BrawlEx\COSCNode.cs" />
+    <Compile Include="BrawlLib\SSBB\ResourceNodes\BrawlEx\CSSCNode.cs" />
+    <Compile Include="BrawlLib\SSBB\ResourceNodes\BrawlEx\FCFGNode.cs" />
+    <Compile Include="BrawlLib\SSBB\ResourceNodes\BrawlEx\RSTCNode.cs" />
+    <Compile Include="BrawlLib\SSBB\ResourceNodes\BrawlEx\SLTCNode.cs" />
+    <Compile Include="BrawlLib\SSBB\ResourceNodes\ClassicStageTblNode.cs" />
+    <Compile Include="BrawlLib\SSBB\ResourceNodes\CMMNode.cs" />
     <Compile Include="BrawlLib\SSBB\ResourceNodes\CollisionNode.cs" />
-    <Compile Include="BrawlLib\SSBB\ResourceNodes\DOLNode.cs" />
+    <Compile Include="BrawlLib\SSBB\ResourceNodes\Common2MiscDataNode.cs" />
+    <Compile Include="BrawlLib\SSBB\ResourceNodes\EventMatchNode.cs" />
+    <Compile Include="BrawlLib\SSBB\ResourceNodes\GCTNode.cs" />
     <Compile Include="BrawlLib\SSBB\ResourceNodes\Graphics\EFLSNode.cs" />
     <Compile Include="BrawlLib\SSBB\ResourceNodes\Graphics\PLT0Node.cs" />
-    <Compile Include="BrawlLib\SSBB\ResourceNodes\Graphics\REFFNode.cs" />
+    <Compile Include="BrawlLib\SSBB\ResourceNodes\Graphics\REFF\REFFAnimationNode.cs" />
+    <Compile Include="BrawlLib\SSBB\ResourceNodes\Graphics\REFF\REFFEmitterNode7.cs" />
+    <Compile Include="BrawlLib\SSBB\ResourceNodes\Graphics\REFF\REFFEmitterNode9.cs" />
+    <Compile Include="BrawlLib\SSBB\ResourceNodes\Graphics\REFF\REFFNode.cs" />
+    <Compile Include="BrawlLib\SSBB\ResourceNodes\Graphics\REFF\REFFParticleNode.cs" />
+    <Compile Include="BrawlLib\SSBB\ResourceNodes\Graphics\REFF\REFFTEVStage.cs" />
     <Compile Include="BrawlLib\SSBB\ResourceNodes\Graphics\REFTNode.cs" />
     <Compile Include="BrawlLib\SSBB\ResourceNodes\Graphics\TEX0Node.cs" />
+    <Compile Include="BrawlLib\SSBB\ResourceNodes\Graphics\TPLNode.cs" />
+    <Compile Include="BrawlLib\SSBB\ResourceNodes\Havok Physics\Class Types\hkClassEnumNode.cs" />
+    <Compile Include="BrawlLib\SSBB\ResourceNodes\Havok Physics\Class Types\hkClassNode.cs" />
+    <Compile Include="BrawlLib\SSBB\ResourceNodes\Havok Physics\HavokMetaObjectNode.cs" />
+    <Compile Include="BrawlLib\SSBB\ResourceNodes\Havok Physics\HavokNode.cs" />
+    <Compile Include="BrawlLib\SSBB\ResourceNodes\Havok Physics\HavokXML.cs" />
+    <Compile Include="BrawlLib\SSBB\ResourceNodes\Havok Physics\Meta Nodes\Arrays.cs" />
+    <Compile Include="BrawlLib\SSBB\ResourceNodes\Havok Physics\Meta Nodes\ClassMemberInstanceNode.cs" />
+    <Compile Include="BrawlLib\SSBB\ResourceNodes\Havok Physics\Meta Nodes\cmBoolNode.cs" />
+    <Compile Include="BrawlLib\SSBB\ResourceNodes\Havok Physics\Meta Nodes\cmByteNode.cs" />
+    <Compile Include="BrawlLib\SSBB\ResourceNodes\Havok Physics\Meta Nodes\cmCharNode.cs" />
+    <Compile Include="BrawlLib\SSBB\ResourceNodes\Havok Physics\Meta Nodes\cmEnumNode.cs" />
+    <Compile Include="BrawlLib\SSBB\ResourceNodes\Havok Physics\Meta Nodes\cmFloatNode.cs" />
+    <Compile Include="BrawlLib\SSBB\ResourceNodes\Havok Physics\Meta Nodes\cmIntNode.cs" />
+    <Compile Include="BrawlLib\SSBB\ResourceNodes\Havok Physics\Meta Nodes\cmLongNode.cs" />
+    <Compile Include="BrawlLib\SSBB\ResourceNodes\Havok Physics\Meta Nodes\cmMat3Node.cs" />
+    <Compile Include="BrawlLib\SSBB\ResourceNodes\Havok Physics\Meta Nodes\cmMat4Node.cs" />
+    <Compile Include="BrawlLib\SSBB\ResourceNodes\Havok Physics\Meta Nodes\cmPointerNode.cs" />
+    <Compile Include="BrawlLib\SSBB\ResourceNodes\Havok Physics\Meta Nodes\cmQSTransformNode.cs" />
+    <Compile Include="BrawlLib\SSBB\ResourceNodes\Havok Physics\Meta Nodes\cmSByteNode.cs" />
+    <Compile Include="BrawlLib\SSBB\ResourceNodes\Havok Physics\Meta Nodes\cmShortNode.cs" />
+    <Compile Include="BrawlLib\SSBB\ResourceNodes\Havok Physics\Meta Nodes\cmStringNode.cs" />
+    <Compile Include="BrawlLib\SSBB\ResourceNodes\Havok Physics\Meta Nodes\cmUIntNode.cs" />
+    <Compile Include="BrawlLib\SSBB\ResourceNodes\Havok Physics\Meta Nodes\cmULongNode.cs" />
+    <Compile Include="BrawlLib\SSBB\ResourceNodes\Havok Physics\Meta Nodes\cmULongPtrNode.cs" />
+    <Compile Include="BrawlLib\SSBB\ResourceNodes\Havok Physics\Meta Nodes\cmUShortNode.cs" />
+    <Compile Include="BrawlLib\SSBB\ResourceNodes\Havok Physics\Meta Nodes\cmVariantNode.cs" />
+    <Compile Include="BrawlLib\SSBB\ResourceNodes\Havok Physics\Meta Nodes\cmVec4Node.cs" />
+    <Compile Include="BrawlLib\SSBB\ResourceNodes\IAttributeList.cs" />
+    <Compile Include="BrawlLib\SSBB\ResourceNodes\ISONode.cs" />
+    <Compile Include="BrawlLib\SSBB\ResourceNodes\ItmFreqNode.cs" />
+    <Compile Include="BrawlLib\SSBB\ResourceNodes\MasqueradeNode.cs" />
     <Compile Include="BrawlLib\SSBB\ResourceNodes\MDL0\MDL0BoneNode.cs" />
     <Compile Include="BrawlLib\SSBB\ResourceNodes\MDL0\MDL0ColorNode.cs" />
     <Compile Include="BrawlLib\SSBB\ResourceNodes\MDL0\MDL0DefNode.cs" />
+    <Compile Include="BrawlLib\SSBB\ResourceNodes\MDL0\MDL0FurPosNode.cs" />
+    <Compile Include="BrawlLib\SSBB\ResourceNodes\MDL0\MDL0FurVecNode.cs" />
     <Compile Include="BrawlLib\SSBB\ResourceNodes\MDL0\MDL0GroupNode.cs" />
     <Compile Include="BrawlLib\SSBB\ResourceNodes\MDL0\MDL0MaterialNode.cs" />
     <Compile Include="BrawlLib\SSBB\ResourceNodes\MDL0\MDL0MaterialRefNode.cs" />
     <Compile Include="BrawlLib\SSBB\ResourceNodes\MDL0\MDL0Node.cs" />
     <Compile Include="BrawlLib\SSBB\ResourceNodes\MDL0\MDL0NormalNode.cs" />
-    <Compile Include="BrawlLib\SSBB\ResourceNodes\MDL0\MDL0PolygonNode.cs" />
+    <Compile Include="BrawlLib\SSBB\ResourceNodes\MDL0\MDL0ObjectNode.cs" />
     <Compile Include="BrawlLib\SSBB\ResourceNodes\MDL0\MDL0ShaderNode.cs" />
-    <None Include="BrawlLib\SSBB\ResourceNodes\MDL0\MDL0ShaderStructNode.cs" />
+    <Compile Include="BrawlLib\SSBB\ResourceNodes\MDL0\MDL0TEVStage.cs" />
     <Compile Include="BrawlLib\SSBB\ResourceNodes\MDL0\MDL0TextureNode.cs" />
     <Compile Include="BrawlLib\SSBB\ResourceNodes\MDL0\MDL0UVNode.cs" />
     <Compile Include="BrawlLib\SSBB\ResourceNodes\MDL0\MDL0VertexNode.cs" />
-    <None Include="BrawlLib\SSBB\ResourceNodes\MDL0\TEVNodes\TEVAlphaEnvNode.cs" />
-    <None Include="BrawlLib\SSBB\ResourceNodes\MDL0\TEVNodes\TEVCMDNode.cs" />
-    <None Include="BrawlLib\SSBB\ResourceNodes\MDL0\TEVNodes\TEVColorEnvNode.cs" />
-    <None Include="BrawlLib\SSBB\ResourceNodes\MDL0\TEVNodes\TEVKSelNode.cs" />
-    <None Include="BrawlLib\SSBB\ResourceNodes\MDL0\TEVNodes\TEVNode.cs" />
-    <Compile Include="BrawlLib\SSBB\ResourceNodes\MDL0\TEVNodes\TEVStage.cs" />
-    <None Include="BrawlLib\SSBB\ResourceNodes\MDL0\TEVNodes\TEVTRefNode.cs" />
+    <Compile Include="BrawlLib\SSBB\ResourceNodes\Modules\DOLNode.cs" />
+    <Compile Include="BrawlLib\SSBB\ResourceNodes\Modules\ModuleDataNode.cs" />
+    <Compile Include="BrawlLib\SSBB\ResourceNodes\Modules\RELCommand.cs" />
+    <Compile Include="BrawlLib\SSBB\ResourceNodes\Modules\RELDeConStructorNode.cs" />
+    <Compile Include="BrawlLib\SSBB\ResourceNodes\Modules\RELMethodNode.cs" />
+    <Compile Include="BrawlLib\SSBB\ResourceNodes\Modules\RELMiscNodes.cs" />
+    <Compile Include="BrawlLib\SSBB\ResourceNodes\Modules\RELNode.cs" />
+    <Compile Include="BrawlLib\SSBB\ResourceNodes\Modules\RELObjectNode.cs" />
+    <Compile Include="BrawlLib\SSBB\ResourceNodes\Modules\RELObjectParser.cs" />
+    <Compile Include="BrawlLib\SSBB\ResourceNodes\Modules\RelocationManager.cs" />
+    <Compile Include="BrawlLib\SSBB\ResourceNodes\Modules\RELSectionNode.cs" />
+    <Compile Include="BrawlLib\SSBB\ResourceNodes\Modules\RELType.cs" />
     <Compile Include="BrawlLib\SSBB\ResourceNodes\Moveset\Actions\ActionEventNode.cs" />
     <Compile Include="BrawlLib\SSBB\ResourceNodes\Moveset\Actions\EventParameterNodes.cs" />
     <Compile Include="BrawlLib\SSBB\ResourceNodes\Moveset\Actions\MoveDefActionNode.cs" />
     <Compile Include="BrawlLib\SSBB\ResourceNodes\Moveset\Common Nodes\MoveDefDataCommonNode.cs" />
+    <Compile Include="BrawlLib\SSBB\ResourceNodes\Moveset\Common Nodes\MoveDefPatternPowerMulNode.cs" />
     <Compile Include="BrawlLib\SSBB\ResourceNodes\Moveset\Data Nodes\DataActionFlags.cs" />
     <Compile Include="BrawlLib\SSBB\ResourceNodes\Moveset\Data Nodes\DataActionInterrupts.cs" />
     <Compile Include="BrawlLib\SSBB\ResourceNodes\Moveset\Data Nodes\DataActionOverrideNode.cs" />
@@ -222,47 +807,50 @@
     <Compile Include="BrawlLib\SSBB\ResourceNodes\Moveset\Data Nodes\DataUnk7Node.cs" />
     <Compile Include="BrawlLib\SSBB\ResourceNodes\Moveset\Data Nodes\MoveDefDataNode.cs" />
     <Compile Include="BrawlLib\SSBB\ResourceNodes\Moveset\Data Nodes\MoveDefStaticArticleGroupNode.cs" />
+    <Compile Include="BrawlLib\SSBB\ResourceNodes\Moveset\Items\AnimParamNode.cs" />
     <Compile Include="BrawlLib\SSBB\ResourceNodes\Moveset\MoveDefCharSpecific.cs" />
     <Compile Include="BrawlLib\SSBB\ResourceNodes\Moveset\MoveDefGeneralNodes.cs" />
     <Compile Include="BrawlLib\SSBB\ResourceNodes\Moveset\MoveDefLookupNode.cs" />
     <Compile Include="BrawlLib\SSBB\ResourceNodes\Moveset\MoveDefNode.cs" />
-    <Compile Include="BrawlLib\SSBB\ResourceNodes\Moveset\MoveDefParams.cs" />
     <Compile Include="BrawlLib\SSBB\ResourceNodes\Moveset\MoveDefStringTables.cs" />
     <Compile Include="BrawlLib\SSBB\ResourceNodes\Moveset\MovesetConverter.cs" />
     <Compile Include="BrawlLib\SSBB\ResourceNodes\Moveset\SectionParamsNode.cs" />
     <Compile Include="BrawlLib\SSBB\ResourceNodes\MSBinNode.cs" />
     <Compile Include="BrawlLib\SSBB\ResourceNodes\NodeFactory.cs" />
-    <Compile Include="BrawlLib\SSBB\ResourceNodes\PhysicsNode.cs" />
+    <Compile Include="BrawlLib\SSBB\ResourceNodes\NW4RNode.cs" />
+    <Compile Include="BrawlLib\SSBB\ResourceNodes\PathingMiscDataNode.cs" />
+    <Compile Include="BrawlLib\SSBB\ResourceNodes\ProjectPlus\ASLSNode.cs" />
+    <Compile Include="BrawlLib\SSBB\ResourceNodes\ProjectPlus\STEXNode.cs" />
+    <Compile Include="BrawlLib\SSBB\ResourceNodes\ProjectPlus\TLSTNode.cs" />
     <Compile Include="BrawlLib\SSBB\ResourceNodes\RASDNode.cs" />
     <Compile Include="BrawlLib\SSBB\ResourceNodes\RawDataNode.cs" />
-    <Compile Include="BrawlLib\SSBB\ResourceNodes\RELNode.cs" />
     <Compile Include="BrawlLib\SSBB\ResourceNodes\ResourceNode.cs" />
     <Compile Include="BrawlLib\SSBB\ResourceNodes\ResourceType.cs" />
     <Compile Include="BrawlLib\SSBB\ResourceNodes\RSAR\File References\RSARBankNode.cs" />
-    <Compile Include="BrawlLib\SSBB\ResourceNodes\RSAR\File References\RSARExtFileNode.cs" />
-    <Compile Include="BrawlLib\SSBB\ResourceNodes\RSAR\File References\RSARFileNode.cs" />
     <Compile Include="BrawlLib\SSBB\ResourceNodes\RSAR\File References\RSARGroupNode.cs" />
+    <Compile Include="BrawlLib\SSBB\ResourceNodes\RSAR\File References\RSARPlayerInfoNode.cs" />
     <Compile Include="BrawlLib\SSBB\ResourceNodes\RSAR\File References\RSARSoundNode.cs" />
-    <Compile Include="BrawlLib\SSBB\ResourceNodes\RSAR\File References\RSARTypeNode.cs" />
     <Compile Include="BrawlLib\SSBB\ResourceNodes\RSAR\File Types\RBNK\RBNKDataNode.cs" />
     <Compile Include="BrawlLib\SSBB\ResourceNodes\RSAR\File Types\RBNK\RBNKGroupNode.cs" />
     <Compile Include="BrawlLib\SSBB\ResourceNodes\RSAR\File Types\RBNK\RBNKNode.cs" />
-    <Compile Include="BrawlLib\SSBB\ResourceNodes\RSAR\File Types\RSEQ\RSEQDataNode.cs" />
-    <Compile Include="BrawlLib\SSBB\ResourceNodes\RSAR\File Types\RSEQ\RSEQGroupNode.cs" />
     <Compile Include="BrawlLib\SSBB\ResourceNodes\RSAR\File Types\RSEQ\RSEQLabelNode.cs" />
     <Compile Include="BrawlLib\SSBB\ResourceNodes\RSAR\File Types\RSEQ\RSEQNode.cs" />
+    <Compile Include="BrawlLib\SSBB\ResourceNodes\RSAR\File Types\RSTMNode.cs" />
+    <Compile Include="BrawlLib\SSBB\ResourceNodes\RSAR\File Types\RWAR\RWARNode.cs" />
+    <Compile Include="BrawlLib\SSBB\ResourceNodes\RSAR\File Types\RWAR\RWAVNode.cs" />
     <Compile Include="BrawlLib\SSBB\ResourceNodes\RSAR\File Types\RWSD\RWSDDataNode.cs" />
     <Compile Include="BrawlLib\SSBB\ResourceNodes\RSAR\File Types\RWSD\RWSDGroupNode.cs" />
     <Compile Include="BrawlLib\SSBB\ResourceNodes\RSAR\File Types\RWSD\RWSDNode.cs" />
-    <Compile Include="BrawlLib\SSBB\ResourceNodes\RSAR\File Types\RWSD\RWSDSoundNode.cs" />
-    <Compile Include="BrawlLib\SSBB\ResourceNodes\RSAR\FILENode.cs" />
-    <Compile Include="BrawlLib\SSBB\ResourceNodes\RSAR\INFONode.cs" />
+    <Compile Include="BrawlLib\SSBB\ResourceNodes\RSAR\File Types\WAVESoundNode.cs" />
     <Compile Include="BrawlLib\SSBB\ResourceNodes\RSAR\RSAREntryNode.cs" />
+    <Compile Include="BrawlLib\SSBB\ResourceNodes\RSAR\RSARExtFileNode.cs" />
+    <Compile Include="BrawlLib\SSBB\ResourceNodes\RSAR\RSARFileNode.cs" />
     <Compile Include="BrawlLib\SSBB\ResourceNodes\RSAR\RSARFolderNode.cs" />
-    <Compile Include="BrawlLib\SSBB\ResourceNodes\RSAR\RSARListNode.cs" />
     <Compile Include="BrawlLib\SSBB\ResourceNodes\RSAR\RSARNode.cs" />
-    <Compile Include="BrawlLib\SSBB\ResourceNodes\RSAR\SYMBNode.cs" />
-    <Compile Include="BrawlLib\SSBB\ResourceNodes\RSTMNode.cs" />
+    <Compile Include="BrawlLib\SSBB\ResourceNodes\SakuraiArchiveNode.cs" />
+    <Compile Include="BrawlLib\SSBB\ResourceNodes\SakuraiEntryNode.cs" />
+    <Compile Include="BrawlLib\SSBB\ResourceNodes\SakuraiGeneral.cs" />
+    <Compile Include="BrawlLib\SSBB\ResourceNodes\SCLANode.cs" />
     <Compile Include="BrawlLib\SSBB\ResourceNodes\SCN0\SCN0AmbientLightNode.cs" />
     <Compile Include="BrawlLib\SSBB\ResourceNodes\SCN0\SCN0CameraNode.cs" />
     <Compile Include="BrawlLib\SSBB\ResourceNodes\SCN0\SCN0FogNode.cs" />
@@ -270,313 +858,170 @@
     <Compile Include="BrawlLib\SSBB\ResourceNodes\SCN0\SCN0LightNode.cs" />
     <Compile Include="BrawlLib\SSBB\ResourceNodes\SCN0\SCN0LightSetNode.cs" />
     <Compile Include="BrawlLib\SSBB\ResourceNodes\SCN0\SCN0Node.cs" />
+    <Compile Include="BrawlLib\SSBB\ResourceNodes\SndBgmTitleDataNode.cs" />
+    <Compile Include="BrawlLib\SSBB\ResourceNodes\Stage Tables\StageTableNode.cs" />
+    <Compile Include="BrawlLib\SSBB\ResourceNodes\Stage Tables\STDTNode.cs" />
+    <Compile Include="BrawlLib\SSBB\ResourceNodes\Stage Tables\TBCLNode.cs" />
+    <Compile Include="BrawlLib\SSBB\ResourceNodes\Stage Tables\TBGCNode.cs" />
+    <Compile Include="BrawlLib\SSBB\ResourceNodes\Stage Tables\TBGDNode.cs" />
+    <Compile Include="BrawlLib\SSBB\ResourceNodes\Stage Tables\TBGMNode.cs" />
+    <Compile Include="BrawlLib\SSBB\ResourceNodes\Stage Tables\TBLVNode.cs" />
+    <Compile Include="BrawlLib\SSBB\ResourceNodes\Stage Tables\TBNode.cs" />
+    <Compile Include="BrawlLib\SSBB\ResourceNodes\Stage Tables\TBRMNode.cs" />
+    <Compile Include="BrawlLib\SSBB\ResourceNodes\Stage Tables\TBSTNode.cs" />
     <Compile Include="BrawlLib\SSBB\ResourceNodes\STPMNode.cs" />
+    <Compile Include="BrawlLib\SSBB\ResourceNodes\Subspace\ADPMNode.cs" />
+    <Compile Include="BrawlLib\SSBB\ResourceNodes\Subspace\Animation\GCAMNode.cs" />
+    <Compile Include="BrawlLib\SSBB\ResourceNodes\Subspace\Animation\GLK2Node.cs" />
+    <Compile Include="BrawlLib\SSBB\ResourceNodes\Subspace\Animation\GLOKNode.cs" />
+    <Compile Include="BrawlLib\SSBB\ResourceNodes\Subspace\Animation\GMOTNode.cs" />
+    <Compile Include="BrawlLib\SSBB\ResourceNodes\Subspace\Animation\GMOVNode.cs" />
+    <Compile Include="BrawlLib\SSBB\ResourceNodes\Subspace\BLOCNode.cs" />
+    <Compile Include="BrawlLib\SSBB\ResourceNodes\Subspace\Graphics\GNDVNode.cs" />
+    <Compile Include="BrawlLib\SSBB\ResourceNodes\Subspace\Hazards\GEG1Node.cs" />
+    <Compile Include="BrawlLib\SSBB\ResourceNodes\Subspace\Hazards\GFG1Node.cs" />
+    <Compile Include="BrawlLib\SSBB\ResourceNodes\Subspace\Hazards\GWATNode.cs" />
+    <Compile Include="BrawlLib\SSBB\ResourceNodes\Subspace\MVPMNode.cs" />
+    <Compile Include="BrawlLib\SSBB\ResourceNodes\Subspace\Navigation\ADSJNode.cs" />
+    <Compile Include="BrawlLib\SSBB\ResourceNodes\Subspace\Navigation\GDORNode.cs" />
+    <Compile Include="BrawlLib\SSBB\ResourceNodes\Subspace\Objects\GBLKNode.cs" />
+    <Compile Include="BrawlLib\SSBB\ResourceNodes\Subspace\Objects\GIB2Node.cs" />
+    <Compile Include="BrawlLib\SSBB\ResourceNodes\Subspace\Objects\GITMNode.cs" />
+    <Compile Include="BrawlLib\SSBB\ResourceNodes\Subspace\Objects\GMPSNode.cs" />
+    <Compile Include="BrawlLib\SSBB\ResourceNodes\Subspace\Sound\BGMGNode.cs" />
+    <Compile Include="BrawlLib\SSBB\ResourceNodes\Subspace\Sound\GSNDNode.cs" />
+    <Compile Include="BrawlLib\SSBB\ResourceNodes\Subspace\Triggers\GET1Node.cs" />
+    <Compile Include="BrawlLib\SSBB\ResourceNodes\THPNode.cs" />
+    <Compile Include="BrawlLib\SSBB\ResourceNodes\TyDataNode.cs" />
+    <Compile Include="BrawlLib\SSBB\SakuraiArchiveBuilder.cs" />
+    <Compile Include="BrawlLib\SSBB\SakuraiLookupManager.cs" />
+    <Compile Include="BrawlLib\SSBB\Stage.cs" />
     <Compile Include="BrawlLib\SSBB\StringTable.cs" />
+    <Compile Include="BrawlLib\SSBB\SupportedFilesHandler.cs" />
     <Compile Include="BrawlLib\SSBB\Types\AI.cs" />
+    <Compile Include="BrawlLib\SSBB\Types\AllStarStageTbl.cs" />
+    <Compile Include="BrawlLib\SSBB\Types\Animations\CHR0.cs" />
+    <Compile Include="BrawlLib\SSBB\Types\Animations\CLR0.cs" />
+    <Compile Include="BrawlLib\SSBB\Types\Animations\PAT0.cs" />
+    <Compile Include="BrawlLib\SSBB\Types\Animations\SHP0.cs" />
+    <Compile Include="BrawlLib\SSBB\Types\Animations\SRT0.cs" />
+    <Compile Include="BrawlLib\SSBB\Types\Animations\VIS0.cs" />
     <Compile Include="BrawlLib\SSBB\Types\ARC.cs" />
+    <Compile Include="BrawlLib\SSBB\Types\Audio\CSTM.cs" />
+    <Compile Include="BrawlLib\SSBB\Types\Audio\FSTM.cs" />
+    <Compile Include="BrawlLib\SSBB\Types\Audio\RBNK.cs" />
+    <Compile Include="BrawlLib\SSBB\Types\Audio\RSAR.cs" />
+    <Compile Include="BrawlLib\SSBB\Types\Audio\RSEQ.cs" />
+    <Compile Include="BrawlLib\SSBB\Types\Audio\RSTM.cs" />
+    <Compile Include="BrawlLib\SSBB\Types\Audio\RWAR.cs" />
+    <Compile Include="BrawlLib\SSBB\Types\Audio\RWAV.cs" />
+    <Compile Include="BrawlLib\SSBB\Types\Audio\RWSD.cs" />
+    <Compile Include="BrawlLib\SSBB\Types\BrawlEx\COSC.cs" />
+    <Compile Include="BrawlLib\SSBB\Types\BrawlEx\CSSC.cs" />
+    <Compile Include="BrawlLib\SSBB\Types\BrawlEx\FCFG.cs" />
+    <Compile Include="BrawlLib\SSBB\Types\BrawlEx\RSTC.cs" />
+    <Compile Include="BrawlLib\SSBB\Types\BrawlEx\SLTC.cs" />
     <Compile Include="BrawlLib\SSBB\Types\BRES.cs" />
-    <Compile Include="BrawlLib\SSBB\Types\CHR0.cs" />
-    <Compile Include="BrawlLib\SSBB\Types\CLR0.cs" />
+    <Compile Include="BrawlLib\SSBB\Types\ClassicStageTbl.cs" />
+    <Compile Include="BrawlLib\SSBB\Types\CMM.cs" />
     <Compile Include="BrawlLib\SSBB\Types\CollisionDef.cs" />
     <Compile Include="BrawlLib\SSBB\Types\Common.cs" />
+    <Compile Include="BrawlLib\SSBB\Types\Common2Tbl.cs" />
     <Compile Include="BrawlLib\SSBB\Types\DOL.cs" />
     <Compile Include="BrawlLib\SSBB\Types\EFLS.cs" />
+    <Compile Include="BrawlLib\SSBB\Types\EventMatch.cs" />
     <Compile Include="BrawlLib\SSBB\Types\FighterDefEnums.cs" />
     <Compile Include="BrawlLib\SSBB\Types\FighterDefinition.cs" />
+    <Compile Include="BrawlLib\SSBB\Types\HKX.cs" />
+    <Compile Include="BrawlLib\SSBB\Types\ISO.cs" />
+    <Compile Include="BrawlLib\SSBB\Types\ItmFreq.cs" />
+    <Compile Include="BrawlLib\SSBB\Types\LM BIN.cs" />
+    <Compile Include="BrawlLib\SSBB\Types\MasqueradeEntry.cs" />
     <Compile Include="BrawlLib\SSBB\Types\MDL0.cs" />
     <Compile Include="BrawlLib\SSBB\Types\MRG.cs" />
-    <Compile Include="BrawlLib\SSBB\Types\PAT0.cs" />
-    <Compile Include="BrawlLib\SSBB\Types\Physics.cs" />
+    <Compile Include="BrawlLib\SSBB\Types\Parameters.cs" />
+    <Compile Include="BrawlLib\SSBB\Types\PathingMiscData.cs" />
     <Compile Include="BrawlLib\SSBB\Types\PLT0.cs" />
+    <Compile Include="BrawlLib\SSBB\Types\ProjectPlus\ASLS.cs" />
+    <Compile Include="BrawlLib\SSBB\Types\ProjectPlus\STEX.cs" />
+    <Compile Include="BrawlLib\SSBB\Types\ProjectPlus\TLST.cs" />
     <Compile Include="BrawlLib\SSBB\Types\RASD.cs" />
-    <Compile Include="BrawlLib\SSBB\Types\RBNK.cs" />
     <Compile Include="BrawlLib\SSBB\Types\REFF.cs" />
     <Compile Include="BrawlLib\SSBB\Types\REFT.cs" />
     <Compile Include="BrawlLib\SSBB\Types\REL.cs" />
-    <Compile Include="BrawlLib\SSBB\Types\ROOT.cs" />
-    <Compile Include="BrawlLib\SSBB\Types\RSAR.cs" />
-    <Compile Include="BrawlLib\SSBB\Types\RSEQ.cs" />
-    <Compile Include="BrawlLib\SSBB\Types\RSTM.cs" />
-    <Compile Include="BrawlLib\SSBB\Types\RWSD.cs" />
+    <Compile Include="BrawlLib\SSBB\Types\RFNT.cs" />
+    <Compile Include="BrawlLib\SSBB\Types\SakuraiArchive.cs" />
+    <Compile Include="BrawlLib\SSBB\Types\SCLA.cs" />
     <Compile Include="BrawlLib\SSBB\Types\SCN0.cs" />
-    <Compile Include="BrawlLib\SSBB\Types\SHP0.cs" />
-    <Compile Include="BrawlLib\SSBB\Types\SRT0.cs" />
-    <Compile Include="BrawlLib\SSBB\Types\STPM.cs" />
+    <Compile Include="BrawlLib\SSBB\Types\SndBgmTitle.cs" />
+    <Compile Include="BrawlLib\SSBB\Types\Stage Tables\STDT.cs" />
+    <Compile Include="BrawlLib\SSBB\Types\Stage Tables\TB.cs" />
+    <Compile Include="BrawlLib\SSBB\Types\Stage Tables\TBCLEntry.cs" />
+    <Compile Include="BrawlLib\SSBB\Types\Stage Tables\TBGCEntry.cs" />
+    <Compile Include="BrawlLib\SSBB\Types\Stage Tables\TBGDEntry.cs" />
+    <Compile Include="BrawlLib\SSBB\Types\Stage Tables\TBGMEntry.cs" />
+    <Compile Include="BrawlLib\SSBB\Types\Stage Tables\TBLVEntry.cs" />
+    <Compile Include="BrawlLib\SSBB\Types\Stage Tables\TBRMEntry.cs" />
+    <Compile Include="BrawlLib\SSBB\Types\Stage Tables\TBSTEntry.cs" />
+    <Compile Include="BrawlLib\SSBB\Types\SubActionID.cs" />
+    <Compile Include="BrawlLib\SSBB\Types\Subspace\Animation\GCAM.cs" />
+    <Compile Include="BrawlLib\SSBB\Types\Subspace\Animation\GLK2.cs" />
+    <Compile Include="BrawlLib\SSBB\Types\Subspace\Animation\GLOK.cs" />
+    <Compile Include="BrawlLib\SSBB\Types\Subspace\Animation\GMOT.cs" />
+    <Compile Include="BrawlLib\SSBB\Types\Subspace\Animation\GMOV.cs" />
+    <Compile Include="BrawlLib\SSBB\Types\Subspace\BLOC.cs" />
+    <Compile Include="BrawlLib\SSBB\Types\Subspace\Graphics\GNDV.cs" />
+    <Compile Include="BrawlLib\SSBB\Types\Subspace\Hazards\GEG1.cs" />
+    <Compile Include="BrawlLib\SSBB\Types\Subspace\Hazards\GFG1.cs" />
+    <Compile Include="BrawlLib\SSBB\Types\Subspace\Hazards\GWAT.cs" />
+    <Compile Include="BrawlLib\SSBB\Types\Subspace\Navigation\ADSJ.cs" />
+    <Compile Include="BrawlLib\SSBB\Types\Subspace\Navigation\GDOR.cs" />
+    <Compile Include="BrawlLib\SSBB\Types\Subspace\Objects\GBLK.cs" />
+    <Compile Include="BrawlLib\SSBB\Types\Subspace\Objects\GIB2.cs" />
+    <Compile Include="BrawlLib\SSBB\Types\Subspace\Objects\GITM.cs" />
+    <Compile Include="BrawlLib\SSBB\Types\Subspace\Objects\GMPS.cs" />
+    <Compile Include="BrawlLib\SSBB\Types\Subspace\Sound\BGMG.cs" />
+    <Compile Include="BrawlLib\SSBB\Types\Subspace\Sound\GSND.cs" />
+    <Compile Include="BrawlLib\SSBB\Types\Subspace\Triggers\GET1.cs" />
     <Compile Include="BrawlLib\SSBB\Types\TEX0.cs" />
     <Compile Include="BrawlLib\SSBB\Types\THP.cs" />
-    <Compile Include="BrawlLib\SSBB\Types\VIS0.cs" />
-    <Compile Include="BrawlLib\SSBB\Types\YAZ0U8.cs" />
-    <Compile Include="BrawlLib\System\Audio\AudioBuffer.cs" />
-    <Compile Include="BrawlLib\System\Audio\AudioDevice.cs" />
-    <Compile Include="BrawlLib\System\Audio\AudioProvider.cs" />
-    <Compile Include="BrawlLib\System\Audio\BufferData.cs" />
-    <Compile Include="BrawlLib\System\Audio\IAudioSource.cs" />
-    <Compile Include="BrawlLib\System\Audio\IAudioStream.cs" />
-    <Compile Include="BrawlLib\System\Audio\PCMStream.cs" />
-    <Compile Include="BrawlLib\System\Audio\wAudioBuffer.cs" />
-    <Compile Include="BrawlLib\System\Audio\wAudioDevice.cs" />
-    <Compile Include="BrawlLib\System\Audio\wAudioProvider.cs" />
-    <Compile Include="BrawlLib\System\Audio\WAV.cs" />
-    <Compile Include="BrawlLib\System\ByteExtension.cs" />
-    <None Include="BrawlLib\System\ComponentModel\CustomPropertyDescriptor.cs" />
-    <None Include="BrawlLib\System\ComponentModel\DelegatePropertyDescriptor.cs" />
-    <Compile Include="BrawlLib\System\DoubleExtension.cs" />
-    <Compile Include="BrawlLib\System\Drawing\BitmapExtention.cs" />
-    <Compile Include="BrawlLib\System\Drawing\Imaging\ColorPaletteExtension.cs" />
-    <Compile Include="BrawlLib\System\DropDownLists.cs" />
-    <Compile Include="BrawlLib\System\DVector3.cs" />
-    <Compile Include="BrawlLib\System\Int16Extension.cs" />
-    <Compile Include="BrawlLib\System\Int24.cs" />
-    <Compile Include="BrawlLib\System\Int32Extension.cs" />
-    <Compile Include="BrawlLib\System\Int64Extension.cs" />
-    <Compile Include="BrawlLib\System\IO\FileAssociation.cs" />
-    <Compile Include="BrawlLib\System\IO\FileMap.cs" />
-    <Compile Include="BrawlLib\System\IO\StreamExtension.cs" />
-    <Compile Include="BrawlLib\System\IO\UnsafeStream.cs" />
-    <Compile Include="BrawlLib\System\IO\XmlReader.cs" />
-    <Compile Include="BrawlLib\System\Matrix.cs" />
-    <Compile Include="BrawlLib\System\Matrix43.cs" />
-    <Compile Include="BrawlLib\System\Matrix4d.cs" />
-    <Compile Include="BrawlLib\System\Memory.cs" />
-    <Compile Include="BrawlLib\System\MemoryList.cs" />
-    <Compile Include="BrawlLib\System\PString.cs" />
-    <Compile Include="BrawlLib\System\Quaternion.cs" />
-    <Compile Include="BrawlLib\System\Reflection\MemberInfoExtension.cs" />
-    <Compile Include="BrawlLib\System\Reflection\MethodInfoExtension.cs" />
-    <Compile Include="BrawlLib\System\Remapper.cs" />
-    <Compile Include="BrawlLib\System\RoundingExtensions.cs" />
-    <Compile Include="BrawlLib\System\SingleExtension.cs" />
-    <Compile Include="BrawlLib\System\StringConverters.cs" />
-    <Compile Include="BrawlLib\System\StringExtension.cs" />
-    <Compile Include="BrawlLib\System\UInt16Extension.cs" />
-    <Compile Include="BrawlLib\System\UInt32Extension.cs" />
-    <Compile Include="BrawlLib\System\UnsafeBuffer.cs" />
-    <Compile Include="BrawlLib\System\Vector2.cs" />
-    <Compile Include="BrawlLib\System\Vector3.cs" />
-    <Compile Include="BrawlLib\System\Vector4.cs" />
-    <Compile Include="BrawlLib\System\ViewerSettingsFile.cs" />
-    <Compile Include="BrawlLib\System\VoidPtr.cs" />
-    <Compile Include="BrawlLib\System\VQuant.cs" />
-    <Compile Include="BrawlLib\System\Windows\BigEndianTypes.cs" />
-    <Compile Include="BrawlLib\System\Windows\Forms\AnimEditControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="BrawlLib\System\Windows\Forms\AudioPlaybackPanel.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="BrawlLib\System\Windows\Forms\BrstmConverterDialog.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="BrawlLib\System\Windows\Forms\BufferedPanel.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="BrawlLib\System\Windows\Forms\ChangeToDialog.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="BrawlLib\System\Windows\Forms\ChangeToDialog2.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="BrawlLib\System\Windows\Forms\CLRControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="BrawlLib\System\Windows\Forms\CollisionEditor.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="BrawlLib\System\Windows\Forms\CollisionForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="BrawlLib\System\Windows\Forms\CustomTrackBar.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="BrawlLib\System\Windows\Forms\EditDialog.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="BrawlLib\System\Windows\Forms\ExportAllAskFormat.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="BrawlLib\System\Windows\Forms\ExportAllAskFormat.designer.cs">
-      <DependentUpon>ExportAllAskFormat.cs</DependentUpon>
-    </Compile>
-    <Compile Include="BrawlLib\System\Windows\Forms\GLTexturePanel.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="BrawlLib\System\Windows\Forms\GLTextureWindow.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="BrawlLib\System\Windows\Forms\GoodColorControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="BrawlLib\System\Windows\Forms\GoodColorDialog.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="BrawlLib\System\Windows\Forms\GoodPictureBox.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="BrawlLib\System\Windows\Forms\GoodProgressBar.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="BrawlLib\System\Windows\Forms\GradientDialog.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="BrawlLib\System\Windows\Forms\IProgressTracker.cs" />
-    <Compile Include="BrawlLib\System\Windows\Forms\Model Previewer\Editors\CHR0Editor.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="BrawlLib\System\Windows\Forms\Model Previewer\Editors\PAT0Editor.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="BrawlLib\System\Windows\Forms\Model Previewer\Editors\SCN0Editor.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="BrawlLib\System\Windows\Forms\Model Previewer\Editors\SHP0Editor.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="BrawlLib\System\Windows\Forms\Model Previewer\Editors\SRT0Editor.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="BrawlLib\System\Windows\Forms\Model Previewer\Editors\VIS0Editor.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="BrawlLib\System\Windows\Forms\Model Previewer\ModelLightEditor.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="BrawlLib\System\Windows\Forms\Model Previewer\ModelPanel.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="BrawlLib\System\Windows\Forms\Model Previewer\ModelSwitcher.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="BrawlLib\System\Windows\Forms\Model Previewer\NewModelEditControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <None Include="BrawlLib\System\Windows\Forms\Model Previewer\OldModelEditControl.cs">
-      <SubType>UserControl</SubType>
-    </None>
-    <Compile Include="BrawlLib\System\Windows\Forms\Model Previewer\Panels\BonesPanel.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="BrawlLib\System\Windows\Forms\Model Previewer\Panels\LeftPanel.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="BrawlLib\System\Windows\Forms\Model Previewer\Panels\MovesetPanel.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <None Include="BrawlLib\System\Windows\Forms\Model Previewer\Panels\Old\AnimPanel.cs">
-      <SubType>UserControl</SubType>
-    </None>
-    <None Include="BrawlLib\System\Windows\Forms\Model Previewer\Panels\Old\AssetPanel.cs">
-      <SubType>UserControl</SubType>
-    </None>
-    <None Include="BrawlLib\System\Windows\Forms\Model Previewer\Panels\Old\OptionPanel.cs">
-      <SubType>UserControl</SubType>
-    </None>
-    <Compile Include="BrawlLib\System\Windows\Forms\Model Previewer\Panels\PlaybackPanel.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="BrawlLib\System\Windows\Forms\Moveset\ArticleAttributeGrid.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="BrawlLib\System\Windows\Forms\Moveset\AttributeGrid.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="BrawlLib\System\Windows\Forms\Moveset\EventDescription.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="BrawlLib\System\Windows\Forms\Moveset\EventList.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="BrawlLib\System\Windows\Forms\Moveset\EventList.designer.cs">
-      <DependentUpon>EventList.cs</DependentUpon>
-    </Compile>
-    <Compile Include="BrawlLib\System\Windows\Forms\Moveset\EventModifier.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="BrawlLib\System\Windows\Forms\Moveset\EventModifierWindow.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="BrawlLib\System\Windows\Forms\Moveset\OffsetEditor.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="BrawlLib\System\Windows\Forms\Moveset\ScriptEditor.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="BrawlLib\System\Windows\Forms\MSBinEditor.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="BrawlLib\System\Windows\Forms\MSBinTextBox.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="BrawlLib\System\Windows\Forms\NumericInputBox.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="BrawlLib\System\Windows\Forms\ObjectImporter.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="BrawlLib\System\Windows\Forms\ProgressWindow.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="BrawlLib\System\Windows\Forms\ProgressWindow.designer.cs">
-      <DependentUpon>ProgressWindow.cs</DependentUpon>
-    </Compile>
-    <Compile Include="BrawlLib\System\Windows\Forms\ProxySplitter.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="BrawlLib\System\Windows\Forms\RenameDialog.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="BrawlLib\System\Windows\Forms\ShpAnimEditControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="BrawlLib\System\Windows\Forms\SoundPackControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="BrawlLib\System\Windows\Forms\SoundPathChanger.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="BrawlLib\System\Windows\Forms\StringInputComboBox.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="BrawlLib\System\Windows\Forms\TangentEditor.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="BrawlLib\System\Windows\Forms\TexAnimEditControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="BrawlLib\System\Windows\Forms\TextureConverterDialog.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="BrawlLib\System\Windows\Forms\TransformEditControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="BrawlLib\System\Windows\Forms\VisEditor.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
+    <Compile Include="BrawlLib\SSBB\Types\TPL.cs" />
+    <Compile Include="BrawlLib\SSBB\Types\TyData.cs" />
+    <Compile Include="BrawlLib\SSBB\Types\U8.cs" />
+    <Compile Include="BrawlLib\SSBB\UserData.cs" />
     <Compile Include="BrawlLib\Wii\Animations\AnimationConverter.cs" />
     <Compile Include="BrawlLib\Wii\Animations\AnimationFrame.cs" />
+    <Compile Include="BrawlLib\Wii\Animations\AnimFormat.cs" />
+    <Compile Include="BrawlLib\Wii\Animations\CHR0JsonImporter.cs" />
     <Compile Include="BrawlLib\Wii\Animations\CHR0TextImporter.cs" />
     <Compile Include="BrawlLib\Wii\Animations\EncodingTypes.cs" />
     <Compile Include="BrawlLib\Wii\Animations\KeyframeCollection.cs" />
     <Compile Include="BrawlLib\Wii\Audio\ADPCMState.cs" />
     <Compile Include="BrawlLib\Wii\Audio\ADPCMStream.cs" />
     <Compile Include="BrawlLib\Wii\Audio\AudioConverter.cs" />
+    <Compile Include="BrawlLib\Wii\Audio\CSTMConverter.cs" />
+    <Compile Include="BrawlLib\Wii\Audio\FSTMConverter.cs" />
     <Compile Include="BrawlLib\Wii\Audio\RSARConverter.cs" />
+    <Compile Include="BrawlLib\Wii\Audio\RSARSoundConverter.cs" />
     <Compile Include="BrawlLib\Wii\Audio\RSTMConverter.cs" />
-    <Compile Include="BrawlLib\Wii\Compression\Common.cs" />
+    <Compile Include="BrawlLib\Wii\Audio\RWAVConverter.cs" />
+    <Compile Include="BrawlLib\Wii\Compression\CompressionHeader.cs" />
+    <Compile Include="BrawlLib\Wii\Compression\Differential.cs" />
+    <Compile Include="BrawlLib\Wii\Compression\Huffman.cs" />
     <Compile Include="BrawlLib\Wii\Compression\LZ77.cs" />
     <Compile Include="BrawlLib\Wii\Compression\RunLength.cs" />
     <Compile Include="BrawlLib\Wii\Compressor.cs" />
     <Compile Include="BrawlLib\Wii\Graphics\BP.cs" />
     <Compile Include="BrawlLib\Wii\Graphics\CP.cs" />
     <Compile Include="BrawlLib\Wii\Graphics\Enum.cs" />
+    <Compile Include="BrawlLib\Wii\Graphics\ShaderGenerator.cs" />
     <Compile Include="BrawlLib\Wii\Graphics\XF.cs" />
     <Compile Include="BrawlLib\Wii\Models\AnimationCode.cs" />
     <Compile Include="BrawlLib\Wii\Models\AssetStorage.cs" />
-    <Compile Include="BrawlLib\Wii\Models\bMatrix43.cs" />
     <Compile Include="BrawlLib\Wii\Models\ColorCodec.cs" />
     <Compile Include="BrawlLib\Wii\Models\ElementCodec.cs" />
     <Compile Include="BrawlLib\Wii\Models\Enum.cs" />
     <Compile Include="BrawlLib\Wii\Models\InfluenceManager.cs" />
-    <Compile Include="BrawlLib\Wii\Models\ModelConverter.cs" />
     <Compile Include="BrawlLib\Wii\Models\ModelEncoder.cs" />
     <Compile Include="BrawlLib\Wii\Models\ModelLinker.cs" />
     <Compile Include="BrawlLib\Wii\Models\NormalCodec.cs" />
@@ -595,6 +1040,20 @@
     <Compile Include="BrawlLib\Wii\Textures\RGB5A3.cs" />
     <Compile Include="BrawlLib\Wii\Textures\RGBA8.cs" />
     <Compile Include="BrawlLib\Wii\Textures\TextureConverter.cs" />
+    <Compile Include="Form2.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form2.Designer.cs">
+      <DependentUpon>Form2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="multiSawndExportForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="multiSawndExportForm.Designer.cs">
+      <DependentUpon>multiSawndExportForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="StreamSource.cs" />
+    <Compile Include="TextBoxWriter.cs" />
     <Compile Include="brsar.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
@@ -606,160 +1065,112 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="sawndz.cs" />
-    <EmbeddedResource Include="BrawlLib\Modeling\Collada\ColladaImporter.resx">
-      <DependentUpon>ColladaImporter.cs</DependentUpon>
+    <EmbeddedResource Include="BrawlLib\Internal\Windows\Controls\ASLIndicator.resx">
+      <DependentUpon>ASLIndicator.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="BrawlLib\System\Windows\Forms\AnimEditControl.resx">
-      <DependentUpon>AnimEditControl.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="BrawlLib\System\Windows\Forms\AudioPlaybackPanel.resx">
+    <EmbeddedResource Include="BrawlLib\Internal\Windows\Controls\AudioPlaybackPanel.resx">
       <DependentUpon>AudioPlaybackPanel.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="BrawlLib\System\Windows\Forms\BrstmConverterDialog.resx">
-      <DependentUpon>BrstmConverterDialog.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="BrawlLib\System\Windows\Forms\ChangeToDialog.resx">
-      <DependentUpon>ChangeToDialog.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="BrawlLib\System\Windows\Forms\ChangeToDialog2.resx">
-      <DependentUpon>ChangeToDialog2.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="BrawlLib\System\Windows\Forms\CLRControl.resx">
+    <EmbeddedResource Include="BrawlLib\Internal\Windows\Controls\CLRControl.resx">
       <DependentUpon>CLRControl.cs</DependentUpon>
-      <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="BrawlLib\System\Windows\Forms\CollisionEditor.resx">
-      <DependentUpon>CollisionEditor.cs</DependentUpon>
+    <EmbeddedResource Include="BrawlLib\Internal\Windows\Controls\Hex Editor\HexBox.resx">
+      <DependentUpon>HexBox.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="BrawlLib\System\Windows\Forms\CollisionForm.resx">
-      <DependentUpon>CollisionForm.cs</DependentUpon>
+    <EmbeddedResource Include="BrawlLib\Internal\Windows\Controls\InterpolationEditor.resx">
+      <DependentUpon>InterpolationEditor.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="BrawlLib\System\Windows\Forms\EditDialog.resx">
-      <DependentUpon>EditDialog.cs</DependentUpon>
+    <EmbeddedResource Include="BrawlLib\Internal\Windows\Controls\MDL0ObjectControl.resx">
+      <DependentUpon>MDL0ObjectControl.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="BrawlLib\System\Windows\Forms\ExportAllAskFormat.resx">
-      <DependentUpon>ExportAllAskFormat.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="BrawlLib\System\Windows\Forms\GoodColorControl.resx">
-      <DependentUpon>GoodColorControl.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="BrawlLib\System\Windows\Forms\GoodColorDialog.resx">
-      <DependentUpon>GoodColorDialog.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="BrawlLib\System\Windows\Forms\GradientDialog.resx">
-      <DependentUpon>GradientDialog.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="BrawlLib\System\Windows\Forms\Model Previewer\Editors\CHR0Editor.resx">
+    <EmbeddedResource Include="BrawlLib\Internal\Windows\Controls\ModelViewer\Editors\CHR0Editor.resx">
       <DependentUpon>CHR0Editor.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="BrawlLib\System\Windows\Forms\Model Previewer\Editors\PAT0Editor.resx">
-      <DependentUpon>PAT0Editor.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="BrawlLib\System\Windows\Forms\Model Previewer\Editors\SCN0Editor.resx">
-      <DependentUpon>SCN0Editor.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="BrawlLib\System\Windows\Forms\Model Previewer\Editors\SHP0Editor.resx">
-      <DependentUpon>SHP0Editor.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="BrawlLib\System\Windows\Forms\Model Previewer\Editors\SRT0Editor.resx">
+    <EmbeddedResource Include="BrawlLib\Internal\Windows\Controls\ModelViewer\Editors\SRT0Editor.resx">
       <DependentUpon>SRT0Editor.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="BrawlLib\System\Windows\Forms\Model Previewer\Editors\VIS0Editor.resx">
-      <DependentUpon>VIS0Editor.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="BrawlLib\System\Windows\Forms\Model Previewer\ModelLightEditor.resx">
-      <DependentUpon>ModelLightEditor.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="BrawlLib\System\Windows\Forms\Model Previewer\ModelSwitcher.resx">
-      <DependentUpon>ModelSwitcher.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="BrawlLib\System\Windows\Forms\Model Previewer\NewModelEditControl.resx">
-      <DependentUpon>NewModelEditControl.cs</DependentUpon>
-    </EmbeddedResource>
-    <None Include="BrawlLib\System\Windows\Forms\Model Previewer\OldModelEditControl.resx">
-      <DependentUpon>OldModelEditControl.cs</DependentUpon>
-    </None>
-    <EmbeddedResource Include="BrawlLib\System\Windows\Forms\Model Previewer\Panels\BonesPanel.resx">
+    <EmbeddedResource Include="BrawlLib\Internal\Windows\Controls\ModelViewer\Panels\BonesPanel.resx">
       <DependentUpon>BonesPanel.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="BrawlLib\System\Windows\Forms\Model Previewer\Panels\LeftPanel.resx">
-      <DependentUpon>LeftPanel.cs</DependentUpon>
+    <EmbeddedResource Include="BrawlLib\Internal\Windows\Controls\ModelViewer\Panels\OpenedFilesPanel.resx">
+      <DependentUpon>OpenedFilesPanel.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="BrawlLib\System\Windows\Forms\Model Previewer\Panels\MovesetPanel.resx">
-      <DependentUpon>MovesetPanel.cs</DependentUpon>
+    <EmbeddedResource Include="BrawlLib\Internal\Windows\Controls\PowerPcDisassembler.resx">
+      <DependentUpon>PowerPcDisassembler.cs</DependentUpon>
     </EmbeddedResource>
-    <None Include="BrawlLib\System\Windows\Forms\Model Previewer\Panels\Old\AnimPanel.resx">
-      <DependentUpon>AnimPanel.cs</DependentUpon>
-    </None>
-    <None Include="BrawlLib\System\Windows\Forms\Model Previewer\Panels\Old\AssetPanel.resx">
-      <DependentUpon>AssetPanel.cs</DependentUpon>
-    </None>
-    <None Include="BrawlLib\System\Windows\Forms\Model Previewer\Panels\Old\OptionPanel.resx">
-      <DependentUpon>OptionPanel.cs</DependentUpon>
-    </None>
-    <EmbeddedResource Include="BrawlLib\System\Windows\Forms\Model Previewer\Panels\PlaybackPanel.resx">
-      <DependentUpon>PlaybackPanel.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="BrawlLib\System\Windows\Forms\Moveset\ArticleAttributeGrid.resx">
-      <DependentUpon>ArticleAttributeGrid.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="BrawlLib\System\Windows\Forms\Moveset\AttributeGrid.resx">
-      <DependentUpon>AttributeGrid.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="BrawlLib\System\Windows\Forms\Moveset\EventDescription.resx">
-      <DependentUpon>EventDescription.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="BrawlLib\System\Windows\Forms\Moveset\EventList.resx">
-      <DependentUpon>EventList.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="BrawlLib\System\Windows\Forms\Moveset\EventModifier.resx">
-      <DependentUpon>EventModifier.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="BrawlLib\System\Windows\Forms\Moveset\EventModifierWindow.resx">
-      <DependentUpon>EventModifierWindow.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="BrawlLib\System\Windows\Forms\Moveset\OffsetEditor.resx">
-      <DependentUpon>OffsetEditor.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="BrawlLib\System\Windows\Forms\Moveset\ScriptEditor.resx">
-      <DependentUpon>ScriptEditor.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="BrawlLib\System\Windows\Forms\MSBinEditor.resx">
-      <DependentUpon>MSBinEditor.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="BrawlLib\System\Windows\Forms\ObjectImporter.resx">
-      <DependentUpon>ObjectImporter.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="BrawlLib\System\Windows\Forms\ProgressWindow.resx">
-      <DependentUpon>ProgressWindow.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="BrawlLib\System\Windows\Forms\RenameDialog.resx">
-      <DependentUpon>RenameDialog.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="BrawlLib\System\Windows\Forms\ShpAnimEditControl.resx">
-      <DependentUpon>ShpAnimEditControl.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="BrawlLib\System\Windows\Forms\SoundPackControl.resx">
+    <EmbeddedResource Include="BrawlLib\Internal\Windows\Controls\SoundPackControl.resx">
       <DependentUpon>SoundPackControl.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="BrawlLib\System\Windows\Forms\SoundPathChanger.resx">
-      <DependentUpon>SoundPathChanger.cs</DependentUpon>
+    <EmbeddedResource Include="BrawlLib\Internal\Windows\Forms\BrstmConverterDialog.resx">
+      <DependentUpon>BrstmConverterDialog.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="BrawlLib\System\Windows\Forms\TangentEditor.resx">
-      <DependentUpon>TangentEditor.cs</DependentUpon>
+    <EmbeddedResource Include="BrawlLib\Internal\Windows\Forms\EditRSARFileDialog.resx">
+      <DependentUpon>EditRSARFileDialog.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="BrawlLib\System\Windows\Forms\TexAnimEditControl.resx">
-      <DependentUpon>TexAnimEditControl.cs</DependentUpon>
+    <EmbeddedResource Include="BrawlLib\Internal\Windows\Forms\GCTEditor.resx">
+      <DependentUpon>GCTEditor.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="BrawlLib\System\Windows\Forms\TextureConverterDialog.resx">
+    <EmbeddedResource Include="BrawlLib\Internal\Windows\Forms\Moveset\ArticleAttributeGrid.resx">
+      <DependentUpon>ArticleAttributeGrid.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="BrawlLib\Internal\Windows\Forms\Moveset\AttributeGrid.resx">
+      <DependentUpon>AttributeGrid.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="BrawlLib\Internal\Windows\Forms\Moveset\EventDescription.resx">
+      <DependentUpon>EventDescription.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="BrawlLib\Internal\Windows\Forms\Moveset\EventList.resx">
+      <DependentUpon>EventList.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="BrawlLib\Internal\Windows\Forms\Moveset\EventModifier.resx">
+      <DependentUpon>EventModifier.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="BrawlLib\Internal\Windows\Forms\Moveset\EventModifierWindow.resx">
+      <DependentUpon>EventModifierWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="BrawlLib\Internal\Windows\Forms\Moveset\OffsetEditor.resx">
+      <DependentUpon>OffsetEditor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="BrawlLib\Internal\Windows\Forms\NumericInputForm.resx">
+      <DependentUpon>NumericInputForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="BrawlLib\Internal\Windows\Forms\Section Editor\FormFind.resx">
+      <DependentUpon>FormFind.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="BrawlLib\Internal\Windows\Forms\Section Editor\SectionEditor.resx">
+      <DependentUpon>SectionEditor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="BrawlLib\Internal\Windows\Forms\TextureConverterDialog.resx">
       <DependentUpon>TextureConverterDialog.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="BrawlLib\System\Windows\Forms\TransformEditControl.resx">
-      <DependentUpon>TransformEditControl.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="BrawlLib\System\Windows\Forms\VisEditor.resx">
-      <DependentUpon>VisEditor.cs</DependentUpon>
-    </EmbeddedResource>
+    <EmbeddedResource Include="BrawlLib\obj\Debug\net472\BrawlLib.Internal.Windows.Controls.ASLIndicator.resources" />
+    <EmbeddedResource Include="BrawlLib\obj\Debug\net472\BrawlLib.Internal.Windows.Controls.AudioPlaybackPanel.resources" />
+    <EmbeddedResource Include="BrawlLib\obj\Debug\net472\BrawlLib.Internal.Windows.Controls.CLRControl.resources" />
+    <EmbeddedResource Include="BrawlLib\obj\Debug\net472\BrawlLib.Internal.Windows.Controls.Hex_Editor.HexBox.resources" />
+    <EmbeddedResource Include="BrawlLib\obj\Debug\net472\BrawlLib.Internal.Windows.Controls.Hex_Editor.SectionEditor.resources" />
+    <EmbeddedResource Include="BrawlLib\obj\Debug\net472\BrawlLib.Internal.Windows.Controls.InterpolationEditor.resources" />
+    <EmbeddedResource Include="BrawlLib\obj\Debug\net472\BrawlLib.Internal.Windows.Controls.MDL0ObjectControl.resources" />
+    <EmbeddedResource Include="BrawlLib\obj\Debug\net472\BrawlLib.Internal.Windows.Controls.ModelViewer.Editors.CHR0Editor.resources" />
+    <EmbeddedResource Include="BrawlLib\obj\Debug\net472\BrawlLib.Internal.Windows.Controls.ModelViewer.Editors.SRT0Editor.resources" />
+    <EmbeddedResource Include="BrawlLib\obj\Debug\net472\BrawlLib.Internal.Windows.Controls.ModelViewer.Panels.BonesPanel.resources" />
+    <EmbeddedResource Include="BrawlLib\obj\Debug\net472\BrawlLib.Internal.Windows.Controls.PPCDisassembler.resources" />
+    <EmbeddedResource Include="BrawlLib\obj\Debug\net472\BrawlLib.Internal.Windows.Controls.SoundPackControl.resources" />
+    <EmbeddedResource Include="BrawlLib\obj\Debug\net472\BrawlLib.Internal.Windows.Forms.BrstmConverterDialog.resources" />
+    <EmbeddedResource Include="BrawlLib\obj\Debug\net472\BrawlLib.Internal.Windows.Forms.EditRSARFileDialog.resources" />
+    <EmbeddedResource Include="BrawlLib\obj\Debug\net472\BrawlLib.Internal.Windows.Forms.GCTEditor.resources" />
+    <EmbeddedResource Include="BrawlLib\obj\Debug\net472\BrawlLib.Internal.Windows.Forms.Moveset.ArticleAttributeGrid.resources" />
+    <EmbeddedResource Include="BrawlLib\obj\Debug\net472\BrawlLib.Internal.Windows.Forms.Moveset.AttributeGrid.resources" />
+    <EmbeddedResource Include="BrawlLib\obj\Debug\net472\BrawlLib.Internal.Windows.Forms.Moveset.EventDescription.resources" />
+    <EmbeddedResource Include="BrawlLib\obj\Debug\net472\BrawlLib.Internal.Windows.Forms.Moveset.EventList.resources" />
+    <EmbeddedResource Include="BrawlLib\obj\Debug\net472\BrawlLib.Internal.Windows.Forms.Moveset.EventModifier.resources" />
+    <EmbeddedResource Include="BrawlLib\obj\Debug\net472\BrawlLib.Internal.Windows.Forms.Moveset.EventModifierWindow.resources" />
+    <EmbeddedResource Include="BrawlLib\obj\Debug\net472\BrawlLib.Internal.Windows.Forms.Moveset.OffsetEditor.resources" />
+    <EmbeddedResource Include="BrawlLib\obj\Debug\net472\BrawlLib.Internal.Windows.Forms.NumericInputForm.resources" />
+    <EmbeddedResource Include="BrawlLib\obj\Debug\net472\BrawlLib.Internal.Windows.Forms.OpenedFilesControl.resources" />
+    <EmbeddedResource Include="BrawlLib\obj\Debug\net472\BrawlLib.Internal.Windows.Forms.Section_Editor.FormFind.resources" />
+    <EmbeddedResource Include="BrawlLib\obj\Debug\net472\BrawlLib.Internal.Windows.Forms.TextureConverterDialog.resources" />
+    <EmbeddedResource Include="BrawlLib\obj\Debug\net472\BrawlLib.Properties.Resources.resources" />
+    <EmbeddedResource Include="BrawlLib\Properties\Resources.resx" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
@@ -779,6 +1190,31 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <None Include="BrawlLib\bin\AnyCPU\Debug\net472\OpenTK.dll.config" />
+    <None Include="BrawlLib\BrawlLib.csproj" />
+    <None Include="BrawlLib\BrawlLib.txt" />
+    <None Include="BrawlLib\BrawlManagerLib\LICENSE" />
+    <None Include="BrawlLib\HardcodedFiles\Models\Static.mdl0" />
+    <None Include="BrawlLib\HardcodedFiles\Textures\FB.tex0" />
+    <None Include="BrawlLib\HardcodedFiles\Textures\metal00.tex0" />
+    <None Include="BrawlLib\HardcodedFiles\Textures\spycloak00.tex0" />
+    <None Include="BrawlLib\HardcodedFiles\Textures\TShadow1.tex0" />
+    <None Include="BrawlLib\Internal\Windows\Controls\Hex Editor\HexBox.snk" />
+    <None Include="BrawlLib\obj\BrawlLib.csproj.nuget.dgspec.json" />
+    <None Include="BrawlLib\obj\BrawlLib.csproj.nuget.g.props" />
+    <None Include="BrawlLib\obj\BrawlLib.csproj.nuget.g.targets" />
+    <None Include="BrawlLib\obj\Debug\net472\BrawlLib.AssemblyInfoInputs.cache" />
+    <None Include="BrawlLib\obj\Debug\net472\BrawlLib.assets.cache" />
+    <None Include="BrawlLib\obj\Debug\net472\BrawlLib.csproj.AssemblyReference.cache" />
+    <None Include="BrawlLib\obj\Debug\net472\BrawlLib.csproj.CopyComplete" />
+    <None Include="BrawlLib\obj\Debug\net472\BrawlLib.csproj.CoreCompileInputs.cache" />
+    <None Include="BrawlLib\obj\Debug\net472\BrawlLib.csproj.GenerateResource.cache" />
+    <None Include="BrawlLib\obj\Debug\net472\BrawlLib.csprojAssemblyReference.cache" />
+    <None Include="BrawlLib\obj\Debug\net472\BrawlLib.GeneratedMSBuildEditorConfig.editorconfig" />
+    <None Include="BrawlLib\obj\project.assets.json" />
+    <None Include="BrawlLib\obj\project.nuget.cache" />
+    <None Include="BrawlLib\OpenTK.dll.config" />
+    <None Include="BrawlLib\Properties\Settings.settings" />
     <None Include="lavaResawndz\lavaResawndz.vcxproj" />
     <None Include="lavaResawndz\VGAudio\LICENSE" />
     <None Include="Properties\Settings.settings">
@@ -792,10 +1228,85 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="BrawlLib\BrawlLib.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <Content Include="BrawlLib\System\Windows\Forms\Ookii.Dialogs\license.txt" />
+    <Content Include="BrawlLib\bin\AnyCPU\Debug\net472\BrawlLib.dll" />
+    <Content Include="BrawlLib\bin\AnyCPU\Debug\net472\BrawlLib.pdb" />
+    <Content Include="BrawlLib\bin\AnyCPU\Debug\net472\CustomLists\AboutCustomLists.txt" />
+    <Content Include="BrawlLib\bin\AnyCPU\Debug\net472\CustomLists\Project M 3.6 Stage List - Move to the main folder if you wish to use it\StageList.txt" />
+    <Content Include="BrawlLib\bin\AnyCPU\Debug\net472\OpenTK.dll" />
+    <Content Include="BrawlLib\BrawlLib.csproj.user" />
+    <Content Include="BrawlLib\CustomLists\AboutCustomLists.txt" />
+    <Content Include="BrawlLib\CustomLists\FighterList.txt" />
+    <Content Include="BrawlLib\CustomLists\Project M 3.6 Stage List - Move to the main folder if you wish to use it\StageList.txt" />
+    <Content Include="BrawlLib\CustomLists\StageList.txt" />
+    <Content Include="BrawlLib\InternalDocumentation\Module\ft_diddy\Section [1].txt" />
+    <Content Include="BrawlLib\InternalDocumentation\Module\ft_link\Section [1].txt" />
+    <Content Include="BrawlLib\InternalDocumentation\Module\ft_lucario\Section [1].txt" />
+    <Content Include="BrawlLib\InternalDocumentation\Module\ft_peach\Section [1].txt" />
+    <Content Include="BrawlLib\InternalDocumentation\Module\ft_pikmin\Section [1].txt" />
+    <Content Include="BrawlLib\InternalDocumentation\Module\ft_snake\Section [1].txt" />
+    <Content Include="BrawlLib\InternalDocumentation\Module\ft_wario\Section [1].txt" />
+    <Content Include="BrawlLib\InternalDocumentation\Module\maps\FunctionMapsGoHere.txt" />
+    <Content Include="BrawlLib\InternalDocumentation\Module\sora_menu_main\Section [5].txt" />
+    <Content Include="BrawlLib\InternalDocumentation\Module\st_donkey\Section [1].txt" />
+    <Content Include="BrawlLib\InternalDocumentation\Module\st_donkey\Section [4].txt" />
+    <Content Include="BrawlLib\InternalDocumentation\Module\st_dxgarden\Section [1].txt" />
+    <Content Include="BrawlLib\InternalDocumentation\Module\st_dxgarden\Section [4].txt" />
+    <Content Include="BrawlLib\InternalDocumentation\Module\st_dxgreens\Section [1].txt" />
+    <Content Include="BrawlLib\InternalDocumentation\Module\st_dxgreens\Section [4].txt" />
+    <Content Include="BrawlLib\InternalDocumentation\Module\st_dxpstadium\Section [4].txt" />
+    <Content Include="BrawlLib\InternalDocumentation\Module\st_dxrcruise\Section [4].txt" />
+    <Content Include="BrawlLib\InternalDocumentation\Module\st_dxzebes\Section [1].txt" />
+    <Content Include="BrawlLib\InternalDocumentation\Module\st_earth\Section [4].txt" />
+    <Content Include="BrawlLib\InternalDocumentation\Module\st_famicom\Section [1].txt" />
+    <Content Include="BrawlLib\InternalDocumentation\Module\st_halberd\Section [4].txt" />
+    <Content Include="BrawlLib\InternalDocumentation\Module\st_ice\Section [1].txt" />
+    <Content Include="BrawlLib\InternalDocumentation\Module\st_ice\Section [4].txt" />
+    <Content Include="BrawlLib\InternalDocumentation\Module\st_mariopast\Section [1].txt" />
+    <Content Include="BrawlLib\InternalDocumentation\Module\st_newpork\Section [5].txt" />
+    <Content Include="BrawlLib\InternalDocumentation\Module\st_orpheon\Section [4].txt" />
+    <Content Include="BrawlLib\InternalDocumentation\Module\st_palutena\Section [4].txt" />
+    <Content Include="BrawlLib\InternalDocumentation\Module\st_plankton\Section [1].txt" />
+    <Content Include="BrawlLib\InternalDocumentation\Module\st_plankton\Section [4].txt" />
+    <Content Include="BrawlLib\InternalDocumentation\Module\st_stadium\Section [4].txt" />
+    <Content Include="BrawlLib\InternalDocumentation\Module\st_tbreak\Section [1].txt" />
+    <Content Include="BrawlLib\InternalDocumentation\Module\st_tbreak\Section [4].txt" />
+    <Content Include="BrawlLib\InternalDocumentation\Module\st_tengan\Section [1].txt" />
+    <Content Include="BrawlLib\InternalDocumentation\Module\st_tengan\Section [4].txt" />
+    <Content Include="BrawlLib\InternalDocumentation\STDT\CRAYON[20].txt" />
+    <Content Include="BrawlLib\InternalDocumentation\STDT\DOLPIC[20].txt" />
+    <Content Include="BrawlLib\InternalDocumentation\STDT\DONKEY[20].txt" />
+    <Content Include="BrawlLib\InternalDocumentation\STDT\DXBIGBLUE[20].txt" />
+    <Content Include="BrawlLib\InternalDocumentation\STDT\DXGARDEN[20].txt" />
+    <Content Include="BrawlLib\InternalDocumentation\STDT\DXGREENS[20].txt" />
+    <Content Include="BrawlLib\InternalDocumentation\STDT\DXONETT[20].txt" />
+    <Content Include="BrawlLib\InternalDocumentation\STDT\EARTH[20].txt" />
+    <Content Include="BrawlLib\InternalDocumentation\STDT\FAMICOM[20].txt" />
+    <Content Include="BrawlLib\InternalDocumentation\STDT\FZERO[20].txt" />
+    <Content Include="BrawlLib\InternalDocumentation\STDT\GREENHILL[20].txt" />
+    <Content Include="BrawlLib\InternalDocumentation\STDT\GW[20].txt" />
+    <Content Include="BrawlLib\InternalDocumentation\STDT\HALBERD[20].txt" />
+    <Content Include="BrawlLib\InternalDocumentation\STDT\HOMERUN[20].txt" />
+    <Content Include="BrawlLib\InternalDocumentation\STDT\ICE[20].txt" />
+    <Content Include="BrawlLib\InternalDocumentation\STDT\KART[20].txt" />
+    <Content Include="BrawlLib\InternalDocumentation\STDT\MANSION[20].txt" />
+    <Content Include="BrawlLib\InternalDocumentation\STDT\MARIOPAST[20].txt" />
+    <Content Include="BrawlLib\InternalDocumentation\STDT\METALGEAR[20].txt" />
+    <Content Include="BrawlLib\InternalDocumentation\STDT\NORFAIR[20].txt" />
+    <Content Include="BrawlLib\InternalDocumentation\STDT\PALUTENA[20].txt" />
+    <Content Include="BrawlLib\InternalDocumentation\STDT\PICTCHAT[4].txt" />
+    <Content Include="BrawlLib\InternalDocumentation\STDT\PIRATES[20].txt" />
+    <Content Include="BrawlLib\InternalDocumentation\STDT\PLANKTON[20].txt" />
+    <Content Include="BrawlLib\InternalDocumentation\STDT\STADIUM[20].txt" />
+    <Content Include="BrawlLib\InternalDocumentation\STDT\TENGAN[20].txt" />
+    <Content Include="BrawlLib\InternalDocumentation\STDT\VILLAGE[20].txt" />
+    <Content Include="BrawlLib\InternalDocumentation\version.txt" />
+    <Content Include="BrawlLib\Internal\Windows\Forms\Ookii.Dialogs\license.txt" />
+    <Content Include="BrawlLib\obj\Debug\net472\BrawlLib.csproj.FileListAbsolute.txt" />
+    <Content Include="BrawlLib\obj\Debug\net472\BrawlLib.dll" />
+    <Content Include="BrawlLib\obj\Debug\net472\BrawlLib.pdb" />
+    <Content Include="BrawlLib\OpenTK.dll" />
+    <Content Include="BrawlLib\Resources\BrawlCratePresent.ico" />
+    <Content Include="BrawlLib\Resources\btnAdd.Image.bmp" />
     <Content Include="lavaResawndz\lavaBRSARLib.cpp" />
     <Content Include="lavaResawndz\lavaBRSARLib.h" />
     <Content Include="lavaResawndz\lavaByteArray.h" />
@@ -823,7 +1334,9 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="BrawlLib\obj\Debug\net472\TempPE\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
