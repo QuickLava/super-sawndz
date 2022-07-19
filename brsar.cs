@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using System.IO;
 using BrawlLib;
 namespace BrawlSoundConverter
 {
@@ -23,7 +24,7 @@ namespace BrawlSoundConverter
 			{
 				_rsar = new BrawlLib.SSBB.ResourceNodes.RSARNode();
 				_rsar.Replace( RSAR_FileName );
-				_rsar._origPath = RSAR_FileName;
+				_rsar._origPath = Path.GetFullPath(RSAR_FileName);
 			}
 			return _rsar;
 		}
@@ -198,7 +199,6 @@ namespace BrawlSoundConverter
 			//Add the top level nodes to the treeview collection now that we're done.
 			foreach( TreeNode node in nodes )
 				treeView.Nodes.Add( node );
-			CloseRSAR();
 		}
 
 		public static void LoadMultiExportTreeView(TreeView treeView)

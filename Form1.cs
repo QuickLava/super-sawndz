@@ -14,7 +14,7 @@ namespace BrawlSoundConverter
 {
 	public partial class Form1 : Form
 	{
-		string VERSION = "1.7.0";
+		string VERSION = "1.7.5";
 		public Form1()
 		{
 			InitializeComponent();
@@ -161,7 +161,6 @@ namespace BrawlSoundConverter
 							{
 								if( gid > -1 && cid > -1 && wid > -1 )
 								{
-									Console.WriteLine( "Inserting wav " + Path.GetFileName(textBoxInputFile.Text) );
 									Sawndz.insertWav( textBoxInputFile.Text, gid, cid, wid );
 								}
 							}

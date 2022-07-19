@@ -58,6 +58,15 @@ namespace BrawlSoundConverter
 				File.Delete( fileName );
 			File.Move( "sawnd.sawnd", fileName );
 		}
+		public static void insertSawnd(string fileName)
+		{
+			if (!File.Exists(fileName))
+			{
+				Console.WriteLine("Specified file doesn't exist!\n");
+				return;
+			}
+			runWithArgs("sawnd \"" + brsar.RSAR_FileName + "\" \"" + fileName + "\"");
+		}
 		public static void multiInsertSawnd()
 		{
 			if (File.Exists("toImport.txt"))
@@ -76,21 +85,43 @@ namespace BrawlSoundConverter
 		}
 		public static void createWAV(int groupID, int collID, int wavID, string fileName)
 		{
-			runWithArgs("wavcreate " + groupID + " " + collID + " "
-				+ wavID + " \"" + brsar.RSAR_FileName + "\"");
+			Console.Write("Creating WAV File (\"" + Path.GetFileName(fileName) + "\"... ");
+			BrawlLib.SSBB.ResourceNodes.RSARFileAudioNode targetNode = brsar.GetNode(groupID, collID, wavID) as BrawlLib.SSBB.ResourceNodes.RSARFileAudioNode;
+			if (targetNode != null)
+			{
+				targetNode.Export(fileName);
+			}
 			if (File.Exists(fileName))
-				File.Delete(fileName);
-			File.Move("sound.wav", fileName);
+			{
+				Console.WriteLine("Success!");
+			}
+			else
+			{
+				Console.WriteLine("Failure! File failed to export!");
+			}
 		}
-		public static void insertSawnd(string fileName)
+		public static void insertWav(string fileName, int groupID, int collID, int wavID)
 		{
+			Console.Write("Inserting WAV File (\"" + Path.GetFileName(fileName) + "\"... ");
 			if (!File.Exists(fileName))
 			{
-				Console.WriteLine("Specified file doesn't exist!\n");
+				Console.WriteLine("Failure! Specified file doesn't exist!\n");
 				return;
 			}
-			runWithArgs( "sawnd \"" + brsar.RSAR_FileName + "\" \"" + fileName + "\"" );
+			try
+			{
+				BrawlLib.SSBB.ResourceNodes.RSARFileAudioNode targetNode = brsar.GetNode(groupID, collID, wavID) as BrawlLib.SSBB.ResourceNodes.RSARFileAudioNode;
+				targetNode.Replace(fileName);
+				BrawlLib.SSBB.ResourceNodes.RSARNode currRsar = brsar.GetRSAR();
+				currRsar.Export(currRsar._origPath);
+				Console.WriteLine("Success!\n");
+			}
+			catch (Exception e)
+			{
+				Console.WriteLine(e.ToString());
+			}
 		}
+		
 		public static void emptySpace( int offset, int numberOfBytes )
 		{
 			runWithArgs("emptyspace " + offset + " " + numberOfBytes);
@@ -109,35 +140,6 @@ namespace BrawlSoundConverter
 			File.Copy( fileName, "hex.hex" );
 			runWithArgs("hex " + groupID );
 		}
-		public static void insertWav( string fileName, int groupID, int collID, int wavID )
-		{
-			if (!File.Exists(fileName))
-            {
-				Console.WriteLine("Specified file doesn't exist!\n");
-				return;
-            }
-			BrawlLib.Internal.Audio.IAudioStream wav = BrawlLib.Internal.Audio.WAV.FromFile( fileName );
-
-			bool loop = wav.IsLooping;
-			int frequency = wav.Frequency;
-			wav.Dispose();
-
-			try
-			{
-				insert( groupID, collID, wavID, frequency, loop, fileName );
-			}
-			catch( Exception e )
-			{
-				Console.WriteLine( e.ToString() );
-				//If the process is still running kill it
-				if( p != null && !p.HasExited )
-				{
-					p.Kill();
-					p = null;
-				}
-			}
-		}
-
+		
 	}
-
 }
