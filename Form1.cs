@@ -14,7 +14,7 @@ namespace BrawlSoundConverter
 {
 	public partial class Form1 : Form
 	{
-		string VERSION = "1.7.5";
+		string VERSION = "1.8.5";
 		public Form1()
 		{
 			InitializeComponent();
