@@ -142,16 +142,18 @@ namespace BrawlSoundConverter
 		private void treeView1_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
 		{
 			int referencedWAVEID = (e.Node as MappingItem).wavID;
+			treeViewAudio.SelectedNode = null;
 			treeViewAudio.SelectedNode = treeViewAudio.Nodes[referencedWAVEID];
 			treeViewAudio.Focus();
 		}
 
 		private void treeViewSoundInfo_KeyDown(object sender, KeyEventArgs e)
 		{
-			TreeNode currNode = treeViewAudio.SelectedNode;
+			TreeNode currNode = treeViewSoundInfo.SelectedNode;
 			if (currNode != null && e.KeyCode == Keys.Enter)
 			{
 				int referencedWAVEID = (currNode as MappingItem).wavID;
+				treeViewAudio.SelectedNode = null;
 				treeViewAudio.SelectedNode = treeViewAudio.Nodes[referencedWAVEID];
 				treeViewAudio.Focus();
 				e.SuppressKeyPress = true;
