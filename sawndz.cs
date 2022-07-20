@@ -102,7 +102,7 @@ namespace BrawlSoundConverter
 		}
 		public static void insertWav(string fileName, int groupID, int collID, int wavID)
 		{
-			Console.Write("Inserting WAV File (\"" + Path.GetFileName(fileName) + "\"... ");
+			Console.Write("Inserting WAV File (\"" + Path.GetFileName(fileName) + "\")... ");
 			if (!File.Exists(fileName))
 			{
 				Console.WriteLine("Failure! Specified file doesn't exist!\n");
@@ -113,8 +113,15 @@ namespace BrawlSoundConverter
 				BrawlLib.SSBB.ResourceNodes.RSARFileAudioNode targetNode = brsar.GetNode(groupID, collID, wavID) as BrawlLib.SSBB.ResourceNodes.RSARFileAudioNode;
 				targetNode.Replace(fileName);
 				BrawlLib.SSBB.ResourceNodes.RSARNode currRsar = brsar.GetRSAR();
-				currRsar.Export(currRsar._origPath);
-				Console.WriteLine("Success!\n");
+				if (currRsar.IsDirty)
+				{
+					Console.WriteLine("Success!\n");
+					currRsar.Export(currRsar._origPath);
+				}
+				else
+				{
+					Console.WriteLine("Operation Cancelled!\n");
+				}
 			}
 			catch (Exception e)
 			{
