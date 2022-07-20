@@ -67,7 +67,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.textBoxOutput.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
 			this.textBoxOutput.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
-			this.textBoxOutput.Location = new System.Drawing.Point(20, 252);
+			this.textBoxOutput.Location = new System.Drawing.Point(20, 255);
 			this.textBoxOutput.Margin = new System.Windows.Forms.Padding(4);
 			this.textBoxOutput.Multiline = true;
 			this.textBoxOutput.Name = "textBoxOutput";
