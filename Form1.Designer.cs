@@ -163,6 +163,7 @@
 			this.textBoxInputFile.Name = "textBoxInputFile";
 			this.textBoxInputFile.Size = new System.Drawing.Size(565, 22);
 			this.textBoxInputFile.TabIndex = 11;
+			this.textBoxInputFile.TextChanged += new System.EventHandler(this.textBoxInputFile_TextChanged);
 			// 
 			// buttonBrowse
 			// 
@@ -179,6 +180,7 @@
 			// buttonInsert
 			// 
 			this.buttonInsert.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.buttonInsert.Enabled = false;
 			this.buttonInsert.Location = new System.Drawing.Point(506, 80);
 			this.buttonInsert.Margin = new System.Windows.Forms.Padding(4);
 			this.buttonInsert.Name = "buttonInsert";

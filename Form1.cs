@@ -73,6 +73,35 @@ namespace BrawlSoundConverter
 			audioPlaybackBRSARSound.VolumePercent = 0.66;
 		}
 
+		private void setInsertButtonState()
+		{
+			buttonInsert.Enabled = false;
+			if (!string.IsNullOrEmpty(textBoxInputFile.Text))
+			{
+				if (Path.GetExtension(textBoxInputFile.Text).CompareTo(".sawnd") == 0)
+				{
+					buttonInsert.Enabled = true;
+				}
+				else if (Path.GetExtension(textBoxInputFile.Text).CompareTo(".wav") == 0)
+				{
+					int gid, cid, wid;
+					if (int.TryParse(textBoxGroupID.Text, out gid))
+					{
+						if (int.TryParse(textBoxCollectionID.Text, out cid))
+						{
+							if (int.TryParse(textBoxWavID.Text, out wid))
+							{
+								if (gid > -1 && cid > -1 && wid > -1)
+								{
+									buttonInsert.Enabled = true;
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+
 		/*Called when a node is selected.
 		 * Sets the textBox's for group id etc.
 		 * autoplays the sound if there is one.
@@ -105,6 +134,7 @@ namespace BrawlSoundConverter
 			}
 			else
 				textBoxWavID.Text = "";
+			setInsertButtonState();
 		}
 
 		//Play sound if enter/return is pressed.
@@ -171,7 +201,6 @@ namespace BrawlSoundConverter
 							}
 						}
 					}
-
 				}
 			}
 			catch( Exception e )
@@ -209,7 +238,7 @@ namespace BrawlSoundConverter
 		//Enable stuff again
 		private void enableStuff()
 		{
-			buttonInsert.Enabled = true;
+			setInsertButtonState();
 			textBoxGroupID.Enabled = true;
 			textBoxCollectionID.Enabled = true;
 			textBoxWavID.Enabled = true;
@@ -337,6 +366,10 @@ namespace BrawlSoundConverter
 		{
 			int gid;
 			buttonCreateWAV.Enabled = int.TryParse(textBoxWavID.Text, out gid);
+		}
+		private void textBoxInputFile_TextChanged(object sender, EventArgs e)
+		{
+			setInsertButtonState();
 		}
 
 		private void backgroundWorkerCreateSawnd_RunWorkerCompleted( object sender, RunWorkerCompletedEventArgs e )
