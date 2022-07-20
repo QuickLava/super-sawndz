@@ -21,6 +21,7 @@ namespace BrawlSoundConverter
 			brsar.LoadMultiWAVExportTreeView(treeViewAudio, targetGroupID, targetFileID);
 			brsar.LoadMultiWAVExportInfoTreeView(treeViewSoundInfo, targetGroupID, targetFileID);
 
+			audioPlaybackPanel1.VolumePercent = 0.66;
 			BrawlLib.SSBB.ResourceNodes.RSARGroupNode targetGroup = brsar.GetNode(targetGroupID) as BrawlLib.SSBB.ResourceNodes.RSARGroupNode;
 			labelFileLabel.Text = "Sounds in File #" + targetFileID.ToString("X3") + " from Group #" + targetGroupID.ToString("X3") + " (\"" + targetGroup.Name + "\"):";
 			buttonCancel.Enabled = true;
