@@ -88,10 +88,15 @@ namespace BrawlSoundConverter
 			else
 				textBoxGroupID.Text = "";
 			if( item.collectionID > -1 )
+			{
 				textBoxCollectionID.Text = item.collectionID.ToString();
+				//buttonMultiCreateWAV.Enabled = true;
+			}
 			else
+			{
 				textBoxCollectionID.Text = "";
-			if( item.wavID > -1 )
+			}
+			if ( item.wavID > -1 )
 			{
 				textBoxWavID.Text = item.wavID.ToString();
 				audioPlaybackBRSARSound.TargetSource = item as BrawlLib.Internal.Audio.IAudioSource;
@@ -192,6 +197,7 @@ namespace BrawlSoundConverter
 			buttonBrowse.Enabled = false;
 			buttonCreateSawnd.Enabled = false;
 			buttonCreateWAV.Enabled = false;
+			buttonMultiCreateWAV.Enabled = false;
 			buttonMultiExportSawnd.Enabled = false;
 			buttonMultiInsertSawnd.Enabled = false;
 			buttonInsert.Enabled = false;
@@ -215,8 +221,9 @@ namespace BrawlSoundConverter
 			buttonMultiInsertSawnd.Enabled = true;
 
 			//Make sure that we have a group id before turning on create sawnd button
-			int gid, wid;
+			int gid, cid, wid;
 			buttonCreateSawnd.Enabled = int.TryParse( textBoxGroupID.Text, out gid );
+			buttonMultiCreateWAV.Enabled = int.TryParse( textBoxCollectionID.Text, out cid );
 			buttonCreateWAV.Enabled = int.TryParse( textBoxWavID.Text, out wid );
 		}
 
@@ -319,7 +326,12 @@ namespace BrawlSoundConverter
 			int gid;
 			buttonCreateSawnd.Enabled = int.TryParse( textBoxGroupID.Text, out gid );
 		}
-
+		//Check if we need to enable the multi create wav button, need Collection ID for that to work.
+		private void textBoxCollectionID_TextChanged(object sender, EventArgs e)
+		{
+			int cid;
+			buttonMultiCreateWAV.Enabled = int.TryParse(textBoxCollectionID.Text, out cid);
+		}
 		//Check if we need to enable the create WAV button, need WAV ID for that to work.
 		private void textBoxWavID_TextChanged(object sender, EventArgs e)
 		{
@@ -334,32 +346,6 @@ namespace BrawlSoundConverter
 		private void backgroundWorkerCreateWAV_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
 		{
 			enableStuff();
-		}
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-			//Make sure group id is valid
-			int gid, cid, wid;
-			if (!int.TryParse(textBoxGroupID.Text, out gid))
-			{
-				MessageBox.Show("Group ID is not valid");
-				return;
-			}
-			if (!int.TryParse(textBoxCollectionID.Text, out cid))
-            {
-				MessageBox.Show("Group ID is not valid");
-				return;
-			}
-
-
-			SaveFileDialog sfd = new SaveFileDialog();
-			sfd.Filter = "*Sawnd File(*.sawnd)|*.sawnd";
-			if (sfd.ShowDialog() == DialogResult.OK)
-			{
-				disableStuff();
-				textBoxOutput.Clear();
-				backgroundWorkerCreateSawnd.RunWorkerAsync(sfd.FileName);
-			}
 		}
 
         private void buttonCreateWAV_Click(object sender, EventArgs e)
@@ -432,9 +418,22 @@ namespace BrawlSoundConverter
 			}
 		}
 
-		private void textBoxInputFile_TextChanged(object sender, EventArgs e)
+		private void buttonMultiCreateWAV_Click(object sender, EventArgs e)
 		{
-
+			int gid, cid;
+			if (!int.TryParse(textBoxGroupID.Text, out gid))
+			{
+				MessageBox.Show("Group ID is not valid");
+				return;
+			}
+			if (!int.TryParse(textBoxCollectionID.Text, out cid))
+			{
+				MessageBox.Show("Collection ID is not valid");
+				return;
+			}
+			textBoxOutput.Clear();
+			multiWAVExportForm tempForm = new multiWAVExportForm(gid, cid);
+			tempForm.ShowDialog();
 		}
 	}
 }
