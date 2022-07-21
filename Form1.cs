@@ -14,7 +14,6 @@ namespace BrawlSoundConverter
 {
 	public partial class Form1 : Form
 	{
-		string VERSION = "1.8.5";
 		public Form1()
 		{
 			InitializeComponent();
@@ -296,7 +295,7 @@ namespace BrawlSoundConverter
 		//About window
 		private void aboutToolStripMenuItem_Click( object sender, EventArgs e )
 		{
-			MessageBox.Show( "Super Sawndz Version: " + VERSION + "\n" +
+			MessageBox.Show( "Super Sawndz Version: " + Properties.Resources.Version + "\n" +
 				"Created by Agoaj (http://http://agoaj.com/blog)\n" +
 				"Modified by QuickLava (https://github.com/QuickLava)\n" +
 				"Uses BrawlLib: https://github.com/soopercool101/BrawlCrate \n" + 
