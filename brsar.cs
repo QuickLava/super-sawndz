@@ -157,7 +157,7 @@ namespace BrawlSoundConverter
 							usedWaveIndeces.Add(waveIndex);
 						}
                     }
-					for (int i = 0; i < audioFolder.Children.Count(); i++)
+					for (int i = 0; i < audioFolder.Children.Count; i++)
                     {
 						if (usedWaveIndeces.Contains(i))
 							continue;

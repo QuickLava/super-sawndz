@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Collections.Generic;
 using System.Diagnostics;
 using BrawlLib;
 namespace BrawlSoundConverter
@@ -150,6 +151,99 @@ namespace BrawlSoundConverter
 			File.Copy( fileName, "hex.hex" );
 			runWithArgs("hex " + groupID );
 		}
-		
+
+		public static string getDefaultWAVEName(int groupID, int collID, int wavID)
+		{
+			return "Audio[" + groupID.ToString("D3") + "_" + collID.ToString("D3") + "_" + wavID.ToString("D3") + "].wav";
+		}
+		public static bool createWAVEMap(string fileName, int groupID, int collID, List<int> targetWAVIDs = null, bool includeExtraInfo = false)
+		{
+			bool result = false;
+
+			BrawlLib.SSBB.ResourceNodes.RSARGroupNode targetGroup = brsar.GetNode(groupID) as BrawlLib.SSBB.ResourceNodes.RSARGroupNode;
+			BrawlLib.SSBB.ResourceNodes.RSARFileNode targetFile = brsar.GetNode(groupID, collID) as BrawlLib.SSBB.ResourceNodes.RSARFileNode;
+			if (targetFile != null)
+			{
+				bool allowAllWaves = false;
+				if (targetWAVIDs == null)
+				{
+					allowAllWaves = true;
+					targetWAVIDs = new List<int>();
+				}
+				BrawlLib.SSBB.ResourceNodes.ResourceNode audioFolder = (BrawlLib.SSBB.ResourceNodes.ResourceNode)targetFile.FindChild("audio", false);
+				BrawlLib.SSBB.ResourceNodes.RWSDDataGroupNode dataFolder = (BrawlLib.SSBB.ResourceNodes.RWSDDataGroupNode)targetFile.FindChild("data", false);
+
+				List<MappingItem> collectedEntries = new List<MappingItem>();
+
+				if (audioFolder != null && audioFolder.Children.Count > 0 && dataFolder != null && dataFolder.Children.Count > 0)
+				{
+					for (int i = 0; i < audioFolder.Children.Count; i++)
+					{
+						string elementName = "Audio_" + groupID.ToString("D3") + "_" + collID.ToString("D3") + "_" + i.ToString("D3");
+						MappingItem soundMap = new MappingItem(elementName, groupID, collID, i, false);
+						collectedEntries.Add(soundMap);
+					}
+					for (int i = 0; i < dataFolder.Children.Count; i++)
+					{
+						if (!(dataFolder.Children[i] is BrawlLib.SSBB.ResourceNodes.RWSDDataNode))
+							continue;
+						BrawlLib.SSBB.ResourceNodes.RWSDDataNode data = (BrawlLib.SSBB.ResourceNodes.RWSDDataNode)dataFolder.Children[i];
+						int waveIndex = data._part3._waveIndex;
+						if (collectedEntries.Count <= waveIndex)
+							continue;
+						
+						MappingItem soundMap = new MappingItem(data.Name, groupID, collID, waveIndex, false);
+						collectedEntries[waveIndex].Nodes.Add(soundMap);
+					}
+					System.Xml.XmlWriterSettings waveMapSettings = new System.Xml.XmlWriterSettings();
+					waveMapSettings.Indent = true;
+					waveMapSettings.IndentChars = "\t";
+					System.Xml.XmlWriter waveMap = System.Xml.XmlWriter.Create(fileName, waveMapSettings);
+					if (includeExtraInfo)
+					{
+						waveMap.WriteComment("For Group #" + groupID.ToString("D3") + " (\"" + targetGroup.Name + "\"):");
+					}
+					waveMap.WriteStartElement("superSawndzWAVEMap");
+					waveMap.WriteAttributeString("version", Properties.Resources.Version);
+					waveMap.WriteAttributeString("targetGroup", groupID.ToString("D3"));
+					waveMap.WriteAttributeString("targetCollection", collID.ToString("D3"));
+					foreach (MappingItem waveEntry in collectedEntries)
+					{
+						if (!allowAllWaves && !targetWAVIDs.Contains(waveEntry.wavID))
+							continue;
+						string elementName = "Audio_" + waveEntry.groupID.ToString("D3") + "_" + waveEntry.collectionID.ToString("D3") + "_" + waveEntry.wavID.ToString("D3");
+						waveMap.WriteStartElement("wave");
+						waveMap.WriteAttributeString("name", elementName);
+						waveMap.WriteStartElement("filename");
+						waveMap.WriteAttributeString("val", getDefaultWAVEName(waveEntry.groupID, waveEntry.collectionID, waveEntry.wavID));
+						waveMap.WriteEndElement();
+						waveMap.WriteStartElement("wavID");
+						waveMap.WriteAttributeString("val", waveEntry.wavID.ToString("D3"));
+						waveMap.WriteEndElement();
+						if (includeExtraInfo)
+						{
+							if (waveEntry.Nodes.Count > 1)
+							{
+								waveMap.WriteComment("Used by:");
+								foreach (MappingItem dataNode in waveEntry.Nodes)
+								{
+									waveMap.WriteComment("\"" + dataNode.name + "\"");
+								}
+							}
+							else
+							{
+								MappingItem dataNode = (waveEntry.Nodes[0] as MappingItem);
+								waveMap.WriteComment("Used by: \"" + dataNode.name + "\"");
+							}
+						}
+						waveMap.WriteEndElement();
+					}
+					waveMap.WriteEndElement();
+					waveMap.Close();
+					result = File.Exists(fileName);
+				}
+			}
+			return result;
+		}
 	}
 }
