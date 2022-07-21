@@ -58,6 +58,7 @@
 			this.audioPlaybackBRSARSound = new BrawlLib.Internal.Windows.Controls.AudioPlaybackPanel();
 			this.audioPlaybackPanelWav = new BrawlLib.Internal.Windows.Controls.AudioPlaybackPanel();
 			this.buttonMultiInsertWAV = new System.Windows.Forms.Button();
+			this.backgroundWorkerMultiInsertWAV = new System.ComponentModel.BackgroundWorker();
 			this.menuStrip1.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -364,7 +365,6 @@
 			// buttonMultiInsertWAV
 			// 
 			this.buttonMultiInsertWAV.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.buttonMultiInsertWAV.Enabled = false;
 			this.buttonMultiInsertWAV.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.4F);
 			this.buttonMultiInsertWAV.Location = new System.Drawing.Point(505, 152);
 			this.buttonMultiInsertWAV.Margin = new System.Windows.Forms.Padding(4);
@@ -373,6 +373,12 @@
 			this.buttonMultiInsertWAV.TabIndex = 23;
 			this.buttonMultiInsertWAV.Text = "Multi Insert WAV";
 			this.buttonMultiInsertWAV.UseVisualStyleBackColor = true;
+			this.buttonMultiInsertWAV.Click += new System.EventHandler(this.buttonMultiInsertWAV_Click);
+			// 
+			// backgroundWorkerMultiInsertWAV
+			// 
+			this.backgroundWorkerMultiInsertWAV.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorkerMultiInsertWAV_DoWork);
+			this.backgroundWorkerMultiInsertWAV.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.backgroundWorkerMultiInsertWAV_RunWorkerCompleted);
 			// 
 			// Form1
 			// 
@@ -444,6 +450,7 @@
 		private System.Windows.Forms.ToolStripMenuItem ChangeSettingsToolStripMenuItem;
 		private System.Windows.Forms.Button buttonMultiCreateWAV;
 		private System.Windows.Forms.Button buttonMultiInsertWAV;
+		private System.ComponentModel.BackgroundWorker backgroundWorkerMultiInsertWAV;
 	}
 }
 

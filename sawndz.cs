@@ -132,6 +132,90 @@ namespace BrawlSoundConverter
 				Console.WriteLine(e.ToString());
 			}
 		}
+		public static void multiInsertWAV(string mapFileName)
+		{
+			if (File.Exists(mapFileName))
+			{
+				System.Xml.XmlDocument mapDoc = new System.Xml.XmlDocument();
+				string mapFolder = Path.GetDirectoryName(mapFileName) + "\\";
+				mapDoc.Load(mapFileName);
+				BrawlLib.SSBB.ResourceNodes.RSARNode currRsar = brsar.GetRSAR();
+				foreach (System.Xml.XmlNode mapChild in mapDoc.ChildNodes)
+				{
+					if (mapChild.Name == "superSawndzWAVEMap" && mapChild.Attributes != null)
+					{
+						string version = null;
+						int groupID = -1;
+						int collID = -1;
+						foreach (System.Xml.XmlAttribute mapChildAttr in mapChild.Attributes)
+						{
+							if (mapChildAttr.Name == "version")
+								version = mapChildAttr.Value;
+							else if (mapChildAttr.Name == "targetGroup")
+								int.TryParse(mapChildAttr.Value, out groupID);
+							else if (mapChildAttr.Name == "targetCollection")
+								int.TryParse(mapChildAttr.Value, out collID);
+						}
+						foreach (System.Xml.XmlNode wave in mapChild.ChildNodes)
+						{
+							string filename = null;
+							int wavID = -1;
+							foreach (System.Xml.XmlNode waveChild in wave.ChildNodes)
+							{
+								if (waveChild.Attributes != null)
+								{
+									string value = null;
+									foreach (System.Xml.XmlAttribute waveChildAttr in waveChild.Attributes)
+									{
+										if (waveChildAttr.Name == "val")
+											value = waveChildAttr.Value;
+									}
+									if (waveChild.Name == "filename")
+										filename = value;
+									else if (waveChild.Name == "wavID")
+										int.TryParse(value, out wavID);
+								}
+							}
+							if (filename != null)
+							{
+								Console.Write("Inserting WAV File (\"" + Path.GetFileName(mapFolder + filename) + "\")... ");
+								if (File.Exists(mapFolder + filename))
+								{
+									BrawlLib.SSBB.ResourceNodes.RSARFileAudioNode targetNode = brsar.GetNode(groupID, collID, wavID) as BrawlLib.SSBB.ResourceNodes.RSARFileAudioNode;
+									targetNode.Replace(mapFolder + filename);
+									if (currRsar.IsDirty)
+									{
+										Console.WriteLine("Success!");
+									}
+									else
+									{
+										Console.WriteLine("Operation Cancelled!");
+									}
+								}
+								else
+								{
+									Console.WriteLine("Failure! File doesn't exist!");
+								}
+							}
+							else
+							{
+								Console.WriteLine("Unable to import \"" + filename + "\", no filename was specified!");
+							}
+						}
+					}
+				}
+				currRsar = brsar.GetRSAR();
+				if (currRsar.IsDirty)
+				{
+					currRsar.Export(currRsar._origPath);
+					brsar.CloseRSAR();
+				}
+			}
+			else
+			{
+				Console.WriteLine("Unable to insert WAVs, \"" + mapFileName + "\" doesn't exist!");
+			}
+		}
 		
 		public static void emptySpace( int offset, int numberOfBytes )
 		{

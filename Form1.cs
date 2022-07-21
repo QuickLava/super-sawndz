@@ -467,5 +467,28 @@ namespace BrawlSoundConverter
 			multiWAVExportForm tempForm = new multiWAVExportForm(gid, cid);
 			tempForm.ShowDialog();
 		}
+
+		private void buttonMultiInsertWAV_Click(object sender, EventArgs e)
+		{
+			OpenFileDialog ofd = new OpenFileDialog();
+			ofd.Filter = "WAVE Map File(*.xml)|*.xml";
+
+			if (ofd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+			{
+				backgroundWorkerMultiInsertWAV.RunWorkerAsync(ofd.FileName);
+			}
+		}
+
+		private void backgroundWorkerMultiInsertWAV_DoWork(object sender, DoWorkEventArgs e)
+		{
+			disableStuff();
+			Sawndz.multiInsertWAV(e.Argument as string);
+		}
+
+		private void backgroundWorkerMultiInsertWAV_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+		{
+			loadTreeView();
+			enableStuff();
+		}
 	}
 }
