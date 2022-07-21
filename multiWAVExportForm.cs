@@ -15,9 +15,14 @@ namespace BrawlSoundConverter
 {
 	public partial class multiWAVExportForm : Form
 	{
+		int _targetGroupID;
+		int _targetCollectionID;
+
 		public multiWAVExportForm(int targetGroupID, int targetFileID)
 		{
 			InitializeComponent();
+			_targetGroupID = targetGroupID;
+			_targetCollectionID = targetFileID;
 			brsar.LoadMultiWAVExportTreeView(treeViewAudio, targetGroupID, targetFileID);
 			brsar.LoadMultiWAVExportInfoTreeView(treeViewSoundInfo, targetGroupID, targetFileID);
 
@@ -54,16 +59,39 @@ namespace BrawlSoundConverter
 		}
 		private void buttonExport_Click(object sender, EventArgs e)
 		{
-			bool doExport = true;
 			if (textBoxExportDirectory.Text.Length > 0)
 			{
+				string exportDirectory = textBoxExportDirectory.Text + "\\";
+				string mapFilename = "Audio[" + _targetGroupID.ToString("D3") + "_" + _targetCollectionID.ToString("D3") + "]_Map.xml";
+				System.Xml.XmlWriterSettings exportMapSettings = new System.Xml.XmlWriterSettings();
+				exportMapSettings.Indent = true;
+				exportMapSettings.IndentChars = "\t";
+				System.Xml.XmlWriter exportMap = System.Xml.XmlWriter.Create(exportDirectory + mapFilename, exportMapSettings);
+				exportMap.WriteStartElement("superSawndzWAVEMap");
+				exportMap.WriteAttributeString("version", Properties.Resources.Version);
+				exportMap.WriteAttributeString("targetGroup", _targetGroupID.ToString("D3"));
+				exportMap.WriteAttributeString("targetCollection", _targetCollectionID.ToString("D3"));
 				foreach (MappingItem waveEntry in treeViewAudio.Nodes)
 				{
 					if (!waveEntry.Checked)
 						continue;
-					string exportFilename = "Audio[" + waveEntry.wavID.ToString("X3") + "].wav";
-					Sawndz.createWAV(waveEntry.groupID, waveEntry.collectionID, waveEntry.wavID, textBoxExportDirectory.Text + "\\" + exportFilename);
+					string exportFilename = "Audio[" + waveEntry.groupID.ToString("D3") + "_" + waveEntry.collectionID.ToString("D3") + "_" + waveEntry.wavID.ToString("D3") + "].wav";
+					if (Sawndz.createWAV(waveEntry.groupID, waveEntry.collectionID, waveEntry.wavID, textBoxExportDirectory.Text + "\\" + exportFilename))
+					{
+						string elementName = "Audio_" + waveEntry.groupID.ToString("D3") + "_" + waveEntry.collectionID.ToString("D3") + "_" + waveEntry.wavID.ToString("D3");
+						exportMap.WriteStartElement("wave");
+						exportMap.WriteAttributeString("name", elementName);
+						exportMap.WriteStartElement("filename");
+						exportMap.WriteAttributeString("val", exportFilename);
+						exportMap.WriteEndElement();
+						exportMap.WriteStartElement("wavID");
+						exportMap.WriteAttributeString("val", waveEntry.wavID.ToString("D3"));
+						exportMap.WriteEndElement();
+						exportMap.WriteEndElement();
+					}
 				}
+				exportMap.WriteEndElement();
+				exportMap.Close();
 			}
 			DialogResult = DialogResult.OK;
 			Close();

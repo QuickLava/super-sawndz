@@ -83,8 +83,9 @@ namespace BrawlSoundConverter
 				File.Delete("toExport.txt");
 			}
 		}
-		public static void createWAV(int groupID, int collID, int wavID, string fileName)
+		public static bool createWAV(int groupID, int collID, int wavID, string fileName)
 		{
+			bool result = false;
 			Console.Write("Creating WAV File (\"" + Path.GetFileName(fileName) + "\"... ");
 			BrawlLib.SSBB.ResourceNodes.RSARFileAudioNode targetNode = brsar.GetNode(groupID, collID, wavID) as BrawlLib.SSBB.ResourceNodes.RSARFileAudioNode;
 			if (targetNode != null)
@@ -94,11 +95,13 @@ namespace BrawlSoundConverter
 			if (File.Exists(fileName))
 			{
 				Console.WriteLine("Success!");
+				result = true;
 			}
 			else
 			{
 				Console.WriteLine("Failure! File failed to export!");
 			}
+			return result;
 		}
 		public static void insertWav(string fileName, int groupID, int collID, int wavID)
 		{
