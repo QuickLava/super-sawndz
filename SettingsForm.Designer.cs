@@ -41,7 +41,12 @@ namespace BrawlSoundConverter
 			this.buttonSave = new System.Windows.Forms.Button();
 			this.labelDefaultNameScheme = new System.Windows.Forms.Label();
 			this.label1 = new System.Windows.Forms.Label();
+			this.groupBox1 = new System.Windows.Forms.GroupBox();
+			this.radioButtonGroupDirEnable = new System.Windows.Forms.RadioButton();
+			this.radioButtonGroupDirDisable = new System.Windows.Forms.RadioButton();
+			this.label2 = new System.Windows.Forms.Label();
 			this.groupBoxNamingScheme.SuspendLayout();
+			this.groupBox1.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// groupBoxNamingScheme
@@ -133,7 +138,7 @@ namespace BrawlSoundConverter
 			// 
 			this.buttonCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.buttonCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-			this.buttonCancel.Location = new System.Drawing.Point(363, 155);
+			this.buttonCancel.Location = new System.Drawing.Point(363, 221);
 			this.buttonCancel.Margin = new System.Windows.Forms.Padding(4);
 			this.buttonCancel.Name = "buttonCancel";
 			this.buttonCancel.Size = new System.Drawing.Size(100, 28);
@@ -145,7 +150,7 @@ namespace BrawlSoundConverter
 			// 
 			this.buttonSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.buttonSave.DialogResult = System.Windows.Forms.DialogResult.OK;
-			this.buttonSave.Location = new System.Drawing.Point(255, 156);
+			this.buttonSave.Location = new System.Drawing.Point(255, 222);
 			this.buttonSave.Margin = new System.Windows.Forms.Padding(4);
 			this.buttonSave.Name = "buttonSave";
 			this.buttonSave.Size = new System.Drawing.Size(100, 28);
@@ -159,21 +164,60 @@ namespace BrawlSoundConverter
 			this.labelDefaultNameScheme.AutoSize = true;
 			this.labelDefaultNameScheme.Location = new System.Drawing.Point(12, 82);
 			this.labelDefaultNameScheme.Name = "labelDefaultNameScheme";
-			this.labelDefaultNameScheme.Size = new System.Drawing.Size(238, 17);
+			this.labelDefaultNameScheme.Size = new System.Drawing.Size(285, 17);
 			this.labelDefaultNameScheme.TabIndex = 34;
-			this.labelDefaultNameScheme.Text = "Default Multi-Export Naming Scheme";
+			this.labelDefaultNameScheme.Text = "Default Multi Create Sawnd Naming Scheme";
 			// 
 			// label1
 			// 
 			this.label1.AutoSize = true;
 			this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.label1.ForeColor = System.Drawing.SystemColors.GrayText;
-			this.label1.Location = new System.Drawing.Point(250, 56);
+			this.label1.Location = new System.Drawing.Point(216, 58);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(207, 17);
+			this.label1.Size = new System.Drawing.Size(241, 17);
 			this.label1.TabIndex = 36;
-			this.label1.Text = "Warning: Current Path Is Invalid";
+			this.label1.Text = "Warning: Specified File Doesn\'t Exist!";
 			this.label1.Visible = false;
+			// 
+			// groupBox1
+			// 
+			this.groupBox1.Controls.Add(this.radioButtonGroupDirEnable);
+			this.groupBox1.Controls.Add(this.radioButtonGroupDirDisable);
+			this.groupBox1.Location = new System.Drawing.Point(12, 163);
+			this.groupBox1.Name = "groupBox1";
+			this.groupBox1.Size = new System.Drawing.Size(445, 51);
+			this.groupBox1.TabIndex = 28;
+			this.groupBox1.TabStop = false;
+			// 
+			// radioButtonGroupDirEnable
+			// 
+			this.radioButtonGroupDirEnable.AutoSize = true;
+			this.radioButtonGroupDirEnable.Location = new System.Drawing.Point(6, 21);
+			this.radioButtonGroupDirEnable.Name = "radioButtonGroupDirEnable";
+			this.radioButtonGroupDirEnable.Size = new System.Drawing.Size(73, 21);
+			this.radioButtonGroupDirEnable.TabIndex = 22;
+			this.radioButtonGroupDirEnable.Text = "Enable";
+			this.radioButtonGroupDirEnable.UseVisualStyleBackColor = true;
+			// 
+			// radioButtonGroupDirDisable
+			// 
+			this.radioButtonGroupDirDisable.AutoSize = true;
+			this.radioButtonGroupDirDisable.Location = new System.Drawing.Point(86, 21);
+			this.radioButtonGroupDirDisable.Name = "radioButtonGroupDirDisable";
+			this.radioButtonGroupDirDisable.Size = new System.Drawing.Size(76, 21);
+			this.radioButtonGroupDirDisable.TabIndex = 24;
+			this.radioButtonGroupDirDisable.Text = "Disable";
+			this.radioButtonGroupDirDisable.UseVisualStyleBackColor = true;
+			// 
+			// label2
+			// 
+			this.label2.AutoSize = true;
+			this.label2.Location = new System.Drawing.Point(12, 153);
+			this.label2.Name = "label2";
+			this.label2.Size = new System.Drawing.Size(352, 17);
+			this.label2.TabIndex = 37;
+			this.label2.Text = "Create Group Directory by Default in Multi Create WAV";
 			// 
 			// SettingsForm
 			// 
@@ -181,7 +225,9 @@ namespace BrawlSoundConverter
 			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.CancelButton = this.buttonCancel;
-			this.ClientSize = new System.Drawing.Size(476, 196);
+			this.ClientSize = new System.Drawing.Size(476, 262);
+			this.Controls.Add(this.label2);
+			this.Controls.Add(this.groupBox1);
 			this.Controls.Add(this.label1);
 			this.Controls.Add(this.labelDefaultNameScheme);
 			this.Controls.Add(this.buttonCancel);
@@ -194,6 +240,8 @@ namespace BrawlSoundConverter
 			this.Text = "Settings";
 			this.groupBoxNamingScheme.ResumeLayout(false);
 			this.groupBoxNamingScheme.PerformLayout();
+			this.groupBox1.ResumeLayout(false);
+			this.groupBox1.PerformLayout();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -213,5 +261,9 @@ namespace BrawlSoundConverter
 		private System.Windows.Forms.Button buttonSave;
 		private System.Windows.Forms.Label labelDefaultNameScheme;
 		private System.Windows.Forms.Label label1;
+		private System.Windows.Forms.GroupBox groupBox1;
+		private System.Windows.Forms.RadioButton radioButtonGroupDirEnable;
+		private System.Windows.Forms.RadioButton radioButtonGroupDirDisable;
+		private System.Windows.Forms.Label label2;
 	}
 }

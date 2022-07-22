@@ -36,6 +36,14 @@ namespace BrawlSoundConverter
 					radioButtonNameDefault.Checked = true;
 					break;
 			}
+			if (Properties.Settings.Default.DefaultMultiWAVExportCreateGroupDirectory)
+			{
+				radioButtonGroupDirEnable.Checked = true;
+			}
+			else
+			{
+				radioButtonGroupDirDisable.Checked = true;
+			}
 		}
 
 		private void buttonBrowse_Click(object sender, EventArgs e)
@@ -50,10 +58,7 @@ namespace BrawlSoundConverter
 
 		private void buttonSave_Click(object sender, EventArgs e)
 		{
-			if (defaultBrsarPathIsValid)
-			{
-				Properties.Settings.Default.DefaultBrsarFilePath = textBoxDefaultBrsar.Text;
-			}
+			Properties.Settings.Default.DefaultBrsarFilePath = textBoxDefaultBrsar.Text;
 
 			if (radioButtonNamePM.Checked)
 			{
@@ -71,6 +76,8 @@ namespace BrawlSoundConverter
 			{
 				Properties.Settings.Default.DefaultMultiExportNameScheme = 0;
 			}
+
+			Properties.Settings.Default.DefaultMultiWAVExportCreateGroupDirectory = radioButtonGroupDirEnable.Checked;
 
 			DialogResult = DialogResult.OK;
 			Close();

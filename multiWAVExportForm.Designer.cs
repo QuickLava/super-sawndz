@@ -51,6 +51,7 @@ namespace BrawlSoundConverter
 			this.audioPlaybackPanel1 = new BrawlLib.Internal.Windows.Controls.AudioPlaybackPanel();
 			this.labelPreview = new System.Windows.Forms.Label();
 			this.label4 = new System.Windows.Forms.Label();
+			this.checkBox1 = new System.Windows.Forms.CheckBox();
 			this.SuspendLayout();
 			// 
 			// label1
@@ -90,7 +91,7 @@ namespace BrawlSoundConverter
 			// 
 			this.buttonExport.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.buttonExport.Enabled = false;
-			this.buttonExport.Location = new System.Drawing.Point(512, 60);
+			this.buttonExport.Location = new System.Drawing.Point(513, 89);
 			this.buttonExport.Margin = new System.Windows.Forms.Padding(4);
 			this.buttonExport.Name = "buttonExport";
 			this.buttonExport.Size = new System.Drawing.Size(100, 28);
@@ -163,7 +164,7 @@ namespace BrawlSoundConverter
 			this.buttonCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.buttonCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
 			this.buttonCancel.Enabled = false;
-			this.buttonCancel.Location = new System.Drawing.Point(620, 59);
+			this.buttonCancel.Location = new System.Drawing.Point(621, 89);
 			this.buttonCancel.Margin = new System.Windows.Forms.Padding(4);
 			this.buttonCancel.Name = "buttonCancel";
 			this.buttonCancel.Size = new System.Drawing.Size(100, 28);
@@ -237,12 +238,26 @@ namespace BrawlSoundConverter
 			this.label4.TabIndex = 34;
 			this.label4.Text = "Note: Double-click or press Enter to jump to a Sound\'s WAVE Entry.";
 			// 
+			// checkBox1
+			// 
+			this.checkBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.checkBox1.AutoSize = true;
+			this.checkBox1.Enabled = false;
+			this.checkBox1.Location = new System.Drawing.Point(549, 61);
+			this.checkBox1.Name = "checkBox1";
+			this.checkBox1.Size = new System.Drawing.Size(177, 21);
+			this.checkBox1.TabIndex = 35;
+			this.checkBox1.Text = "Create Group Directory";
+			this.checkBox1.UseVisualStyleBackColor = true;
+			this.checkBox1.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
+			// 
 			// multiWAVExportForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.CancelButton = this.buttonCancel;
 			this.ClientSize = new System.Drawing.Size(733, 725);
+			this.Controls.Add(this.checkBox1);
 			this.Controls.Add(this.label4);
 			this.Controls.Add(this.labelPreview);
 			this.Controls.Add(this.audioPlaybackPanel1);
@@ -288,5 +303,6 @@ namespace BrawlSoundConverter
 		private BrawlLib.Internal.Windows.Controls.AudioPlaybackPanel audioPlaybackPanel1;
 		private System.Windows.Forms.Label labelPreview;
 		private System.Windows.Forms.Label label4;
+		private System.Windows.Forms.CheckBox checkBox1;
 	}
 }

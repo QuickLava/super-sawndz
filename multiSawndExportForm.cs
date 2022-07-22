@@ -77,7 +77,6 @@ namespace BrawlSoundConverter
 				StreamWriter exportList = File.CreateText("toExport.txt");
 				if (radioButtonNamePM.Checked)
 				{
-					Properties.Settings.Default.DefaultMultiExportNameScheme = 1;
 					foreach (MappingItem item in treeViewGroups.Nodes)
 					{
 						if (item.Checked)
@@ -88,7 +87,6 @@ namespace BrawlSoundConverter
 				}
 				else if (radioButtonNamePP.Checked)
 				{
-					Properties.Settings.Default.DefaultMultiExportNameScheme = 2;
 					foreach (MappingItem item in treeViewGroups.Nodes)
 					{
 						if (item.Checked)
@@ -99,7 +97,6 @@ namespace BrawlSoundConverter
 				}
 				else if (radioButtonNameManual.Checked)
 				{
-					Properties.Settings.Default.DefaultMultiExportNameScheme = 3;
 					nameInputForm nif = new nameInputForm();
 					foreach (MappingItem item in treeViewGroups.Nodes)
 					{
@@ -124,7 +121,6 @@ namespace BrawlSoundConverter
 				}
 				else
 				{
-					Properties.Settings.Default.DefaultMultiExportNameScheme = 0;
 					foreach (MappingItem item in treeViewGroups.Nodes)
 					{
 						if (item.Checked)
@@ -133,7 +129,6 @@ namespace BrawlSoundConverter
 						}
 					}
 				}
-				Properties.Settings.Default.Save();
 				exportList.Close();
 				if (doExport)
 				{

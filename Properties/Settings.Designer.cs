@@ -46,5 +46,17 @@ namespace BrawlSoundConverter.Properties {
                 this["DefaultMultiExportNameScheme"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool DefaultMultiWAVExportCreateGroupDirectory {
+            get {
+                return ((bool)(this["DefaultMultiWAVExportCreateGroupDirectory"]));
+            }
+            set {
+                this["DefaultMultiWAVExportCreateGroupDirectory"] = value;
+            }
+        }
     }
 }

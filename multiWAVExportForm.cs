@@ -17,20 +17,38 @@ namespace BrawlSoundConverter
 	{
 		int _targetGroupID;
 		int _targetCollectionID;
+		string selectedFolder;
+		string groupName;
 
 		public multiWAVExportForm(int targetGroupID, int targetFileID)
 		{
 			InitializeComponent();
 			_targetGroupID = targetGroupID;
 			_targetCollectionID = targetFileID;
+			selectedFolder = "";
 			brsar.LoadMultiWAVExportTreeView(treeViewAudio, targetGroupID, targetFileID);
 			brsar.LoadMultiWAVExportInfoTreeView(treeViewSoundInfo, targetGroupID, targetFileID);
 
 			audioPlaybackPanel1.VolumePercent = 0.66;
 			BrawlLib.SSBB.ResourceNodes.RSARGroupNode targetGroup = brsar.GetNode(targetGroupID) as BrawlLib.SSBB.ResourceNodes.RSARGroupNode;
+			groupName = targetGroup.Name;
 			labelFileLabel.Text = "Sounds in Collection #" + targetFileID.ToString("X3") + " from Group #" + targetGroupID.ToString("X3") + " (\"" + targetGroup.Name + "\"):";
 			buttonCancel.Enabled = true;
 			treeViewAudio.CheckBoxes = true;
+			checkBox1.Checked = Properties.Settings.Default.DefaultMultiWAVExportCreateGroupDirectory;
+		}
+
+		private void setTextBox(string folderIn)
+		{
+			selectedFolder = folderIn;
+			if (checkBox1.Checked)
+			{
+				textBoxExportDirectory.Text = folderIn + "\\" + groupName;
+			}
+			else
+			{
+				textBoxExportDirectory.Text = folderIn;
+			}
 		}
 
 		private uint numTreeNodesChecked()
@@ -51,7 +69,7 @@ namespace BrawlSoundConverter
 			VistaFolderBrowserDialog fbd = new VistaFolderBrowserDialog();
 			if (fbd.ShowDialog() == DialogResult.OK)
 			{
-				textBoxExportDirectory.Text = fbd.SelectedPath;
+				setTextBox(fbd.SelectedPath);
 				buttonSelectAll.Enabled = true;
 				buttonDeselectAll.Enabled = true;
 				buttonInvertSelection.Enabled = true;
@@ -61,6 +79,11 @@ namespace BrawlSoundConverter
 		{
 			if (textBoxExportDirectory.Text.Length > 0)
 			{
+				if (checkBox1.Checked)
+				{
+					Directory.CreateDirectory(textBoxExportDirectory.Text);
+				}
+
 				string exportDirectory = textBoxExportDirectory.Text + "\\";
 				string mapFilename = "Audio[" + _targetGroupID.ToString("D3") + "_" + _targetCollectionID.ToString("D3") + "]_Map.xml";
 				List<int> exportedIndeces = new List<int>();
@@ -149,6 +172,7 @@ namespace BrawlSoundConverter
 			{
 				buttonExport.Enabled = true;
 			}
+			checkBox1.Enabled = true;
 		}
 
 		private void treeView1_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
@@ -182,6 +206,14 @@ namespace BrawlSoundConverter
 				audioPlaybackPanel1.TargetSource = item as BrawlLib.Internal.Audio.IAudioSource;
 				audioPlaybackPanel1.TargetSource.CreateStreams();
 				audioPlaybackPanel1.Play();
+			}
+		}
+
+		private void checkBox1_CheckedChanged(object sender, EventArgs e)
+		{
+			if (checkBox1.Enabled)
+			{
+				setTextBox(selectedFolder);
 			}
 		}
 	}
