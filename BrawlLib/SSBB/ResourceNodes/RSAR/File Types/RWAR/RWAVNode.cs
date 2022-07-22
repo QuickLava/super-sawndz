@@ -73,6 +73,7 @@ namespace BrawlLib.SSBB.ResourceNodes
 
             base.Dispose();
         }
+        public virtual void HeadlessReplace(string fileName) { }
 
         public void Init(VoidPtr strmAddr, int strmLen, WaveInfo* info)
         {
@@ -165,6 +166,31 @@ namespace BrawlLib.SSBB.ResourceNodes
                     dlg.AudioSource = fileName;
                     if (dlg.ShowDialog(null) == DialogResult.OK)
                     {
+                        ReplaceRaw(dlg.AudioData);
+                    }
+                }
+            }
+            else
+            {
+                base.Replace(fileName);
+            }
+
+            //Init(Header->Data->Data, Header->Data->_header._length, &Header->Info->_info);
+
+            UpdateCurrentControl();
+            SignalPropertyChange();
+            Parent.Parent.SignalPropertyChange();
+            RSARNode?.SignalPropertyChange();
+        }
+        public override void HeadlessReplace(string fileName)
+        {
+            if (fileName.EndsWith(".wav"))
+            {
+                using (BrstmConverterDialog dlg = new BrstmConverterDialog())
+                {
+                    dlg.Type = 2;
+                    if (dlg.doHeadlessLoad(fileName))
+					{
                         ReplaceRaw(dlg.AudioData);
                     }
                 }

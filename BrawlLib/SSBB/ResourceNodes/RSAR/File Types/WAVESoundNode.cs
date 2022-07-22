@@ -101,7 +101,7 @@ namespace BrawlLib.SSBB.ResourceNodes
             RSARNode?.SignalPropertyChange();
         }
         // A copy of the above Replace function, just changed to automatically progress the dialog.
-        public void HeadlessReplace(string fileName)
+        public override void HeadlessReplace(string fileName)
         {
             if (fileName.EndsWith(".wav"))
             {

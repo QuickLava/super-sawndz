@@ -182,7 +182,7 @@ namespace BrawlSoundConverter
 								if (File.Exists(mapFolder + filename))
 								{
 									BrawlLib.SSBB.ResourceNodes.RSARFileAudioNode targetNode = brsar.GetNode(groupID, collID, wavID) as BrawlLib.SSBB.ResourceNodes.RSARFileAudioNode;
-									(targetNode as BrawlLib.SSBB.ResourceNodes.WAVESoundNode).HeadlessReplace(mapFolder + filename);
+									targetNode.HeadlessReplace(mapFolder + filename);
 									if (currRsar.IsDirty)
 									{
 										Console.WriteLine("Success!");
