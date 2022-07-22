@@ -201,29 +201,12 @@ namespace BrawlSoundConverter
 				treeView.Nodes.Add( node );
 		}
 
-		public static void LoadMultiExportTreeView(TreeView treeView)
+		public static void LoadMultiExportTreeView(TreeView destView, TreeView sourceView)
 		{
-			//Only used to count the number of nodes added, no actual function in the program
-			int nodeCount = 0;
-
-			BrawlLib.SSBB.ResourceNodes.RSARNode rsar = GetRSAR();
-			BrawlLib.SSBB.ResourceNodes.ResourceNode[] groups = rsar.FindChildrenByType("", BrawlLib.SSBB.ResourceNodes.ResourceType.RSARGroup);
-
-			TreeNodeCollection objects = treeView.Nodes;
-
-			foreach (BrawlLib.SSBB.ResourceNodes.RSARGroupNode group in groups)
+			foreach (MappingItem sourceNode in sourceView.Nodes)
 			{
-				if (group._files.Count > 0)
-				{
-					string name = "[" + group.StringId.ToString("X3") + "] " + group.Name;
-					int groupID = group.StringId;
-					MappingItem groupMap = new MappingItem(name, groupID);
-					objects.Add(groupMap);
-					nodeCount++;
-				}
+				destView.Nodes.Add(new MappingItem(sourceNode.name, sourceNode.groupID));
 			}
-
-			CloseRSAR();
 		}
 		public static void LoadMultiWAVExportTreeView(TreeView treeView, int targetGroupID, int targetFileID)
 		{

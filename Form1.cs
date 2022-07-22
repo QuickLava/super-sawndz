@@ -411,7 +411,7 @@ namespace BrawlSoundConverter
 		private void buttonMultiExportSawnd_Click(object sender, EventArgs e)
 		{
 			textBoxOutput.Clear();
-			multiSawndExportForm tempForm = new multiSawndExportForm();
+			multiSawndExportForm tempForm = new multiSawndExportForm(treeViewMapping);
 			tempForm.ShowDialog();
 		}
 		private void buttonMultiImportSawnd_Click(object sender, EventArgs e)

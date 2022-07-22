@@ -15,10 +15,10 @@ namespace BrawlSoundConverter
 {
 	public partial class multiSawndExportForm : Form
 	{
-		public multiSawndExportForm()
+		public multiSawndExportForm(TreeView sourceTree)
 		{
 			InitializeComponent();
-			brsar.LoadMultiExportTreeView(treeViewGroups);
+			brsar.LoadMultiExportTreeView(treeViewGroups, sourceTree);
 			buttonCancel.Enabled = true;
 			treeViewGroups.CheckBoxes = true;
 			switch (Properties.Settings.Default.DefaultMultiExportNameScheme)
