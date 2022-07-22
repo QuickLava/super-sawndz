@@ -100,7 +100,36 @@ namespace BrawlLib.SSBB.ResourceNodes
             Parent.Parent.SignalPropertyChange();
             RSARNode?.SignalPropertyChange();
         }
+        // A copy of the above Replace function, just changed to automatically progress the dialog.
+        public void HeadlessReplace(string fileName)
+        {
+            if (fileName.EndsWith(".wav"))
+            {
+                using (BrstmConverterDialog dlg = new BrstmConverterDialog())
+                {
+                    dlg.Type = 1;
+                    if (dlg.doHeadlessLoad(fileName))
+                    {
+                        ReplaceRaw(dlg.AudioData);
+                    }
+                }
+            }
+            else
+            {
+                base.Replace(fileName);
+            }
 
+            Init(WorkingUncompressed.Address + Info._dataLocation,
+                (int)(WorkingUncompressed.Length - Info._dataLocation), (WaveInfo*)WorkingUncompressed.Address);
+
+            //Cut out the audio samples from the imported data
+            SetSizeInternal((int)Info._dataLocation);
+
+            UpdateCurrentControl();
+            SignalPropertyChange();
+            Parent.Parent.SignalPropertyChange();
+            RSARNode?.SignalPropertyChange();
+        }
         public override void Export(string outPath)
         {
             if (outPath.EndsWith(".wav"))

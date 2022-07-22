@@ -707,6 +707,25 @@ namespace BrawlLib.Internal.Windows.Forms
             //}
         }
 
+        public bool doHeadlessLoad(string audioSourceIn = null)
+		{
+            bool result = false;
+
+            if (audioSourceIn != null)
+			{
+                _audioSource = audioSourceIn;
+			}
+            
+            if (_audioSource != null)
+			{
+                LoadAudio(AudioSource);
+                btnOkay_Click(null, null);
+                result = true;
+            }
+
+            return result;
+		}
+
         protected override void OnShown(EventArgs e)
         {
             if (_provider == null)
