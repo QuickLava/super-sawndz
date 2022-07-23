@@ -12,7 +12,7 @@ namespace BrawlSoundConverter
 	/// </summary>
 	class MappingItem : TreeNode, BrawlLib.Internal.Audio.IAudioSource
 	{
-		public int groupID, collectionID, wavID;
+		public int groupID, collectionID, wavID, infoIndex;
 		public BrawlLib.Internal.Audio.IAudioStream[] streams;
 		public string name;
 		int _fileSize;
@@ -89,13 +89,14 @@ namespace BrawlSoundConverter
 		{
 			return name;
 		}
-		public MappingItem(string name, int group = -1, int collection = -1, int wave = -1, bool sharesWave = false)
+		public MappingItem(string name, int group = -1, int collection = -1, int wave = -1, int infoIndexIn = -1, bool sharesWave = false)
 		{
 			this.name = name;
 			this.Text = name;
 			this.groupID = group;
 			this.collectionID = collection;
 			this.wavID = wave;
+			this.infoIndex = infoIndexIn;
 			_sharesWave = sharesWave;
 			streams = null;
 			_fileSize = 0;

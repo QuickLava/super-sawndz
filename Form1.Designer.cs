@@ -90,6 +90,7 @@
 			this.treeViewMapping.Size = new System.Drawing.Size(629, 681);
 			this.treeViewMapping.TabIndex = 3;
 			this.treeViewMapping.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeViewMapping_AfterSelect);
+			this.treeViewMapping.DoubleClick += new System.EventHandler(this.treeViewMapping_DoubleClick);
 			this.treeViewMapping.KeyDown += new System.Windows.Forms.KeyEventHandler(this.treeViewMapping_KeyDown);
 			// 
 			// textBoxGroupID

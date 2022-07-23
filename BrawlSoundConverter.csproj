@@ -1070,6 +1070,12 @@
     <Compile Include="SettingsForm.Designer.cs">
       <DependentUpon>SettingsForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="SoundPropertiesForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SoundPropertiesForm.Designer.cs">
+      <DependentUpon>SoundPropertiesForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="StreamSource.cs" />
     <Compile Include="TextBoxWriter.cs" />
     <Compile Include="brsar.cs" />
@@ -1186,6 +1192,9 @@
     </Compile>
     <EmbeddedResource Include="SettingsForm.resx">
       <DependentUpon>SettingsForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SoundPropertiesForm.resx">
+      <DependentUpon>SoundPropertiesForm.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="app.config" />
     <None Include="BrawlLib\BrawlLib.txt" />

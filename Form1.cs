@@ -490,5 +490,21 @@ namespace BrawlSoundConverter
 			loadTreeView();
 			enableStuff();
 		}
+
+		private void treeViewMapping_DoubleClick(object sender, EventArgs e)
+		{
+			MappingItem selectedNode = treeViewMapping.SelectedNode as MappingItem;
+			if (selectedNode != null)
+			{
+				SoundPropertiesForm soundProps = new SoundPropertiesForm(selectedNode.groupID, selectedNode.collectionID, selectedNode.infoIndex);
+				if (soundProps.initSuccessful)
+				{
+					if (soundProps.ShowDialog() == DialogResult.OK)
+					{
+						brsar.ReloadRSAR(true);
+					}
+				}
+			}
+		}
 	}
 }

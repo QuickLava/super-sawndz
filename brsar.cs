@@ -38,7 +38,20 @@ namespace BrawlSoundConverter
 				_rsar = null;
 			}
 		}
-
+		public static void SaveRSAR(bool forceSave = false)
+		{
+			if (forceSave || _rsar.IsDirty)
+			{
+				_rsar.Rebuild(forceSave);
+				_rsar.Export(_rsar._origPath);
+			}
+		}
+		public static void ReloadRSAR(bool forceSave = true)
+		{
+			SaveRSAR(forceSave);
+			CloseRSAR();
+			GetRSAR();
+		}
 		//Returns an rsargroup, rsarfile, or rwsdsound node
 		public static BrawlLib.SSBB.ResourceNodes.ResourceNode GetNode(int gid, int colid = -1, int wavid = -1)
 		{
@@ -68,6 +81,27 @@ namespace BrawlSoundConverter
 				return collection;
 			BrawlLib.SSBB.ResourceNodes.ResourceNode audioFolder = ( BrawlLib.SSBB.ResourceNodes.ResourceNode ) collection.FindChild( "audio", false );
 			return audioFolder.Children[ wavid ];
+		}
+		public static BrawlLib.SSBB.ResourceNodes.RWSDDataNode GetRWSDDataNode(int groupID, int collectionID, int infoIndex)
+		{
+			BrawlLib.SSBB.ResourceNodes.RWSDDataNode result = null;
+			BrawlLib.SSBB.ResourceNodes.RSARFileNode file = GetNode(groupID, collectionID) as BrawlLib.SSBB.ResourceNodes.RSARFileNode;
+			if (file != null)
+			{
+				BrawlLib.SSBB.ResourceNodes.RWSDDataGroupNode dataFolder = (BrawlLib.SSBB.ResourceNodes.RWSDDataGroupNode)file.FindChild("data", false);
+				if (dataFolder != null)
+				{
+					foreach(BrawlLib.SSBB.ResourceNodes.RWSDDataNode data in dataFolder.Children)
+					{
+						if (data._refs.Count > 0 && data._refs[0].InfoIndex == infoIndex)
+						{
+							result = data;
+							break;
+						}
+					}
+				}
+			}
+			return result;
 		}
 
 		//Populates a treeView with MappingItem nodes from the current rsar
@@ -146,7 +180,7 @@ namespace BrawlSoundConverter
 						addUpSoundSize += soundSize;
 
 						string sName = "[" + waveIndex.ToString("X3") + "] " + data.Name;
-						MappingItem soundMap = new MappingItem(sName, groupID, collectionID, waveIndex, usedWaveIndeces.Contains(waveIndex));
+						MappingItem soundMap = new MappingItem(sName, groupID, collectionID, waveIndex, data._refs[0].InfoIndex, usedWaveIndeces.Contains(waveIndex));
 						colMap.Nodes.Add(soundMap);
 						soundMap.fileSize = soundSize;
 						nodeCount++;
@@ -179,7 +213,7 @@ namespace BrawlSoundConverter
 						addUpSoundSize += soundSize;
 
 						string sName = "[" + i.ToString("X3") + "] ORPHANED";
-						MappingItem soundMap = new MappingItem(sName, groupID, collectionID, i, false);
+						MappingItem soundMap = new MappingItem(sName, groupID, collectionID, i, -1, false);
 						colMap.Nodes.Add(soundMap);
 						soundMap.fileSize = soundSize;
 						nodeCount++;
@@ -249,7 +283,7 @@ namespace BrawlSoundConverter
 								}
 							}
 
-							MappingItem soundMap = new MappingItem("Audio[" + i.ToString("X3") + "]", targetGroupID, targetFileID, i, false);
+							MappingItem soundMap = new MappingItem("Audio[" + i.ToString("X3") + "]", targetGroupID, targetFileID, i, -1, false);
 							root.Nodes.Add(soundMap);
 							soundMap.fileSize = soundSize;
 						}
@@ -318,7 +352,7 @@ namespace BrawlSoundConverter
 							}
 
 							string sName = data.Name + " - Using Audio[" + waveIndex.ToString("X3") + "]";
-							MappingItem soundMap = new MappingItem(sName, targetGroupID, targetFileID, waveIndex, usedWaveIndeces.Contains(waveIndex));
+							MappingItem soundMap = new MappingItem(sName, targetGroupID, targetFileID, waveIndex, data._refs[0].InfoIndex, usedWaveIndeces.Contains(waveIndex));
 							root.Nodes.Add(soundMap);
 							soundMap.fileSize = soundSize;
 
@@ -350,7 +384,7 @@ namespace BrawlSoundConverter
 							}
 
 							string sName = "ORPHANED - Using Audio[" + i.ToString("X3") + "]";
-							MappingItem soundMap = new MappingItem( sName, targetGroupID, targetFileID, i, false);
+							MappingItem soundMap = new MappingItem( sName, targetGroupID, targetFileID, i, -1, false);
 							root.Nodes.Add(soundMap);
 							soundMap.fileSize = soundSize;
 						}

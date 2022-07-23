@@ -87,7 +87,7 @@ namespace BrawlSoundConverter
 		public static bool createWAV(int groupID, int collID, int wavID, string fileName)
 		{
 			bool result = false;
-			Console.Write("Creating WAV File (\"" + Path.GetFileName(fileName) + "\"... ");
+			Console.Write("Creating WAV File (\"" + Path.GetFileName(fileName) + "\")... ");
 			BrawlLib.SSBB.ResourceNodes.RSARFileAudioNode targetNode = brsar.GetNode(groupID, collID, wavID) as BrawlLib.SSBB.ResourceNodes.RSARFileAudioNode;
 			if (targetNode != null)
 			{
@@ -205,11 +205,7 @@ namespace BrawlSoundConverter
 					}
 				}
 				currRsar = brsar.GetRSAR();
-				if (currRsar.IsDirty)
-				{
-					currRsar.Export(currRsar._origPath);
-					brsar.CloseRSAR();
-				}
+				brsar.ReloadRSAR();
 			}
 			else
 			{
@@ -264,7 +260,7 @@ namespace BrawlSoundConverter
 					for (int i = 0; i < audioFolder.Children.Count; i++)
 					{
 						string elementName = "Audio_" + groupID.ToString("D3") + "_" + collID.ToString("D3") + "_" + i.ToString("D3");
-						MappingItem soundMap = new MappingItem(elementName, groupID, collID, i, false);
+						MappingItem soundMap = new MappingItem(elementName, groupID, collID, i, -1, false);
 						collectedEntries.Add(soundMap);
 					}
 					for (int i = 0; i < dataFolder.Children.Count; i++)
@@ -276,7 +272,7 @@ namespace BrawlSoundConverter
 						if (collectedEntries.Count <= waveIndex)
 							continue;
 						
-						MappingItem soundMap = new MappingItem(data.Name, groupID, collID, waveIndex, false);
+						MappingItem soundMap = new MappingItem(data.Name, groupID, collID, waveIndex, -1, false);
 						collectedEntries[waveIndex].Nodes.Add(soundMap);
 					}
 					System.Xml.XmlWriterSettings waveMapSettings = new System.Xml.XmlWriterSettings();
