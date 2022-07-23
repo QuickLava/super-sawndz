@@ -147,7 +147,6 @@ namespace BrawlLib.Internal.Windows.Forms
 			this.pnlLoopStart = new System.Windows.Forms.Panel();
 			this.customTrackBar1 = new BrawlLib.Internal.Windows.Controls.CustomTrackBar();
 			this.grpLoop = new System.Windows.Forms.GroupBox();
-			this.chkLoopEnable = new System.Windows.Forms.CheckBox();
 			this.btnEndSet = new System.Windows.Forms.Button();
 			this.btnStartSet = new System.Windows.Forms.Button();
 			this.numLoopStart = new System.Windows.Forms.NumericUpDown();
@@ -155,6 +154,7 @@ namespace BrawlLib.Internal.Windows.Forms
 			this.lblEnd = new System.Windows.Forms.Label();
 			this.lblStart = new System.Windows.Forms.Label();
 			this.panel3 = new System.Windows.Forms.Panel();
+			this.chkLoopEnable = new System.Windows.Forms.CheckBox();
 			this.dlgOpen = new System.Windows.Forms.OpenFileDialog();
 			this.tmrUpdate = new System.Windows.Forms.Timer(this.components);
 			this.groupBox1.SuspendLayout();
@@ -175,9 +175,9 @@ namespace BrawlLib.Internal.Windows.Forms
 			// 
 			this.btnOkay.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.btnOkay.Enabled = false;
-			this.btnOkay.Location = new System.Drawing.Point(3, 2);
+			this.btnOkay.Location = new System.Drawing.Point(3, 3);
 			this.btnOkay.Name = "btnOkay";
-			this.btnOkay.Size = new System.Drawing.Size(75, 25);
+			this.btnOkay.Size = new System.Drawing.Size(75, 23);
 			this.btnOkay.TabIndex = 0;
 			this.btnOkay.Text = "Okay";
 			this.btnOkay.UseVisualStyleBackColor = true;
@@ -186,9 +186,9 @@ namespace BrawlLib.Internal.Windows.Forms
 			// btnCancel
 			// 
 			this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.btnCancel.Location = new System.Drawing.Point(80, 2);
+			this.btnCancel.Location = new System.Drawing.Point(80, 3);
 			this.btnCancel.Name = "btnCancel";
-			this.btnCancel.Size = new System.Drawing.Size(75, 25);
+			this.btnCancel.Size = new System.Drawing.Size(75, 23);
 			this.btnCancel.TabIndex = 1;
 			this.btnCancel.Text = "Cancel";
 			this.btnCancel.UseVisualStyleBackColor = true;
@@ -201,13 +201,13 @@ namespace BrawlLib.Internal.Windows.Forms
 			this.txtPath.Location = new System.Drawing.Point(0, 0);
 			this.txtPath.Name = "txtPath";
 			this.txtPath.ReadOnly = true;
-			this.txtPath.Size = new System.Drawing.Size(321, 22);
+			this.txtPath.Size = new System.Drawing.Size(292, 22);
 			this.txtPath.TabIndex = 2;
 			// 
 			// btnBrowse
 			// 
 			this.btnBrowse.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.btnBrowse.Location = new System.Drawing.Point(326, 0);
+			this.btnBrowse.Location = new System.Drawing.Point(297, 0);
 			this.btnBrowse.Name = "btnBrowse";
 			this.btnBrowse.Size = new System.Drawing.Size(25, 20);
 			this.btnBrowse.TabIndex = 3;
@@ -224,7 +224,7 @@ namespace BrawlLib.Internal.Windows.Forms
 			this.groupBox1.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.groupBox1.Location = new System.Drawing.Point(0, 62);
 			this.groupBox1.Name = "groupBox1";
-			this.groupBox1.Size = new System.Drawing.Size(158, 93);
+			this.groupBox1.Size = new System.Drawing.Size(158, 91);
 			this.groupBox1.TabIndex = 5;
 			this.groupBox1.TabStop = false;
 			this.groupBox1.Text = "File Info";
@@ -251,12 +251,12 @@ namespace BrawlLib.Internal.Windows.Forms
 			// 
 			// lblText2
 			// 
-			this.lblText2.Location = new System.Drawing.Point(6, 36);
+			this.lblText2.Location = new System.Drawing.Point(2, 36);
 			this.lblText2.Name = "lblText2";
-			this.lblText2.Size = new System.Drawing.Size(72, 20);
+			this.lblText2.Size = new System.Drawing.Size(70, 20);
 			this.lblText2.TabIndex = 1;
 			this.lblText2.Text = "Samples:";
-			this.lblText2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.lblText2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// lblText1
 			// 
@@ -265,7 +265,7 @@ namespace BrawlLib.Internal.Windows.Forms
 			this.lblText1.Size = new System.Drawing.Size(80, 20);
 			this.lblText1.TabIndex = 0;
 			this.lblText1.Text = "Frequency:";
-			this.lblText1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.lblText1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// lblPlayTime
 			// 
@@ -273,7 +273,7 @@ namespace BrawlLib.Internal.Windows.Forms
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.lblPlayTime.Location = new System.Drawing.Point(6, 63);
 			this.lblPlayTime.Name = "lblPlayTime";
-			this.lblPlayTime.Size = new System.Drawing.Size(343, 20);
+			this.lblPlayTime.Size = new System.Drawing.Size(314, 20);
 			this.lblPlayTime.TabIndex = 6;
 			this.lblPlayTime.Text = "0 / 0";
 			this.lblPlayTime.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -281,9 +281,9 @@ namespace BrawlLib.Internal.Windows.Forms
 			// btnPlay
 			// 
 			this.btnPlay.Anchor = System.Windows.Forms.AnchorStyles.Top;
-			this.btnPlay.Location = new System.Drawing.Point(140, 86);
+			this.btnPlay.Location = new System.Drawing.Point(126, 86);
 			this.btnPlay.Name = "btnPlay";
-			this.btnPlay.Size = new System.Drawing.Size(75, 25);
+			this.btnPlay.Size = new System.Drawing.Size(75, 24);
 			this.btnPlay.TabIndex = 7;
 			this.btnPlay.Text = "Play";
 			this.btnPlay.UseVisualStyleBackColor = true;
@@ -292,9 +292,9 @@ namespace BrawlLib.Internal.Windows.Forms
 			// btnRewind
 			// 
 			this.btnRewind.Anchor = System.Windows.Forms.AnchorStyles.Top;
-			this.btnRewind.Location = new System.Drawing.Point(85, 86);
+			this.btnRewind.Location = new System.Drawing.Point(70, 86);
 			this.btnRewind.Name = "btnRewind";
-			this.btnRewind.Size = new System.Drawing.Size(27, 25);
+			this.btnRewind.Size = new System.Drawing.Size(28, 24);
 			this.btnRewind.TabIndex = 8;
 			this.btnRewind.Text = "|<";
 			this.btnRewind.UseVisualStyleBackColor = true;
@@ -306,9 +306,9 @@ namespace BrawlLib.Internal.Windows.Forms
 			this.pnlInfo.Controls.Add(this.groupBox3);
 			this.pnlInfo.Controls.Add(this.panel4);
 			this.pnlInfo.Dock = System.Windows.Forms.DockStyle.Right;
-			this.pnlInfo.Location = new System.Drawing.Point(355, 0);
+			this.pnlInfo.Location = new System.Drawing.Point(326, 0);
 			this.pnlInfo.Name = "pnlInfo";
-			this.pnlInfo.Size = new System.Drawing.Size(158, 184);
+			this.pnlInfo.Size = new System.Drawing.Size(158, 182);
 			this.pnlInfo.TabIndex = 9;
 			// 
 			// groupBox3
@@ -335,9 +335,9 @@ namespace BrawlLib.Internal.Windows.Forms
 			// 
 			// label1
 			// 
-			this.label1.Location = new System.Drawing.Point(6, 16);
+			this.label1.Location = new System.Drawing.Point(4, 16);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(72, 22);
+			this.label1.Size = new System.Drawing.Size(74, 20);
 			this.label1.TabIndex = 13;
 			this.label1.Text = "Encoding:";
 			this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -347,7 +347,7 @@ namespace BrawlLib.Internal.Windows.Forms
 			this.panel4.Controls.Add(this.btnOkay);
 			this.panel4.Controls.Add(this.btnCancel);
 			this.panel4.Dock = System.Windows.Forms.DockStyle.Bottom;
-			this.panel4.Location = new System.Drawing.Point(0, 155);
+			this.panel4.Location = new System.Drawing.Point(0, 153);
 			this.panel4.Name = "panel4";
 			this.panel4.Size = new System.Drawing.Size(158, 29);
 			this.panel4.TabIndex = 6;
@@ -360,7 +360,7 @@ namespace BrawlLib.Internal.Windows.Forms
 			this.pnlEdit.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.pnlEdit.Location = new System.Drawing.Point(0, 0);
 			this.pnlEdit.Name = "pnlEdit";
-			this.pnlEdit.Size = new System.Drawing.Size(355, 184);
+			this.pnlEdit.Size = new System.Drawing.Size(326, 182);
 			this.pnlEdit.TabIndex = 10;
 			// 
 			// groupBox2
@@ -377,7 +377,7 @@ namespace BrawlLib.Internal.Windows.Forms
 			this.groupBox2.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.groupBox2.Location = new System.Drawing.Point(0, 65);
 			this.groupBox2.Name = "groupBox2";
-			this.groupBox2.Size = new System.Drawing.Size(355, 119);
+			this.groupBox2.Size = new System.Drawing.Size(326, 117);
 			this.groupBox2.TabIndex = 13;
 			this.groupBox2.TabStop = false;
 			this.groupBox2.Text = "Playback";
@@ -385,9 +385,9 @@ namespace BrawlLib.Internal.Windows.Forms
 			// btnSeekEnd
 			// 
 			this.btnSeekEnd.Anchor = System.Windows.Forms.AnchorStyles.Top;
-			this.btnSeekEnd.Location = new System.Drawing.Point(243, 86);
+			this.btnSeekEnd.Location = new System.Drawing.Point(229, 86);
 			this.btnSeekEnd.Name = "btnSeekEnd";
-			this.btnSeekEnd.Size = new System.Drawing.Size(27, 25);
+			this.btnSeekEnd.Size = new System.Drawing.Size(28, 24);
 			this.btnSeekEnd.TabIndex = 13;
 			this.btnSeekEnd.Text = ">|";
 			this.btnSeekEnd.UseVisualStyleBackColor = true;
@@ -397,9 +397,9 @@ namespace BrawlLib.Internal.Windows.Forms
 			// 
 			this.btnLoopRW.Anchor = System.Windows.Forms.AnchorStyles.Top;
 			this.btnLoopRW.Enabled = false;
-			this.btnLoopRW.Location = new System.Drawing.Point(113, 86);
+			this.btnLoopRW.Location = new System.Drawing.Point(99, 86);
 			this.btnLoopRW.Name = "btnLoopRW";
-			this.btnLoopRW.Size = new System.Drawing.Size(26, 25);
+			this.btnLoopRW.Size = new System.Drawing.Size(26, 24);
 			this.btnLoopRW.TabIndex = 12;
 			this.btnLoopRW.Text = "<";
 			this.btnLoopRW.UseVisualStyleBackColor = true;
@@ -409,9 +409,9 @@ namespace BrawlLib.Internal.Windows.Forms
 			// 
 			this.btnFFwd.Anchor = System.Windows.Forms.AnchorStyles.Top;
 			this.btnFFwd.Enabled = false;
-			this.btnFFwd.Location = new System.Drawing.Point(216, 86);
+			this.btnFFwd.Location = new System.Drawing.Point(202, 86);
 			this.btnFFwd.Name = "btnFFwd";
-			this.btnFFwd.Size = new System.Drawing.Size(26, 25);
+			this.btnFFwd.Size = new System.Drawing.Size(26, 24);
 			this.btnFFwd.TabIndex = 11;
 			this.btnFFwd.Text = ">";
 			this.btnFFwd.UseVisualStyleBackColor = true;
@@ -420,9 +420,9 @@ namespace BrawlLib.Internal.Windows.Forms
 			// chkLoop
 			// 
 			this.chkLoop.Enabled = false;
-			this.chkLoop.Location = new System.Drawing.Point(6, 86);
+			this.chkLoop.Location = new System.Drawing.Point(10, 86);
 			this.chkLoop.Name = "chkLoop";
-			this.chkLoop.Size = new System.Drawing.Size(65, 25);
+			this.chkLoop.Size = new System.Drawing.Size(62, 20);
 			this.chkLoop.TabIndex = 10;
 			this.chkLoop.Text = "Loop";
 			this.chkLoop.UseVisualStyleBackColor = true;
@@ -439,7 +439,7 @@ namespace BrawlLib.Internal.Windows.Forms
 			this.pnlLoop.Controls.Add(this.pnlLoopStart);
 			this.pnlLoop.Location = new System.Drawing.Point(18, 50);
 			this.pnlLoop.Name = "pnlLoop";
-			this.pnlLoop.Size = new System.Drawing.Size(319, 12);
+			this.pnlLoop.Size = new System.Drawing.Size(290, 12);
 			this.pnlLoop.TabIndex = 9;
 			this.pnlLoop.Visible = false;
 			// 
@@ -447,7 +447,7 @@ namespace BrawlLib.Internal.Windows.Forms
 			// 
 			this.spltEnd.BackColor = System.Drawing.Color.Red;
 			this.spltEnd.Dock = System.Windows.Forms.DockStyle.Right;
-			this.spltEnd.Location = new System.Drawing.Point(316, 0);
+			this.spltEnd.Location = new System.Drawing.Point(287, 0);
 			this.spltEnd.MinExtra = 0;
 			this.spltEnd.MinSize = 0;
 			this.spltEnd.Name = "spltEnd";
@@ -459,7 +459,7 @@ namespace BrawlLib.Internal.Windows.Forms
 			// 
 			this.pnlLoopEnd.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(128)))));
 			this.pnlLoopEnd.Dock = System.Windows.Forms.DockStyle.Right;
-			this.pnlLoopEnd.Location = new System.Drawing.Point(319, 0);
+			this.pnlLoopEnd.Location = new System.Drawing.Point(290, 0);
 			this.pnlLoopEnd.Name = "pnlLoopEnd";
 			this.pnlLoopEnd.Size = new System.Drawing.Size(0, 12);
 			this.pnlLoopEnd.TabIndex = 2;
@@ -492,14 +492,13 @@ namespace BrawlLib.Internal.Windows.Forms
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.customTrackBar1.Location = new System.Drawing.Point(6, 19);
 			this.customTrackBar1.Name = "customTrackBar1";
-			this.customTrackBar1.Size = new System.Drawing.Size(343, 56);
+			this.customTrackBar1.Size = new System.Drawing.Size(314, 56);
 			this.customTrackBar1.TabIndex = 4;
 			this.customTrackBar1.UserSeek += new System.EventHandler(this.customTrackBar1_UserSeek);
 			this.customTrackBar1.ValueChanged += new System.EventHandler(this.customTrackBar1_ValueChanged);
 			// 
 			// grpLoop
 			// 
-			this.grpLoop.Controls.Add(this.chkLoopEnable);
 			this.grpLoop.Controls.Add(this.btnEndSet);
 			this.grpLoop.Controls.Add(this.btnStartSet);
 			this.grpLoop.Controls.Add(this.numLoopStart);
@@ -510,20 +509,10 @@ namespace BrawlLib.Internal.Windows.Forms
 			this.grpLoop.Enabled = false;
 			this.grpLoop.Location = new System.Drawing.Point(0, 20);
 			this.grpLoop.Name = "grpLoop";
-			this.grpLoop.Size = new System.Drawing.Size(355, 45);
+			this.grpLoop.Size = new System.Drawing.Size(326, 45);
 			this.grpLoop.TabIndex = 15;
 			this.grpLoop.TabStop = false;
 			this.grpLoop.Text = "Loop";
-			// 
-			// chkLoopEnable
-			// 
-			this.chkLoopEnable.Location = new System.Drawing.Point(49, 0);
-			this.chkLoopEnable.Name = "chkLoopEnable";
-			this.chkLoopEnable.Size = new System.Drawing.Size(76, 21);
-			this.chkLoopEnable.TabIndex = 13;
-			this.chkLoopEnable.Text = "Enable";
-			this.chkLoopEnable.UseVisualStyleBackColor = true;
-			this.chkLoopEnable.CheckedChanged += new System.EventHandler(this.chkLoopEnable_CheckedChanged);
 			// 
 			// btnEndSet
 			// 
@@ -596,8 +585,18 @@ namespace BrawlLib.Internal.Windows.Forms
 			this.panel3.Dock = System.Windows.Forms.DockStyle.Top;
 			this.panel3.Location = new System.Drawing.Point(0, 0);
 			this.panel3.Name = "panel3";
-			this.panel3.Size = new System.Drawing.Size(355, 20);
+			this.panel3.Size = new System.Drawing.Size(326, 20);
 			this.panel3.TabIndex = 14;
+			// 
+			// chkLoopEnable
+			// 
+			this.chkLoopEnable.Location = new System.Drawing.Point(49, 18);
+			this.chkLoopEnable.Name = "chkLoopEnable";
+			this.chkLoopEnable.Size = new System.Drawing.Size(80, 20);
+			this.chkLoopEnable.TabIndex = 13;
+			this.chkLoopEnable.Text = "Enable";
+			this.chkLoopEnable.UseVisualStyleBackColor = true;
+			this.chkLoopEnable.CheckedChanged += new System.EventHandler(this.chkLoopEnable_CheckedChanged);
 			// 
 			// tmrUpdate
 			// 
@@ -606,7 +605,8 @@ namespace BrawlLib.Internal.Windows.Forms
 			// 
 			// BrstmConverterDialog
 			// 
-			this.ClientSize = new System.Drawing.Size(513, 184);
+			this.ClientSize = new System.Drawing.Size(484, 182);
+			this.Controls.Add(this.chkLoopEnable);
 			this.Controls.Add(this.pnlEdit);
 			this.Controls.Add(this.pnlInfo);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
@@ -706,26 +706,24 @@ namespace BrawlLib.Internal.Windows.Forms
             //    return DialogResult.Cancel;
             //}
         }
-
         public bool doHeadlessLoad(string audioSourceIn = null)
-		{
+        {
             bool result = false;
 
             if (audioSourceIn != null)
-			{
+            {
                 _audioSource = audioSourceIn;
-			}
-            
+            }
+
             if (_audioSource != null)
-			{
+            {
                 LoadAudio(AudioSource);
                 btnOkay_Click(null, null);
                 result = true;
             }
 
             return result;
-		}
-
+        }
         protected override void OnShown(EventArgs e)
         {
             if (_provider == null)
