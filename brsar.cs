@@ -122,7 +122,7 @@ namespace BrawlSoundConverter
 				string name = "[" + group.StringId.ToString("X3") + "] " + group.Name;
 				
 				int groupID = group.StringId;
-				MappingItem groupMap = new MappingItem( name, groupID );
+				MappingItem groupMap = new MappingItem( name, groupID, -1, -1, group.InfoIndex );
 				nodes.Add( groupMap );
 				nodeCount++;
 				
@@ -239,7 +239,7 @@ namespace BrawlSoundConverter
 		{
 			foreach (MappingItem sourceNode in sourceView.Nodes)
 			{
-				destView.Nodes.Add(new MappingItem(sourceNode.name, sourceNode.groupID));
+				destView.Nodes.Add(new MappingItem(sourceNode.name, sourceNode.groupID, -1, -1, sourceNode.infoIndex));
 			}
 		}
 		public static void LoadMultiWAVExportTreeView(TreeView treeView, int targetGroupID, int targetFileID)
