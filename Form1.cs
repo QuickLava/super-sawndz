@@ -63,6 +63,18 @@ namespace BrawlSoundConverter
 				disableStuff();
 				Console.WriteLine( "Select File->Open BRSAR to begin." );
 			}
+
+			foreach (TreeNode node in treeViewMapping.Nodes)
+			{
+				foreach (TreeNode collNode in node.Nodes)
+				{
+					collNode.ContextMenuStrip = contextMenuStripCollection;
+					foreach (TreeNode wavNode in collNode.Nodes)
+					{
+						wavNode.ContextMenuStrip = contextMenuStripWAV;
+					}
+				}
+			}
 			
 			//These are not the crossthread calls you are looking for
 			Control.CheckForIllegalCrossThreadCalls = false;
@@ -491,7 +503,7 @@ namespace BrawlSoundConverter
 			enableStuff();
 		}
 
-		private void treeViewMapping_DoubleClick(object sender, EventArgs e)
+		private void toolStripMenuItemSoundProps_Click(object sender, EventArgs e)
 		{
 			MappingItem selectedNode = treeViewMapping.SelectedNode as MappingItem;
 			if (selectedNode != null)
@@ -504,6 +516,81 @@ namespace BrawlSoundConverter
 						brsar.ReloadRSAR(true);
 					}
 				}
+			}
+		}
+
+		private void toolStripMenuItemBRWSDExport_Click(object sender, EventArgs e)
+		{
+			textBoxOutput.Clear();
+			int gid, cid;
+			if (!int.TryParse(textBoxGroupID.Text, out gid))
+			{
+				MessageBox.Show("Group ID is not valid");
+				return;
+			}
+			if (!int.TryParse(textBoxCollectionID.Text, out cid))
+			{
+				MessageBox.Show("Collection ID is not valid");
+				return;
+			}
+			BrawlLib.SSBB.ResourceNodes.RSARFileNode currColl = brsar.GetNode(gid, cid) as BrawlLib.SSBB.ResourceNodes.RSARFileNode;
+			if (currColl != null)
+			{
+				Console.Write("Exporting BRWSD file... ");
+				SaveFileDialog sfd = new SaveFileDialog();
+				sfd.Filter = "*BRWSD File(*.brwsd)|*.brwsd";
+				if (sfd.ShowDialog() == DialogResult.OK)
+				{
+					currColl.Export(sfd.FileName);
+					Console.WriteLine("Successfully exported \"" + sfd.FileName + "\"!");
+				}
+				else
+				{
+					Console.WriteLine("Operation Cancelled!");
+				}
+			}
+			else
+			{
+				MessageBox.Show("Specified Collection doesn't exist");
+				return;
+			}
+		}
+
+		private void toolStripMenuItemBRWSDReplace_Click(object sender, EventArgs e)
+		{
+			textBoxOutput.Clear();
+			int gid, cid;
+			if (!int.TryParse(textBoxGroupID.Text, out gid))
+			{
+				MessageBox.Show("Group ID is not valid");
+				return;
+			}
+			if (!int.TryParse(textBoxCollectionID.Text, out cid))
+			{
+				MessageBox.Show("Collection ID is not valid");
+				return;
+			}
+			BrawlLib.SSBB.ResourceNodes.RSARFileNode currColl = brsar.GetNode(gid, cid) as BrawlLib.SSBB.ResourceNodes.RSARFileNode;
+			if (currColl != null)
+			{
+				Console.Write("Importing BRWSD file... ");
+				OpenFileDialog ofd = new OpenFileDialog();
+				ofd.Filter = "*BRWSD File(*.brwsd)|*.brwsd";
+				if (ofd.ShowDialog() == DialogResult.OK)
+				{
+					currColl.Replace(ofd.FileName);
+					brsar.ReloadRSAR();
+					Console.WriteLine("Successfully imported \"" + ofd.FileName + "\"!");
+				}
+				else
+				{
+					Console.WriteLine("Operation Cancelled!");
+				}
+			}
+			else
+			{
+				MessageBox.Show("Specified Collection doesn't exist");
+				return;
 			}
 		}
 	}

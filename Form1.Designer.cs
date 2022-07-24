@@ -28,6 +28,7 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
+			this.components = new System.ComponentModel.Container();
 			this.textBoxOutput = new System.Windows.Forms.TextBox();
 			this.treeViewMapping = new System.Windows.Forms.TreeView();
 			this.textBoxGroupID = new System.Windows.Forms.TextBox();
@@ -55,11 +56,18 @@
 			this.buttonMultiInsertSawnd = new System.Windows.Forms.Button();
 			this.backgroundWorkerMultiInsertSawnd = new System.ComponentModel.BackgroundWorker();
 			this.buttonMultiCreateWAV = new System.Windows.Forms.Button();
-			this.audioPlaybackBRSARSound = new BrawlLib.Internal.Windows.Controls.AudioPlaybackPanel();
-			this.audioPlaybackPanelWav = new BrawlLib.Internal.Windows.Controls.AudioPlaybackPanel();
 			this.buttonMultiInsertWAV = new System.Windows.Forms.Button();
 			this.backgroundWorkerMultiInsertWAV = new System.ComponentModel.BackgroundWorker();
+			this.contextMenuStripWAV = new System.Windows.Forms.ContextMenuStrip(this.components);
+			this.contextMenuStripCollection = new System.Windows.Forms.ContextMenuStrip(this.components);
+			this.toolStripMenuItemSoundProps = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripMenuItemBRWSDExport = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripMenuItemBRWSDReplace = new System.Windows.Forms.ToolStripMenuItem();
+			this.audioPlaybackBRSARSound = new BrawlLib.Internal.Windows.Controls.AudioPlaybackPanel();
+			this.audioPlaybackPanelWav = new BrawlLib.Internal.Windows.Controls.AudioPlaybackPanel();
 			this.menuStrip1.SuspendLayout();
+			this.contextMenuStripWAV.SuspendLayout();
+			this.contextMenuStripCollection.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// textBoxOutput
@@ -90,7 +98,6 @@
 			this.treeViewMapping.Size = new System.Drawing.Size(629, 681);
 			this.treeViewMapping.TabIndex = 3;
 			this.treeViewMapping.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeViewMapping_AfterSelect);
-			this.treeViewMapping.DoubleClick += new System.EventHandler(this.treeViewMapping_DoubleClick);
 			this.treeViewMapping.KeyDown += new System.Windows.Forms.KeyEventHandler(this.treeViewMapping_KeyDown);
 			// 
 			// textBoxGroupID
@@ -220,7 +227,7 @@
             this.aboutToolStripMenuItem});
 			this.menuStrip1.Location = new System.Drawing.Point(0, 0);
 			this.menuStrip1.Name = "menuStrip1";
-			this.menuStrip1.Size = new System.Drawing.Size(176, 28);
+			this.menuStrip1.Size = new System.Drawing.Size(176, 30);
 			this.menuStrip1.TabIndex = 16;
 			this.menuStrip1.Text = "menuStrip1";
 			// 
@@ -229,7 +236,7 @@
 			this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.openBRSARToolStripMenuItem});
 			this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-			this.fileToolStripMenuItem.Size = new System.Drawing.Size(46, 24);
+			this.fileToolStripMenuItem.Size = new System.Drawing.Size(46, 26);
 			this.fileToolStripMenuItem.Text = "File";
 			// 
 			// openBRSARToolStripMenuItem
@@ -244,7 +251,7 @@
 			this.toolsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.ChangeSettingsToolStripMenuItem});
 			this.toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
-			this.toolsToolStripMenuItem.Size = new System.Drawing.Size(58, 24);
+			this.toolsToolStripMenuItem.Size = new System.Drawing.Size(58, 26);
 			this.toolsToolStripMenuItem.Text = "Tools";
 			// 
 			// ChangeSettingsToolStripMenuItem
@@ -257,7 +264,7 @@
 			// aboutToolStripMenuItem
 			// 
 			this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-			this.aboutToolStripMenuItem.Size = new System.Drawing.Size(64, 24);
+			this.aboutToolStripMenuItem.Size = new System.Drawing.Size(64, 26);
 			this.aboutToolStripMenuItem.Text = "About";
 			this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
 			// 
@@ -342,6 +349,62 @@
 			this.buttonMultiCreateWAV.UseVisualStyleBackColor = true;
 			this.buttonMultiCreateWAV.Click += new System.EventHandler(this.buttonMultiCreateWAV_Click);
 			// 
+			// buttonMultiInsertWAV
+			// 
+			this.buttonMultiInsertWAV.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.buttonMultiInsertWAV.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.4F);
+			this.buttonMultiInsertWAV.Location = new System.Drawing.Point(505, 152);
+			this.buttonMultiInsertWAV.Margin = new System.Windows.Forms.Padding(4);
+			this.buttonMultiInsertWAV.Name = "buttonMultiInsertWAV";
+			this.buttonMultiInsertWAV.Size = new System.Drawing.Size(125, 28);
+			this.buttonMultiInsertWAV.TabIndex = 23;
+			this.buttonMultiInsertWAV.Text = "Multi Insert WAV";
+			this.buttonMultiInsertWAV.UseVisualStyleBackColor = true;
+			this.buttonMultiInsertWAV.Click += new System.EventHandler(this.buttonMultiInsertWAV_Click);
+			// 
+			// backgroundWorkerMultiInsertWAV
+			// 
+			this.backgroundWorkerMultiInsertWAV.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorkerMultiInsertWAV_DoWork);
+			this.backgroundWorkerMultiInsertWAV.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.backgroundWorkerMultiInsertWAV_RunWorkerCompleted);
+			// 
+			// contextMenuStripWAV
+			// 
+			this.contextMenuStripWAV.ImageScalingSize = new System.Drawing.Size(20, 20);
+			this.contextMenuStripWAV.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripMenuItemSoundProps});
+			this.contextMenuStripWAV.Name = "contextMenuStripWAV";
+			this.contextMenuStripWAV.Size = new System.Drawing.Size(222, 28);
+			// 
+			// contextMenuStripCollection
+			// 
+			this.contextMenuStripCollection.ImageScalingSize = new System.Drawing.Size(20, 20);
+			this.contextMenuStripCollection.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripMenuItemBRWSDExport,
+            this.toolStripMenuItemBRWSDReplace});
+			this.contextMenuStripCollection.Name = "contextMenuStripCollection";
+			this.contextMenuStripCollection.Size = new System.Drawing.Size(219, 80);
+			// 
+			// toolStripMenuItemSoundProps
+			// 
+			this.toolStripMenuItemSoundProps.Name = "toolStripMenuItemSoundProps";
+			this.toolStripMenuItemSoundProps.Size = new System.Drawing.Size(221, 24);
+			this.toolStripMenuItemSoundProps.Text = "Edit Sound Properties";
+			this.toolStripMenuItemSoundProps.Click += new System.EventHandler(this.toolStripMenuItemSoundProps_Click);
+			// 
+			// toolStripMenuItemBRWSDExport
+			// 
+			this.toolStripMenuItemBRWSDExport.Name = "toolStripMenuItemBRWSDExport";
+			this.toolStripMenuItemBRWSDExport.Size = new System.Drawing.Size(218, 24);
+			this.toolStripMenuItemBRWSDExport.Text = "Export as BRWSD";
+			this.toolStripMenuItemBRWSDExport.Click += new System.EventHandler(this.toolStripMenuItemBRWSDExport_Click);
+			// 
+			// toolStripMenuItemBRWSDReplace
+			// 
+			this.toolStripMenuItemBRWSDReplace.Name = "toolStripMenuItemBRWSDReplace";
+			this.toolStripMenuItemBRWSDReplace.Size = new System.Drawing.Size(218, 24);
+			this.toolStripMenuItemBRWSDReplace.Text = "Replace with BRWSD";
+			this.toolStripMenuItemBRWSDReplace.Click += new System.EventHandler(this.toolStripMenuItemBRWSDReplace_Click);
+			// 
 			// audioPlaybackBRSARSound
 			// 
 			this.audioPlaybackBRSARSound.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
@@ -362,24 +425,6 @@
 			this.audioPlaybackPanelWav.Size = new System.Drawing.Size(611, 105);
 			this.audioPlaybackPanelWav.TabIndex = 14;
 			this.audioPlaybackPanelWav.TargetStreams = null;
-			// 
-			// buttonMultiInsertWAV
-			// 
-			this.buttonMultiInsertWAV.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.buttonMultiInsertWAV.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.4F);
-			this.buttonMultiInsertWAV.Location = new System.Drawing.Point(505, 152);
-			this.buttonMultiInsertWAV.Margin = new System.Windows.Forms.Padding(4);
-			this.buttonMultiInsertWAV.Name = "buttonMultiInsertWAV";
-			this.buttonMultiInsertWAV.Size = new System.Drawing.Size(125, 28);
-			this.buttonMultiInsertWAV.TabIndex = 23;
-			this.buttonMultiInsertWAV.Text = "Multi Insert WAV";
-			this.buttonMultiInsertWAV.UseVisualStyleBackColor = true;
-			this.buttonMultiInsertWAV.Click += new System.EventHandler(this.buttonMultiInsertWAV_Click);
-			// 
-			// backgroundWorkerMultiInsertWAV
-			// 
-			this.backgroundWorkerMultiInsertWAV.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorkerMultiInsertWAV_DoWork);
-			this.backgroundWorkerMultiInsertWAV.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.backgroundWorkerMultiInsertWAV_RunWorkerCompleted);
 			// 
 			// Form1
 			// 
@@ -414,6 +459,8 @@
 			this.Load += new System.EventHandler(this.Form1_Load);
 			this.menuStrip1.ResumeLayout(false);
 			this.menuStrip1.PerformLayout();
+			this.contextMenuStripWAV.ResumeLayout(false);
+			this.contextMenuStripCollection.ResumeLayout(false);
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -452,6 +499,11 @@
 		private System.Windows.Forms.Button buttonMultiCreateWAV;
 		private System.Windows.Forms.Button buttonMultiInsertWAV;
 		private System.ComponentModel.BackgroundWorker backgroundWorkerMultiInsertWAV;
+		private System.Windows.Forms.ContextMenuStrip contextMenuStripWAV;
+		private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemSoundProps;
+		private System.Windows.Forms.ContextMenuStrip contextMenuStripCollection;
+		private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemBRWSDExport;
+		private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemBRWSDReplace;
 	}
 }
 
