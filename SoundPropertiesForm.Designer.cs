@@ -75,7 +75,7 @@ namespace BrawlSoundConverter
 			// 
 			this.numericUpDownVol.Location = new System.Drawing.Point(16, 84);
 			this.numericUpDownVol.Maximum = new decimal(new int[] {
-            127,
+            255,
             0,
             0,
             0});
@@ -115,7 +115,7 @@ namespace BrawlSoundConverter
             65536});
 			this.numericUpDownPitch.Location = new System.Drawing.Point(168, 84);
 			this.numericUpDownPitch.Maximum = new decimal(new int[] {
-            2,
+            10,
             0,
             0,
             0});
@@ -144,7 +144,7 @@ namespace BrawlSoundConverter
 			// button1
 			// 
 			this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.button1.Location = new System.Drawing.Point(312, 255);
+			this.button1.Location = new System.Drawing.Point(312, 115);
 			this.button1.Name = "button1";
 			this.button1.Size = new System.Drawing.Size(75, 23);
 			this.button1.TabIndex = 11;
@@ -155,7 +155,7 @@ namespace BrawlSoundConverter
 			// button2
 			// 
 			this.button2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.button2.Location = new System.Drawing.Point(393, 255);
+			this.button2.Location = new System.Drawing.Point(393, 115);
 			this.button2.Name = "button2";
 			this.button2.Size = new System.Drawing.Size(75, 23);
 			this.button2.TabIndex = 12;
@@ -230,7 +230,7 @@ namespace BrawlSoundConverter
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(480, 290);
+			this.ClientSize = new System.Drawing.Size(480, 150);
 			this.Controls.Add(this.label7);
 			this.Controls.Add(this.label6);
 			this.Controls.Add(this.label3);

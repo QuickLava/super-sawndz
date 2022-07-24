@@ -22,12 +22,12 @@ namespace BrawlSoundConverter
 			{
 				initSuccessful = true;
 				textBox1.Text = sourceNode.Name;
-				numericUpDownVol.Value = sourceNode.MainSend;
-				numericUpDownPitch.Value = new Decimal(sourceNode.Pitch);
-				numericUpDownPan.Value = sourceNode.Pan;
-				numericUpDownFX1.Value = sourceNode.FxSendA;
-				numericUpDownFX2.Value = sourceNode.FxSendB;
-				numericUpDownFX3.Value = sourceNode.FxSendC;
+				numericUpDownVol.Value = (sourceNode.MainSend < numericUpDownVol.Maximum) ? sourceNode.MainSend : numericUpDownVol.Maximum;
+				numericUpDownPitch.Value = (new Decimal(sourceNode.Pitch) < numericUpDownPitch.Maximum) ? new Decimal(sourceNode.Pitch) : numericUpDownPitch.Maximum;
+				numericUpDownPan.Value = (sourceNode.Pan < numericUpDownPan.Maximum) ? sourceNode.Pan : numericUpDownPan.Maximum;
+				numericUpDownFX1.Value = (sourceNode.FxSendA < numericUpDownFX1.Maximum) ? sourceNode.FxSendA : numericUpDownFX1.Maximum;
+				numericUpDownFX2.Value = (sourceNode.FxSendB < numericUpDownFX2.Maximum) ? sourceNode.FxSendB : numericUpDownFX2.Maximum;
+				numericUpDownFX3.Value = (sourceNode.FxSendC < numericUpDownFX3.Maximum) ? sourceNode.FxSendC : numericUpDownFX3.Maximum;
 			}
 		}
 
