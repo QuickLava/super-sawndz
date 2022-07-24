@@ -538,6 +538,7 @@ namespace BrawlSoundConverter
 			{
 				Console.Write("Exporting BRWSD file... ");
 				SaveFileDialog sfd = new SaveFileDialog();
+				sfd.FileName = "[" + gid.ToString("D3") + "_" + cid.ToString("X3") + "] RWSD.brwsd";
 				sfd.Filter = "*BRWSD File(*.brwsd)|*.brwsd";
 				if (sfd.ShowDialog() == DialogResult.OK)
 				{
