@@ -91,7 +91,7 @@ namespace BrawlSoundConverter
 					{
 						if (item.Checked)
 						{
-							exportList.WriteLine("\"" + (item.groupID - 7).ToString("X3") + ".sawnd" + "\" = " + item.groupID.ToString());
+							exportList.WriteLine("\"" + item.infoIndex.ToString("X3") + ".sawnd" + "\" = " + item.groupID.ToString());
 						}
 					}
 				}
