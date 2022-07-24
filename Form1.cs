@@ -343,6 +343,29 @@ namespace BrawlSoundConverter
 			}
 			SaveFileDialog sfd = new SaveFileDialog();
 			sfd.Filter = "*Sawnd File(*.sawnd)|*.sawnd";
+
+			MappingItem item = treeViewMapping.SelectedNode as MappingItem;
+			if (item == null)
+			{
+				Console.WriteLine("No node selected!");
+				return;
+			}
+			switch (Properties.Settings.Default.DefaultSAWNDExportNameScheme)
+			{
+				case 0:
+					sfd.FileName = item.name + ".sawnd";
+					break;
+				case 1:
+					sfd.FileName = item.groupID.ToString("D3") + ".sawnd";
+					break;
+				case 2:
+					sfd.FileName = item.infoIndex.ToString("X3") + ".sawnd";
+					break;
+				default:
+					sfd.FileName = "";
+					break;
+			}
+
 			if( sfd.ShowDialog() == DialogResult.OK )
 			{
 				disableStuff();
