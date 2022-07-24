@@ -21,7 +21,7 @@ namespace BrawlSoundConverter
 			brsar.LoadMultiExportTreeView(treeViewGroups, sourceTree);
 			buttonCancel.Enabled = true;
 			treeViewGroups.CheckBoxes = true;
-			switch (Properties.Settings.Default.DefaultMultiExportNameScheme)
+			switch (Properties.Settings.Default.DefaultSAWNDExportNameScheme)
 			{
 				case 0:
 					radioButtonNameDefault.Checked = true;

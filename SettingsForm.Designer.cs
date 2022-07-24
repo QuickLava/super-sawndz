@@ -164,9 +164,9 @@ namespace BrawlSoundConverter
 			this.labelDefaultNameScheme.AutoSize = true;
 			this.labelDefaultNameScheme.Location = new System.Drawing.Point(12, 82);
 			this.labelDefaultNameScheme.Name = "labelDefaultNameScheme";
-			this.labelDefaultNameScheme.Size = new System.Drawing.Size(285, 17);
+			this.labelDefaultNameScheme.Size = new System.Drawing.Size(206, 17);
 			this.labelDefaultNameScheme.TabIndex = 34;
-			this.labelDefaultNameScheme.Text = "Default Multi Create Sawnd Naming Scheme";
+			this.labelDefaultNameScheme.Text = "Default Sawnd Naming Scheme";
 			// 
 			// label1
 			// 

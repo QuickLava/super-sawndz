@@ -5,7 +5,7 @@
     <Setting Name="DefaultBrsarFilePath" Type="System.String" Scope="User">
       <Value Profile="(Default)">./smashbros_sound.brsar</Value>
     </Setting>
-    <Setting Name="DefaultMultiExportNameScheme" Type="System.Int32" Scope="User">
+    <Setting Name="DefaultSAWNDExportNameScheme" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">0</Value>
     </Setting>
     <Setting Name="DefaultMultiWAVExportCreateGroupDirectory" Type="System.Boolean" Scope="User">

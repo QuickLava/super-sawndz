@@ -18,7 +18,7 @@ namespace BrawlSoundConverter
 		{
 			InitializeComponent();
 			textBoxDefaultBrsar.Text = brsar.RSAR_FileName;
-			switch (Properties.Settings.Default.DefaultMultiExportNameScheme)
+			switch (Properties.Settings.Default.DefaultSAWNDExportNameScheme)
 			{
 				case 0:
 					radioButtonNameDefault.Checked = true;
@@ -62,19 +62,19 @@ namespace BrawlSoundConverter
 
 			if (radioButtonNamePM.Checked)
 			{
-				Properties.Settings.Default.DefaultMultiExportNameScheme = 1;
+				Properties.Settings.Default.DefaultSAWNDExportNameScheme = 1;
 			}
 			else if (radioButtonNamePP.Checked)
 			{
-				Properties.Settings.Default.DefaultMultiExportNameScheme = 2;
+				Properties.Settings.Default.DefaultSAWNDExportNameScheme = 2;
 			}
 			else if (radioButtonNameManual.Checked)
 			{
-				Properties.Settings.Default.DefaultMultiExportNameScheme = 3;
+				Properties.Settings.Default.DefaultSAWNDExportNameScheme = 3;
 			}
 			else
 			{
-				Properties.Settings.Default.DefaultMultiExportNameScheme = 0;
+				Properties.Settings.Default.DefaultSAWNDExportNameScheme = 0;
 			}
 
 			Properties.Settings.Default.DefaultMultiWAVExportCreateGroupDirectory = radioButtonGroupDirEnable.Checked;

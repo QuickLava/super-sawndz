@@ -38,12 +38,12 @@ namespace BrawlSoundConverter.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("0")]
-        public int DefaultMultiExportNameScheme {
+        public int DefaultSAWNDExportNameScheme {
             get {
-                return ((int)(this["DefaultMultiExportNameScheme"]));
+                return ((int)(this["DefaultSAWNDExportNameScheme"]));
             }
             set {
-                this["DefaultMultiExportNameScheme"] = value;
+                this["DefaultSAWNDExportNameScheme"] = value;
             }
         }
         
