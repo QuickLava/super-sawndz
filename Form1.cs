@@ -429,13 +429,14 @@ namespace BrawlSoundConverter
 				MessageBox.Show("Collection ID is not valid");
 				return;
 			}
-			if (!int.TryParse(textBoxCollectionID.Text, out wid))
+			if (!int.TryParse(textBoxWavID.Text, out wid))
 			{
 				MessageBox.Show("WAV ID is not valid");
 				return;
 			}
 			SaveFileDialog sfd = new SaveFileDialog();
 			sfd.Filter = "*WAV File(*.wav)|*.wav";
+			sfd.FileName = Sawndz.getDefaultWAVEName(gid, cid, wid);
 			if (sfd.ShowDialog() == DialogResult.OK)
 			{
 				disableStuff();
