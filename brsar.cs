@@ -289,6 +289,7 @@ namespace BrawlSoundConverter
 						}
 						break;
 					}
+					break;
 				}
 			}
 
@@ -390,6 +391,7 @@ namespace BrawlSoundConverter
 						}
 						break;
 					}
+					break;
 				}
 			}
 
