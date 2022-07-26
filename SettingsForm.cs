@@ -17,7 +17,7 @@ namespace BrawlSoundConverter
 		public SettingsForm()
 		{
 			InitializeComponent();
-			textBoxDefaultBrsar.Text = brsar.RSAR_FileName;
+			textBoxDefaultBrsar.Text = Properties.Settings.Default.DefaultBrsarFilePath;
 			switch (Properties.Settings.Default.DefaultSAWNDExportNameScheme)
 			{
 				case 0:
@@ -43,6 +43,10 @@ namespace BrawlSoundConverter
 			else
 			{
 				radioButtonGroupDirDisable.Checked = true;
+			}
+			if (File.Exists(brsar.RSAR_FileName))
+			{
+				buttonBRSARPathUseCurrent.Enabled = true;
 			}
 		}
 
@@ -94,6 +98,11 @@ namespace BrawlSoundConverter
 				defaultBrsarPathIsValid = false;
 			}
 			label1.Visible = !defaultBrsarPathIsValid;
+		}
+
+		private void button1_Click(object sender, EventArgs e)
+		{
+			textBoxDefaultBrsar.Text = brsar.RSAR_FileName;
 		}
 	}
 }
