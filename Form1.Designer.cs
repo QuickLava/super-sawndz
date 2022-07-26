@@ -436,6 +436,7 @@
 			// 
 			// Form1
 			// 
+			this.AllowDrop = true;
 			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(1580, 846);
@@ -465,6 +466,9 @@
 			this.Name = "Form1";
 			this.Text = "Super Sawndz";
 			this.Load += new System.EventHandler(this.Form1_Load);
+			this.DragDrop += new System.Windows.Forms.DragEventHandler(this.Form1_DragDrop);
+			this.DragEnter += new System.Windows.Forms.DragEventHandler(this.Form1_DragEnter);
+			this.DragLeave += new System.EventHandler(this.Form1_DragLeave);
 			this.menuStrip1.ResumeLayout(false);
 			this.menuStrip1.PerformLayout();
 			this.contextMenuStripWAV.ResumeLayout(false);
