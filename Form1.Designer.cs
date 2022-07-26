@@ -192,7 +192,7 @@
 			// 
 			this.buttonInsert.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.buttonInsert.Enabled = false;
-			this.buttonInsert.Location = new System.Drawing.Point(506, 80);
+			this.buttonInsert.Location = new System.Drawing.Point(506, 81);
 			this.buttonInsert.Margin = new System.Windows.Forms.Padding(4);
 			this.buttonInsert.Name = "buttonInsert";
 			this.buttonInsert.Size = new System.Drawing.Size(125, 28);
@@ -228,7 +228,7 @@
             this.aboutToolStripMenuItem});
 			this.menuStrip1.Location = new System.Drawing.Point(0, 0);
 			this.menuStrip1.Name = "menuStrip1";
-			this.menuStrip1.Size = new System.Drawing.Size(176, 28);
+			this.menuStrip1.Size = new System.Drawing.Size(176, 30);
 			this.menuStrip1.TabIndex = 16;
 			this.menuStrip1.Text = "menuStrip1";
 			// 
@@ -237,7 +237,7 @@
 			this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.openBRSARToolStripMenuItem});
 			this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-			this.fileToolStripMenuItem.Size = new System.Drawing.Size(46, 24);
+			this.fileToolStripMenuItem.Size = new System.Drawing.Size(46, 26);
 			this.fileToolStripMenuItem.Text = "File";
 			// 
 			// openBRSARToolStripMenuItem
@@ -252,7 +252,7 @@
 			this.toolsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.ChangeSettingsToolStripMenuItem});
 			this.toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
-			this.toolsToolStripMenuItem.Size = new System.Drawing.Size(58, 24);
+			this.toolsToolStripMenuItem.Size = new System.Drawing.Size(58, 26);
 			this.toolsToolStripMenuItem.Text = "Tools";
 			// 
 			// ChangeSettingsToolStripMenuItem
@@ -265,7 +265,7 @@
 			// aboutToolStripMenuItem
 			// 
 			this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-			this.aboutToolStripMenuItem.Size = new System.Drawing.Size(64, 24);
+			this.aboutToolStripMenuItem.Size = new System.Drawing.Size(64, 26);
 			this.aboutToolStripMenuItem.Text = "About";
 			this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
 			// 
@@ -273,7 +273,7 @@
 			// 
 			this.buttonCreateSawnd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.buttonCreateSawnd.Enabled = false;
-			this.buttonCreateSawnd.Location = new System.Drawing.Point(771, 112);
+			this.buttonCreateSawnd.Location = new System.Drawing.Point(770, 116);
 			this.buttonCreateSawnd.Margin = new System.Windows.Forms.Padding(4);
 			this.buttonCreateSawnd.Name = "buttonCreateSawnd";
 			this.buttonCreateSawnd.Size = new System.Drawing.Size(133, 28);
@@ -291,7 +291,7 @@
 			// 
 			this.buttonCreateWAV.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.buttonCreateWAV.Enabled = false;
-			this.buttonCreateWAV.Location = new System.Drawing.Point(771, 182);
+			this.buttonCreateWAV.Location = new System.Drawing.Point(770, 186);
 			this.buttonCreateWAV.Margin = new System.Windows.Forms.Padding(4);
 			this.buttonCreateWAV.Name = "buttonCreateWAV";
 			this.buttonCreateWAV.Size = new System.Drawing.Size(133, 28);
@@ -310,7 +310,8 @@
 			this.buttonMultiExportSawnd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.buttonMultiExportSawnd.Enabled = false;
 			this.buttonMultiExportSawnd.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.7F);
-			this.buttonMultiExportSawnd.Location = new System.Drawing.Point(771, 147);
+			this.buttonMultiExportSawnd.Location = new System.Drawing.Point(770, 151);
+			this.buttonMultiExportSawnd.Margin = new System.Windows.Forms.Padding(4);
 			this.buttonMultiExportSawnd.Name = "buttonMultiExportSawnd";
 			this.buttonMultiExportSawnd.Size = new System.Drawing.Size(132, 28);
 			this.buttonMultiExportSawnd.TabIndex = 20;
@@ -341,7 +342,7 @@
 			// 
 			this.buttonMultiCreateWAV.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.buttonMultiCreateWAV.Enabled = false;
-			this.buttonMultiCreateWAV.Location = new System.Drawing.Point(771, 218);
+			this.buttonMultiCreateWAV.Location = new System.Drawing.Point(770, 221);
 			this.buttonMultiCreateWAV.Margin = new System.Windows.Forms.Padding(4);
 			this.buttonMultiCreateWAV.Name = "buttonMultiCreateWAV";
 			this.buttonMultiCreateWAV.Size = new System.Drawing.Size(133, 28);
@@ -354,7 +355,7 @@
 			// 
 			this.buttonMultiInsertWAV.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.buttonMultiInsertWAV.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.4F);
-			this.buttonMultiInsertWAV.Location = new System.Drawing.Point(505, 152);
+			this.buttonMultiInsertWAV.Location = new System.Drawing.Point(506, 151);
 			this.buttonMultiInsertWAV.Margin = new System.Windows.Forms.Padding(4);
 			this.buttonMultiInsertWAV.Name = "buttonMultiInsertWAV";
 			this.buttonMultiInsertWAV.Size = new System.Drawing.Size(125, 28);
