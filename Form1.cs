@@ -627,6 +627,7 @@ namespace BrawlSoundConverter
 			if (ofd.ShowDialog() == DialogResult.OK)
 			{
 				Sawndz.insertBRWSD(ofd.FileName, gid, cid);
+				loadTreeView();
 			}
 			else
 			{

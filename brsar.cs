@@ -180,9 +180,24 @@ namespace BrawlSoundConverter
 						addUpSoundSize += soundSize;
 
 						string sName = "[" + waveIndex.ToString("X3") + "] " + data.Name;
-						MappingItem soundMap = new MappingItem(sName, groupID, collectionID, waveIndex, data._refs[0].InfoIndex, usedWaveIndeces.Contains(waveIndex));
+						int infoIndex = -1;
+						if (data._refs.Count > 0)
+						{
+							infoIndex = data._refs[0].InfoIndex;
+						}
+						else
+						{
+							infoIndex = -1;
+						}
+						MappingItem soundMap = new MappingItem(sName, groupID, collectionID, waveIndex, infoIndex, usedWaveIndeces.Contains(waveIndex));
 						colMap.Nodes.Add(soundMap);
 						soundMap.fileSize = soundSize;
+						if (infoIndex == -1)
+						{
+							groupMap.BackColor = System.Drawing.Color.Yellow;
+							colMap.BackColor = System.Drawing.Color.Yellow;
+							soundMap.BackColor = System.Drawing.Color.Yellow;
+						}
 						nodeCount++;
 
 						//child node must have a parent in order for size to propogate correctly.
@@ -353,9 +368,22 @@ namespace BrawlSoundConverter
 							}
 
 							string sName = data.Name + " - Using Audio[" + waveIndex.ToString("X3") + "]";
-							MappingItem soundMap = new MappingItem(sName, targetGroupID, targetFileID, waveIndex, data._refs[0].InfoIndex, usedWaveIndeces.Contains(waveIndex));
+							int infoIndex = -1;
+							if (data._refs.Count > 0)
+							{
+								infoIndex = data._refs[0].InfoIndex;
+							}
+							else
+							{
+								infoIndex = -1;
+							}
+							MappingItem soundMap = new MappingItem(sName, targetGroupID, targetFileID, waveIndex, infoIndex, usedWaveIndeces.Contains(waveIndex));
 							root.Nodes.Add(soundMap);
 							soundMap.fileSize = soundSize;
+							if (infoIndex == -1)
+							{
+								soundMap.BackColor = System.Drawing.Color.Yellow;
+							}
 
 							//child node must have a parent in order for size to propogate correctly.
 							if (!usedWaveIndeces.Contains(waveIndex))

@@ -36,8 +36,6 @@ namespace BrawlSoundConverter
 				//Color the node red if it goes over the usual character filesize limit
 				if( _fileSize >= 0xDDDDD )
 					this.BackColor = System.Drawing.Color.Red;
-				else
-					this.BackColor = System.Drawing.Color.White;
 				//Update the name with the new filesize in it
 				generateName();
 			}
