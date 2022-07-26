@@ -135,8 +135,13 @@ namespace BrawlSoundConverter
 		{
 			audioPlaybackBRSARSound.TargetSource = null;
 			MappingItem item = e.Node as MappingItem;
-			if( item == null )
+			if (item == null)
+			{
+				textBoxGroupID.Clear();
+				textBoxCollectionID.Clear();
+				textBoxWavID.Clear();
 				return;
+			}
 			if( item.groupID > -1 )
 				textBoxGroupID.Text = item.groupID.ToString();
 			else
@@ -547,6 +552,7 @@ namespace BrawlSoundConverter
 
 		private void buttonMultiInsertWAV_Click(object sender, EventArgs e)
 		{
+			textBoxOutput.Clear();
 			OpenFileDialog ofd = new OpenFileDialog();
 			ofd.Filter = "WAVE Map File(*.xml)|*.xml";
 
