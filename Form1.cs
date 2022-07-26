@@ -266,6 +266,7 @@ namespace BrawlSoundConverter
 			buttonCreateSawnd.Enabled = false;
 			buttonCreateWAV.Enabled = false;
 			buttonMultiCreateWAV.Enabled = false;
+			buttonMultiInsertWAV.Enabled = false;
 			buttonMultiExportSawnd.Enabled = false;
 			buttonMultiInsertSawnd.Enabled = false;
 			buttonInsert.Enabled = false;
@@ -287,6 +288,7 @@ namespace BrawlSoundConverter
 			audioPlaybackBRSARSound.Enabled = true;
 			buttonMultiExportSawnd.Enabled = true;
 			buttonMultiInsertSawnd.Enabled = true;
+			buttonMultiInsertWAV.Enabled = true;
 
 			//Make sure that we have a group id before turning on create sawnd button
 			int gid, cid, wid;
