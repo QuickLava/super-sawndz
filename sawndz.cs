@@ -212,7 +212,61 @@ namespace BrawlSoundConverter
 				Console.WriteLine("Unable to insert WAVs, \"" + mapFileName + "\" doesn't exist!");
 			}
 		}
-		
+		public static bool createBRWSD(int groupID, int fileID, string fileName)
+		{
+			bool result = false;
+
+			BrawlLib.SSBB.ResourceNodes.RSARFileNode currColl = brsar.GetNode(groupID, fileID) as BrawlLib.SSBB.ResourceNodes.RSARFileNode;
+			if (currColl != null)
+			{
+				currColl.Export(fileName);
+				if (File.Exists(fileName))
+				{
+					Console.WriteLine("Successfully exported \"" + fileName + "\"!");
+					result = true;
+				}
+				else
+				{
+					Console.WriteLine("Failed to export!");
+				}
+			}
+			else
+			{
+				Console.WriteLine("Failed! Specified Collection doesn't exist!");
+			}
+
+			return result;
+		}
+		public static void insertBRWSD(string fileName, int groupID, int fileID)
+		{
+			Console.Write("Inserting BRWSD File (\"" + Path.GetFileName(fileName) + "\")... ");
+			if (!File.Exists(fileName))
+			{
+				Console.WriteLine("Failure! Specified file doesn't exist!\n");
+				return;
+			}
+			try
+			{
+				BrawlLib.SSBB.ResourceNodes.RSARFileNode targetNode = brsar.GetNode(groupID, fileID) as BrawlLib.SSBB.ResourceNodes.RSARFileNode;
+				targetNode.Replace(fileName);
+				brsar.ReloadRSAR();
+				Console.WriteLine("Success!\n");
+
+				//if (brsar.GetRSAR().IsDirty)
+				//{
+				//	brsar.ReloadRSAR();
+				//}
+				//else
+				//{
+				//	Console.WriteLine("Failed to import!\n");
+				//}
+			}
+			catch (Exception e)
+			{
+				Console.WriteLine(e.ToString());
+			}
+		}
+
 		public static void emptySpace( int offset, int numberOfBytes )
 		{
 			runWithArgs("emptyspace " + offset + " " + numberOfBytes);

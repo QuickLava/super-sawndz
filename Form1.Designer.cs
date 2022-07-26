@@ -59,10 +59,11 @@
 			this.buttonMultiInsertWAV = new System.Windows.Forms.Button();
 			this.backgroundWorkerMultiInsertWAV = new System.ComponentModel.BackgroundWorker();
 			this.contextMenuStripWAV = new System.Windows.Forms.ContextMenuStrip(this.components);
-			this.contextMenuStripCollection = new System.Windows.Forms.ContextMenuStrip(this.components);
 			this.toolStripMenuItemSoundProps = new System.Windows.Forms.ToolStripMenuItem();
+			this.contextMenuStripCollection = new System.Windows.Forms.ContextMenuStrip(this.components);
 			this.toolStripMenuItemBRWSDExport = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripMenuItemBRWSDReplace = new System.Windows.Forms.ToolStripMenuItem();
+			this.backgroundWorkerCreateBRWSD = new System.ComponentModel.BackgroundWorker();
 			this.audioPlaybackBRSARSound = new BrawlLib.Internal.Windows.Controls.AudioPlaybackPanel();
 			this.audioPlaybackPanelWav = new BrawlLib.Internal.Windows.Controls.AudioPlaybackPanel();
 			this.menuStrip1.SuspendLayout();
@@ -227,7 +228,7 @@
             this.aboutToolStripMenuItem});
 			this.menuStrip1.Location = new System.Drawing.Point(0, 0);
 			this.menuStrip1.Name = "menuStrip1";
-			this.menuStrip1.Size = new System.Drawing.Size(176, 30);
+			this.menuStrip1.Size = new System.Drawing.Size(176, 28);
 			this.menuStrip1.TabIndex = 16;
 			this.menuStrip1.Text = "menuStrip1";
 			// 
@@ -236,7 +237,7 @@
 			this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.openBRSARToolStripMenuItem});
 			this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-			this.fileToolStripMenuItem.Size = new System.Drawing.Size(46, 26);
+			this.fileToolStripMenuItem.Size = new System.Drawing.Size(46, 24);
 			this.fileToolStripMenuItem.Text = "File";
 			// 
 			// openBRSARToolStripMenuItem
@@ -251,7 +252,7 @@
 			this.toolsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.ChangeSettingsToolStripMenuItem});
 			this.toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
-			this.toolsToolStripMenuItem.Size = new System.Drawing.Size(58, 26);
+			this.toolsToolStripMenuItem.Size = new System.Drawing.Size(58, 24);
 			this.toolsToolStripMenuItem.Text = "Tools";
 			// 
 			// ChangeSettingsToolStripMenuItem
@@ -264,7 +265,7 @@
 			// aboutToolStripMenuItem
 			// 
 			this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-			this.aboutToolStripMenuItem.Size = new System.Drawing.Size(64, 26);
+			this.aboutToolStripMenuItem.Size = new System.Drawing.Size(64, 24);
 			this.aboutToolStripMenuItem.Text = "About";
 			this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
 			// 
@@ -375,6 +376,13 @@
 			this.contextMenuStripWAV.Name = "contextMenuStripWAV";
 			this.contextMenuStripWAV.Size = new System.Drawing.Size(222, 28);
 			// 
+			// toolStripMenuItemSoundProps
+			// 
+			this.toolStripMenuItemSoundProps.Name = "toolStripMenuItemSoundProps";
+			this.toolStripMenuItemSoundProps.Size = new System.Drawing.Size(221, 24);
+			this.toolStripMenuItemSoundProps.Text = "Edit Sound Properties";
+			this.toolStripMenuItemSoundProps.Click += new System.EventHandler(this.toolStripMenuItemSoundProps_Click);
+			// 
 			// contextMenuStripCollection
 			// 
 			this.contextMenuStripCollection.ImageScalingSize = new System.Drawing.Size(20, 20);
@@ -382,14 +390,7 @@
             this.toolStripMenuItemBRWSDExport,
             this.toolStripMenuItemBRWSDReplace});
 			this.contextMenuStripCollection.Name = "contextMenuStripCollection";
-			this.contextMenuStripCollection.Size = new System.Drawing.Size(219, 80);
-			// 
-			// toolStripMenuItemSoundProps
-			// 
-			this.toolStripMenuItemSoundProps.Name = "toolStripMenuItemSoundProps";
-			this.toolStripMenuItemSoundProps.Size = new System.Drawing.Size(221, 24);
-			this.toolStripMenuItemSoundProps.Text = "Edit Sound Properties";
-			this.toolStripMenuItemSoundProps.Click += new System.EventHandler(this.toolStripMenuItemSoundProps_Click);
+			this.contextMenuStripCollection.Size = new System.Drawing.Size(219, 52);
 			// 
 			// toolStripMenuItemBRWSDExport
 			// 
@@ -404,6 +405,11 @@
 			this.toolStripMenuItemBRWSDReplace.Size = new System.Drawing.Size(218, 24);
 			this.toolStripMenuItemBRWSDReplace.Text = "Replace with BRWSD";
 			this.toolStripMenuItemBRWSDReplace.Click += new System.EventHandler(this.toolStripMenuItemBRWSDReplace_Click);
+			// 
+			// backgroundWorkerCreateBRWSD
+			// 
+			this.backgroundWorkerCreateBRWSD.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorkerCreateBRWSD_DoWork);
+			this.backgroundWorkerCreateBRWSD.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.backgroundWorkerCreateBRWSD_RunWorkerCompleted);
 			// 
 			// audioPlaybackBRSARSound
 			// 
@@ -504,6 +510,7 @@
 		private System.Windows.Forms.ContextMenuStrip contextMenuStripCollection;
 		private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemBRWSDExport;
 		private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemBRWSDReplace;
+		private System.ComponentModel.BackgroundWorker backgroundWorkerCreateBRWSD;
 	}
 }
 

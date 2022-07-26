@@ -110,6 +110,20 @@ namespace BrawlSoundConverter
 						}
 					}
 				}
+				else if (Path.GetExtension(textBoxInputFile.Text).CompareTo(".brwsd") == 0)
+				{
+					int gid, cid, wid;
+					if (int.TryParse(textBoxGroupID.Text, out gid))
+					{
+						if (int.TryParse(textBoxCollectionID.Text, out cid))
+						{
+							if (gid > -1 && cid > -1)
+							{
+								buttonInsert.Enabled = true;
+							}
+						}
+					}
+				}
 			}
 		}
 
@@ -130,7 +144,6 @@ namespace BrawlSoundConverter
 			if( item.collectionID > -1 )
 			{
 				textBoxCollectionID.Text = item.collectionID.ToString();
-				//buttonMultiCreateWAV.Enabled = true;
 			}
 			else
 			{
@@ -164,8 +177,9 @@ namespace BrawlSoundConverter
 		{
 			OpenFileDialog ofd = new OpenFileDialog();
 			ofd.Filter = "Sound|*.wav;*.sawnd|Wave File(*.wav)|*.wav|Sawndz File(*.sawnd)|*.sawnd";
+			//ofd.Filter = "Sound|*.wav;*.brwsd|Wave File(*.wav)|*.wav|BRWSD File(*.brwsd)|*.brwsd";
 
-			if( ofd.ShowDialog() == System.Windows.Forms.DialogResult.OK )
+			if ( ofd.ShowDialog() == System.Windows.Forms.DialogResult.OK )
 			{
 				textBoxInputFile.Text = ofd.FileName;
 				if( Path.GetExtension( ofd.FileName ).CompareTo( ".wav" ) == 0 )
@@ -209,6 +223,20 @@ namespace BrawlSoundConverter
 								{
 									Sawndz.insertWav( textBoxInputFile.Text, gid, cid, wid );
 								}
+							}
+						}
+					}
+				}
+				else if (Path.GetExtension(textBoxInputFile.Text).CompareTo(".brwsd") == 0)
+				{
+					int gid, cid;
+					if (int.TryParse(textBoxGroupID.Text, out gid))
+					{
+						if (int.TryParse(textBoxCollectionID.Text, out cid))
+						{
+							if (gid > -1 && cid > -1)
+							{
+								Sawndz.insertBRWSD(textBoxInputFile.Text, gid, cid);
 							}
 						}
 					}
@@ -350,6 +378,15 @@ namespace BrawlSoundConverter
 				Console.WriteLine("No node selected!");
 				return;
 			}
+			if (item.wavID != -1)
+			{
+				item = item.Parent as MappingItem;
+			}
+			if (item.collectionID != -1)
+			{
+				item = item.Parent as MappingItem;
+			}
+			
 			switch (Properties.Settings.Default.DefaultSAWNDExportNameScheme)
 			{
 				case 0:
@@ -557,27 +594,17 @@ namespace BrawlSoundConverter
 				MessageBox.Show("Collection ID is not valid");
 				return;
 			}
-			BrawlLib.SSBB.ResourceNodes.RSARFileNode currColl = brsar.GetNode(gid, cid) as BrawlLib.SSBB.ResourceNodes.RSARFileNode;
-			if (currColl != null)
+			Console.Write("Exporting BRWSD file... ");
+			SaveFileDialog sfd = new SaveFileDialog();
+			sfd.FileName = "[" + gid.ToString("D3") + "_" + cid.ToString("X3") + "] RWSD.brwsd";
+			sfd.Filter = "BRWSD File(*.brwsd)|*.brwsd";
+			if (sfd.ShowDialog() == DialogResult.OK)
 			{
-				Console.Write("Exporting BRWSD file... ");
-				SaveFileDialog sfd = new SaveFileDialog();
-				sfd.FileName = "[" + gid.ToString("D3") + "_" + cid.ToString("X3") + "] RWSD.brwsd";
-				sfd.Filter = "*BRWSD File(*.brwsd)|*.brwsd";
-				if (sfd.ShowDialog() == DialogResult.OK)
-				{
-					currColl.Export(sfd.FileName);
-					Console.WriteLine("Successfully exported \"" + sfd.FileName + "\"!");
-				}
-				else
-				{
-					Console.WriteLine("Operation Cancelled!");
-				}
+				backgroundWorkerCreateBRWSD.RunWorkerAsync(sfd.FileName);
 			}
 			else
 			{
-				MessageBox.Show("Specified Collection doesn't exist");
-				return;
+				Console.WriteLine("Operation Cancelled!");
 			}
 		}
 
@@ -595,28 +622,25 @@ namespace BrawlSoundConverter
 				MessageBox.Show("Collection ID is not valid");
 				return;
 			}
-			BrawlLib.SSBB.ResourceNodes.RSARFileNode currColl = brsar.GetNode(gid, cid) as BrawlLib.SSBB.ResourceNodes.RSARFileNode;
-			if (currColl != null)
+			OpenFileDialog ofd = new OpenFileDialog();
+			ofd.Filter = "BRWSD File(*.brwsd)|*.brwsd";
+			if (ofd.ShowDialog() == DialogResult.OK)
 			{
-				Console.Write("Importing BRWSD file... ");
-				OpenFileDialog ofd = new OpenFileDialog();
-				ofd.Filter = "*BRWSD File(*.brwsd)|*.brwsd";
-				if (ofd.ShowDialog() == DialogResult.OK)
-				{
-					currColl.Replace(ofd.FileName);
-					brsar.ReloadRSAR();
-					Console.WriteLine("Successfully imported \"" + ofd.FileName + "\"!");
-				}
-				else
-				{
-					Console.WriteLine("Operation Cancelled!");
-				}
+				Sawndz.insertBRWSD(ofd.FileName, gid, cid);
 			}
 			else
 			{
-				MessageBox.Show("Specified Collection doesn't exist");
-				return;
+				Console.WriteLine("Operation Cancelled!");
 			}
+		}
+
+		private void backgroundWorkerCreateBRWSD_DoWork(object sender, DoWorkEventArgs e)
+		{
+			Sawndz.createBRWSD(int.Parse(textBoxGroupID.Text), int.Parse(textBoxCollectionID.Text), e.Argument as string);
+		}
+		private void backgroundWorkerCreateBRWSD_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+		{
+			enableStuff();
 		}
 	}
 }
