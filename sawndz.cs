@@ -379,5 +379,22 @@ namespace BrawlSoundConverter
 			}
 			return result;
 		}
+		public static bool createSAWNDToImportList(string listFileName, string[] sawndFileNames)
+		{
+			bool result = false;
+
+			StreamWriter importList = File.CreateText(listFileName);
+			foreach (string str in sawndFileNames)
+			{
+				importList.WriteLine(str);
+			}
+			importList.Close();
+			if (File.Exists(listFileName))
+			{
+				result = true;
+			}
+
+			return result;
+		}
 	}
 }

@@ -496,13 +496,15 @@ namespace BrawlSoundConverter
 			ofd.Filter = "*Sawnd File(*.sawnd)|*.sawnd";
 			if (ofd.ShowDialog() == DialogResult.OK)
 			{
-				StreamWriter importList = File.CreateText("toImport.txt");
-				foreach (string str in ofd.FileNames)
+
+				if (Sawndz.createSAWNDToImportList("toImport.txt", ofd.FileNames))
 				{
-					importList.WriteLine(str);
+					backgroundWorkerMultiInsertSawnd.RunWorkerAsync();
 				}
-				importList.Close();
-				backgroundWorkerMultiInsertSawnd.RunWorkerAsync();
+				else
+				{
+					Console.WriteLine("Unable to import .sawnd files, couldn't generate list!");
+				}
 			}
 		}
 		private void backgroundWorkerMultiInsertSawnd_DoWork(object sender, DoWorkEventArgs e)
@@ -668,14 +670,45 @@ namespace BrawlSoundConverter
 		{
 			string[] strings = (string[])e.Data.GetData(DataFormats.FileDrop, false);
 
-			foreach (string fileName in strings)
+			if (strings.Length > 0)
 			{
-				if (Path.GetExtension(fileName) == ".brsar")
+				string fileKind = Path.GetExtension(strings[0]);
+				bool doProcess = true;
+				foreach (string fileName in strings)
 				{
-					brsar.RSAR_FileName = fileName;
-					brsar.CloseRSAR();
-					loadTreeView();
-					break;
+					if (Path.GetExtension(fileName) != fileKind)
+					{
+						doProcess = false;
+						break;
+					}
+				}
+				if (doProcess)
+				{
+					if (fileKind == ".brsar")
+					{
+						brsar.RSAR_FileName = strings[0];
+						brsar.CloseRSAR();
+						loadTreeView();
+					}
+					else if (fileKind == ".sawnd")
+					{
+						if (Sawndz.createSAWNDToImportList("toImport.txt", strings))
+						{
+							backgroundWorkerMultiInsertSawnd.RunWorkerAsync();
+						}
+						else
+						{
+							Console.WriteLine("Unable to import .sawnd files, couldn't generate list!");
+						}
+					}
+					else
+					{
+						MessageBox.Show("Note: There is no drag and drop functionality for this file type (\"" + fileKind + "\")!");
+					}
+				}
+				else
+				{
+					MessageBox.Show("Error: Drag only one type of file (eg. .brsar or .sawnd) at a time!");
 				}
 			}
 			enableStuff();
