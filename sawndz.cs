@@ -212,6 +212,37 @@ namespace BrawlSoundConverter
 				Console.WriteLine("Unable to insert WAVs, \"" + mapFileName + "\" doesn't exist!");
 			}
 		}
+		public static bool reloopWAV(int groupID, int collID, int wavID)
+		{
+			bool result = false;
+
+			Console.Write("Re-looping WAV... ");
+			BrawlLib.SSBB.ResourceNodes.RSARFileAudioNode targetNode = brsar.GetNode(groupID, collID, wavID) as BrawlLib.SSBB.ResourceNodes.RSARFileAudioNode;
+			if (targetNode != null)
+			{
+				targetNode.Export("__relooptemp__.wav");
+				if (File.Exists("__relooptemp__.wav"))
+				{
+					targetNode.Replace("__relooptemp__.wav");
+					if (brsar.GetRSAR().IsDirty)
+					{
+						Console.WriteLine("Success!\n");
+						result = true;
+					}
+					else
+					{
+						Console.WriteLine("Operation Cancelled!\n");
+					}
+					File.Delete("__relooptemp__.wav");
+				}
+				else
+				{
+					Console.WriteLine("Failed, unable to export WAV!");
+				}
+			}
+
+			return result;
+		}
 		public static bool createBRWSD(int groupID, int fileID, string fileName)
 		{
 			bool result = false;

@@ -66,6 +66,7 @@
 			this.backgroundWorkerCreateBRWSD = new System.ComponentModel.BackgroundWorker();
 			this.audioPlaybackBRSARSound = new BrawlLib.Internal.Windows.Controls.AudioPlaybackPanel();
 			this.audioPlaybackPanelWav = new BrawlLib.Internal.Windows.Controls.AudioPlaybackPanel();
+			this.editLoopPropertiesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.menuStrip1.SuspendLayout();
 			this.contextMenuStripWAV.SuspendLayout();
 			this.contextMenuStripCollection.SuspendLayout();
@@ -374,9 +375,10 @@
 			// 
 			this.contextMenuStripWAV.ImageScalingSize = new System.Drawing.Size(20, 20);
 			this.contextMenuStripWAV.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripMenuItemSoundProps});
+            this.toolStripMenuItemSoundProps,
+            this.editLoopPropertiesToolStripMenuItem});
 			this.contextMenuStripWAV.Name = "contextMenuStripWAV";
-			this.contextMenuStripWAV.Size = new System.Drawing.Size(222, 28);
+			this.contextMenuStripWAV.Size = new System.Drawing.Size(222, 80);
 			// 
 			// toolStripMenuItemSoundProps
 			// 
@@ -433,6 +435,13 @@
 			this.audioPlaybackPanelWav.Size = new System.Drawing.Size(611, 105);
 			this.audioPlaybackPanelWav.TabIndex = 14;
 			this.audioPlaybackPanelWav.TargetStreams = null;
+			// 
+			// editLoopPropertiesToolStripMenuItem
+			// 
+			this.editLoopPropertiesToolStripMenuItem.Name = "editLoopPropertiesToolStripMenuItem";
+			this.editLoopPropertiesToolStripMenuItem.Size = new System.Drawing.Size(221, 24);
+			this.editLoopPropertiesToolStripMenuItem.Text = "Edit Sound Loop";
+			this.editLoopPropertiesToolStripMenuItem.Click += new System.EventHandler(this.editLoopPropertiesToolStripMenuItem_Click);
 			// 
 			// Form1
 			// 
@@ -517,6 +526,7 @@
 		private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemBRWSDExport;
 		private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemBRWSDReplace;
 		private System.ComponentModel.BackgroundWorker backgroundWorkerCreateBRWSD;
+		private System.Windows.Forms.ToolStripMenuItem editLoopPropertiesToolStripMenuItem;
 	}
 }
 

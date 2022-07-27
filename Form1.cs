@@ -719,5 +719,16 @@ namespace BrawlSoundConverter
 			}
 			enableStuff();
 		}
+		private void editLoopPropertiesToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			MappingItem selectedNode = treeViewMapping.SelectedNode as MappingItem;
+			if (selectedNode != null)
+			{
+				if (Sawndz.reloopWAV(selectedNode.groupID, selectedNode.collectionID, selectedNode.wavID))
+				{
+					brsar.ReloadRSAR(true);
+				}
+			}
+		}
 	}
 }
