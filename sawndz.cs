@@ -140,10 +140,12 @@ namespace BrawlSoundConverter
 				string mapFolder = Path.GetDirectoryName(mapFileName) + "\\";
 				mapDoc.Load(mapFileName);
 				BrawlLib.SSBB.ResourceNodes.RSARNode currRsar = brsar.GetRSAR();
+				bool validMapNodeReached = false;
 				foreach (System.Xml.XmlNode mapChild in mapDoc.ChildNodes)
 				{
 					if (mapChild.Name == "superSawndzWAVEMap" && mapChild.Attributes != null)
 					{
+						validMapNodeReached = true;
 						string version = null;
 						int groupID = -1;
 						int collID = -1;
@@ -204,8 +206,16 @@ namespace BrawlSoundConverter
 						}
 					}
 				}
-				currRsar = brsar.GetRSAR();
-				brsar.ReloadRSAR();
+				if (validMapNodeReached)
+				{
+					currRsar = brsar.GetRSAR();
+					brsar.ReloadRSAR();
+				}
+				else
+				{
+					Console.WriteLine("Unable to find any Map nodes in this file (\"" + mapFileName + "\"), it likely isn't a WAVE Map. No WAVs were imported.");
+				}
+
 			}
 			else
 			{
