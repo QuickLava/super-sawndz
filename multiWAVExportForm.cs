@@ -97,7 +97,11 @@ namespace BrawlSoundConverter
 						exportedIndeces.Add(waveEntry.wavID);
 					}
 				}
-				Sawndz.createWAVEMap(exportDirectory + mapFilename, _targetGroupID, _targetCollectionID, exportedIndeces, true);
+				if (Sawndz.createWAVEMap(exportDirectory + mapFilename, _targetGroupID, _targetCollectionID, exportedIndeces, true))
+				{
+					Console.WriteLine("Successfully built Wave Map (\"" + mapFilename + "\").");
+					Console.WriteLine("Use it with the Multi Insert WAV button to re-import the sounds you just exported.");
+				}
 			}
 			DialogResult = DialogResult.OK;
 			Close();

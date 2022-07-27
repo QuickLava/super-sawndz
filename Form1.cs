@@ -545,9 +545,17 @@ namespace BrawlSoundConverter
 			OpenFileDialog ofd = new OpenFileDialog();
 			ofd.Filter = "WAVE Map File(*.xml)|*.xml";
 
+			Console.Write("Importing WAVE Map... ");
 			if (ofd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
 			{
+				Console.WriteLine("");
 				backgroundWorkerMultiInsertWAV.RunWorkerAsync(ofd.FileName);
+			}
+			else
+			{
+				Console.WriteLine("Operation cancelled!");
+				Console.WriteLine("Note: To use this functionality, use the \"Multi Create WAV\" button first!");
+				Console.WriteLine("That will generate a WAVE Map file along with the sound files, which is used with this button to re-import the exported sounds!");
 			}
 		}
 
