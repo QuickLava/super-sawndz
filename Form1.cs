@@ -27,6 +27,18 @@ namespace BrawlSoundConverter
 				if( treeViewMapping.Nodes.Count > 0 )
 					treeViewMapping.Nodes.Clear();
 				brsar.LoadTreeView( treeViewMapping );
+				// Assign appropriate context menus to all nodes.
+				foreach (TreeNode node in treeViewMapping.Nodes)
+				{
+					foreach (TreeNode collNode in node.Nodes)
+					{
+						collNode.ContextMenuStrip = contextMenuStripCollection;
+						foreach (TreeNode wavNode in collNode.Nodes)
+						{
+							wavNode.ContextMenuStrip = contextMenuStripWAV;
+						}
+					}
+				}
 				treeViewMapping.Invalidate();
 			}
 			catch( Exception ex )
@@ -64,18 +76,6 @@ namespace BrawlSoundConverter
 				Console.WriteLine( "Select File->Open BRSAR to begin." );
 			}
 
-			foreach (TreeNode node in treeViewMapping.Nodes)
-			{
-				foreach (TreeNode collNode in node.Nodes)
-				{
-					collNode.ContextMenuStrip = contextMenuStripCollection;
-					foreach (TreeNode wavNode in collNode.Nodes)
-					{
-						wavNode.ContextMenuStrip = contextMenuStripWAV;
-					}
-				}
-			}
-			
 			//These are not the crossthread calls you are looking for
 			Control.CheckForIllegalCrossThreadCalls = false;
 			audioPlaybackPanelWav.TargetSource = null;
@@ -727,6 +727,8 @@ namespace BrawlSoundConverter
 				if (Sawndz.reloopWAV(selectedNode.groupID, selectedNode.collectionID, selectedNode.wavID))
 				{
 					brsar.ReloadRSAR(true);
+					treeViewMapping.SelectedNode = null;
+					treeViewMapping.SelectedNode = selectedNode;
 				}
 			}
 		}
