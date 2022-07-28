@@ -186,6 +186,7 @@ namespace BrawlLib.Internal.Windows.Forms
 			// btnCancel
 			// 
 			this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+			this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
 			this.btnCancel.Location = new System.Drawing.Point(80, 3);
 			this.btnCancel.Name = "btnCancel";
 			this.btnCancel.Size = new System.Drawing.Size(75, 23);
@@ -605,6 +606,8 @@ namespace BrawlLib.Internal.Windows.Forms
 			// 
 			// BrstmConverterDialog
 			// 
+			this.AcceptButton = this.btnOkay;
+			this.CancelButton = this.btnCancel;
 			this.ClientSize = new System.Drawing.Size(484, 182);
 			this.Controls.Add(this.chkLoopEnable);
 			this.Controls.Add(this.pnlEdit);
