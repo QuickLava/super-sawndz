@@ -365,6 +365,8 @@ namespace BrawlSoundConverter
 				MessageBox.Show( "Group ID is not valid" );
 				return;
 			}
+			textBoxOutput.Clear();
+			Console.Write("Creating Sawnd File... ");
 			SaveFileDialog sfd = new SaveFileDialog();
 			sfd.Filter = "*Sawnd File(*.sawnd)|*.sawnd";
 
@@ -401,9 +403,14 @@ namespace BrawlSoundConverter
 
 			if( sfd.ShowDialog() == DialogResult.OK )
 			{
+				Console.WriteLine("");
 				disableStuff();
 				textBoxOutput.Clear();
 				backgroundWorkerCreateSawnd.RunWorkerAsync(sfd.FileName);
+			}
+			else
+			{
+				Console.WriteLine("Operation Cancelled!");
 			}
 		}
 
@@ -467,6 +474,7 @@ namespace BrawlSoundConverter
 				MessageBox.Show("WAV ID is not valid");
 				return;
 			}
+			textBoxOutput.Clear();
 			SaveFileDialog sfd = new SaveFileDialog();
 			sfd.Filter = "*WAV File(*.wav)|*.wav";
 			sfd.FileName = Sawndz.getDefaultWAVEName(gid, cid, wid);
@@ -476,21 +484,28 @@ namespace BrawlSoundConverter
 				textBoxOutput.Clear();
 				backgroundWorkerCreateWAV.RunWorkerAsync(sfd.FileName);
 			}
+			else
+			{
+				Console.WriteLine("Creating WAV File... Operation Cancelled!");
+			}
 		}
 		private void buttonMultiExportSawnd_Click(object sender, EventArgs e)
 		{
 			textBoxOutput.Clear();
 			multiSawndExportForm tempForm = new multiSawndExportForm(treeViewMapping);
-			tempForm.ShowDialog();
+			if (tempForm.ShowDialog() == DialogResult.Cancel)
+			{
+				Console.WriteLine("Creating Sawnd Files... Operation Cancelled!");
+			}
 		}
 		private void buttonMultiImportSawnd_Click(object sender, EventArgs e)
 		{
 			OpenFileDialog ofd = new OpenFileDialog();
 			ofd.Multiselect = true;
 			ofd.Filter = "*Sawnd File(*.sawnd)|*.sawnd";
+			textBoxOutput.Clear();
 			if (ofd.ShowDialog() == DialogResult.OK)
 			{
-
 				if (Sawndz.createSAWNDToImportList("toImport.txt", ofd.FileNames))
 				{
 					backgroundWorkerMultiInsertSawnd.RunWorkerAsync();
@@ -499,6 +514,10 @@ namespace BrawlSoundConverter
 				{
 					Console.WriteLine("Unable to import .sawnd files, couldn't generate list!");
 				}
+			}
+			else
+			{
+				Console.WriteLine("Importing Sawnd files... Operation Cancelled!");
 			}
 		}
 		private void backgroundWorkerMultiInsertSawnd_DoWork(object sender, DoWorkEventArgs e)
@@ -536,7 +555,10 @@ namespace BrawlSoundConverter
 			}
 			textBoxOutput.Clear();
 			multiWAVExportForm tempForm = new multiWAVExportForm(gid, cid);
-			tempForm.ShowDialog();
+			if (tempForm.ShowDialog() == DialogResult.Cancel)
+			{
+				Console.WriteLine("Creating WAV Files... Operation Cancelled!");
+			}
 		}
 
 		private void buttonMultiInsertWAV_Click(object sender, EventArgs e)
@@ -576,12 +598,19 @@ namespace BrawlSoundConverter
 			MappingItem selectedNode = treeViewMapping.SelectedNode as MappingItem;
 			if (selectedNode != null)
 			{
+				textBoxOutput.Clear();
+				Console.Write("Editing Sound Properties... ");
 				SoundPropertiesForm soundProps = new SoundPropertiesForm(selectedNode.groupID, selectedNode.collectionID, selectedNode.infoIndex);
 				if (soundProps.initSuccessful)
 				{
 					if (soundProps.ShowDialog() == DialogResult.OK)
 					{
+						Console.WriteLine("Success!");
 						brsar.ReloadRSAR(true);
+					}
+					else
+					{
+						Console.WriteLine("Operation Cancelled!");
 					}
 				}
 			}
@@ -589,7 +618,6 @@ namespace BrawlSoundConverter
 
 		private void toolStripMenuItemBRWSDExport_Click(object sender, EventArgs e)
 		{
-			textBoxOutput.Clear();
 			int gid, cid;
 			if (!int.TryParse(textBoxGroupID.Text, out gid))
 			{
@@ -601,12 +629,14 @@ namespace BrawlSoundConverter
 				MessageBox.Show("Collection ID is not valid");
 				return;
 			}
+			textBoxOutput.Clear();
 			Console.Write("Exporting BRWSD file... ");
 			SaveFileDialog sfd = new SaveFileDialog();
 			sfd.FileName = "[" + gid.ToString("D3") + "_" + cid.ToString("X3") + "] RWSD.brwsd";
 			sfd.Filter = "BRWSD File(*.brwsd)|*.brwsd";
 			if (sfd.ShowDialog() == DialogResult.OK)
 			{
+				Console.WriteLine("");
 				backgroundWorkerCreateBRWSD.RunWorkerAsync(sfd.FileName);
 			}
 			else
@@ -638,7 +668,7 @@ namespace BrawlSoundConverter
 			}
 			else
 			{
-				Console.WriteLine("Operation Cancelled!");
+				Console.WriteLine("Importing BRWSD File... Operation Cancelled!");
 			}
 		}
 
@@ -721,6 +751,7 @@ namespace BrawlSoundConverter
 			MappingItem selectedNode = treeViewMapping.SelectedNode as MappingItem;
 			if (selectedNode != null)
 			{
+				textBoxOutput.Clear();
 				if (Sawndz.reloopWAV(selectedNode.groupID, selectedNode.collectionID, selectedNode.wavID))
 				{
 					brsar.ReloadRSAR(true);
