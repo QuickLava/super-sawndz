@@ -58,5 +58,17 @@ namespace BrawlSoundConverter.Properties {
                 this["DefaultMultiWAVExportCreateGroupDirectory"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool EnableFullLengthNames {
+            get {
+                return ((bool)(this["EnableFullLengthNames"]));
+            }
+            set {
+                this["EnableFullLengthNames"] = value;
+            }
+        }
     }
 }

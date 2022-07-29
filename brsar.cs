@@ -119,7 +119,15 @@ namespace BrawlSoundConverter
 			TreeNodeCollection nodes = root.Nodes;
 			foreach( BrawlLib.SSBB.ResourceNodes.RSARGroupNode group in groups )
 			{
-				string name = "[" + group.StringId.ToString("X3") + "] " + group.Name;
+				string name = "[" + group.StringId.ToString("X3") + "] ";
+				if (Properties.Settings.Default.EnableFullLengthNames)
+				{
+					name += group.TreePath.Replace('/', '_');
+				}
+				else
+				{
+					name += group.Name;
+				}
 				
 				int groupID = group.StringId;
 				MappingItem groupMap = new MappingItem( name, groupID, -1, -1, group.InfoIndex );

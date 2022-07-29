@@ -537,6 +537,10 @@ namespace BrawlSoundConverter
 			if (settings.ShowDialog() == DialogResult.OK)
 			{
 				Properties.Settings.Default.Save();
+				textBoxGroupID.Clear();
+				textBoxCollectionID.Clear();
+				textBoxWavID.Clear();
+				loadTreeView();
 			}
 		}
 

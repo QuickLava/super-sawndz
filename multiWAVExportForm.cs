@@ -31,8 +31,15 @@ namespace BrawlSoundConverter
 
 			audioPlaybackPanel1.VolumePercent = 0.66;
 			BrawlLib.SSBB.ResourceNodes.RSARGroupNode targetGroup = brsar.GetNode(targetGroupID) as BrawlLib.SSBB.ResourceNodes.RSARGroupNode;
-			groupName = targetGroup.Name;
-			labelFileLabel.Text = "Sounds in Collection #" + targetFileID.ToString("X3") + " from Group #" + targetGroupID.ToString("X3") + " (\"" + targetGroup.Name + "\"):";
+			if (Properties.Settings.Default.EnableFullLengthNames)
+			{
+				groupName = targetGroup.TreePath.Replace('/', '_');
+			}
+			else
+			{
+				groupName = targetGroup.Name;
+			}
+			labelFileLabel.Text = "Sounds in Collection #" + targetFileID.ToString("X3") + " from Group #" + targetGroupID.ToString("X3") + " (\"" + groupName + "\"):";
 			buttonCancel.Enabled = true;
 			treeViewAudio.CheckBoxes = true;
 			checkBox1.Checked = Properties.Settings.Default.DefaultMultiWAVExportCreateGroupDirectory;

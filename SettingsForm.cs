@@ -18,6 +18,14 @@ namespace BrawlSoundConverter
 		{
 			InitializeComponent();
 			textBoxDefaultBrsar.Text = Properties.Settings.Default.DefaultBrsarFilePath;
+			if (Properties.Settings.Default.EnableFullLengthNames)
+			{
+				radioButtonFullNameEnable.Checked = true;
+			}
+			else
+			{
+				radioButtonFullNameDisable.Checked = true;
+			}
 			switch (Properties.Settings.Default.DefaultSAWNDExportNameScheme)
 			{
 				case 0:
@@ -63,6 +71,8 @@ namespace BrawlSoundConverter
 		private void buttonSave_Click(object sender, EventArgs e)
 		{
 			Properties.Settings.Default.DefaultBrsarFilePath = textBoxDefaultBrsar.Text;
+
+			Properties.Settings.Default.EnableFullLengthNames = radioButtonFullNameEnable.Checked;
 
 			if (radioButtonNamePM.Checked)
 			{

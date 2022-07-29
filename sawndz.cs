@@ -376,7 +376,16 @@ namespace BrawlSoundConverter
 					System.Xml.XmlWriter waveMap = System.Xml.XmlWriter.Create(fileName, waveMapSettings);
 					if (includeExtraInfo)
 					{
-						waveMap.WriteComment("For Group #" + groupID.ToString("D3") + " (\"" + targetGroup.Name + "\"):");
+						string groupName;
+						if (Properties.Settings.Default.EnableFullLengthNames)
+						{
+							groupName = targetGroup.TreePath.Replace('/', '_');
+						}
+						else
+						{
+							groupName = targetGroup.Name;
+						}
+						waveMap.WriteComment("For Group #" + groupID.ToString("D3") + " (\"" + groupName + "\"):");
 					}
 					waveMap.WriteStartElement("superSawndzWAVEMap");
 					waveMap.WriteAttributeString("version", Properties.Resources.Version);
