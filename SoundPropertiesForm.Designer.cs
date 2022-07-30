@@ -45,6 +45,8 @@ namespace BrawlSoundConverter
 			this.label3 = new System.Windows.Forms.Label();
 			this.label6 = new System.Windows.Forms.Label();
 			this.label7 = new System.Windows.Forms.Label();
+			this.label8 = new System.Windows.Forms.Label();
+			this.textBox2 = new System.Windows.Forms.TextBox();
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDownVol)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDownPan)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDownPitch)).BeginInit();
@@ -65,7 +67,7 @@ namespace BrawlSoundConverter
 			// label2
 			// 
 			this.label2.AutoSize = true;
-			this.label2.Location = new System.Drawing.Point(13, 63);
+			this.label2.Location = new System.Drawing.Point(13, 104);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(55, 17);
 			this.label2.TabIndex = 2;
@@ -73,7 +75,7 @@ namespace BrawlSoundConverter
 			// 
 			// numericUpDownVol
 			// 
-			this.numericUpDownVol.Location = new System.Drawing.Point(16, 84);
+			this.numericUpDownVol.Location = new System.Drawing.Point(16, 125);
 			this.numericUpDownVol.Maximum = new decimal(new int[] {
             255,
             0,
@@ -95,7 +97,7 @@ namespace BrawlSoundConverter
 			// 
 			// numericUpDownPan
 			// 
-			this.numericUpDownPan.Location = new System.Drawing.Point(92, 84);
+			this.numericUpDownPan.Location = new System.Drawing.Point(92, 125);
 			this.numericUpDownPan.Maximum = new decimal(new int[] {
             255,
             0,
@@ -113,7 +115,7 @@ namespace BrawlSoundConverter
             0,
             0,
             65536});
-			this.numericUpDownPitch.Location = new System.Drawing.Point(168, 84);
+			this.numericUpDownPitch.Location = new System.Drawing.Point(168, 125);
 			this.numericUpDownPitch.Maximum = new decimal(new int[] {
             10,
             0,
@@ -126,7 +128,7 @@ namespace BrawlSoundConverter
 			// label4
 			// 
 			this.label4.AutoSize = true;
-			this.label4.Location = new System.Drawing.Point(165, 64);
+			this.label4.Location = new System.Drawing.Point(165, 105);
 			this.label4.Name = "label4";
 			this.label4.Size = new System.Drawing.Size(39, 17);
 			this.label4.TabIndex = 9;
@@ -135,7 +137,7 @@ namespace BrawlSoundConverter
 			// label5
 			// 
 			this.label5.AutoSize = true;
-			this.label5.Location = new System.Drawing.Point(93, 63);
+			this.label5.Location = new System.Drawing.Point(93, 104);
 			this.label5.Name = "label5";
 			this.label5.Size = new System.Drawing.Size(33, 17);
 			this.label5.TabIndex = 10;
@@ -144,9 +146,9 @@ namespace BrawlSoundConverter
 			// button1
 			// 
 			this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.button1.Location = new System.Drawing.Point(312, 115);
+			this.button1.Location = new System.Drawing.Point(320, 155);
 			this.button1.Name = "button1";
-			this.button1.Size = new System.Drawing.Size(75, 23);
+			this.button1.Size = new System.Drawing.Size(70, 28);
 			this.button1.TabIndex = 11;
 			this.button1.Text = "Save";
 			this.button1.UseVisualStyleBackColor = true;
@@ -156,9 +158,9 @@ namespace BrawlSoundConverter
 			// 
 			this.button2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.button2.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-			this.button2.Location = new System.Drawing.Point(393, 115);
+			this.button2.Location = new System.Drawing.Point(396, 155);
 			this.button2.Name = "button2";
-			this.button2.Size = new System.Drawing.Size(75, 23);
+			this.button2.Size = new System.Drawing.Size(72, 28);
 			this.button2.TabIndex = 12;
 			this.button2.Text = "Cancel";
 			this.button2.UseVisualStyleBackColor = true;
@@ -166,7 +168,7 @@ namespace BrawlSoundConverter
 			// 
 			// numericUpDownFX1
 			// 
-			this.numericUpDownFX1.Location = new System.Drawing.Point(244, 84);
+			this.numericUpDownFX1.Location = new System.Drawing.Point(244, 125);
 			this.numericUpDownFX1.Maximum = new decimal(new int[] {
             255,
             0,
@@ -178,7 +180,7 @@ namespace BrawlSoundConverter
 			// 
 			// numericUpDownFX2
 			// 
-			this.numericUpDownFX2.Location = new System.Drawing.Point(320, 84);
+			this.numericUpDownFX2.Location = new System.Drawing.Point(320, 125);
 			this.numericUpDownFX2.Maximum = new decimal(new int[] {
             255,
             0,
@@ -190,7 +192,7 @@ namespace BrawlSoundConverter
 			// 
 			// numericUpDownFX3
 			// 
-			this.numericUpDownFX3.Location = new System.Drawing.Point(396, 84);
+			this.numericUpDownFX3.Location = new System.Drawing.Point(396, 125);
 			this.numericUpDownFX3.Maximum = new decimal(new int[] {
             255,
             0,
@@ -203,7 +205,7 @@ namespace BrawlSoundConverter
 			// label3
 			// 
 			this.label3.AutoSize = true;
-			this.label3.Location = new System.Drawing.Point(241, 64);
+			this.label3.Location = new System.Drawing.Point(241, 105);
 			this.label3.Name = "label3";
 			this.label3.Size = new System.Drawing.Size(53, 17);
 			this.label3.TabIndex = 16;
@@ -212,7 +214,7 @@ namespace BrawlSoundConverter
 			// label6
 			// 
 			this.label6.AutoSize = true;
-			this.label6.Location = new System.Drawing.Point(317, 64);
+			this.label6.Location = new System.Drawing.Point(317, 105);
 			this.label6.Name = "label6";
 			this.label6.Size = new System.Drawing.Size(53, 17);
 			this.label6.TabIndex = 17;
@@ -221,11 +223,30 @@ namespace BrawlSoundConverter
 			// label7
 			// 
 			this.label7.AutoSize = true;
-			this.label7.Location = new System.Drawing.Point(393, 64);
+			this.label7.Location = new System.Drawing.Point(393, 105);
 			this.label7.Name = "label7";
 			this.label7.Size = new System.Drawing.Size(53, 17);
 			this.label7.TabIndex = 18;
 			this.label7.Text = "Echo C";
+			// 
+			// label8
+			// 
+			this.label8.AutoSize = true;
+			this.label8.Location = new System.Drawing.Point(13, 59);
+			this.label8.Name = "label8";
+			this.label8.Size = new System.Drawing.Size(113, 17);
+			this.label8.TabIndex = 19;
+			this.label8.Text = "Sound Info Index";
+			// 
+			// textBox2
+			// 
+			this.textBox2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.textBox2.Enabled = false;
+			this.textBox2.Location = new System.Drawing.Point(16, 79);
+			this.textBox2.Name = "textBox2";
+			this.textBox2.Size = new System.Drawing.Size(452, 22);
+			this.textBox2.TabIndex = 20;
 			// 
 			// SoundPropertiesForm
 			// 
@@ -233,7 +254,9 @@ namespace BrawlSoundConverter
 			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.CancelButton = this.button2;
-			this.ClientSize = new System.Drawing.Size(480, 150);
+			this.ClientSize = new System.Drawing.Size(480, 190);
+			this.Controls.Add(this.textBox2);
+			this.Controls.Add(this.label8);
 			this.Controls.Add(this.label7);
 			this.Controls.Add(this.label6);
 			this.Controls.Add(this.label3);
@@ -281,5 +304,7 @@ namespace BrawlSoundConverter
 		private System.Windows.Forms.Label label3;
 		private System.Windows.Forms.Label label6;
 		private System.Windows.Forms.Label label7;
+		private System.Windows.Forms.Label label8;
+		private System.Windows.Forms.TextBox textBox2;
 	}
 }

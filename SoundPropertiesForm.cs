@@ -22,6 +22,7 @@ namespace BrawlSoundConverter
 			{
 				initSuccessful = true;
 				textBox1.Text = sourceNode.Name;
+				textBox2.Text = "Decimal: " + infoIndex.ToString("D4") + " / Hexadecimal: 0x" + infoIndex.ToString("X4");
 				numericUpDownVol.Value = (sourceNode.MainSend < numericUpDownVol.Maximum) ? sourceNode.MainSend : numericUpDownVol.Maximum;
 				numericUpDownPitch.Value = (new Decimal(sourceNode.Pitch) < numericUpDownPitch.Maximum) ? new Decimal(sourceNode.Pitch) : numericUpDownPitch.Maximum;
 				numericUpDownPan.Value = (sourceNode.Pan < numericUpDownPan.Maximum) ? sourceNode.Pan : numericUpDownPan.Maximum;
