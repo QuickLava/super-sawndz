@@ -68,6 +68,7 @@
 			this.toolStripMenuItemHelp = new System.Windows.Forms.ToolStripMenuItem();
 			this.aboutToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
 			this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+			this.toolStripMenuItemWAVEID = new System.Windows.Forms.ToolStripMenuItem();
 			this.contextMenuStripWAV.SuspendLayout();
 			this.contextMenuStripCollection.SuspendLayout();
 			this.menuStrip1.SuspendLayout();
@@ -324,22 +325,23 @@
 			this.contextMenuStripWAV.ImageScalingSize = new System.Drawing.Size(20, 20);
 			this.contextMenuStripWAV.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripMenuItemSoundProps,
+            this.toolStripMenuItemWAVEID,
             this.editLoopPropertiesToolStripMenuItem});
 			this.contextMenuStripWAV.Name = "contextMenuStripWAV";
-			this.contextMenuStripWAV.Size = new System.Drawing.Size(222, 52);
+			this.contextMenuStripWAV.Size = new System.Drawing.Size(262, 104);
 			// 
 			// toolStripMenuItemSoundProps
 			// 
 			this.toolStripMenuItemSoundProps.Name = "toolStripMenuItemSoundProps";
-			this.toolStripMenuItemSoundProps.Size = new System.Drawing.Size(221, 24);
+			this.toolStripMenuItemSoundProps.Size = new System.Drawing.Size(242, 24);
 			this.toolStripMenuItemSoundProps.Text = "Edit Sound Properties";
 			this.toolStripMenuItemSoundProps.Click += new System.EventHandler(this.toolStripMenuItemSoundProps_Click);
 			// 
 			// editLoopPropertiesToolStripMenuItem
 			// 
 			this.editLoopPropertiesToolStripMenuItem.Name = "editLoopPropertiesToolStripMenuItem";
-			this.editLoopPropertiesToolStripMenuItem.Size = new System.Drawing.Size(221, 24);
-			this.editLoopPropertiesToolStripMenuItem.Text = "Edit Sound Loop";
+			this.editLoopPropertiesToolStripMenuItem.Size = new System.Drawing.Size(261, 24);
+			this.editLoopPropertiesToolStripMenuItem.Text = "Edit Associated WAVE Loop";
 			this.editLoopPropertiesToolStripMenuItem.Click += new System.EventHandler(this.editLoopPropertiesToolStripMenuItem_Click);
 			// 
 			// contextMenuStripCollection
@@ -452,6 +454,13 @@
 			this.menuStrip1.TabIndex = 16;
 			this.menuStrip1.Text = "menuStrip1";
 			// 
+			// toolStripMenuItemWAVEID
+			// 
+			this.toolStripMenuItemWAVEID.Name = "toolStripMenuItemWAVEID";
+			this.toolStripMenuItemWAVEID.Size = new System.Drawing.Size(261, 24);
+			this.toolStripMenuItemWAVEID.Text = "Edit Associated WAVE ID";
+			this.toolStripMenuItemWAVEID.Click += new System.EventHandler(this.toolStripMenuItemWAVEID_Click);
+			// 
 			// Form1
 			// 
 			this.AllowDrop = true;
@@ -537,6 +546,7 @@
 		private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemHelp;
 		private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem1;
 		private System.Windows.Forms.MenuStrip menuStrip1;
+		private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemWAVEID;
 	}
 }
 

@@ -776,5 +776,29 @@ namespace BrawlSoundConverter
 				"Currently Based off of lavaResawndz 1.2.8 (2022 QuickLava)\n" +
 				"Special thanks to mastaklo, ssbbtailsfan, stickman, VILE\n");
 		}
+
+		private void toolStripMenuItemWAVEID_Click(object sender, EventArgs e)
+		{
+			MappingItem selectedNode = treeViewMapping.SelectedNode as MappingItem;
+			if (selectedNode != null)
+			{
+				textBoxOutput.Clear();
+				Console.Write("Editing Associated WAVE ID... ");
+				SoundWAVERemapForm soundProps = new SoundWAVERemapForm(selectedNode.groupID, selectedNode.collectionID, selectedNode.infoIndex);
+				if (soundProps.initSuccessful)
+				{
+					if (soundProps.ShowDialog() == DialogResult.OK)
+					{
+						Console.WriteLine("Success!");
+						brsar.ReloadRSAR(true);
+						loadTreeView();
+					}
+					else
+					{
+						Console.WriteLine("Operation Cancelled!");
+					}
+				}
+			}
+		}
 	}
 }

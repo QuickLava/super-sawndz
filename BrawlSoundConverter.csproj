@@ -1070,6 +1070,12 @@
     <Compile Include="SettingsForm.Designer.cs">
       <DependentUpon>SettingsForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="SoundWAVERemapForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SoundWAVERemapForm.Designer.cs">
+      <DependentUpon>SoundWAVERemapForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="SoundPropertiesForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -1192,6 +1198,9 @@
     </Compile>
     <EmbeddedResource Include="SettingsForm.resx">
       <DependentUpon>SettingsForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SoundWAVERemapForm.resx">
+      <DependentUpon>SoundWAVERemapForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="SoundPropertiesForm.resx">
       <DependentUpon>SoundPropertiesForm.cs</DependentUpon>
