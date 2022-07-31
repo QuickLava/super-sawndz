@@ -713,6 +713,7 @@ namespace BrawlSoundConverter
 			{
 				Sawndz.insertBRWSD(ofd.FileName, gid, cid);
 				loadTreeView();
+				selectNode(gid, cid);
 			}
 			else
 			{
