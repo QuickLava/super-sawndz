@@ -261,6 +261,50 @@ namespace BrawlSoundConverter
 			backgroundWorkerInsert.RunWorkerAsync();
 		}
 
+		private void selectNode(int groupID, int collectionID = -1, int infoIndex = -1)
+		{
+			foreach (MappingItem groupNode in treeViewMapping.Nodes)
+			{
+				if (groupNode.groupID == groupID)
+				{
+					if (collectionID >= 0)
+					{
+						foreach (MappingItem collNode in groupNode.Nodes)
+						{
+							if (collNode.collectionID == collectionID)
+							{
+								if (infoIndex >= 0)
+								{
+									foreach(MappingItem soundNode in collNode.Nodes)
+									{
+										if (soundNode.infoIndex == infoIndex)
+										{
+											treeViewMapping.SelectedNode = soundNode;
+											break;
+										}
+									}
+								}
+								else
+								{
+									treeViewMapping.SelectedNode = collNode;
+								}
+								break;
+							}
+						}
+					}
+					else
+					{
+						treeViewMapping.SelectedNode = groupNode;
+					}
+					break;
+				}
+			}
+			if (treeViewMapping.SelectedNode != null)
+			{
+				treeViewMapping.SelectedNode.Expand();
+			}
+		}
+
 		//Disables buttons and treeview while sawndz is being run
 		private void disableStuff()
 		{
@@ -791,7 +835,11 @@ namespace BrawlSoundConverter
 					{
 						Console.WriteLine("Success!");
 						brsar.ReloadRSAR(true);
+						int selectedGroupID = selectedNode.groupID;
+						int selectedCollID = selectedNode.collectionID;
+						int selectedInfoIndex = selectedNode.infoIndex;
 						loadTreeView();
+						selectNode(selectedGroupID, selectedCollID, selectedInfoIndex);
 					}
 					else
 					{
