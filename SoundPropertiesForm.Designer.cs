@@ -47,6 +47,7 @@ namespace BrawlSoundConverter
 			this.label7 = new System.Windows.Forms.Label();
 			this.label8 = new System.Windows.Forms.Label();
 			this.textBox2 = new System.Windows.Forms.TextBox();
+			this.label9 = new System.Windows.Forms.Label();
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDownVol)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDownPan)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDownPitch)).BeginInit();
@@ -66,15 +67,17 @@ namespace BrawlSoundConverter
 			// 
 			// label2
 			// 
+			this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.label2.AutoSize = true;
 			this.label2.Location = new System.Drawing.Point(13, 104);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(55, 17);
+			this.label2.Size = new System.Drawing.Size(71, 17);
 			this.label2.TabIndex = 2;
-			this.label2.Text = "Volume";
+			this.label2.Text = "MainSend";
 			// 
 			// numericUpDownVol
 			// 
+			this.numericUpDownVol.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.numericUpDownVol.Location = new System.Drawing.Point(16, 125);
 			this.numericUpDownVol.Maximum = new decimal(new int[] {
             255,
@@ -97,6 +100,7 @@ namespace BrawlSoundConverter
 			// 
 			// numericUpDownPan
 			// 
+			this.numericUpDownPan.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.numericUpDownPan.Location = new System.Drawing.Point(92, 125);
 			this.numericUpDownPan.Maximum = new decimal(new int[] {
             255,
@@ -109,6 +113,7 @@ namespace BrawlSoundConverter
 			// 
 			// numericUpDownPitch
 			// 
+			this.numericUpDownPitch.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.numericUpDownPitch.DecimalPlaces = 2;
 			this.numericUpDownPitch.Increment = new decimal(new int[] {
             1,
@@ -127,6 +132,7 @@ namespace BrawlSoundConverter
 			// 
 			// label4
 			// 
+			this.label4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.label4.AutoSize = true;
 			this.label4.Location = new System.Drawing.Point(165, 105);
 			this.label4.Name = "label4";
@@ -136,6 +142,7 @@ namespace BrawlSoundConverter
 			// 
 			// label5
 			// 
+			this.label5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.label5.AutoSize = true;
 			this.label5.Location = new System.Drawing.Point(93, 104);
 			this.label5.Name = "label5";
@@ -146,7 +153,7 @@ namespace BrawlSoundConverter
 			// button1
 			// 
 			this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.button1.Location = new System.Drawing.Point(320, 155);
+			this.button1.Location = new System.Drawing.Point(320, 171);
 			this.button1.Name = "button1";
 			this.button1.Size = new System.Drawing.Size(70, 28);
 			this.button1.TabIndex = 11;
@@ -158,7 +165,7 @@ namespace BrawlSoundConverter
 			// 
 			this.button2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.button2.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-			this.button2.Location = new System.Drawing.Point(396, 155);
+			this.button2.Location = new System.Drawing.Point(396, 171);
 			this.button2.Name = "button2";
 			this.button2.Size = new System.Drawing.Size(72, 28);
 			this.button2.TabIndex = 12;
@@ -168,6 +175,7 @@ namespace BrawlSoundConverter
 			// 
 			// numericUpDownFX1
 			// 
+			this.numericUpDownFX1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.numericUpDownFX1.Location = new System.Drawing.Point(244, 125);
 			this.numericUpDownFX1.Maximum = new decimal(new int[] {
             255,
@@ -180,6 +188,7 @@ namespace BrawlSoundConverter
 			// 
 			// numericUpDownFX2
 			// 
+			this.numericUpDownFX2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.numericUpDownFX2.Location = new System.Drawing.Point(320, 125);
 			this.numericUpDownFX2.Maximum = new decimal(new int[] {
             255,
@@ -192,6 +201,7 @@ namespace BrawlSoundConverter
 			// 
 			// numericUpDownFX3
 			// 
+			this.numericUpDownFX3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.numericUpDownFX3.Location = new System.Drawing.Point(396, 125);
 			this.numericUpDownFX3.Maximum = new decimal(new int[] {
             255,
@@ -204,30 +214,33 @@ namespace BrawlSoundConverter
 			// 
 			// label3
 			// 
+			this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.label3.AutoSize = true;
 			this.label3.Location = new System.Drawing.Point(241, 105);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(53, 17);
+			this.label3.Size = new System.Drawing.Size(68, 17);
 			this.label3.TabIndex = 16;
-			this.label3.Text = "Echo A";
+			this.label3.Text = "FxSend A";
 			// 
 			// label6
 			// 
+			this.label6.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.label6.AutoSize = true;
 			this.label6.Location = new System.Drawing.Point(317, 105);
 			this.label6.Name = "label6";
-			this.label6.Size = new System.Drawing.Size(53, 17);
+			this.label6.Size = new System.Drawing.Size(68, 17);
 			this.label6.TabIndex = 17;
-			this.label6.Text = "Echo B";
+			this.label6.Text = "FxSend B";
 			// 
 			// label7
 			// 
+			this.label7.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.label7.AutoSize = true;
 			this.label7.Location = new System.Drawing.Point(393, 105);
 			this.label7.Name = "label7";
-			this.label7.Size = new System.Drawing.Size(53, 17);
+			this.label7.Size = new System.Drawing.Size(68, 17);
 			this.label7.TabIndex = 18;
-			this.label7.Text = "Echo C";
+			this.label7.Text = "FxSend C";
 			// 
 			// label8
 			// 
@@ -248,13 +261,25 @@ namespace BrawlSoundConverter
 			this.textBox2.Size = new System.Drawing.Size(452, 22);
 			this.textBox2.TabIndex = 20;
 			// 
+			// label9
+			// 
+			this.label9.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.label9.AutoSize = true;
+			this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.label9.Location = new System.Drawing.Point(49, 150);
+			this.label9.Name = "label9";
+			this.label9.Size = new System.Drawing.Size(425, 17);
+			this.label9.TabIndex = 21;
+			this.label9.Text = "Note: \'MainSend\' controls sound volume, \'FxSend\' controls reverb.";
+			// 
 			// SoundPropertiesForm
 			// 
 			this.AcceptButton = this.button1;
 			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.CancelButton = this.button2;
-			this.ClientSize = new System.Drawing.Size(480, 190);
+			this.ClientSize = new System.Drawing.Size(480, 206);
+			this.Controls.Add(this.label9);
 			this.Controls.Add(this.textBox2);
 			this.Controls.Add(this.label8);
 			this.Controls.Add(this.label7);
@@ -306,5 +331,6 @@ namespace BrawlSoundConverter
 		private System.Windows.Forms.Label label7;
 		private System.Windows.Forms.Label label8;
 		private System.Windows.Forms.TextBox textBox2;
+		private System.Windows.Forms.Label label9;
 	}
 }
