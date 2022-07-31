@@ -31,6 +31,8 @@ namespace BrawlSoundConverter
 					initSuccessful = true;
 					textBox1.Text = sourceNode.Name;
 
+					label9.Text = "WAVE Entries in Collection 0x" + fileID.ToString("X3") + ":";
+
 					numericUpDownWAVID.Value = sourceNode.Sound.Index;
 					numericUpDownWAVID.Minimum = 0;
 					numericUpDownWAVID.Maximum = treeView1.Nodes.Count - 1;

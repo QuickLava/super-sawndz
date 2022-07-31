@@ -118,9 +118,9 @@ namespace BrawlSoundConverter
 			this.label9.AutoSize = true;
 			this.label9.Location = new System.Drawing.Point(12, 104);
 			this.label9.Name = "label9";
-			this.label9.Size = new System.Drawing.Size(100, 17);
+			this.label9.Size = new System.Drawing.Size(214, 17);
 			this.label9.TabIndex = 22;
-			this.label9.Text = "WAVE Entries:";
+			this.label9.Text = "WAVE Entries in Collection 0x__:";
 			// 
 			// numericUpDownWAVID
 			// 

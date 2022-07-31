@@ -39,7 +39,7 @@ namespace BrawlSoundConverter
 			{
 				groupName = targetGroup.Name;
 			}
-			labelFileLabel.Text = "Sounds in Collection #" + targetFileID.ToString("X3") + " from Group #" + targetGroupID.ToString("X3") + " (\"" + groupName + "\"):";
+			labelFileLabel.Text = "Sounds in Collection 0x" + targetFileID.ToString("X3") + " from Group #" + targetGroupID.ToString("X3") + " (\"" + groupName + "\"):";
 			buttonCancel.Enabled = true;
 			treeViewAudio.CheckBoxes = true;
 			checkBox1.Checked = Properties.Settings.Default.DefaultMultiWAVExportCreateGroupDirectory;
