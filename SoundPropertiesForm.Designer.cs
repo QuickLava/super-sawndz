@@ -75,7 +75,6 @@ namespace BrawlSoundConverter
 			// 
 			// label2
 			// 
-			this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.label2.AutoSize = true;
 			this.label2.Location = new System.Drawing.Point(13, 155);
 			this.label2.Name = "label2";
@@ -85,7 +84,6 @@ namespace BrawlSoundConverter
 			// 
 			// numericUpDownVol
 			// 
-			this.numericUpDownVol.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.numericUpDownVol.Location = new System.Drawing.Point(16, 176);
 			this.numericUpDownVol.Maximum = new decimal(new int[] {
             255,
@@ -108,7 +106,6 @@ namespace BrawlSoundConverter
 			// 
 			// numericUpDownPan
 			// 
-			this.numericUpDownPan.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.numericUpDownPan.Location = new System.Drawing.Point(92, 176);
 			this.numericUpDownPan.Maximum = new decimal(new int[] {
             255,
@@ -121,7 +118,6 @@ namespace BrawlSoundConverter
 			// 
 			// numericUpDownPitch
 			// 
-			this.numericUpDownPitch.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.numericUpDownPitch.DecimalPlaces = 2;
 			this.numericUpDownPitch.Increment = new decimal(new int[] {
             1,
@@ -140,7 +136,6 @@ namespace BrawlSoundConverter
 			// 
 			// label4
 			// 
-			this.label4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.label4.AutoSize = true;
 			this.label4.Location = new System.Drawing.Point(165, 156);
 			this.label4.Name = "label4";
@@ -150,7 +145,6 @@ namespace BrawlSoundConverter
 			// 
 			// label5
 			// 
-			this.label5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.label5.AutoSize = true;
 			this.label5.Location = new System.Drawing.Point(93, 155);
 			this.label5.Name = "label5";
@@ -183,7 +177,6 @@ namespace BrawlSoundConverter
 			// 
 			// numericUpDownFX1
 			// 
-			this.numericUpDownFX1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.numericUpDownFX1.Location = new System.Drawing.Point(244, 176);
 			this.numericUpDownFX1.Maximum = new decimal(new int[] {
             255,
@@ -196,7 +189,6 @@ namespace BrawlSoundConverter
 			// 
 			// numericUpDownFX2
 			// 
-			this.numericUpDownFX2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.numericUpDownFX2.Location = new System.Drawing.Point(320, 176);
 			this.numericUpDownFX2.Maximum = new decimal(new int[] {
             255,
@@ -209,7 +201,6 @@ namespace BrawlSoundConverter
 			// 
 			// numericUpDownFX3
 			// 
-			this.numericUpDownFX3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.numericUpDownFX3.Location = new System.Drawing.Point(396, 176);
 			this.numericUpDownFX3.Maximum = new decimal(new int[] {
             255,
@@ -222,7 +213,6 @@ namespace BrawlSoundConverter
 			// 
 			// label3
 			// 
-			this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.label3.AutoSize = true;
 			this.label3.Location = new System.Drawing.Point(241, 156);
 			this.label3.Name = "label3";
@@ -232,7 +222,6 @@ namespace BrawlSoundConverter
 			// 
 			// label6
 			// 
-			this.label6.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.label6.AutoSize = true;
 			this.label6.Location = new System.Drawing.Point(317, 156);
 			this.label6.Name = "label6";
@@ -242,7 +231,6 @@ namespace BrawlSoundConverter
 			// 
 			// label7
 			// 
-			this.label7.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.label7.AutoSize = true;
 			this.label7.Location = new System.Drawing.Point(393, 156);
 			this.label7.Name = "label7";
@@ -271,7 +259,6 @@ namespace BrawlSoundConverter
 			// 
 			// label9
 			// 
-			this.label9.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.label9.AutoSize = true;
 			this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.label9.Location = new System.Drawing.Point(49, 201);
@@ -282,8 +269,6 @@ namespace BrawlSoundConverter
 			// 
 			// textBox3
 			// 
-			this.textBox3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
 			this.textBox3.Enabled = false;
 			this.textBox3.Location = new System.Drawing.Point(15, 124);
 			this.textBox3.Name = "textBox3";
@@ -301,8 +286,6 @@ namespace BrawlSoundConverter
 			// 
 			// textBox4
 			// 
-			this.textBox4.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
 			this.textBox4.Enabled = false;
 			this.textBox4.Location = new System.Drawing.Point(129, 124);
 			this.textBox4.Name = "textBox4";
@@ -320,8 +303,6 @@ namespace BrawlSoundConverter
 			// 
 			// textBox5
 			// 
-			this.textBox5.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
 			this.textBox5.Enabled = false;
 			this.textBox5.Location = new System.Drawing.Point(244, 124);
 			this.textBox5.Name = "textBox5";
@@ -339,8 +320,6 @@ namespace BrawlSoundConverter
 			// 
 			// textBox6
 			// 
-			this.textBox6.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
 			this.textBox6.Enabled = false;
 			this.textBox6.Location = new System.Drawing.Point(359, 124);
 			this.textBox6.Name = "textBox6";
