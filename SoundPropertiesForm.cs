@@ -26,7 +26,7 @@ namespace BrawlSoundConverter
 				textBox3.Text = sourceNode.NumSamples.ToString();
 				textBox4.Text = sourceNode.SampleRate.ToString();
 				textBox5.Text = sourceNode.LoopStartSample.ToString() + (sourceNode.IsLooped ? "" : " (Disabled)");
-				textBox6.Text = sourceNode.Channels + " channel" + (sourceNode.Channels > 1 ? "s" : "");
+				textBox6.Text = sourceNode.Channels.ToString();
 				numericUpDownVol.Value = (sourceNode.MainSend < numericUpDownVol.Maximum) ? sourceNode.MainSend : numericUpDownVol.Maximum;
 				numericUpDownPitch.Value = (new Decimal(sourceNode.Pitch) < numericUpDownPitch.Maximum) ? new Decimal(sourceNode.Pitch) : numericUpDownPitch.Maximum;
 				numericUpDownPan.Value = (sourceNode.Pan < numericUpDownPan.Maximum) ? sourceNode.Pan : numericUpDownPan.Maximum;
