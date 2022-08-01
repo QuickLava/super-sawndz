@@ -732,6 +732,12 @@ namespace BrawlSoundConverter
 
 		private void Form1_DragEnter(object sender, DragEventArgs e)
 		{
+			if (!this.CanFocus)
+			{
+				this.Cursor = Cursors.No;
+				e.Effect = DragDropEffects.None;
+				return;
+			}
 			if (e.Data.GetDataPresent(DataFormats.FileDrop))
 			{
 				e.Effect = DragDropEffects.All;
@@ -745,11 +751,19 @@ namespace BrawlSoundConverter
 
 		private void Form1_DragLeave(object sender, EventArgs e)
 		{
+			if (!this.CanFocus)
+			{
+				return;
+			}
 			enableStuff();
 		}
 
 		private void Form1_DragDrop(object sender, DragEventArgs e)
 		{
+			if (!this.CanFocus)
+			{
+				return;
+			}
 			string[] strings = (string[])e.Data.GetData(DataFormats.FileDrop, false);
 
 			if (strings.Length > 0)
