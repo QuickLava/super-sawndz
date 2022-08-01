@@ -112,7 +112,7 @@ namespace BrawlSoundConverter
 
 		private void button1_Click(object sender, EventArgs e)
 		{
-			textBoxDefaultBrsar.Text = brsar.RSAR_FileName;
+			textBoxDefaultBrsar.Text = Path.GetFullPath(brsar.RSAR_FileName);
 		}
 	}
 }
