@@ -753,6 +753,7 @@ namespace BrawlSoundConverter
 		{
 			if (!this.CanFocus)
 			{
+				this.Cursor = Cursors.Default;
 				return;
 			}
 			enableStuff();
@@ -762,6 +763,7 @@ namespace BrawlSoundConverter
 		{
 			if (!this.CanFocus)
 			{
+				this.Cursor = Cursors.Default;
 				return;
 			}
 			string[] strings = (string[])e.Data.GetData(DataFormats.FileDrop, false);
