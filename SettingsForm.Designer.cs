@@ -295,6 +295,9 @@ namespace BrawlSoundConverter
 			this.Controls.Add(this.buttonBrowse);
 			this.Controls.Add(this.textBoxDefaultBrsar);
 			this.Controls.Add(this.groupBoxNamingScheme);
+			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+			this.MaximizeBox = false;
+			this.MinimizeBox = false;
 			this.Name = "SettingsForm";
 			this.Text = "Settings";
 			this.groupBoxNamingScheme.ResumeLayout(false);

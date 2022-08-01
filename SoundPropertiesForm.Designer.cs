@@ -369,6 +369,9 @@ namespace BrawlSoundConverter
 			this.Controls.Add(this.label2);
 			this.Controls.Add(this.textBox1);
 			this.Controls.Add(this.label1);
+			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+			this.MaximizeBox = false;
+			this.MinimizeBox = false;
 			this.Name = "SoundPropertiesForm";
 			this.Text = "Edit Sound Properties";
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDownVol)).EndInit();
