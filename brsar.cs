@@ -5,6 +5,7 @@ using System.Text;
 using System.Windows.Forms;
 using System.IO;
 using BrawlLib;
+using KTrie;
 namespace BrawlSoundConverter
 {
 	/// <summary>
@@ -14,6 +15,8 @@ namespace BrawlSoundConverter
 	{
 		//The current rsar filename
 		public static string RSAR_FileName = Properties.Settings.Default.DefaultBrsarFilePath;
+		public static KTrie.StringTrie<MappingItem> groupTrie;
+		public static KTrie.StringTrie<MappingItem> soundTrie;
 		//The current rsar itself
 		static BrawlLib.SSBB.ResourceNodes.RSARNode _rsar;
 
@@ -25,6 +28,8 @@ namespace BrawlSoundConverter
 				_rsar = new BrawlLib.SSBB.ResourceNodes.RSARNode();
 				_rsar.Replace( RSAR_FileName );
 				_rsar._origPath = Path.GetFullPath(RSAR_FileName);
+				groupTrie = new KTrie.StringTrie<MappingItem>();
+				soundTrie = new KTrie.StringTrie<MappingItem>();
 			}
 			return _rsar;
 		}
@@ -104,6 +109,81 @@ namespace BrawlSoundConverter
 			return result;
 		}
 
+		//public static BrawlLib.SSBB.Types.Audio.SYMBMaskEntry FindStringInSymbTrie(string toFind, BrawlLib.SSBB.Types.Audio.SYMBMaskHeader toSearch)
+		//{
+		//	BrawlLib.SSBB.Types.Audio.SYMBMaskEntry result = new BrawlLib.SSBB.Types.Audio.SYMBMaskEntry();
+		//	result._index = int.MaxValue;
+		//	unsafe
+		//	{
+		//		if (toSearch._rootId < toSearch._numEntries)
+		//		{
+		//			BrawlLib.SSBB.Types.Audio.SYMBMaskEntry currEntry = toSearch.Entries[toSearch._rootId];
+		//			while(currEntry._flags == 0)
+		//			{
+		//				if ((currEntry._bit >> 3) >= toFind.Length)
+		//				{
+		//					currEntry = toSearch.Entries[currEntry._leftId];
+		//					continue;
+		//				}
+		//				if (BrawlLib.SSBB.Types.Audio.SYMBMaskEntry.CheckBit(toFind, currEntry._bit))
+		//				{
+		//					currEntry = toSearch.Entries[currEntry._rightId];
+		//				}
+		//				else
+		//				{
+		//					currEntry = toSearch.Entries[currEntry._leftId];
+		//				}
+		//			}
+		//			result = currEntry;
+		//		}
+		//	}
+		//	return result;
+		//}
+		//public static List<int> GetStringsFromSymbEntry(BrawlLib.SSBB.Types.Audio.SYMBMaskEntry entry, BrawlLib.SSBB.Types.Audio.SYMBMaskHeader header, List<int> idList = null)
+		//{
+		//	if (idList == null)
+		//	{
+		//		idList = new List<int>();
+		//	}
+
+		//	List<int> result = null;
+		//	unsafe
+		//	{
+		//		if (entry._index < header._numEntries)
+		//		{
+		//			if (entry._flags == 1)
+		//			{
+		//				idList.Add(entry._stringId);
+		//			}
+		//		}
+		//		else
+		//		{
+		//			GetStringsFromSymbEntry(*(header.Entries + entry._leftId), header, idList);
+		//			GetStringsFromSymbEntry(*(header.Entries + entry._rightId), header, idList);
+		//		}
+		//	}
+
+		//	return idList;
+		//}
+		//public static MappingItem FindNodeFromString(string toFind)
+		//{
+		//	MappingItem result = null;
+
+		//	BrawlLib.SSBB.ResourceNodes.RSARNode currRSAR = GetRSAR();
+		//	unsafe
+		//	{
+		//		if (currRSAR != null && currRSAR.Header != null)
+		//		{
+		//			BrawlLib.SSBB.Types.Audio.RSARHeader* currRSARHeader = currRSAR.Header;
+		//			BrawlLib.SSBB.Types.Audio.SYMBHeader* currRSARSymb = currRSARHeader->SYMBBlock;
+		//			List<int> test1 = GetStringsFromSymbEntry(FindStringInSymbTrie(toFind, *currRSARSymb->MaskData3), *currRSARSymb->MaskData3, null);
+		//		}
+		//	}
+
+		//	return result;
+		//}
+
+
 		//Populates a treeView with MappingItem nodes from the current rsar
 		public static void LoadTreeView( TreeView treeView )
 		{
@@ -132,6 +212,10 @@ namespace BrawlSoundConverter
 				int groupID = group.StringId;
 				MappingItem groupMap = new MappingItem( name, groupID, -1, -1, group.InfoIndex );
 				nodes.Add( groupMap );
+				if (!groupTrie.ContainsKey(group.Name))
+				{
+					groupTrie.Add(group.Name, groupMap);
+				}
 				nodeCount++;
 				
 				foreach( BrawlLib.SSBB.ResourceNodes.RSARFileNode file in group._files )
@@ -199,6 +283,10 @@ namespace BrawlSoundConverter
 						}
 						MappingItem soundMap = new MappingItem(sName, groupID, collectionID, waveIndex, infoIndex, usedWaveIndeces.Contains(waveIndex));
 						colMap.Nodes.Add(soundMap);
+						if (!soundTrie.ContainsKey(data.Name))
+						{
+							soundTrie.Add(data.Name, soundMap);
+						}
 						soundMap.fileSize = soundSize;
 						if (infoIndex == -1)
 						{
@@ -435,5 +523,6 @@ namespace BrawlSoundConverter
 			foreach (TreeNode node in nodes)
 				treeView.Nodes.Add(node);
 		}
+
 	}
 }

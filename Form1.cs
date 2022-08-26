@@ -19,6 +19,9 @@ namespace BrawlSoundConverter
 			InitializeComponent();
 		}
 
+		int currSearchResultIndex = 0;
+		IEnumerable<KTrie.StringEntry<MappingItem>> currSearchResults = null;
+
 		//Fill out treeViewMapping with data from the brsar
 		private void loadTreeView()
 		{
@@ -82,6 +85,8 @@ namespace BrawlSoundConverter
 			audioPlaybackPanelWav.VolumePercent = 0.66;
 			audioPlaybackBRSARSound.TargetSource = null;
 			audioPlaybackBRSARSound.VolumePercent = 0.66;
+
+			comboBox1.SelectedIndex = 0;
 		}
 
 		private void setInsertButtonState()
@@ -864,6 +869,78 @@ namespace BrawlSoundConverter
 					}
 				}
 			}
+		}
+
+		private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+		{
+
+		}
+
+		private void textBox1_KeyDown(object sender, KeyEventArgs e)
+		{
+			if (e.KeyCode == Keys.Enter)
+			{
+				bool somethingFound = false;
+				if (!string.IsNullOrEmpty(textBox1.Text) && treeViewMapping.Nodes.Count > 0)
+				{
+					if (currSearchResults == null)
+					{
+						currSearchResults = brsar.groupTrie.GetByPrefix(textBox1.Text);
+						currSearchResults = currSearchResults.Union(brsar.soundTrie.GetByPrefix(textBox1.Text));
+						currSearchResultIndex = 0;
+					}
+					if (currSearchResultIndex >= currSearchResults.Count())
+					{
+						currSearchResultIndex = 0;
+					}
+					if (currSearchResultIndex < currSearchResults.Count())
+					{
+						treeViewMapping.SelectedNode = currSearchResults.ElementAt(currSearchResultIndex).Value;
+						somethingFound = true;
+						currSearchResultIndex++;
+					}
+
+					//brsar.FindNodeFromString(textBox1.Text);
+
+					//int startingIndex;
+					//if (treeViewMapping.SelectedNode == null)
+					//{
+					//	treeViewMapping.SelectedNode = treeViewMapping.Nodes[0];
+					//	startingIndex = 0;
+					//}
+					//else
+					//{
+					//	startingIndex = treeViewMapping.SelectedNode.Index + 1;
+					//}
+					//for (int i = startingIndex; i < treeViewMapping.Nodes.Count; i++)
+					//{
+					//	MappingItem currNode = treeViewMapping.Nodes[i] as MappingItem;
+					//	if (currNode.name == textBox1.Text || currNode.name.StartsWith(textBox1.Text))
+					//	{
+					//		somethingFound = true;
+					//		treeViewMapping.SelectedNode = currNode;
+					//		break;
+					//	}
+					//}
+					//for (int i = 0; !somethingFound && i < startingIndex; i++)
+					//{
+					//	MappingItem currNode = treeViewMapping.Nodes[i] as MappingItem;
+					//	if (currNode.name == textBox1.Text || currNode.name.StartsWith(textBox1.Text))
+					//	{
+					//		somethingFound = true;
+					//		treeViewMapping.SelectedNode = currNode;
+					//		break;
+					//	}
+					//}
+				}
+				e.SuppressKeyPress = somethingFound;
+			}
+		}
+
+		private void textBox1_TextChanged(object sender, EventArgs e)
+		{
+			currSearchResults = null;
+			currSearchResultIndex = 0;
 		}
 	}
 }
