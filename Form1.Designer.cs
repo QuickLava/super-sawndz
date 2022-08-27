@@ -68,7 +68,7 @@
 			this.aboutToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
 			this.menuStrip1 = new System.Windows.Forms.MenuStrip();
 			this.label5 = new System.Windows.Forms.Label();
-			this.textBox1 = new System.Windows.Forms.TextBox();
+			this.textBoxSearchBar = new System.Windows.Forms.TextBox();
 			this.label6 = new System.Windows.Forms.Label();
 			this.comboBox1 = new System.Windows.Forms.ComboBox();
 			this.checkBoxSearchGroups = new System.Windows.Forms.CheckBox();
@@ -76,6 +76,8 @@
 			this.checkBoxSearchCase = new System.Windows.Forms.CheckBox();
 			this.audioPlaybackBRSARSound = new BrawlLib.Internal.Windows.Controls.AudioPlaybackPanel();
 			this.audioPlaybackPanelWav = new BrawlLib.Internal.Windows.Controls.AudioPlaybackPanel();
+			this.buttonFind = new System.Windows.Forms.Button();
+			this.buttonFindAll = new System.Windows.Forms.Button();
 			this.contextMenuStripWAV.SuspendLayout();
 			this.contextMenuStripCollection.SuspendLayout();
 			this.menuStrip1.SuspendLayout();
@@ -391,7 +393,7 @@
 			this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.openBRSARToolStripMenuItem});
 			this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-			this.fileToolStripMenuItem.Size = new System.Drawing.Size(46, 26);
+			this.fileToolStripMenuItem.Size = new System.Drawing.Size(46, 24);
 			this.fileToolStripMenuItem.Text = "File";
 			// 
 			// openBRSARToolStripMenuItem
@@ -406,7 +408,7 @@
 			this.toolsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.ChangeSettingsToolStripMenuItem});
 			this.toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
-			this.toolsToolStripMenuItem.Size = new System.Drawing.Size(58, 26);
+			this.toolsToolStripMenuItem.Size = new System.Drawing.Size(58, 24);
 			this.toolsToolStripMenuItem.Text = "Tools";
 			// 
 			// ChangeSettingsToolStripMenuItem
@@ -421,7 +423,7 @@
 			this.toolStripMenuItemHelp.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.aboutToolStripMenuItem1});
 			this.toolStripMenuItemHelp.Name = "toolStripMenuItemHelp";
-			this.toolStripMenuItemHelp.Size = new System.Drawing.Size(55, 26);
+			this.toolStripMenuItemHelp.Size = new System.Drawing.Size(55, 24);
 			this.toolStripMenuItemHelp.Text = "Help";
 			// 
 			// aboutToolStripMenuItem1
@@ -443,7 +445,7 @@
             this.toolStripMenuItemHelp});
 			this.menuStrip1.Location = new System.Drawing.Point(0, 0);
 			this.menuStrip1.Name = "menuStrip1";
-			this.menuStrip1.Size = new System.Drawing.Size(167, 30);
+			this.menuStrip1.Size = new System.Drawing.Size(167, 28);
 			this.menuStrip1.TabIndex = 16;
 			this.menuStrip1.Text = "menuStrip1";
 			// 
@@ -458,22 +460,22 @@
 			this.label5.TabIndex = 25;
 			this.label5.Text = "Search";
 			// 
-			// textBox1
+			// textBoxSearchBar
 			// 
-			this.textBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.textBox1.Location = new System.Drawing.Point(994, 16);
-			this.textBox1.Margin = new System.Windows.Forms.Padding(4);
-			this.textBox1.Name = "textBox1";
-			this.textBox1.Size = new System.Drawing.Size(385, 22);
-			this.textBox1.TabIndex = 24;
-			this.textBox1.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
-			this.textBox1.KeyDown += new System.Windows.Forms.KeyEventHandler(this.textBox1_KeyDown);
+			this.textBoxSearchBar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.textBoxSearchBar.Location = new System.Drawing.Point(994, 16);
+			this.textBoxSearchBar.Margin = new System.Windows.Forms.Padding(4);
+			this.textBoxSearchBar.Name = "textBoxSearchBar";
+			this.textBoxSearchBar.Size = new System.Drawing.Size(385, 22);
+			this.textBoxSearchBar.TabIndex = 24;
+			this.textBoxSearchBar.TextChanged += new System.EventHandler(this.textBoxSearchBar_TextChanged);
+			this.textBoxSearchBar.KeyDown += new System.Windows.Forms.KeyEventHandler(this.textBoxSearchBar_KeyDown);
 			// 
 			// label6
 			// 
 			this.label6.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.label6.AutoSize = true;
-			this.label6.Location = new System.Drawing.Point(1387, 19);
+			this.label6.Location = new System.Drawing.Point(1387, 52);
 			this.label6.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
 			this.label6.Name = "label6";
 			this.label6.Size = new System.Drawing.Size(47, 17);
@@ -489,7 +491,7 @@
             "Starts With",
             "Ends With",
             "RegEx"});
-			this.comboBox1.Location = new System.Drawing.Point(1441, 16);
+			this.comboBox1.Location = new System.Drawing.Point(1441, 48);
 			this.comboBox1.Name = "comboBox1";
 			this.comboBox1.Size = new System.Drawing.Size(121, 24);
 			this.comboBox1.TabIndex = 27;
@@ -501,7 +503,7 @@
 			this.checkBoxSearchGroups.AutoSize = true;
 			this.checkBoxSearchGroups.Checked = true;
 			this.checkBoxSearchGroups.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.checkBoxSearchGroups.Location = new System.Drawing.Point(933, 48);
+			this.checkBoxSearchGroups.Location = new System.Drawing.Point(933, 50);
 			this.checkBoxSearchGroups.Name = "checkBoxSearchGroups";
 			this.checkBoxSearchGroups.Size = new System.Drawing.Size(126, 21);
 			this.checkBoxSearchGroups.TabIndex = 28;
@@ -515,7 +517,7 @@
 			this.checkBoxSearchWAV.AutoSize = true;
 			this.checkBoxSearchWAV.Checked = true;
 			this.checkBoxSearchWAV.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.checkBoxSearchWAV.Location = new System.Drawing.Point(1065, 48);
+			this.checkBoxSearchWAV.Location = new System.Drawing.Point(1065, 50);
 			this.checkBoxSearchWAV.Name = "checkBoxSearchWAV";
 			this.checkBoxSearchWAV.Size = new System.Drawing.Size(127, 21);
 			this.checkBoxSearchWAV.TabIndex = 29;
@@ -529,7 +531,7 @@
 			this.checkBoxSearchCase.AutoSize = true;
 			this.checkBoxSearchCase.Checked = true;
 			this.checkBoxSearchCase.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.checkBoxSearchCase.Location = new System.Drawing.Point(1198, 48);
+			this.checkBoxSearchCase.Location = new System.Drawing.Point(1198, 50);
 			this.checkBoxSearchCase.Name = "checkBoxSearchCase";
 			this.checkBoxSearchCase.Size = new System.Drawing.Size(177, 21);
 			this.checkBoxSearchCase.TabIndex = 30;
@@ -558,19 +560,43 @@
 			this.audioPlaybackPanelWav.TabIndex = 14;
 			this.audioPlaybackPanelWav.TargetStreams = null;
 			// 
+			// buttonFind
+			// 
+			this.buttonFind.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.buttonFind.Location = new System.Drawing.Point(1390, 13);
+			this.buttonFind.Name = "buttonFind";
+			this.buttonFind.Size = new System.Drawing.Size(75, 27);
+			this.buttonFind.TabIndex = 31;
+			this.buttonFind.Text = "Find";
+			this.buttonFind.UseVisualStyleBackColor = true;
+			this.buttonFind.Click += new System.EventHandler(this.buttonFind_Click);
+			// 
+			// buttonFindAll
+			// 
+			this.buttonFindAll.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.buttonFindAll.Location = new System.Drawing.Point(1471, 13);
+			this.buttonFindAll.Name = "buttonFindAll";
+			this.buttonFindAll.Size = new System.Drawing.Size(91, 27);
+			this.buttonFindAll.TabIndex = 32;
+			this.buttonFindAll.Text = "Find All";
+			this.buttonFindAll.UseVisualStyleBackColor = true;
+			this.buttonFindAll.Click += new System.EventHandler(this.buttonFindAll_Click);
+			// 
 			// Form1
 			// 
 			this.AllowDrop = true;
 			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(1580, 846);
+			this.Controls.Add(this.buttonFindAll);
+			this.Controls.Add(this.buttonFind);
 			this.Controls.Add(this.checkBoxSearchCase);
 			this.Controls.Add(this.checkBoxSearchWAV);
 			this.Controls.Add(this.checkBoxSearchGroups);
 			this.Controls.Add(this.comboBox1);
 			this.Controls.Add(this.label6);
 			this.Controls.Add(this.label5);
-			this.Controls.Add(this.textBox1);
+			this.Controls.Add(this.textBoxSearchBar);
 			this.Controls.Add(this.buttonMultiInsertWAV);
 			this.Controls.Add(this.buttonMultiCreateWAV);
 			this.Controls.Add(this.buttonMultiInsertSawnd);
@@ -652,12 +678,14 @@
 		private System.Windows.Forms.MenuStrip menuStrip1;
 		private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemWAVEID;
 		private System.Windows.Forms.Label label5;
-		private System.Windows.Forms.TextBox textBox1;
+		private System.Windows.Forms.TextBox textBoxSearchBar;
 		private System.Windows.Forms.Label label6;
 		private System.Windows.Forms.ComboBox comboBox1;
 		private System.Windows.Forms.CheckBox checkBoxSearchGroups;
 		private System.Windows.Forms.CheckBox checkBoxSearchWAV;
 		private System.Windows.Forms.CheckBox checkBoxSearchCase;
+		private System.Windows.Forms.Button buttonFind;
+		private System.Windows.Forms.Button buttonFindAll;
 	}
 }
 

@@ -10,7 +10,7 @@ namespace BrawlSoundConverter
 	/// <summary>
 	/// Represents rsar nodes in a treeview
 	/// </summary>
-	class MappingItem : TreeNode, BrawlLib.Internal.Audio.IAudioSource
+	public class MappingItem : TreeNode, BrawlLib.Internal.Audio.IAudioSource
 	{
 		public int groupID, collectionID, wavID, infoIndex;
 		public BrawlLib.Internal.Audio.IAudioStream[] streams;

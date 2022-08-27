@@ -14,8 +14,8 @@ namespace BrawlSoundConverter
 	{
 		//The current rsar filename
 		public static string RSAR_FileName = Properties.Settings.Default.DefaultBrsarFilePath;
-		public static Dictionary<string, MappingItem> groupDict;
-		public static Dictionary<string, MappingItem> soundDict;
+		public static Dictionary<string, List<MappingItem>> groupDict;
+		public static Dictionary<string, List<MappingItem>> soundDict;
 		//The current rsar itself
 		static BrawlLib.SSBB.ResourceNodes.RSARNode _rsar;
 
@@ -27,8 +27,8 @@ namespace BrawlSoundConverter
 				_rsar = new BrawlLib.SSBB.ResourceNodes.RSARNode();
 				_rsar.Replace( RSAR_FileName );
 				_rsar._origPath = Path.GetFullPath(RSAR_FileName);
-				groupDict = new Dictionary<string, MappingItem>();
-				soundDict = new Dictionary<string, MappingItem>();
+				groupDict = new Dictionary<string, List<MappingItem>>();
+				soundDict = new Dictionary<string, List<MappingItem>>();
 			}
 			return _rsar;
 		}
@@ -204,8 +204,9 @@ namespace BrawlSoundConverter
 						colMap.Nodes.Add(soundMap);
 						if (!soundDict.ContainsKey(data.Name))
 						{
-							soundDict.Add(data.Name, soundMap);
+							soundDict.Add(data.Name, new List<MappingItem>());
 						}
+						soundDict[data.Name].Add(soundMap);
 						soundMap.fileSize = soundSize;
 						if (infoIndex == -1)
 						{
@@ -261,8 +262,9 @@ namespace BrawlSoundConverter
 				{
 					if (!groupDict.ContainsKey(group.Name))
 					{
-						groupDict.Add(group.Name, groupMap);
+						groupDict.Add(group.Name, new List<MappingItem>());
 					}
+					groupDict[group.Name].Add(groupMap);
 				}
 				
 			}

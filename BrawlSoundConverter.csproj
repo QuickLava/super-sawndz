@@ -1046,6 +1046,12 @@
     <Compile Include="BrawlLib\Wii\Textures\RGB5A3.cs" />
     <Compile Include="BrawlLib\Wii\Textures\RGBA8.cs" />
     <Compile Include="BrawlLib\Wii\Textures\TextureConverter.cs" />
+    <Compile Include="FindAllForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FindAllForm.Designer.cs">
+      <DependentUpon>FindAllForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Form2.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -1174,6 +1180,9 @@
       <DependentUpon>TextureConverterDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="BrawlLib\Properties\Resources.resx" />
+    <EmbeddedResource Include="FindAllForm.resx">
+      <DependentUpon>FindAllForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
