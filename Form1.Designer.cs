@@ -71,6 +71,9 @@
 			this.textBox1 = new System.Windows.Forms.TextBox();
 			this.label6 = new System.Windows.Forms.Label();
 			this.comboBox1 = new System.Windows.Forms.ComboBox();
+			this.checkBoxSearchGroups = new System.Windows.Forms.CheckBox();
+			this.checkBoxSearchWAV = new System.Windows.Forms.CheckBox();
+			this.checkBoxSearchCase = new System.Windows.Forms.CheckBox();
 			this.audioPlaybackBRSARSound = new BrawlLib.Internal.Windows.Controls.AudioPlaybackPanel();
 			this.audioPlaybackPanelWav = new BrawlLib.Internal.Windows.Controls.AudioPlaybackPanel();
 			this.contextMenuStripWAV.SuspendLayout();
@@ -100,10 +103,10 @@
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.treeViewMapping.FullRowSelect = true;
 			this.treeViewMapping.HideSelection = false;
-			this.treeViewMapping.Location = new System.Drawing.Point(933, 48);
+			this.treeViewMapping.Location = new System.Drawing.Point(933, 80);
 			this.treeViewMapping.Margin = new System.Windows.Forms.Padding(4);
 			this.treeViewMapping.Name = "treeViewMapping";
-			this.treeViewMapping.Size = new System.Drawing.Size(629, 649);
+			this.treeViewMapping.Size = new System.Drawing.Size(629, 617);
 			this.treeViewMapping.TabIndex = 3;
 			this.treeViewMapping.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeViewMapping_AfterSelect);
 			this.treeViewMapping.KeyDown += new System.Windows.Forms.KeyEventHandler(this.treeViewMapping_KeyDown);
@@ -479,15 +482,60 @@
 			// 
 			// comboBox1
 			// 
+			this.comboBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.comboBox1.FormattingEnabled = true;
 			this.comboBox1.Items.AddRange(new object[] {
-            "Find",
-            "Filter"});
+            "Contains",
+            "Starts With",
+            "Ends With",
+            "RegEx"});
 			this.comboBox1.Location = new System.Drawing.Point(1441, 16);
 			this.comboBox1.Name = "comboBox1";
 			this.comboBox1.Size = new System.Drawing.Size(121, 24);
 			this.comboBox1.TabIndex = 27;
 			this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
+			// 
+			// checkBoxSearchGroups
+			// 
+			this.checkBoxSearchGroups.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.checkBoxSearchGroups.AutoSize = true;
+			this.checkBoxSearchGroups.Checked = true;
+			this.checkBoxSearchGroups.CheckState = System.Windows.Forms.CheckState.Checked;
+			this.checkBoxSearchGroups.Location = new System.Drawing.Point(933, 48);
+			this.checkBoxSearchGroups.Name = "checkBoxSearchGroups";
+			this.checkBoxSearchGroups.Size = new System.Drawing.Size(126, 21);
+			this.checkBoxSearchGroups.TabIndex = 28;
+			this.checkBoxSearchGroups.Text = "Search Groups";
+			this.checkBoxSearchGroups.UseVisualStyleBackColor = true;
+			this.checkBoxSearchGroups.CheckedChanged += new System.EventHandler(this.checkBoxSearchGroups_CheckedChanged);
+			// 
+			// checkBoxSearchWAV
+			// 
+			this.checkBoxSearchWAV.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.checkBoxSearchWAV.AutoSize = true;
+			this.checkBoxSearchWAV.Checked = true;
+			this.checkBoxSearchWAV.CheckState = System.Windows.Forms.CheckState.Checked;
+			this.checkBoxSearchWAV.Location = new System.Drawing.Point(1065, 48);
+			this.checkBoxSearchWAV.Name = "checkBoxSearchWAV";
+			this.checkBoxSearchWAV.Size = new System.Drawing.Size(127, 21);
+			this.checkBoxSearchWAV.TabIndex = 29;
+			this.checkBoxSearchWAV.Text = "Search Sounds";
+			this.checkBoxSearchWAV.UseVisualStyleBackColor = true;
+			this.checkBoxSearchWAV.CheckedChanged += new System.EventHandler(this.checkBoxSearchSounds_CheckedChanged);
+			// 
+			// checkBoxSearchCase
+			// 
+			this.checkBoxSearchCase.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.checkBoxSearchCase.AutoSize = true;
+			this.checkBoxSearchCase.Checked = true;
+			this.checkBoxSearchCase.CheckState = System.Windows.Forms.CheckState.Checked;
+			this.checkBoxSearchCase.Location = new System.Drawing.Point(1198, 48);
+			this.checkBoxSearchCase.Name = "checkBoxSearchCase";
+			this.checkBoxSearchCase.Size = new System.Drawing.Size(177, 21);
+			this.checkBoxSearchCase.TabIndex = 30;
+			this.checkBoxSearchCase.Text = "Enable Case Sensitivity";
+			this.checkBoxSearchCase.UseVisualStyleBackColor = true;
+			this.checkBoxSearchCase.CheckedChanged += new System.EventHandler(this.checkBoxSearchCase_CheckedChanged);
 			// 
 			// audioPlaybackBRSARSound
 			// 
@@ -516,6 +564,9 @@
 			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(1580, 846);
+			this.Controls.Add(this.checkBoxSearchCase);
+			this.Controls.Add(this.checkBoxSearchWAV);
+			this.Controls.Add(this.checkBoxSearchGroups);
 			this.Controls.Add(this.comboBox1);
 			this.Controls.Add(this.label6);
 			this.Controls.Add(this.label5);
@@ -604,6 +655,9 @@
 		private System.Windows.Forms.TextBox textBox1;
 		private System.Windows.Forms.Label label6;
 		private System.Windows.Forms.ComboBox comboBox1;
+		private System.Windows.Forms.CheckBox checkBoxSearchGroups;
+		private System.Windows.Forms.CheckBox checkBoxSearchWAV;
+		private System.Windows.Forms.CheckBox checkBoxSearchCase;
 	}
 }
 

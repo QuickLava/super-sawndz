@@ -20,7 +20,7 @@ namespace BrawlSoundConverter
 		}
 
 		int currSearchResultIndex = 0;
-		IEnumerable<KTrie.StringEntry<MappingItem>> currSearchResults = null;
+		List<KeyValuePair<string, MappingItem>> currSearchResults = null;
 
 		//Fill out treeViewMapping with data from the brsar
 		private void loadTreeView()
@@ -86,6 +86,7 @@ namespace BrawlSoundConverter
 			audioPlaybackBRSARSound.TargetSource = null;
 			audioPlaybackBRSARSound.VolumePercent = 0.66;
 
+			comboBox1.DropDownStyle = ComboBoxStyle.DropDownList;
 			comboBox1.SelectedIndex = 0;
 		}
 
@@ -873,9 +874,71 @@ namespace BrawlSoundConverter
 
 		private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
 		{
-
+			if (comboBox1.SelectedItem.ToString() == "RegEx")
+			{
+				checkBoxSearchCase.Enabled = false;
+			}
+			else
+			{
+				checkBoxSearchCase.Enabled = true;
+			}
+			currSearchResults = null;
 		}
 
+		private void collectSearchMatches(Dictionary<string, MappingItem> toSearch, string searchCriteria, int searchMethod, bool ignoreCase)
+		{
+			string evalString;
+			bool evalResult = false;
+			foreach (var entry in toSearch)
+			{
+				evalString = entry.Key;
+				if (ignoreCase)
+				{
+					evalString = evalString.ToLower();
+				}
+				switch (searchMethod)
+				{
+					case 0:
+						{
+							evalResult = evalString.Contains(searchCriteria);
+							break;
+						}
+					case 1:
+						{
+							evalResult = evalString.StartsWith(searchCriteria);
+							break;
+						}
+					case 2:
+						{
+							evalResult = evalString.EndsWith(searchCriteria);
+							break;
+						}
+					case 3:
+						{
+							try
+							{
+								System.Text.RegularExpressions.Regex expression = new System.Text.RegularExpressions.Regex(searchCriteria);
+							}
+							catch
+							{
+								MessageBox.Show("Provided Regular Expression:\n\t" + searchCriteria + "\nwas invalid! Skipping search.");
+								return;
+							}
+							evalResult = System.Text.RegularExpressions.Regex.IsMatch(evalString, searchCriteria);
+							break;
+						}
+					default:
+						{
+							break;
+						}
+				}
+
+				if (evalResult)
+				{
+					currSearchResults.Add(entry);
+				}
+			}
+		}
 		private void textBox1_KeyDown(object sender, KeyEventArgs e)
 		{
 			if (e.KeyCode == Keys.Enter)
@@ -883,10 +946,26 @@ namespace BrawlSoundConverter
 				bool somethingFound = false;
 				if (!string.IsNullOrEmpty(textBox1.Text) && treeViewMapping.Nodes.Count > 0)
 				{
+					string searchCriteria = textBox1.Text;
+					if ((comboBox1.SelectedItem.ToString() != "RegEx") && !checkBoxSearchCase.Checked)
+					{
+						searchCriteria = searchCriteria.ToLower();
+					}
+
 					if (currSearchResults == null)
 					{
-						currSearchResults = brsar.groupTrie.GetByPrefix(textBox1.Text);
-						currSearchResults = currSearchResults.Union(brsar.soundTrie.GetByPrefix(textBox1.Text));
+						string evalString;
+						bool evalResult = false;
+						currSearchResults = new List<KeyValuePair<string, MappingItem>>();
+						if (checkBoxSearchGroups.Checked)
+						{
+							collectSearchMatches(brsar.groupDict, searchCriteria, comboBox1.SelectedIndex, !checkBoxSearchCase.Checked);
+						}
+						if (checkBoxSearchWAV.Checked)
+						{
+							collectSearchMatches(brsar.soundDict, searchCriteria, comboBox1.SelectedIndex, !checkBoxSearchCase.Checked);
+						}
+
 						currSearchResultIndex = 0;
 					}
 					if (currSearchResultIndex >= currSearchResults.Count())
@@ -895,43 +974,11 @@ namespace BrawlSoundConverter
 					}
 					if (currSearchResultIndex < currSearchResults.Count())
 					{
+						treeViewMapping.SelectedNode = null;
 						treeViewMapping.SelectedNode = currSearchResults.ElementAt(currSearchResultIndex).Value;
 						somethingFound = true;
 						currSearchResultIndex++;
 					}
-
-					//brsar.FindNodeFromString(textBox1.Text);
-
-					//int startingIndex;
-					//if (treeViewMapping.SelectedNode == null)
-					//{
-					//	treeViewMapping.SelectedNode = treeViewMapping.Nodes[0];
-					//	startingIndex = 0;
-					//}
-					//else
-					//{
-					//	startingIndex = treeViewMapping.SelectedNode.Index + 1;
-					//}
-					//for (int i = startingIndex; i < treeViewMapping.Nodes.Count; i++)
-					//{
-					//	MappingItem currNode = treeViewMapping.Nodes[i] as MappingItem;
-					//	if (currNode.name == textBox1.Text || currNode.name.StartsWith(textBox1.Text))
-					//	{
-					//		somethingFound = true;
-					//		treeViewMapping.SelectedNode = currNode;
-					//		break;
-					//	}
-					//}
-					//for (int i = 0; !somethingFound && i < startingIndex; i++)
-					//{
-					//	MappingItem currNode = treeViewMapping.Nodes[i] as MappingItem;
-					//	if (currNode.name == textBox1.Text || currNode.name.StartsWith(textBox1.Text))
-					//	{
-					//		somethingFound = true;
-					//		treeViewMapping.SelectedNode = currNode;
-					//		break;
-					//	}
-					//}
 				}
 				e.SuppressKeyPress = somethingFound;
 			}
@@ -941,6 +988,21 @@ namespace BrawlSoundConverter
 		{
 			currSearchResults = null;
 			currSearchResultIndex = 0;
+		}
+
+		private void checkBoxSearchGroups_CheckedChanged(object sender, EventArgs e)
+		{
+			currSearchResults = null;
+		}
+
+		private void checkBoxSearchSounds_CheckedChanged(object sender, EventArgs e)
+		{
+			currSearchResults = null;
+		}
+
+		private void checkBoxSearchCase_CheckedChanged(object sender, EventArgs e)
+		{
+			currSearchResults = null;
 		}
 	}
 }

@@ -1052,12 +1052,6 @@
     <Compile Include="Form2.Designer.cs">
       <DependentUpon>Form2.cs</DependentUpon>
     </Compile>
-    <Compile Include="KTrie\StringEntry.cs" />
-    <Compile Include="KTrie\StringTrie.cs" />
-    <Compile Include="KTrie\StringTrieSet.cs" />
-    <Compile Include="KTrie\Trie.cs" />
-    <Compile Include="KTrie\TrieEntry.cs" />
-    <Compile Include="KTrie\TrieSet.cs" />
     <Compile Include="multiWAVExportForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -1222,7 +1216,6 @@
     <None Include="BrawlLib\Internal\Windows\Controls\Hex Editor\HexBox.snk" />
     <None Include="BrawlLib\OpenTK.dll.config" />
     <None Include="BrawlLib\Properties\Settings.settings" />
-    <None Include="KTrie\KTrie.csproj" />
     <None Include="lavaResawndz\lavaResawndz.vcxproj" />
     <None Include="lavaResawndz\VGAudio\LICENSE" />
     <None Include="Properties\Settings.settings">
