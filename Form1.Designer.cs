@@ -70,9 +70,9 @@
 			this.label5 = new System.Windows.Forms.Label();
 			this.textBoxSearchBar = new System.Windows.Forms.TextBox();
 			this.label6 = new System.Windows.Forms.Label();
-			this.comboBox1 = new System.Windows.Forms.ComboBox();
+			this.comboBoxSearchMode = new System.Windows.Forms.ComboBox();
 			this.checkBoxSearchGroups = new System.Windows.Forms.CheckBox();
-			this.checkBoxSearchWAV = new System.Windows.Forms.CheckBox();
+			this.checkBoxSearchSounds = new System.Windows.Forms.CheckBox();
 			this.checkBoxSearchCase = new System.Windows.Forms.CheckBox();
 			this.buttonFind = new System.Windows.Forms.Button();
 			this.buttonFindAll = new System.Windows.Forms.Button();
@@ -152,7 +152,7 @@
 			// label1
 			// 
 			this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.label1.Location = new System.Drawing.Point(680, 20);
+			this.label1.Location = new System.Drawing.Point(670, 20);
 			this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(90, 17);
@@ -163,7 +163,7 @@
 			// label2
 			// 
 			this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.label2.Location = new System.Drawing.Point(680, 52);
+			this.label2.Location = new System.Drawing.Point(670, 52);
 			this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(90, 17);
@@ -174,7 +174,7 @@
 			// label3
 			// 
 			this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.label3.Location = new System.Drawing.Point(680, 84);
+			this.label3.Location = new System.Drawing.Point(670, 84);
 			this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
 			this.label3.Name = "label3";
 			this.label3.Size = new System.Drawing.Size(90, 17);
@@ -488,20 +488,20 @@
 			this.label6.TabIndex = 26;
 			this.label6.Text = "Mode:";
 			// 
-			// comboBox1
+			// comboBoxSearchMode
 			// 
-			this.comboBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.comboBox1.FormattingEnabled = true;
-			this.comboBox1.Items.AddRange(new object[] {
+			this.comboBoxSearchMode.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.comboBoxSearchMode.FormattingEnabled = true;
+			this.comboBoxSearchMode.Items.AddRange(new object[] {
             "Contains",
             "Starts With",
             "Ends With",
             "RegEx"});
-			this.comboBox1.Location = new System.Drawing.Point(1441, 48);
-			this.comboBox1.Name = "comboBox1";
-			this.comboBox1.Size = new System.Drawing.Size(121, 24);
-			this.comboBox1.TabIndex = 27;
-			this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
+			this.comboBoxSearchMode.Location = new System.Drawing.Point(1441, 48);
+			this.comboBoxSearchMode.Name = "comboBoxSearchMode";
+			this.comboBoxSearchMode.Size = new System.Drawing.Size(121, 24);
+			this.comboBoxSearchMode.TabIndex = 27;
+			this.comboBoxSearchMode.SelectedIndexChanged += new System.EventHandler(this.comboBoxSearchMode_SelectedIndexChanged);
 			// 
 			// checkBoxSearchGroups
 			// 
@@ -517,19 +517,19 @@
 			this.checkBoxSearchGroups.UseVisualStyleBackColor = true;
 			this.checkBoxSearchGroups.CheckedChanged += new System.EventHandler(this.checkBoxSearchGroups_CheckedChanged);
 			// 
-			// checkBoxSearchWAV
+			// checkBoxSearchSounds
 			// 
-			this.checkBoxSearchWAV.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.checkBoxSearchWAV.AutoSize = true;
-			this.checkBoxSearchWAV.Checked = true;
-			this.checkBoxSearchWAV.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.checkBoxSearchWAV.Location = new System.Drawing.Point(1065, 51);
-			this.checkBoxSearchWAV.Name = "checkBoxSearchWAV";
-			this.checkBoxSearchWAV.Size = new System.Drawing.Size(127, 21);
-			this.checkBoxSearchWAV.TabIndex = 29;
-			this.checkBoxSearchWAV.Text = "Search Sounds";
-			this.checkBoxSearchWAV.UseVisualStyleBackColor = true;
-			this.checkBoxSearchWAV.CheckedChanged += new System.EventHandler(this.checkBoxSearchSounds_CheckedChanged);
+			this.checkBoxSearchSounds.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.checkBoxSearchSounds.AutoSize = true;
+			this.checkBoxSearchSounds.Checked = true;
+			this.checkBoxSearchSounds.CheckState = System.Windows.Forms.CheckState.Checked;
+			this.checkBoxSearchSounds.Location = new System.Drawing.Point(1065, 51);
+			this.checkBoxSearchSounds.Name = "checkBoxSearchSounds";
+			this.checkBoxSearchSounds.Size = new System.Drawing.Size(127, 21);
+			this.checkBoxSearchSounds.TabIndex = 29;
+			this.checkBoxSearchSounds.Text = "Search Sounds";
+			this.checkBoxSearchSounds.UseVisualStyleBackColor = true;
+			this.checkBoxSearchSounds.CheckedChanged += new System.EventHandler(this.checkBoxSearchSounds_CheckedChanged);
 			// 
 			// checkBoxSearchCase
 			// 
@@ -634,7 +634,7 @@
 			// label8
 			// 
 			this.label8.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.label8.Location = new System.Drawing.Point(680, 114);
+			this.label8.Location = new System.Drawing.Point(670, 114);
 			this.label8.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
 			this.label8.Name = "label8";
 			this.label8.Size = new System.Drawing.Size(90, 17);
@@ -666,9 +666,9 @@
 			this.Controls.Add(this.buttonFindAll);
 			this.Controls.Add(this.buttonFind);
 			this.Controls.Add(this.checkBoxSearchCase);
-			this.Controls.Add(this.checkBoxSearchWAV);
+			this.Controls.Add(this.checkBoxSearchSounds);
 			this.Controls.Add(this.checkBoxSearchGroups);
-			this.Controls.Add(this.comboBox1);
+			this.Controls.Add(this.comboBoxSearchMode);
 			this.Controls.Add(this.label6);
 			this.Controls.Add(this.label5);
 			this.Controls.Add(this.textBoxSearchBar);
@@ -755,9 +755,9 @@
 		private System.Windows.Forms.Label label5;
 		private System.Windows.Forms.TextBox textBoxSearchBar;
 		private System.Windows.Forms.Label label6;
-		private System.Windows.Forms.ComboBox comboBox1;
+		private System.Windows.Forms.ComboBox comboBoxSearchMode;
 		private System.Windows.Forms.CheckBox checkBoxSearchGroups;
-		private System.Windows.Forms.CheckBox checkBoxSearchWAV;
+		private System.Windows.Forms.CheckBox checkBoxSearchSounds;
 		private System.Windows.Forms.CheckBox checkBoxSearchCase;
 		private System.Windows.Forms.Button buttonFind;
 		private System.Windows.Forms.Button buttonFindAll;

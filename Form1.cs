@@ -87,8 +87,8 @@ namespace BrawlSoundConverter
 			audioPlaybackBRSARSound.TargetSource = null;
 			audioPlaybackBRSARSound.VolumePercent = 0.66;
 
-			comboBox1.DropDownStyle = ComboBoxStyle.DropDownList;
-			comboBox1.SelectedIndex = 0;
+			comboBoxSearchMode.DropDownStyle = ComboBoxStyle.DropDownList;
+			comboBoxSearchMode.SelectedIndex = 0;
 		}
 
 		private void setInsertButtonState()
@@ -332,6 +332,8 @@ namespace BrawlSoundConverter
 			textBoxGroupID.Enabled = false;
 			textBoxCollectionID.Enabled = false;
 			textBoxWavID.Enabled = false;
+			textBoxInfoIndex.Enabled = false;
+			textBoxSearchBar.Enabled = false;
 			buttonBrowse.Enabled = false;
 			buttonCreateSawnd.Enabled = false;
 			buttonCreateWAV.Enabled = false;
@@ -340,6 +342,15 @@ namespace BrawlSoundConverter
 			buttonMultiExportSawnd.Enabled = false;
 			buttonMultiInsertSawnd.Enabled = false;
 			buttonInsert.Enabled = false;
+			buttonFind.Enabled = false;
+			buttonFindAll.Enabled = false;
+			buttonFindBack.Enabled = false;
+			buttonExpand.Enabled = false;
+			buttonCollapse.Enabled = false;
+			checkBoxSearchCase.Enabled = false;
+			checkBoxSearchGroups.Enabled = false;
+			checkBoxSearchSounds.Enabled = false;
+			comboBoxSearchMode.Enabled = false;
 			treeViewMapping.Enabled = false;
 			audioPlaybackPanelWav.Enabled = false;
 			audioPlaybackBRSARSound.Enabled = false;
@@ -352,6 +363,8 @@ namespace BrawlSoundConverter
 			textBoxGroupID.Enabled = true;
 			textBoxCollectionID.Enabled = true;
 			textBoxWavID.Enabled = true;
+			textBoxInfoIndex.Enabled = true;
+			textBoxSearchBar.Enabled = true;
 			treeViewMapping.Enabled = true;
 			audioPlaybackPanelWav.Enabled = true;
 			buttonBrowse.Enabled = true;
@@ -359,6 +372,15 @@ namespace BrawlSoundConverter
 			buttonMultiExportSawnd.Enabled = true;
 			buttonMultiInsertSawnd.Enabled = true;
 			buttonMultiInsertWAV.Enabled = true;
+			buttonFind.Enabled = true;
+			buttonFindAll.Enabled = true;
+			buttonFindBack.Enabled = true;
+			buttonExpand.Enabled = true;
+			buttonCollapse.Enabled = true;
+			checkBoxSearchCase.Enabled = true;
+			checkBoxSearchGroups.Enabled = true;
+			checkBoxSearchSounds.Enabled = true;
+			comboBoxSearchMode.Enabled = true;
 
 			//Make sure that we have a group id before turning on create sawnd button
 			int gid, cid, wid;
@@ -889,16 +911,8 @@ namespace BrawlSoundConverter
 			}
 		}
 
-		private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+		private void comboBoxSearchMode_SelectedIndexChanged(object sender, EventArgs e)
 		{
-			if (comboBox1.SelectedItem.ToString() == "RegEx")
-			{
-				checkBoxSearchCase.Enabled = false;
-			}
-			else
-			{
-				checkBoxSearchCase.Enabled = true;
-			}
 			currSearchResults = null;
 		}
 
@@ -965,7 +979,7 @@ namespace BrawlSoundConverter
 			if (!string.IsNullOrEmpty(textBoxSearchBar.Text) && treeViewMapping.Nodes.Count > 0)
 			{
 				string searchCriteria = textBoxSearchBar.Text;
-				if ((comboBox1.SelectedItem.ToString() != "RegEx") && !checkBoxSearchCase.Checked)
+				if ((comboBoxSearchMode.SelectedItem.ToString() != "RegEx") && !checkBoxSearchCase.Checked)
 				{
 					searchCriteria = searchCriteria.ToLower();
 				}
@@ -975,11 +989,11 @@ namespace BrawlSoundConverter
 					currSearchResults = new List<KeyValuePair<string, MappingItem>>();
 					if (checkBoxSearchGroups.Checked)
 					{
-						collectSearchResultsFromDict(brsar.groupDict, searchCriteria, comboBox1.SelectedIndex, !checkBoxSearchCase.Checked);
+						collectSearchResultsFromDict(brsar.groupDict, searchCriteria, comboBoxSearchMode.SelectedIndex, !checkBoxSearchCase.Checked);
 					}
-					if (checkBoxSearchWAV.Checked)
+					if (checkBoxSearchSounds.Checked)
 					{
-						collectSearchResultsFromDict(brsar.soundDict, searchCriteria, comboBox1.SelectedIndex, !checkBoxSearchCase.Checked);
+						collectSearchResultsFromDict(brsar.soundDict, searchCriteria, comboBoxSearchMode.SelectedIndex, !checkBoxSearchCase.Checked);
 					}
 					currSearchResultIndex = int.MaxValue;
 				}
