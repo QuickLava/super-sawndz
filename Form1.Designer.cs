@@ -568,7 +568,7 @@
 			// buttonCollapse
 			// 
 			this.buttonCollapse.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.buttonCollapse.Location = new System.Drawing.Point(1471, 671);
+			this.buttonCollapse.Location = new System.Drawing.Point(1472, 672);
 			this.buttonCollapse.Name = "buttonCollapse";
 			this.buttonCollapse.Size = new System.Drawing.Size(91, 27);
 			this.buttonCollapse.TabIndex = 34;
@@ -579,7 +579,7 @@
 			// buttonExpand
 			// 
 			this.buttonExpand.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.buttonExpand.Location = new System.Drawing.Point(1374, 671);
+			this.buttonExpand.Location = new System.Drawing.Point(1375, 672);
 			this.buttonExpand.Name = "buttonExpand";
 			this.buttonExpand.Size = new System.Drawing.Size(91, 27);
 			this.buttonExpand.TabIndex = 33;
@@ -591,7 +591,7 @@
 			// 
 			this.label7.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.label7.AutoSize = true;
-			this.label7.Location = new System.Drawing.Point(930, 681);
+			this.label7.Location = new System.Drawing.Point(933, 681);
 			this.label7.Name = "label7";
 			this.label7.Size = new System.Drawing.Size(61, 17);
 			this.label7.TabIndex = 35;
