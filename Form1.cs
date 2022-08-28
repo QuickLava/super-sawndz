@@ -398,6 +398,7 @@ namespace BrawlSoundConverter
 			ofd.Filter = "Sound Archive(*.brsar)|*.brsar";
 			if( ofd.ShowDialog() == System.Windows.Forms.DialogResult.OK )
 			{
+				textBoxOutput.Clear();
 				brsar.CloseRSAR();
 				brsar.RSAR_FileName = ofd.FileName;
 				loadTreeView();
@@ -791,6 +792,7 @@ namespace BrawlSoundConverter
 				{
 					if (fileKind == ".brsar")
 					{
+						textBoxOutput.Clear();
 						brsar.RSAR_FileName = strings[0];
 						brsar.CloseRSAR();
 						loadTreeView();
