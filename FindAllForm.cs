@@ -34,5 +34,27 @@ namespace BrawlSoundConverter
 			DialogResult = DialogResult.Cancel;
 			Close();
 		}
+
+		private void treeViewMapping_AfterSelect(object sender, TreeViewEventArgs e)
+		{
+			audioPlaybackPanel1.TargetSource = null;
+			MappingItem item = e.Node as MappingItem;
+			if (item == null)
+			{
+				return;
+			}
+			if (item.wavID > -1)
+			{
+				audioPlaybackPanel1.TargetSource = item as BrawlLib.Internal.Audio.IAudioSource;
+				audioPlaybackPanel1.TargetSource.CreateStreams();
+				audioPlaybackPanel1.Play();
+			}
+		}
+
+		private void treeViewMapping_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
+		{
+			DialogResult = DialogResult.OK;
+			Close();
+		}
 	}
 }
