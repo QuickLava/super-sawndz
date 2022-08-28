@@ -210,10 +210,10 @@
 			// 
 			this.buttonInsert.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.buttonInsert.Enabled = false;
-			this.buttonInsert.Location = new System.Drawing.Point(506, 81);
+			this.buttonInsert.Location = new System.Drawing.Point(497, 81);
 			this.buttonInsert.Margin = new System.Windows.Forms.Padding(4);
 			this.buttonInsert.Name = "buttonInsert";
-			this.buttonInsert.Size = new System.Drawing.Size(125, 28);
+			this.buttonInsert.Size = new System.Drawing.Size(134, 28);
 			this.buttonInsert.TabIndex = 13;
 			this.buttonInsert.Text = "Insert";
 			this.buttonInsert.UseVisualStyleBackColor = true;
@@ -289,10 +289,10 @@
 			this.buttonMultiInsertSawnd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.buttonMultiInsertSawnd.Enabled = false;
 			this.buttonMultiInsertSawnd.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.4F);
-			this.buttonMultiInsertSawnd.Location = new System.Drawing.Point(506, 116);
+			this.buttonMultiInsertSawnd.Location = new System.Drawing.Point(497, 116);
 			this.buttonMultiInsertSawnd.Margin = new System.Windows.Forms.Padding(4);
 			this.buttonMultiInsertSawnd.Name = "buttonMultiInsertSawnd";
-			this.buttonMultiInsertSawnd.Size = new System.Drawing.Size(125, 28);
+			this.buttonMultiInsertSawnd.Size = new System.Drawing.Size(134, 28);
 			this.buttonMultiInsertSawnd.TabIndex = 21;
 			this.buttonMultiInsertSawnd.Text = "Multi Insert Sawnd";
 			this.buttonMultiInsertSawnd.UseVisualStyleBackColor = true;
@@ -321,10 +321,10 @@
 			this.buttonMultiInsertWAV.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.buttonMultiInsertWAV.Enabled = false;
 			this.buttonMultiInsertWAV.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.4F);
-			this.buttonMultiInsertWAV.Location = new System.Drawing.Point(506, 151);
+			this.buttonMultiInsertWAV.Location = new System.Drawing.Point(497, 151);
 			this.buttonMultiInsertWAV.Margin = new System.Windows.Forms.Padding(4);
 			this.buttonMultiInsertWAV.Name = "buttonMultiInsertWAV";
-			this.buttonMultiInsertWAV.Size = new System.Drawing.Size(125, 28);
+			this.buttonMultiInsertWAV.Size = new System.Drawing.Size(134, 28);
 			this.buttonMultiInsertWAV.TabIndex = 23;
 			this.buttonMultiInsertWAV.Text = "Multi Insert WAV";
 			this.buttonMultiInsertWAV.UseVisualStyleBackColor = true;
@@ -472,7 +472,7 @@
 			this.textBoxSearchBar.Location = new System.Drawing.Point(994, 16);
 			this.textBoxSearchBar.Margin = new System.Windows.Forms.Padding(4);
 			this.textBoxSearchBar.Name = "textBoxSearchBar";
-			this.textBoxSearchBar.Size = new System.Drawing.Size(367, 22);
+			this.textBoxSearchBar.Size = new System.Drawing.Size(370, 22);
 			this.textBoxSearchBar.TabIndex = 24;
 			this.textBoxSearchBar.TextChanged += new System.EventHandler(this.textBoxSearchBar_TextChanged);
 			this.textBoxSearchBar.KeyDown += new System.Windows.Forms.KeyEventHandler(this.textBoxSearchBar_KeyDown);
@@ -548,9 +548,9 @@
 			// buttonFind
 			// 
 			this.buttonFind.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.buttonFind.Location = new System.Drawing.Point(1390, 13);
+			this.buttonFind.Location = new System.Drawing.Point(1392, 13);
 			this.buttonFind.Name = "buttonFind";
-			this.buttonFind.Size = new System.Drawing.Size(75, 27);
+			this.buttonFind.Size = new System.Drawing.Size(75, 28);
 			this.buttonFind.TabIndex = 31;
 			this.buttonFind.Text = "Find";
 			this.buttonFind.UseVisualStyleBackColor = true;
@@ -559,9 +559,9 @@
 			// buttonFindAll
 			// 
 			this.buttonFindAll.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.buttonFindAll.Location = new System.Drawing.Point(1471, 13);
+			this.buttonFindAll.Location = new System.Drawing.Point(1472, 13);
 			this.buttonFindAll.Name = "buttonFindAll";
-			this.buttonFindAll.Size = new System.Drawing.Size(91, 27);
+			this.buttonFindAll.Size = new System.Drawing.Size(91, 28);
 			this.buttonFindAll.TabIndex = 32;
 			this.buttonFindAll.Text = "Find All";
 			this.buttonFindAll.UseVisualStyleBackColor = true;
@@ -572,7 +572,7 @@
 			this.buttonCollapse.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.buttonCollapse.Location = new System.Drawing.Point(1472, 672);
 			this.buttonCollapse.Name = "buttonCollapse";
-			this.buttonCollapse.Size = new System.Drawing.Size(91, 27);
+			this.buttonCollapse.Size = new System.Drawing.Size(91, 28);
 			this.buttonCollapse.TabIndex = 34;
 			this.buttonCollapse.Text = "Collapse All";
 			this.buttonCollapse.UseVisualStyleBackColor = true;
@@ -581,9 +581,9 @@
 			// buttonExpand
 			// 
 			this.buttonExpand.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.buttonExpand.Location = new System.Drawing.Point(1375, 672);
+			this.buttonExpand.Location = new System.Drawing.Point(1376, 672);
 			this.buttonExpand.Name = "buttonExpand";
-			this.buttonExpand.Size = new System.Drawing.Size(91, 27);
+			this.buttonExpand.Size = new System.Drawing.Size(91, 28);
 			this.buttonExpand.TabIndex = 33;
 			this.buttonExpand.Text = "Expand All";
 			this.buttonExpand.UseVisualStyleBackColor = true;
@@ -602,9 +602,9 @@
 			// buttonFindBack
 			// 
 			this.buttonFindBack.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.buttonFindBack.Location = new System.Drawing.Point(1368, 13);
+			this.buttonFindBack.Location = new System.Drawing.Point(1370, 13);
 			this.buttonFindBack.Name = "buttonFindBack";
-			this.buttonFindBack.Size = new System.Drawing.Size(23, 27);
+			this.buttonFindBack.Size = new System.Drawing.Size(23, 28);
 			this.buttonFindBack.TabIndex = 36;
 			this.buttonFindBack.Text = "<";
 			this.buttonFindBack.UseVisualStyleBackColor = true;
