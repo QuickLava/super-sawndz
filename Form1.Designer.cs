@@ -197,10 +197,10 @@
 			// buttonBrowse
 			// 
 			this.buttonBrowse.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.buttonBrowse.Location = new System.Drawing.Point(598, 50);
+			this.buttonBrowse.Location = new System.Drawing.Point(598, 48);
 			this.buttonBrowse.Margin = new System.Windows.Forms.Padding(4);
 			this.buttonBrowse.Name = "buttonBrowse";
-			this.buttonBrowse.Size = new System.Drawing.Size(33, 24);
+			this.buttonBrowse.Size = new System.Drawing.Size(33, 28);
 			this.buttonBrowse.TabIndex = 12;
 			this.buttonBrowse.Text = "...";
 			this.buttonBrowse.UseVisualStyleBackColor = true;
