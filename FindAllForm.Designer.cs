@@ -111,11 +111,11 @@ namespace BrawlSoundConverter
 			this.label4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.label4.AutoSize = true;
 			this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.label4.Location = new System.Drawing.Point(66, 313);
+			this.label4.Location = new System.Drawing.Point(46, 313);
 			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(435, 17);
+			this.label4.Size = new System.Drawing.Size(460, 17);
 			this.label4.TabIndex = 36;
-			this.label4.Text = "Note: Double-click or press Enter to jump to a Sound\'s WAVE Entry.";
+			this.label4.Text = "Note: Double-click or press Enter to jump to a result in the main window.";
 			// 
 			// FindAllForm
 			// 
