@@ -61,7 +61,7 @@ namespace BrawlSoundConverter.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 1.7.2.
+        ///   Looks up a localized string similar to 1.8.0.
         /// </summary>
         internal static string Version {
             get {
