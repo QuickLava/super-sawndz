@@ -185,17 +185,17 @@
 			this.textBoxInputFile.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.textBoxInputFile.Enabled = false;
-			this.textBoxInputFile.Location = new System.Drawing.Point(23, 48);
+			this.textBoxInputFile.Location = new System.Drawing.Point(20, 51);
 			this.textBoxInputFile.Margin = new System.Windows.Forms.Padding(4);
 			this.textBoxInputFile.Name = "textBoxInputFile";
-			this.textBoxInputFile.Size = new System.Drawing.Size(565, 22);
+			this.textBoxInputFile.Size = new System.Drawing.Size(569, 22);
 			this.textBoxInputFile.TabIndex = 11;
 			this.textBoxInputFile.TextChanged += new System.EventHandler(this.textBoxInputFile_TextChanged);
 			// 
 			// buttonBrowse
 			// 
 			this.buttonBrowse.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.buttonBrowse.Location = new System.Drawing.Point(597, 48);
+			this.buttonBrowse.Location = new System.Drawing.Point(598, 50);
 			this.buttonBrowse.Margin = new System.Windows.Forms.Padding(4);
 			this.buttonBrowse.Name = "buttonBrowse";
 			this.buttonBrowse.Size = new System.Drawing.Size(33, 24);
@@ -239,7 +239,7 @@
 			this.buttonCreateSawnd.Location = new System.Drawing.Point(770, 116);
 			this.buttonCreateSawnd.Margin = new System.Windows.Forms.Padding(4);
 			this.buttonCreateSawnd.Name = "buttonCreateSawnd";
-			this.buttonCreateSawnd.Size = new System.Drawing.Size(133, 28);
+			this.buttonCreateSawnd.Size = new System.Drawing.Size(134, 28);
 			this.buttonCreateSawnd.TabIndex = 17;
 			this.buttonCreateSawnd.Text = "Create Sawnd";
 			this.buttonCreateSawnd.UseVisualStyleBackColor = true;
@@ -257,7 +257,7 @@
 			this.buttonCreateWAV.Location = new System.Drawing.Point(770, 186);
 			this.buttonCreateWAV.Margin = new System.Windows.Forms.Padding(4);
 			this.buttonCreateWAV.Name = "buttonCreateWAV";
-			this.buttonCreateWAV.Size = new System.Drawing.Size(133, 28);
+			this.buttonCreateWAV.Size = new System.Drawing.Size(134, 28);
 			this.buttonCreateWAV.TabIndex = 19;
 			this.buttonCreateWAV.Text = "Create WAV";
 			this.buttonCreateWAV.UseVisualStyleBackColor = true;
@@ -276,7 +276,7 @@
 			this.buttonMultiExportSawnd.Location = new System.Drawing.Point(770, 151);
 			this.buttonMultiExportSawnd.Margin = new System.Windows.Forms.Padding(4);
 			this.buttonMultiExportSawnd.Name = "buttonMultiExportSawnd";
-			this.buttonMultiExportSawnd.Size = new System.Drawing.Size(132, 28);
+			this.buttonMultiExportSawnd.Size = new System.Drawing.Size(134, 28);
 			this.buttonMultiExportSawnd.TabIndex = 20;
 			this.buttonMultiExportSawnd.Text = "Multi Create Sawnd";
 			this.buttonMultiExportSawnd.UseVisualStyleBackColor = true;
@@ -308,7 +308,7 @@
 			this.buttonMultiCreateWAV.Location = new System.Drawing.Point(770, 221);
 			this.buttonMultiCreateWAV.Margin = new System.Windows.Forms.Padding(4);
 			this.buttonMultiCreateWAV.Name = "buttonMultiCreateWAV";
-			this.buttonMultiCreateWAV.Size = new System.Drawing.Size(133, 28);
+			this.buttonMultiCreateWAV.Size = new System.Drawing.Size(134, 28);
 			this.buttonMultiCreateWAV.TabIndex = 22;
 			this.buttonMultiCreateWAV.Text = "Multi Create WAV";
 			this.buttonMultiCreateWAV.UseVisualStyleBackColor = true;
@@ -397,7 +397,7 @@
 			this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.openBRSARToolStripMenuItem});
 			this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-			this.fileToolStripMenuItem.Size = new System.Drawing.Size(46, 24);
+			this.fileToolStripMenuItem.Size = new System.Drawing.Size(46, 26);
 			this.fileToolStripMenuItem.Text = "File";
 			// 
 			// openBRSARToolStripMenuItem
@@ -412,7 +412,7 @@
 			this.toolsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.ChangeSettingsToolStripMenuItem});
 			this.toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
-			this.toolsToolStripMenuItem.Size = new System.Drawing.Size(58, 24);
+			this.toolsToolStripMenuItem.Size = new System.Drawing.Size(58, 26);
 			this.toolsToolStripMenuItem.Text = "Tools";
 			// 
 			// ChangeSettingsToolStripMenuItem
@@ -427,7 +427,7 @@
 			this.toolStripMenuItemHelp.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.aboutToolStripMenuItem1});
 			this.toolStripMenuItemHelp.Name = "toolStripMenuItemHelp";
-			this.toolStripMenuItemHelp.Size = new System.Drawing.Size(55, 24);
+			this.toolStripMenuItemHelp.Size = new System.Drawing.Size(55, 26);
 			this.toolStripMenuItemHelp.Text = "Help";
 			// 
 			// aboutToolStripMenuItem1
@@ -449,7 +449,7 @@
             this.toolStripMenuItemHelp});
 			this.menuStrip1.Location = new System.Drawing.Point(0, 0);
 			this.menuStrip1.Name = "menuStrip1";
-			this.menuStrip1.Size = new System.Drawing.Size(167, 28);
+			this.menuStrip1.Size = new System.Drawing.Size(167, 30);
 			this.menuStrip1.TabIndex = 16;
 			this.menuStrip1.Text = "menuStrip1";
 			// 
@@ -457,7 +457,7 @@
 			// 
 			this.label5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.label5.AutoSize = true;
-			this.label5.Location = new System.Drawing.Point(933, 19);
+			this.label5.Location = new System.Drawing.Point(933, 20);
 			this.label5.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
 			this.label5.Name = "label5";
 			this.label5.Size = new System.Drawing.Size(53, 17);
@@ -507,7 +507,7 @@
 			this.checkBoxSearchGroups.AutoSize = true;
 			this.checkBoxSearchGroups.Checked = true;
 			this.checkBoxSearchGroups.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.checkBoxSearchGroups.Location = new System.Drawing.Point(933, 50);
+			this.checkBoxSearchGroups.Location = new System.Drawing.Point(933, 51);
 			this.checkBoxSearchGroups.Name = "checkBoxSearchGroups";
 			this.checkBoxSearchGroups.Size = new System.Drawing.Size(126, 21);
 			this.checkBoxSearchGroups.TabIndex = 28;
@@ -521,7 +521,7 @@
 			this.checkBoxSearchWAV.AutoSize = true;
 			this.checkBoxSearchWAV.Checked = true;
 			this.checkBoxSearchWAV.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.checkBoxSearchWAV.Location = new System.Drawing.Point(1065, 50);
+			this.checkBoxSearchWAV.Location = new System.Drawing.Point(1065, 51);
 			this.checkBoxSearchWAV.Name = "checkBoxSearchWAV";
 			this.checkBoxSearchWAV.Size = new System.Drawing.Size(127, 21);
 			this.checkBoxSearchWAV.TabIndex = 29;
@@ -535,7 +535,7 @@
 			this.checkBoxSearchCase.AutoSize = true;
 			this.checkBoxSearchCase.Checked = true;
 			this.checkBoxSearchCase.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.checkBoxSearchCase.Location = new System.Drawing.Point(1198, 50);
+			this.checkBoxSearchCase.Location = new System.Drawing.Point(1198, 51);
 			this.checkBoxSearchCase.Name = "checkBoxSearchCase";
 			this.checkBoxSearchCase.Size = new System.Drawing.Size(177, 21);
 			this.checkBoxSearchCase.TabIndex = 30;
