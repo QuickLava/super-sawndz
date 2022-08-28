@@ -1044,7 +1044,7 @@ namespace BrawlSoundConverter
 		{
 			if (e.KeyCode == Keys.Enter)
 			{
-				if (doFind())
+				if (doFind((Control.ModifierKeys & Keys.Shift) == Keys.Shift))
 				{
 					e.SuppressKeyPress = true;
 				}
