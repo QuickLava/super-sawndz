@@ -82,6 +82,8 @@
 			this.buttonFindBack = new System.Windows.Forms.Button();
 			this.audioPlaybackBRSARSound = new BrawlLib.Internal.Windows.Controls.AudioPlaybackPanel();
 			this.audioPlaybackPanelWav = new BrawlLib.Internal.Windows.Controls.AudioPlaybackPanel();
+			this.label8 = new System.Windows.Forms.Label();
+			this.textBoxInfoIndex = new System.Windows.Forms.TextBox();
 			this.contextMenuStripWAV.SuspendLayout();
 			this.contextMenuStripCollection.SuspendLayout();
 			this.menuStrip1.SuspendLayout();
@@ -150,35 +152,35 @@
 			// label1
 			// 
 			this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.label1.AutoSize = true;
-			this.label1.Location = new System.Drawing.Point(692, 20);
+			this.label1.Location = new System.Drawing.Point(680, 20);
 			this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(65, 17);
+			this.label1.Size = new System.Drawing.Size(90, 17);
 			this.label1.TabIndex = 8;
 			this.label1.Text = "Group ID";
+			this.label1.TextAlign = System.Drawing.ContentAlignment.TopRight;
 			// 
 			// label2
 			// 
 			this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.label2.AutoSize = true;
-			this.label2.Location = new System.Drawing.Point(673, 52);
+			this.label2.Location = new System.Drawing.Point(680, 52);
 			this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(86, 17);
+			this.label2.Size = new System.Drawing.Size(90, 17);
 			this.label2.TabIndex = 9;
 			this.label2.Text = "Collection ID";
+			this.label2.TextAlign = System.Drawing.ContentAlignment.TopRight;
 			// 
 			// label3
 			// 
 			this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.label3.AutoSize = true;
-			this.label3.Location = new System.Drawing.Point(696, 84);
+			this.label3.Location = new System.Drawing.Point(680, 84);
 			this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(56, 17);
+			this.label3.Size = new System.Drawing.Size(90, 17);
 			this.label3.TabIndex = 10;
 			this.label3.Text = "WAV ID";
+			this.label3.TextAlign = System.Drawing.ContentAlignment.TopRight;
 			// 
 			// textBoxInputFile
 			// 
@@ -236,7 +238,7 @@
 			// 
 			this.buttonCreateSawnd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.buttonCreateSawnd.Enabled = false;
-			this.buttonCreateSawnd.Location = new System.Drawing.Point(770, 116);
+			this.buttonCreateSawnd.Location = new System.Drawing.Point(770, 140);
 			this.buttonCreateSawnd.Margin = new System.Windows.Forms.Padding(4);
 			this.buttonCreateSawnd.Name = "buttonCreateSawnd";
 			this.buttonCreateSawnd.Size = new System.Drawing.Size(134, 28);
@@ -254,7 +256,7 @@
 			// 
 			this.buttonCreateWAV.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.buttonCreateWAV.Enabled = false;
-			this.buttonCreateWAV.Location = new System.Drawing.Point(770, 186);
+			this.buttonCreateWAV.Location = new System.Drawing.Point(770, 210);
 			this.buttonCreateWAV.Margin = new System.Windows.Forms.Padding(4);
 			this.buttonCreateWAV.Name = "buttonCreateWAV";
 			this.buttonCreateWAV.Size = new System.Drawing.Size(134, 28);
@@ -273,7 +275,7 @@
 			this.buttonMultiExportSawnd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.buttonMultiExportSawnd.Enabled = false;
 			this.buttonMultiExportSawnd.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.7F);
-			this.buttonMultiExportSawnd.Location = new System.Drawing.Point(770, 151);
+			this.buttonMultiExportSawnd.Location = new System.Drawing.Point(770, 175);
 			this.buttonMultiExportSawnd.Margin = new System.Windows.Forms.Padding(4);
 			this.buttonMultiExportSawnd.Name = "buttonMultiExportSawnd";
 			this.buttonMultiExportSawnd.Size = new System.Drawing.Size(134, 28);
@@ -305,7 +307,7 @@
 			// 
 			this.buttonMultiCreateWAV.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.buttonMultiCreateWAV.Enabled = false;
-			this.buttonMultiCreateWAV.Location = new System.Drawing.Point(770, 221);
+			this.buttonMultiCreateWAV.Location = new System.Drawing.Point(770, 245);
 			this.buttonMultiCreateWAV.Margin = new System.Windows.Forms.Padding(4);
 			this.buttonMultiCreateWAV.Name = "buttonMultiCreateWAV";
 			this.buttonMultiCreateWAV.Size = new System.Drawing.Size(134, 28);
@@ -629,12 +631,34 @@
 			this.audioPlaybackPanelWav.TabIndex = 14;
 			this.audioPlaybackPanelWav.TargetStreams = null;
 			// 
+			// label8
+			// 
+			this.label8.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.label8.Location = new System.Drawing.Point(680, 114);
+			this.label8.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+			this.label8.Name = "label8";
+			this.label8.Size = new System.Drawing.Size(90, 17);
+			this.label8.TabIndex = 38;
+			this.label8.Text = "Info Index";
+			this.label8.TextAlign = System.Drawing.ContentAlignment.TopRight;
+			// 
+			// textBoxInfoIndex
+			// 
+			this.textBoxInfoIndex.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.textBoxInfoIndex.Location = new System.Drawing.Point(771, 110);
+			this.textBoxInfoIndex.Margin = new System.Windows.Forms.Padding(4);
+			this.textBoxInfoIndex.Name = "textBoxInfoIndex";
+			this.textBoxInfoIndex.Size = new System.Drawing.Size(132, 22);
+			this.textBoxInfoIndex.TabIndex = 37;
+			// 
 			// Form1
 			// 
 			this.AllowDrop = true;
 			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(1580, 846);
+			this.Controls.Add(this.label8);
+			this.Controls.Add(this.textBoxInfoIndex);
 			this.Controls.Add(this.buttonFindBack);
 			this.Controls.Add(this.label7);
 			this.Controls.Add(this.buttonCollapse);
@@ -741,6 +765,8 @@
 		private System.Windows.Forms.Button buttonExpand;
 		private System.Windows.Forms.Label label7;
 		private System.Windows.Forms.Button buttonFindBack;
+		private System.Windows.Forms.Label label8;
+		private System.Windows.Forms.TextBox textBoxInfoIndex;
 	}
 }
 

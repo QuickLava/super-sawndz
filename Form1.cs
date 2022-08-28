@@ -150,9 +150,13 @@ namespace BrawlSoundConverter
 				return;
 			}
 			if( item.groupID > -1 )
+			{
 				textBoxGroupID.Text = item.groupID.ToString();
+			}
 			else
+			{
 				textBoxGroupID.Text = "";
+			}
 			if( item.collectionID > -1 )
 			{
 				textBoxCollectionID.Text = item.collectionID.ToString();
@@ -169,7 +173,17 @@ namespace BrawlSoundConverter
 				audioPlaybackBRSARSound.Play();
 			}
 			else
+			{
 				textBoxWavID.Text = "";
+			}
+			if (item.infoIndex > -1)
+			{
+				textBoxInfoIndex.Text = item.infoIndex.ToString() + " (0x" + item.infoIndex.ToString("X4") + ")";
+			}
+			else
+			{
+				textBoxInfoIndex.Text = "";
+			}
 			setInsertButtonState();
 		}
 
