@@ -147,6 +147,7 @@ namespace BrawlSoundConverter
 				textBoxGroupID.Clear();
 				textBoxCollectionID.Clear();
 				textBoxWavID.Clear();
+				textBoxInfoIndex.Clear();
 				return;
 			}
 			if( item.groupID > -1 )
@@ -619,7 +620,7 @@ namespace BrawlSoundConverter
 			enableStuff();
 			loadTreeView();
 		}
-		private void setCurrentBRSARAsDefaultToolStripMenuItem_Click(object sender, EventArgs e)
+		private void ChangeSettingsToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			SettingsForm settings = new SettingsForm();
 			if (settings.ShowDialog() == DialogResult.OK)
@@ -628,6 +629,7 @@ namespace BrawlSoundConverter
 				textBoxGroupID.Clear();
 				textBoxCollectionID.Clear();
 				textBoxWavID.Clear();
+				currSearchResults = null;
 				loadTreeView();
 			}
 		}

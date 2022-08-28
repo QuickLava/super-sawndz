@@ -112,6 +112,8 @@ namespace BrawlSoundConverter
 		{
 			//Only used to count the number of nodes added, no actual function in the program
 			int nodeCount = 0;
+			groupDict = new Dictionary<string, List<MappingItem>>();
+			soundDict = new Dictionary<string, List<MappingItem>>();
 
 			BrawlLib.SSBB.ResourceNodes.RSARNode rsar = GetRSAR();
 			BrawlLib.SSBB.ResourceNodes.ResourceNode[] groups = rsar.FindChildrenByType("", BrawlLib.SSBB.ResourceNodes.ResourceType.RSARGroup);
@@ -260,11 +262,21 @@ namespace BrawlSoundConverter
 				}
 				else
 				{
-					if (!groupDict.ContainsKey(group.Name))
+					string dictKey;
+					if (Properties.Settings.Default.EnableFullLengthNames)
 					{
-						groupDict.Add(group.Name, new List<MappingItem>());
+						dictKey = group.TreePath.Replace('/', '_');
 					}
-					groupDict[group.Name].Add(groupMap);
+					else
+					{
+						dictKey = group.Name;
+					}
+
+					if (!groupDict.ContainsKey(dictKey))
+					{
+						groupDict.Add(dictKey, new List<MappingItem>());
+					}
+					groupDict[dictKey].Add(groupMap);
 				}
 				
 			}

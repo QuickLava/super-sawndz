@@ -422,7 +422,7 @@
 			this.ChangeSettingsToolStripMenuItem.Name = "ChangeSettingsToolStripMenuItem";
 			this.ChangeSettingsToolStripMenuItem.Size = new System.Drawing.Size(199, 26);
 			this.ChangeSettingsToolStripMenuItem.Text = "Change Settings";
-			this.ChangeSettingsToolStripMenuItem.Click += new System.EventHandler(this.setCurrentBRSARAsDefaultToolStripMenuItem_Click);
+			this.ChangeSettingsToolStripMenuItem.Click += new System.EventHandler(this.ChangeSettingsToolStripMenuItem_Click);
 			// 
 			// toolStripMenuItemHelp
 			// 
