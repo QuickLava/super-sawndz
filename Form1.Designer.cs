@@ -74,10 +74,14 @@
 			this.checkBoxSearchGroups = new System.Windows.Forms.CheckBox();
 			this.checkBoxSearchWAV = new System.Windows.Forms.CheckBox();
 			this.checkBoxSearchCase = new System.Windows.Forms.CheckBox();
-			this.audioPlaybackBRSARSound = new BrawlLib.Internal.Windows.Controls.AudioPlaybackPanel();
-			this.audioPlaybackPanelWav = new BrawlLib.Internal.Windows.Controls.AudioPlaybackPanel();
 			this.buttonFind = new System.Windows.Forms.Button();
 			this.buttonFindAll = new System.Windows.Forms.Button();
+			this.buttonCollapse = new System.Windows.Forms.Button();
+			this.buttonExpand = new System.Windows.Forms.Button();
+			this.label7 = new System.Windows.Forms.Label();
+			this.buttonFindBack = new System.Windows.Forms.Button();
+			this.audioPlaybackBRSARSound = new BrawlLib.Internal.Windows.Controls.AudioPlaybackPanel();
+			this.audioPlaybackPanelWav = new BrawlLib.Internal.Windows.Controls.AudioPlaybackPanel();
 			this.contextMenuStripWAV.SuspendLayout();
 			this.contextMenuStripCollection.SuspendLayout();
 			this.menuStrip1.SuspendLayout();
@@ -108,7 +112,7 @@
 			this.treeViewMapping.Location = new System.Drawing.Point(933, 80);
 			this.treeViewMapping.Margin = new System.Windows.Forms.Padding(4);
 			this.treeViewMapping.Name = "treeViewMapping";
-			this.treeViewMapping.Size = new System.Drawing.Size(629, 617);
+			this.treeViewMapping.Size = new System.Drawing.Size(629, 584);
 			this.treeViewMapping.TabIndex = 3;
 			this.treeViewMapping.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeViewMapping_AfterSelect);
 			this.treeViewMapping.KeyDown += new System.Windows.Forms.KeyEventHandler(this.treeViewMapping_KeyDown);
@@ -466,7 +470,7 @@
 			this.textBoxSearchBar.Location = new System.Drawing.Point(994, 16);
 			this.textBoxSearchBar.Margin = new System.Windows.Forms.Padding(4);
 			this.textBoxSearchBar.Name = "textBoxSearchBar";
-			this.textBoxSearchBar.Size = new System.Drawing.Size(385, 22);
+			this.textBoxSearchBar.Size = new System.Drawing.Size(367, 22);
 			this.textBoxSearchBar.TabIndex = 24;
 			this.textBoxSearchBar.TextChanged += new System.EventHandler(this.textBoxSearchBar_TextChanged);
 			this.textBoxSearchBar.KeyDown += new System.Windows.Forms.KeyEventHandler(this.textBoxSearchBar_KeyDown);
@@ -539,27 +543,6 @@
 			this.checkBoxSearchCase.UseVisualStyleBackColor = true;
 			this.checkBoxSearchCase.CheckedChanged += new System.EventHandler(this.checkBoxSearchCase_CheckedChanged);
 			// 
-			// audioPlaybackBRSARSound
-			// 
-			this.audioPlaybackBRSARSound.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.audioPlaybackBRSARSound.Location = new System.Drawing.Point(924, 705);
-			this.audioPlaybackBRSARSound.Margin = new System.Windows.Forms.Padding(4);
-			this.audioPlaybackBRSARSound.Name = "audioPlaybackBRSARSound";
-			this.audioPlaybackBRSARSound.Size = new System.Drawing.Size(640, 133);
-			this.audioPlaybackBRSARSound.TabIndex = 18;
-			this.audioPlaybackBRSARSound.TargetStreams = null;
-			// 
-			// audioPlaybackPanelWav
-			// 
-			this.audioPlaybackPanelWav.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-			this.audioPlaybackPanelWav.Location = new System.Drawing.Point(19, 182);
-			this.audioPlaybackPanelWav.Margin = new System.Windows.Forms.Padding(4);
-			this.audioPlaybackPanelWav.Name = "audioPlaybackPanelWav";
-			this.audioPlaybackPanelWav.Size = new System.Drawing.Size(611, 105);
-			this.audioPlaybackPanelWav.TabIndex = 14;
-			this.audioPlaybackPanelWav.TargetStreams = null;
-			// 
 			// buttonFind
 			// 
 			this.buttonFind.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
@@ -582,12 +565,80 @@
 			this.buttonFindAll.UseVisualStyleBackColor = true;
 			this.buttonFindAll.Click += new System.EventHandler(this.buttonFindAll_Click);
 			// 
+			// buttonCollapse
+			// 
+			this.buttonCollapse.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+			this.buttonCollapse.Location = new System.Drawing.Point(1471, 671);
+			this.buttonCollapse.Name = "buttonCollapse";
+			this.buttonCollapse.Size = new System.Drawing.Size(91, 27);
+			this.buttonCollapse.TabIndex = 34;
+			this.buttonCollapse.Text = "Collapse All";
+			this.buttonCollapse.UseVisualStyleBackColor = true;
+			this.buttonCollapse.Click += new System.EventHandler(this.buttonCollapse_Click);
+			// 
+			// buttonExpand
+			// 
+			this.buttonExpand.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+			this.buttonExpand.Location = new System.Drawing.Point(1374, 671);
+			this.buttonExpand.Name = "buttonExpand";
+			this.buttonExpand.Size = new System.Drawing.Size(91, 27);
+			this.buttonExpand.TabIndex = 33;
+			this.buttonExpand.Text = "Expand All";
+			this.buttonExpand.UseVisualStyleBackColor = true;
+			this.buttonExpand.Click += new System.EventHandler(this.buttonExpand_Click);
+			// 
+			// label7
+			// 
+			this.label7.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+			this.label7.AutoSize = true;
+			this.label7.Location = new System.Drawing.Point(930, 681);
+			this.label7.Name = "label7";
+			this.label7.Size = new System.Drawing.Size(61, 17);
+			this.label7.TabIndex = 35;
+			this.label7.Text = "Preview:";
+			// 
+			// buttonFindBack
+			// 
+			this.buttonFindBack.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.buttonFindBack.Location = new System.Drawing.Point(1368, 13);
+			this.buttonFindBack.Name = "buttonFindBack";
+			this.buttonFindBack.Size = new System.Drawing.Size(23, 27);
+			this.buttonFindBack.TabIndex = 36;
+			this.buttonFindBack.Text = "<";
+			this.buttonFindBack.UseVisualStyleBackColor = true;
+			this.buttonFindBack.Click += new System.EventHandler(this.buttonFindBack_Click);
+			// 
+			// audioPlaybackBRSARSound
+			// 
+			this.audioPlaybackBRSARSound.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+			this.audioPlaybackBRSARSound.Location = new System.Drawing.Point(924, 705);
+			this.audioPlaybackBRSARSound.Margin = new System.Windows.Forms.Padding(4);
+			this.audioPlaybackBRSARSound.Name = "audioPlaybackBRSARSound";
+			this.audioPlaybackBRSARSound.Size = new System.Drawing.Size(640, 133);
+			this.audioPlaybackBRSARSound.TabIndex = 18;
+			this.audioPlaybackBRSARSound.TargetStreams = null;
+			// 
+			// audioPlaybackPanelWav
+			// 
+			this.audioPlaybackPanelWav.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.audioPlaybackPanelWav.Location = new System.Drawing.Point(19, 182);
+			this.audioPlaybackPanelWav.Margin = new System.Windows.Forms.Padding(4);
+			this.audioPlaybackPanelWav.Name = "audioPlaybackPanelWav";
+			this.audioPlaybackPanelWav.Size = new System.Drawing.Size(611, 105);
+			this.audioPlaybackPanelWav.TabIndex = 14;
+			this.audioPlaybackPanelWav.TargetStreams = null;
+			// 
 			// Form1
 			// 
 			this.AllowDrop = true;
 			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(1580, 846);
+			this.Controls.Add(this.buttonFindBack);
+			this.Controls.Add(this.label7);
+			this.Controls.Add(this.buttonCollapse);
+			this.Controls.Add(this.buttonExpand);
 			this.Controls.Add(this.buttonFindAll);
 			this.Controls.Add(this.buttonFind);
 			this.Controls.Add(this.checkBoxSearchCase);
@@ -686,6 +737,10 @@
 		private System.Windows.Forms.CheckBox checkBoxSearchCase;
 		private System.Windows.Forms.Button buttonFind;
 		private System.Windows.Forms.Button buttonFindAll;
+		private System.Windows.Forms.Button buttonCollapse;
+		private System.Windows.Forms.Button buttonExpand;
+		private System.Windows.Forms.Label label7;
+		private System.Windows.Forms.Button buttonFindBack;
 	}
 }
 

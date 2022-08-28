@@ -1063,6 +1063,14 @@ namespace BrawlSoundConverter
 			}
 		}
 
+		private void buttonFindBack_Click(object sender, EventArgs e)
+		{
+			if (!doFind(true))
+			{
+				SystemSounds.Exclamation.Play();
+			}
+		}
+
 		private void buttonFindAll_Click(object sender, EventArgs e)
 		{
 			if (populateSearchResults())
@@ -1078,6 +1086,18 @@ namespace BrawlSoundConverter
 			{
 				SystemSounds.Exclamation.Play();
 			}
+		}
+
+		private void buttonExpand_Click(object sender, EventArgs e)
+		{
+			treeViewMapping.ExpandAll();
+			treeViewMapping.SelectedNode = null;
+		}
+
+		private void buttonCollapse_Click(object sender, EventArgs e)
+		{
+			treeViewMapping.CollapseAll();
+			treeViewMapping.SelectedNode = null;
 		}
 	}
 }
