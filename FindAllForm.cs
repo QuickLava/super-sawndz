@@ -56,5 +56,10 @@ namespace BrawlSoundConverter
 			DialogResult = DialogResult.OK;
 			Close();
 		}
+
+		private void FindAllForm_FormClosed(object sender, FormClosedEventArgs e)
+		{
+			audioPlaybackPanel1.TargetSource = null;
+		}
 	}
 }

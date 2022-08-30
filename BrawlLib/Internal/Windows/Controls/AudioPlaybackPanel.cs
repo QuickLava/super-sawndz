@@ -278,8 +278,15 @@ namespace BrawlLib.Internal.Windows.Controls
                 }
             }
         }
+        public bool IsPlaying
+		{
+			get
+			{
+                return _isPlaying;
+			}
+		}
 
-        private AudioProvider _provider;
+		private AudioProvider _provider;
 
         private AudioBuffer[] _buffers;
 

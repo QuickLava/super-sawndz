@@ -22,6 +22,7 @@ namespace BrawlSoundConverter
 
 		int currSearchResultIndex = 0;
 		List<KeyValuePair<string, MappingItem>> currSearchResults = null;
+		TreeNode selectedBeforePause = null;
 
 		//Fill out treeViewMapping with data from the brsar
 		private void loadTreeView()
@@ -1140,6 +1141,25 @@ namespace BrawlSoundConverter
 		{
 			treeViewMapping.CollapseAll();
 			treeViewMapping.SelectedNode = null;
+		}
+
+		private void Form1_Activated(object sender, EventArgs e)
+		{
+			if (selectedBeforePause != null)
+			{
+				treeViewMapping.SelectedNode = selectedBeforePause;
+				selectedBeforePause = null;
+			}
+		}
+
+		private void Form1_Deactivate(object sender, EventArgs e)
+		{
+			if (!CanFocus && audioPlaybackBRSARSound.IsPlaying)
+			{
+				audioPlaybackBRSARSound.TargetSource = null;
+				selectedBeforePause = treeViewMapping.SelectedNode;
+				treeViewMapping.SelectedNode = null;
+			}
 		}
 	}
 }

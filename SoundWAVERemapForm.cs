@@ -101,6 +101,11 @@ namespace BrawlSoundConverter
 			}
 		}
 
+		private void SoundWAVERemapForm_FormClosed(object sender, FormClosedEventArgs e)
+		{
+			audioPlaybackPanel1.TargetSource = null;
+		}
+
 		private void numericUpDownWAVID_KeyDown(object sender, KeyEventArgs e)
 		{
 			if (e.KeyCode == Keys.Enter)

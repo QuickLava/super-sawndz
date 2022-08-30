@@ -136,6 +136,7 @@ namespace BrawlSoundConverter
 			this.MinimizeBox = false;
 			this.Name = "FindAllForm";
 			this.Text = "Find All";
+			this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.FindAllForm_FormClosed);
 			this.ResumeLayout(false);
 			this.PerformLayout();
 

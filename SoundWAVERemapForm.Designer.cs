@@ -199,6 +199,7 @@ namespace BrawlSoundConverter
 			this.Controls.Add(this.label1);
 			this.Name = "SoundWAVERemapForm";
 			this.Text = "Edit Sound Properties";
+			this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.SoundWAVERemapForm_FormClosed);
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDownWAVID)).EndInit();
 			this.ResumeLayout(false);
 			this.PerformLayout();

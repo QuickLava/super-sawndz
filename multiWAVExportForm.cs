@@ -227,5 +227,10 @@ namespace BrawlSoundConverter
 				setTextBox(selectedFolder);
 			}
 		}
+
+		private void multiWAVExportForm_FormClosed(object sender, FormClosedEventArgs e)
+		{
+			audioPlaybackPanel1.TargetSource = null;
+		}
 	}
 }
