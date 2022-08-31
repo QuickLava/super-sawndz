@@ -842,6 +842,7 @@ namespace BrawlSoundConverter
 						textBoxWavID.Clear();
 						textBoxInfoIndex.Clear();
 						treeViewMapping.SelectedNode = null;
+						currSearchResults = null;
 						brsar.RSAR_FileName = strings[0];
 						brsar.CloseRSAR();
 						loadTreeView();
