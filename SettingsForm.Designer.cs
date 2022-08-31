@@ -50,9 +50,15 @@ namespace BrawlSoundConverter
 			this.groupBox2 = new System.Windows.Forms.GroupBox();
 			this.radioButtonFullNameEnable = new System.Windows.Forms.RadioButton();
 			this.radioButtonFullNameDisable = new System.Windows.Forms.RadioButton();
+			this.label4 = new System.Windows.Forms.Label();
+			this.groupBox3 = new System.Windows.Forms.GroupBox();
+			this.radioButtonStereoConvAlways = new System.Windows.Forms.RadioButton();
+			this.radioButtonStereoConvSometimes = new System.Windows.Forms.RadioButton();
+			this.radioButtonStereoConvNever = new System.Windows.Forms.RadioButton();
 			this.groupBoxNamingScheme.SuspendLayout();
 			this.groupBox1.SuspendLayout();
 			this.groupBox2.SuspendLayout();
+			this.groupBox3.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// groupBoxNamingScheme
@@ -144,7 +150,7 @@ namespace BrawlSoundConverter
 			// 
 			this.buttonCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.buttonCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-			this.buttonCancel.Location = new System.Drawing.Point(361, 297);
+			this.buttonCancel.Location = new System.Drawing.Point(361, 369);
 			this.buttonCancel.Margin = new System.Windows.Forms.Padding(4);
 			this.buttonCancel.Name = "buttonCancel";
 			this.buttonCancel.Size = new System.Drawing.Size(100, 28);
@@ -156,7 +162,7 @@ namespace BrawlSoundConverter
 			// 
 			this.buttonSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.buttonSave.DialogResult = System.Windows.Forms.DialogResult.OK;
-			this.buttonSave.Location = new System.Drawing.Point(253, 297);
+			this.buttonSave.Location = new System.Drawing.Point(253, 369);
 			this.buttonSave.Margin = new System.Windows.Forms.Padding(4);
 			this.buttonSave.Name = "buttonSave";
 			this.buttonSave.Size = new System.Drawing.Size(100, 28);
@@ -275,13 +281,65 @@ namespace BrawlSoundConverter
 			this.radioButtonFullNameDisable.Text = "Disable";
 			this.radioButtonFullNameDisable.UseVisualStyleBackColor = true;
 			// 
+			// label4
+			// 
+			this.label4.AutoSize = true;
+			this.label4.Location = new System.Drawing.Point(10, 298);
+			this.label4.Name = "label4";
+			this.label4.Size = new System.Drawing.Size(243, 17);
+			this.label4.TabIndex = 42;
+			this.label4.Text = "Convert WAV Files to Mono on Import";
+			// 
+			// groupBox3
+			// 
+			this.groupBox3.Controls.Add(this.radioButtonStereoConvNever);
+			this.groupBox3.Controls.Add(this.radioButtonStereoConvAlways);
+			this.groupBox3.Controls.Add(this.radioButtonStereoConvSometimes);
+			this.groupBox3.Location = new System.Drawing.Point(10, 308);
+			this.groupBox3.Name = "groupBox3";
+			this.groupBox3.Size = new System.Drawing.Size(445, 51);
+			this.groupBox3.TabIndex = 41;
+			this.groupBox3.TabStop = false;
+			// 
+			// radioButtonStereoConvAlways
+			// 
+			this.radioButtonStereoConvAlways.AutoSize = true;
+			this.radioButtonStereoConvAlways.Location = new System.Drawing.Point(6, 21);
+			this.radioButtonStereoConvAlways.Name = "radioButtonStereoConvAlways";
+			this.radioButtonStereoConvAlways.Size = new System.Drawing.Size(72, 21);
+			this.radioButtonStereoConvAlways.TabIndex = 22;
+			this.radioButtonStereoConvAlways.Text = "Always";
+			this.radioButtonStereoConvAlways.UseVisualStyleBackColor = true;
+			// 
+			// radioButtonStereoConvSometimes
+			// 
+			this.radioButtonStereoConvSometimes.AutoSize = true;
+			this.radioButtonStereoConvSometimes.Location = new System.Drawing.Point(86, 21);
+			this.radioButtonStereoConvSometimes.Name = "radioButtonStereoConvSometimes";
+			this.radioButtonStereoConvSometimes.Size = new System.Drawing.Size(195, 21);
+			this.radioButtonStereoConvSometimes.TabIndex = 24;
+			this.radioButtonStereoConvSometimes.Text = "If Overwriting Mono Sound";
+			this.radioButtonStereoConvSometimes.UseVisualStyleBackColor = true;
+			// 
+			// radioButtonStereoConvNever
+			// 
+			this.radioButtonStereoConvNever.AutoSize = true;
+			this.radioButtonStereoConvNever.Location = new System.Drawing.Point(289, 21);
+			this.radioButtonStereoConvNever.Name = "radioButtonStereoConvNever";
+			this.radioButtonStereoConvNever.Size = new System.Drawing.Size(67, 21);
+			this.radioButtonStereoConvNever.TabIndex = 25;
+			this.radioButtonStereoConvNever.Text = "Never";
+			this.radioButtonStereoConvNever.UseVisualStyleBackColor = true;
+			// 
 			// SettingsForm
 			// 
 			this.AcceptButton = this.buttonSave;
 			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.CancelButton = this.buttonCancel;
-			this.ClientSize = new System.Drawing.Size(474, 338);
+			this.ClientSize = new System.Drawing.Size(474, 410);
+			this.Controls.Add(this.label4);
+			this.Controls.Add(this.groupBox3);
 			this.Controls.Add(this.label3);
 			this.Controls.Add(this.groupBox2);
 			this.Controls.Add(this.buttonBRSARPathUseCurrent);
@@ -306,6 +364,8 @@ namespace BrawlSoundConverter
 			this.groupBox1.PerformLayout();
 			this.groupBox2.ResumeLayout(false);
 			this.groupBox2.PerformLayout();
+			this.groupBox3.ResumeLayout(false);
+			this.groupBox3.PerformLayout();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -334,5 +394,10 @@ namespace BrawlSoundConverter
 		private System.Windows.Forms.GroupBox groupBox2;
 		private System.Windows.Forms.RadioButton radioButtonFullNameEnable;
 		private System.Windows.Forms.RadioButton radioButtonFullNameDisable;
+		private System.Windows.Forms.Label label4;
+		private System.Windows.Forms.GroupBox groupBox3;
+		private System.Windows.Forms.RadioButton radioButtonStereoConvNever;
+		private System.Windows.Forms.RadioButton radioButtonStereoConvAlways;
+		private System.Windows.Forms.RadioButton radioButtonStereoConvSometimes;
 	}
 }

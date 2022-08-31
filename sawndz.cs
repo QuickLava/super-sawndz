@@ -47,6 +47,42 @@ namespace BrawlSoundConverter
 				}
 			}
 		}
+		static void runVGAudio(string args)
+		{
+			try
+			{
+				p = new Process();
+				p.StartInfo.UseShellExecute = false;
+				p.StartInfo.CreateNoWindow = true;
+				p.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
+				p.StartInfo.RedirectStandardOutput = true;
+				p.StartInfo.RedirectStandardError = true;
+				p.EnableRaisingEvents = true;
+				p.StartInfo.FileName = "VGAudio/VGAudioCli.exe";
+				p.StartInfo.Arguments = args;
+				p.Start();
+				while ((!p.HasExited || !p.StandardOutput.EndOfStream))
+				{
+
+					char[] buffer = new char[1];
+					int count = p.StandardOutput.Read(buffer, 0, 1);
+					Console.Write(buffer);
+				}
+				if (!p.HasExited)
+					p.WaitForExit();
+				return;
+			}
+			catch (Exception e)
+			{
+				Console.WriteLine(e.ToString());
+				//If the process is still running kill it
+				if (p != null && !p.HasExited)
+				{
+					p.Kill();
+					p = null;
+				}
+			}
+		}
 		public static void insert(int groupID, int collID, int wavID, int frequency, bool loop, string WAV_fileName)
 		{
 			runWithArgs("insert " + groupID + " " + collID + " "
@@ -104,6 +140,58 @@ namespace BrawlSoundConverter
 			}
 			return result;
 		}
+		public static int numChannelsInWavFile(string fileName)
+		{
+			int count = int.MaxValue;
+			BrawlLib.Internal.Audio.IAudioStream temp = BrawlLib.Internal.Audio.WAV.FromFile(fileName);
+			count = temp.Channels;
+			return count;
+		}
+		public static void doInsertWithRespectToChannelCount(string filePath, BrawlLib.SSBB.ResourceNodes.RSARFileAudioNode targetNode, bool headless)
+		{
+			if (targetNode != null && File.Exists(filePath))
+			{
+				bool soundIsMono = numChannelsInWavFile(filePath) == 1;
+				bool replacingMonoSound = targetNode.Channels < 2;
+				if (!soundIsMono && (Properties.Settings.Default.ConvertToMono == 2 || (Properties.Settings.Default.ConvertToMono == 1 && replacingMonoSound)))
+				{
+					string tempFile = "___tempconvwav.wav";
+					Console.WriteLine("");
+					Console.WriteLine("Converting Sound to Mono... ");
+					runVGAudio(" -i:0 " + filePath + " -o " + tempFile);
+					if (File.Exists(tempFile))
+					{
+						if (headless)
+						{
+							targetNode.HeadlessReplace(tempFile);
+						}
+						else
+						{
+							targetNode.Replace(tempFile);
+						}
+						File.Delete(tempFile);
+					}
+					else
+					{
+						Console.WriteLine("Unable to convert to Mono!");
+					}
+				}
+				else
+				{
+					if (File.Exists(filePath))
+					{
+						if (headless)
+						{
+							targetNode.HeadlessReplace(filePath);
+						}
+						else
+						{
+							targetNode.Replace(filePath);
+						}
+					}
+				}
+			}
+		}
 		public static void insertWav(string fileName, int groupID, int collID, int wavID)
 		{
 			Console.Write("Inserting WAV File (\"" + Path.GetFileName(fileName) + "\")... ");
@@ -115,9 +203,9 @@ namespace BrawlSoundConverter
 			try
 			{
 				BrawlLib.SSBB.ResourceNodes.RSARFileAudioNode targetNode = brsar.GetNode(groupID, collID, wavID) as BrawlLib.SSBB.ResourceNodes.RSARFileAudioNode;
-				targetNode.Replace(fileName);
+				doInsertWithRespectToChannelCount(fileName, targetNode, false);
 				BrawlLib.SSBB.ResourceNodes.RSARNode currRsar = brsar.GetRSAR();
-				if (currRsar.IsDirty)
+				if (targetNode.IsDirty)
 				{
 					Console.WriteLine("Success!\n");
 					currRsar.Export(currRsar._origPath);
@@ -184,8 +272,9 @@ namespace BrawlSoundConverter
 								if (File.Exists(mapFolder + filename))
 								{
 									BrawlLib.SSBB.ResourceNodes.RSARFileAudioNode targetNode = brsar.GetNode(groupID, collID, wavID) as BrawlLib.SSBB.ResourceNodes.RSARFileAudioNode;
-									targetNode.HeadlessReplace(mapFolder + filename);
-									if (currRsar.IsDirty)
+									doInsertWithRespectToChannelCount(mapFolder + filename, targetNode, true);
+
+									if (targetNode.IsDirty)
 									{
 										Console.WriteLine("Success!");
 									}

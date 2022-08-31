@@ -52,6 +52,23 @@ namespace BrawlSoundConverter
 			{
 				radioButtonGroupDirDisable.Checked = true;
 			}
+
+			switch (Properties.Settings.Default.ConvertToMono)
+			{
+				case 0:
+					radioButtonStereoConvNever.Checked = true;
+					break;
+				case 1:
+					radioButtonStereoConvSometimes.Checked = true;
+					break;
+				case 2:
+					radioButtonStereoConvAlways.Checked = true;
+					break;
+				default:
+					radioButtonStereoConvSometimes.Checked = true;
+					break;
+			}
+
 			if (File.Exists(brsar.RSAR_FileName))
 			{
 				buttonBRSARPathUseCurrent.Enabled = true;
@@ -92,6 +109,19 @@ namespace BrawlSoundConverter
 			}
 
 			Properties.Settings.Default.DefaultMultiWAVExportCreateGroupDirectory = radioButtonGroupDirEnable.Checked;
+
+			if (radioButtonStereoConvAlways.Checked)
+			{
+				Properties.Settings.Default.ConvertToMono = 2;
+			}
+			else if (radioButtonStereoConvSometimes.Checked)
+			{
+				Properties.Settings.Default.ConvertToMono = 1;
+			}
+			else
+			{
+				Properties.Settings.Default.ConvertToMono = 0;
+			}
 
 			DialogResult = DialogResult.OK;
 			Close();
