@@ -141,89 +141,144 @@ namespace BrawlSoundConverter
 				
 				foreach( BrawlLib.SSBB.ResourceNodes.RSARFileNode file in group._files )
 				{
-					if (file.NodeType != "BrawlLib.SSBB.ResourceNodes.RWSDNode")
+					if (file.NodeType == "BrawlLib.SSBB.ResourceNodes.RSEQNode")
 						continue;
+
 					int collectionID = file.FileNodeIndex;
-					string fName = "[" + collectionID.ToString("X3") + "] RWSD";
+					string fName = "[" + collectionID.ToString("X3") + "] " + file.ResourceFileType;
 					BrawlLib.SSBB.ResourceNodes.ResourceNode audioFolder = ( BrawlLib.SSBB.ResourceNodes.ResourceNode) file.FindChild( "audio", false );
-					BrawlLib.SSBB.ResourceNodes.RWSDDataGroupNode dataFolder = ( BrawlLib.SSBB.ResourceNodes.RWSDDataGroupNode) file.FindChild( "data", false );
-					
 					if (audioFolder == null || audioFolder.Children.Count == 0)
 						continue;
-					if (dataFolder == null || dataFolder.Children.Count == 0)
-						continue;
-					
-					MappingItem colMap = new MappingItem( fName, groupID, collectionID );
-					groupMap.Nodes.Add( colMap );
+
+					MappingItem colMap = new MappingItem(fName, groupID, collectionID);
+					groupMap.Nodes.Add(colMap);
 					nodeCount++;
 
-					if( audioFolder == null )
-						continue;
-
+					List<int> usedWaveIndeces = new List<int>();
 					//Same as nodeCount, used to track total size of sounds in collection. No actual function.
 					int addUpSoundSize = 0;
 
-					List<int> usedWaveIndeces = new List<int>();
-					for (int i = 0; i < dataFolder.Children.Count; i++)
+					if (file.NodeType == "BrawlLib.SSBB.ResourceNodes.RWSDNode")
 					{
-						if (!(dataFolder.Children[i] is BrawlLib.SSBB.ResourceNodes.RWSDDataNode))
+						BrawlLib.SSBB.ResourceNodes.RWSDDataGroupNode dataFolder = (BrawlLib.SSBB.ResourceNodes.RWSDDataGroupNode)file.FindChild("data", false);
+						if (dataFolder == null || dataFolder.Children.Count == 0)
 							continue;
-						BrawlLib.SSBB.ResourceNodes.RWSDDataNode data = (BrawlLib.SSBB.ResourceNodes.RWSDDataNode)dataFolder.Children[i];
-						int waveIndex = data._part3._waveIndex;
 
-						if (audioFolder.Children.Count() <= waveIndex)
-							continue;
-						if (!(audioFolder.Children[waveIndex] is BrawlLib.SSBB.ResourceNodes.RSARFileAudioNode))
-							continue;
-						BrawlLib.SSBB.ResourceNodes.RSARFileAudioNode sound = (BrawlLib.SSBB.ResourceNodes.RSARFileAudioNode)audioFolder.Children[waveIndex];
-
-						int soundSize = 0;
-						unsafe
+						for (int i = 0; i < dataFolder.Children.Count; i++)
 						{
-							int samples = sound.NumSamples;
-							if ((samples / 2 * 2) == samples)
+							if (!(dataFolder.Children[i] is BrawlLib.SSBB.ResourceNodes.RWSDDataNode))
+								continue;
+							BrawlLib.SSBB.ResourceNodes.RWSDDataNode data = (BrawlLib.SSBB.ResourceNodes.RWSDDataNode)dataFolder.Children[i];
+							int waveIndex = data._part3._waveIndex;
+
+							if (audioFolder.Children.Count() <= waveIndex)
+								continue;
+							if (!(audioFolder.Children[waveIndex] is BrawlLib.SSBB.ResourceNodes.RSARFileAudioNode))
+								continue;
+							BrawlLib.SSBB.ResourceNodes.RSARFileAudioNode sound = (BrawlLib.SSBB.ResourceNodes.RSARFileAudioNode)audioFolder.Children[waveIndex];
+
+							int soundSize = 0;
+							unsafe
 							{
-								soundSize = samples / 2;
+								int samples = sound.NumSamples;
+								if ((samples / 2 * 2) == samples)
+								{
+									soundSize = samples / 2;
+								}
+								else
+								{
+									soundSize = samples / 2 + 1;
+								}
+							}
+							addUpSoundSize += soundSize;
+
+							string sName = "[" + waveIndex.ToString("X3") + "] " + data.Name;
+							int infoIndex = -1;
+							if (data._refs.Count > 0)
+							{
+								infoIndex = data._refs[0].InfoIndex;
 							}
 							else
 							{
-								soundSize = samples / 2 + 1;
+								infoIndex = -1;
+							}
+							MappingItem soundMap = new MappingItem(sName, groupID, collectionID, waveIndex, infoIndex, usedWaveIndeces.Contains(waveIndex));
+							colMap.Nodes.Add(soundMap);
+							if (!soundDict.ContainsKey(data.Name))
+							{
+								soundDict.Add(data.Name, new List<MappingItem>());
+							}
+							soundDict[data.Name].Add(soundMap);
+							soundMap.fileSize = soundSize;
+							if (infoIndex == -1)
+							{
+								groupMap.BackColor = System.Drawing.Color.Yellow;
+								colMap.BackColor = System.Drawing.Color.Yellow;
+								soundMap.BackColor = System.Drawing.Color.Yellow;
+							}
+							nodeCount++;
+
+							//child node must have a parent in order for size to propogate correctly.
+							if (!usedWaveIndeces.Contains(waveIndex))
+							{
+								usedWaveIndeces.Add(waveIndex);
 							}
 						}
-						addUpSoundSize += soundSize;
+					}
+					else if (file.NodeType == "BrawlLib.SSBB.ResourceNodes.RBNKNode")
+					{
+						BrawlLib.SSBB.ResourceNodes.ResourceNode dataFolder = (BrawlLib.SSBB.ResourceNodes.ResourceNode)file.FindChild("data", false);
+						if (dataFolder == null || dataFolder.Children.Count == 0)
+							continue;
 
-						string sName = "[" + waveIndex.ToString("X3") + "] " + data.Name;
-						int infoIndex = -1;
-						if (data._refs.Count > 0)
+						for (int i = 0; i < dataFolder.Children.Count; i++)
 						{
-							infoIndex = data._refs[0].InfoIndex;
-						}
-						else
-						{
-							infoIndex = -1;
-						}
-						MappingItem soundMap = new MappingItem(sName, groupID, collectionID, waveIndex, infoIndex, usedWaveIndeces.Contains(waveIndex));
-						colMap.Nodes.Add(soundMap);
-						if (!soundDict.ContainsKey(data.Name))
-						{
-							soundDict.Add(data.Name, new List<MappingItem>());
-						}
-						soundDict[data.Name].Add(soundMap);
-						soundMap.fileSize = soundSize;
-						if (infoIndex == -1)
-						{
-							groupMap.BackColor = System.Drawing.Color.Yellow;
-							colMap.BackColor = System.Drawing.Color.Yellow;
-							soundMap.BackColor = System.Drawing.Color.Yellow;
-						}
-						nodeCount++;
+							BrawlLib.SSBB.ResourceNodes.ResourceNode rbnkGroup = dataFolder.Children[i];
+							for (int u = 0; u < rbnkGroup.Children.Count; u++)
+							{
+								if (!(rbnkGroup.Children[u] is BrawlLib.SSBB.ResourceNodes.RBNKDataInstParamNode))
+									continue;
+								BrawlLib.SSBB.ResourceNodes.RBNKDataInstParamNode rbnkInstParamNode = rbnkGroup.Children[u] as BrawlLib.SSBB.ResourceNodes.RBNKDataInstParamNode;
+								int waveIndex = rbnkInstParamNode.Sound.Index;
 
-						//child node must have a parent in order for size to propogate correctly.
-						if (!usedWaveIndeces.Contains(waveIndex))
-						{
-							usedWaveIndeces.Add(waveIndex);
+								if (audioFolder.Children.Count() <= waveIndex)
+									continue;
+								if (!(audioFolder.Children[waveIndex] is BrawlLib.SSBB.ResourceNodes.RSARFileAudioNode))
+									continue;
+								BrawlLib.SSBB.ResourceNodes.RSARFileAudioNode sound = (BrawlLib.SSBB.ResourceNodes.RSARFileAudioNode)audioFolder.Children[waveIndex];
+
+								int soundSize = 0;
+								unsafe
+								{
+									int samples = sound.NumSamples;
+									if ((samples / 2 * 2) == samples)
+									{
+										soundSize = samples / 2;
+									}
+									else
+									{
+										soundSize = samples / 2 + 1;
+									}
+								}
+								addUpSoundSize += soundSize;
+
+								string sName = "[" + waveIndex.ToString("X3") + "] " + rbnkInstParamNode.Name;
+								int infoIndex = -1;
+								MappingItem soundMap = new MappingItem(sName, groupID, collectionID, waveIndex, infoIndex, usedWaveIndeces.Contains(waveIndex));
+								colMap.Nodes.Add(soundMap);
+								soundMap.fileSize = soundSize;
+								nodeCount++;
+
+								//child node must have a parent in order for size to propogate correctly.
+								if (!usedWaveIndeces.Contains(waveIndex))
+								{
+									usedWaveIndeces.Add(waveIndex);
+								}
+							}
 						}
-                    }
+						
+					}
+
 					for (int i = 0; i < audioFolder.Children.Count; i++)
                     {
 						if (usedWaveIndeces.Contains(i))
