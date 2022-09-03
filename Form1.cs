@@ -186,6 +186,13 @@ namespace BrawlSoundConverter
 			{
 				textBoxInfoIndex.Text = "";
 			}
+			contextMenuStripWAV.Items[0].Enabled = item.infoIndex > -1;
+			if (item.groupID > -1 && item.collectionID > -1 && item.wavID <= -1)
+			{
+				string type = "B" + e.Node.Text.Substring(6, 4);
+				contextMenuStripCollection.Items[0].Text = "Export as " + type;
+				contextMenuStripCollection.Items[1].Text = "Replace with " + type;
+			}
 			setInsertButtonState();
 		}
 
@@ -264,7 +271,7 @@ namespace BrawlSoundConverter
 						{
 							if (gid > -1 && cid > -1)
 							{
-								Sawndz.insertBRWSD(textBoxInputFile.Text, gid, cid);
+								Sawndz.replaceBRSARSubfile(textBoxInputFile.Text, gid, cid);
 							}
 						}
 					}
@@ -730,10 +737,12 @@ namespace BrawlSoundConverter
 				return;
 			}
 			textBoxOutput.Clear();
-			Console.Write("Exporting BRWSD file... ");
+			string nodeType = treeViewMapping.SelectedNode.Text.Substring(6, 4);
+			string nodeExportType = "b" + nodeType.ToLower();
+			Console.Write("Exporting " + nodeType + " file... ");
 			SaveFileDialog sfd = new SaveFileDialog();
-			sfd.FileName = "[" + gid.ToString("D3") + "_" + cid.ToString("X3") + "] RWSD.brwsd";
-			sfd.Filter = "BRWSD File(*.brwsd)|*.brwsd";
+			sfd.FileName = "[" + gid.ToString("D3") + "_" + cid.ToString("X3") + "] " + nodeType + "." + nodeExportType;
+			sfd.Filter = nodeExportType.ToUpper() + " File(*." + nodeExportType + ")|*." + nodeExportType;
 			if (sfd.ShowDialog() == DialogResult.OK)
 			{
 				Console.WriteLine("");
@@ -759,23 +768,26 @@ namespace BrawlSoundConverter
 				MessageBox.Show("Collection ID is not valid");
 				return;
 			}
+			string nodeType = treeViewMapping.SelectedNode.Text.Substring(6, 4);
+			string nodeExportType = "b" + nodeType.ToLower();
 			OpenFileDialog ofd = new OpenFileDialog();
-			ofd.Filter = "BRWSD File(*.brwsd)|*.brwsd";
+			ofd.Filter = nodeType + " File(*." + nodeExportType + ")|*." + nodeExportType;
 			if (ofd.ShowDialog() == DialogResult.OK)
 			{
-				Sawndz.insertBRWSD(ofd.FileName, gid, cid);
+				Console.Write("Inserting " + nodeType + " File (\"" + Path.GetFileName(ofd.FileName) + "\")... ");
+				Sawndz.replaceBRSARSubfile(ofd.FileName, gid, cid);
 				loadTreeView();
 				selectNode(gid, cid);
 			}
 			else
 			{
-				Console.WriteLine("Importing BRWSD File... Operation Cancelled!");
+				Console.WriteLine("Importing " + nodeType + " File... Operation Cancelled!");
 			}
 		}
 
 		private void backgroundWorkerCreateBRWSD_DoWork(object sender, DoWorkEventArgs e)
 		{
-			Sawndz.createBRWSD(int.Parse(textBoxGroupID.Text), int.Parse(textBoxCollectionID.Text), e.Argument as string);
+			Sawndz.createBRSARSubfile(int.Parse(textBoxGroupID.Text), int.Parse(textBoxCollectionID.Text), e.Argument as string);
 		}
 		private void backgroundWorkerCreateBRWSD_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
 		{

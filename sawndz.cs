@@ -342,7 +342,7 @@ namespace BrawlSoundConverter
 
 			return result;
 		}
-		public static bool createBRWSD(int groupID, int fileID, string fileName)
+		public static bool createBRSARSubfile(int groupID, int fileID, string fileName)
 		{
 			bool result = false;
 
@@ -367,9 +367,8 @@ namespace BrawlSoundConverter
 
 			return result;
 		}
-		public static void insertBRWSD(string fileName, int groupID, int fileID)
+		public static void replaceBRSARSubfile(string fileName, int groupID, int fileID)
 		{
-			Console.Write("Inserting BRWSD File (\"" + Path.GetFileName(fileName) + "\")... ");
 			if (!File.Exists(fileName))
 			{
 				Console.WriteLine("Failure! Specified file doesn't exist!\n");

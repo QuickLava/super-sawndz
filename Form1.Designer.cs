@@ -373,20 +373,20 @@
             this.toolStripMenuItemBRWSDExport,
             this.toolStripMenuItemBRWSDReplace});
 			this.contextMenuStripCollection.Name = "contextMenuStripCollection";
-			this.contextMenuStripCollection.Size = new System.Drawing.Size(219, 52);
+			this.contextMenuStripCollection.Size = new System.Drawing.Size(211, 80);
 			// 
 			// toolStripMenuItemBRWSDExport
 			// 
 			this.toolStripMenuItemBRWSDExport.Name = "toolStripMenuItemBRWSDExport";
-			this.toolStripMenuItemBRWSDExport.Size = new System.Drawing.Size(218, 24);
-			this.toolStripMenuItemBRWSDExport.Text = "Export as BRWSD";
+			this.toolStripMenuItemBRWSDExport.Size = new System.Drawing.Size(210, 24);
+			this.toolStripMenuItemBRWSDExport.Text = "Export as...";
 			this.toolStripMenuItemBRWSDExport.Click += new System.EventHandler(this.toolStripMenuItemBRWSDExport_Click);
 			// 
 			// toolStripMenuItemBRWSDReplace
 			// 
 			this.toolStripMenuItemBRWSDReplace.Name = "toolStripMenuItemBRWSDReplace";
-			this.toolStripMenuItemBRWSDReplace.Size = new System.Drawing.Size(218, 24);
-			this.toolStripMenuItemBRWSDReplace.Text = "Replace with BRWSD";
+			this.toolStripMenuItemBRWSDReplace.Size = new System.Drawing.Size(210, 24);
+			this.toolStripMenuItemBRWSDReplace.Text = "Replace with...";
 			this.toolStripMenuItemBRWSDReplace.Click += new System.EventHandler(this.toolStripMenuItemBRWSDReplace_Click);
 			// 
 			// backgroundWorkerCreateBRWSD
