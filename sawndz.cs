@@ -435,11 +435,11 @@ namespace BrawlSoundConverter
 					targetWAVIDs = new List<int>();
 				}
 				BrawlLib.SSBB.ResourceNodes.ResourceNode audioFolder = (BrawlLib.SSBB.ResourceNodes.ResourceNode)targetFile.FindChild("audio", false);
-				BrawlLib.SSBB.ResourceNodes.RWSDDataGroupNode dataFolder = (BrawlLib.SSBB.ResourceNodes.RWSDDataGroupNode)targetFile.FindChild("data", false);
+				BrawlLib.SSBB.ResourceNodes.ResourceNode dataFolder = targetFile.FindChild("data", false);
 
 				List<MappingItem> collectedEntries = new List<MappingItem>();
 
-				if (audioFolder != null && audioFolder.Children.Count > 0 && dataFolder != null && dataFolder.Children.Count > 0)
+				if (audioFolder != null && audioFolder.Children.Count > 0)
 				{
 					for (int i = 0; i < audioFolder.Children.Count; i++)
 					{
@@ -447,17 +447,20 @@ namespace BrawlSoundConverter
 						MappingItem soundMap = new MappingItem(elementName, groupID, collID, i, -1, false);
 						collectedEntries.Add(soundMap);
 					}
-					for (int i = 0; i < dataFolder.Children.Count; i++)
+					if (dataFolder != null && dataFolder.Children.Count > 0 && dataFolder.NodeType == "BrawlLib.SSBB.ResourceNodes.RWSDDataGroupNode")
 					{
-						if (!(dataFolder.Children[i] is BrawlLib.SSBB.ResourceNodes.RWSDDataNode))
-							continue;
-						BrawlLib.SSBB.ResourceNodes.RWSDDataNode data = (BrawlLib.SSBB.ResourceNodes.RWSDDataNode)dataFolder.Children[i];
-						int waveIndex = data._part3._waveIndex;
-						if (collectedEntries.Count <= waveIndex)
-							continue;
-						
-						MappingItem soundMap = new MappingItem(data.Name, groupID, collID, waveIndex, -1, false);
-						collectedEntries[waveIndex].Nodes.Add(soundMap);
+						for (int i = 0; i < dataFolder.Children.Count; i++)
+						{
+							if (!(dataFolder.Children[i] is BrawlLib.SSBB.ResourceNodes.RWSDDataNode))
+								continue;
+							BrawlLib.SSBB.ResourceNodes.RWSDDataNode data = (BrawlLib.SSBB.ResourceNodes.RWSDDataNode)dataFolder.Children[i];
+							int waveIndex = data._part3._waveIndex;
+							if (collectedEntries.Count <= waveIndex)
+								continue;
+
+							MappingItem soundMap = new MappingItem(data.Name, groupID, collID, waveIndex, -1, false);
+							collectedEntries[waveIndex].Nodes.Add(soundMap);
+						}
 					}
 					System.Xml.XmlWriterSettings waveMapSettings = new System.Xml.XmlWriterSettings();
 					waveMapSettings.Indent = true;
@@ -503,7 +506,7 @@ namespace BrawlSoundConverter
 									waveMap.WriteComment("\"" + dataNode.name + "\"");
 								}
 							}
-							else
+							else if (waveEntry.Nodes.Count == 1)
 							{
 								MappingItem dataNode = (waveEntry.Nodes[0] as MappingItem);
 								waveMap.WriteComment("Used by: \"" + dataNode.name + "\"");

@@ -297,7 +297,7 @@ namespace BrawlSoundConverter
 				treeView.Nodes.Add( node );
 		}
 
-		public static void LoadMultiExportTreeView(TreeView destView, TreeView sourceView)
+		public static void LoadMultiSawndExportTreeView(TreeView destView, TreeView sourceView)
 		{
 			foreach (MappingItem sourceNode in sourceView.Nodes)
 			{
@@ -319,7 +319,7 @@ namespace BrawlSoundConverter
 				{
 					foreach (BrawlLib.SSBB.ResourceNodes.RSARFileNode file in group._files)
 					{
-						if (file.NodeType != "BrawlLib.SSBB.ResourceNodes.RWSDNode")
+						if (file.NodeType == "BrawlLib.SSBB.ResourceNodes.RSEQNode")
 							continue;
 						if (file.FileNodeIndex != targetFileID)
 							continue;
