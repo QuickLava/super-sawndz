@@ -857,17 +857,26 @@ namespace BrawlSoundConverter
 						currSearchResults = null;
 						brsar.RSAR_FileName = strings[0];
 						brsar.CloseRSAR();
+						enableStuff();
 						loadTreeView();
 					}
 					else if (fileKind == ".sawnd")
 					{
-						if (Sawndz.createSAWNDToImportList("toImport.txt", strings))
+						if (buttonInsert.Enabled)
 						{
-							backgroundWorkerMultiInsertSawnd.RunWorkerAsync();
+							if (Sawndz.createSAWNDToImportList("toImport.txt", strings))
+							{
+								backgroundWorkerMultiInsertSawnd.RunWorkerAsync();
+								enableStuff();
+							}
+							else
+							{
+								Console.WriteLine("Unable to import .sawnd file(s), couldn't generate list!");
+							}
 						}
 						else
 						{
-							Console.WriteLine("Unable to import .sawnd files, couldn't generate list!");
+							Console.WriteLine("Unable to import .sawnd file(s), no BRSAR is loaded!");
 						}
 					}
 					else
@@ -880,7 +889,6 @@ namespace BrawlSoundConverter
 					MessageBox.Show("Error: Drag only one type of file (eg. .brsar or .sawnd) at a time!");
 				}
 			}
-			enableStuff();
 		}
 		private void editLoopPropertiesToolStripMenuItem_Click(object sender, EventArgs e)
 		{
