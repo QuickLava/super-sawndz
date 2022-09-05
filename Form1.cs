@@ -24,6 +24,9 @@ namespace BrawlSoundConverter
 		List<KeyValuePair<string, MappingItem>> currSearchResults = null;
 		TreeNode selectedBeforePause = null;
 
+		List<List<MappingItem>> reserveCollections = new List<List<MappingItem>>();
+		int currCollectionIndex = 0;
+
 		//Fill out treeViewMapping with data from the brsar
 		private void loadTreeView()
 		{
@@ -35,6 +38,7 @@ namespace BrawlSoundConverter
 				// Assign appropriate context menus to all nodes.
 				foreach (TreeNode node in treeViewMapping.Nodes)
 				{
+					node.ContextMenuStrip = contextMenuStripGroup;
 					foreach (TreeNode collNode in node.Nodes)
 					{
 						collNode.ContextMenuStrip = contextMenuStripCollection;
@@ -51,6 +55,89 @@ namespace BrawlSoundConverter
 				Console.WriteLine( ex.ToString() );
 			}
 			
+		}
+
+		private void swapLoadedCollection(int index)
+		{
+			if (index >= reserveCollections.Count)
+			{
+				index = reserveCollections.Count;
+				reserveCollections.Add(new List<MappingItem>());
+			}
+			if (index != currCollectionIndex)
+			{
+				List<MappingItem> temp = new List<MappingItem>();
+				temp.AddRange(treeViewMapping.Nodes.Cast<MappingItem>().ToList());
+				treeViewMapping.Nodes.Clear();
+				treeViewMapping.Nodes.AddRange(reserveCollections[index].Cast<MappingItem>().ToArray());
+				reserveCollections[currCollectionIndex] = temp;
+				currCollectionIndex = index;
+			}
+		}
+		private int compareMappingItems(MappingItem x, MappingItem y)
+		{
+			int result = 0;
+
+			if (x == null)
+			{
+				if (y == null)
+				{
+					result = 0;
+				}
+				else
+				{
+					result = -1;
+				}
+			}
+			else
+			{
+				if (y == null)
+				{
+					result = 1;
+				}
+				else
+				{
+					int xCompVal = (x.groupID < 0) ? int.MaxValue : x.groupID;
+					int yCompVal = (y.groupID < 0) ? int.MaxValue : y.groupID;
+					result = xCompVal.CompareTo(yCompVal);
+					if (result == 0)
+					{
+						result = x.Text.CompareTo(y.Text);
+					}
+				}
+			}
+
+			return result;
+		}
+		private bool moveSelectedTreeNodeToTree(int index)
+		{
+			bool result = false;
+			if (index >= reserveCollections.Count)
+			{
+				index = reserveCollections.Count;
+				reserveCollections.Add(new List<MappingItem>());
+			}
+			if (index != currCollectionIndex)
+			{
+				MappingItem selected = treeViewMapping.SelectedNode as MappingItem;
+				treeViewMapping.Nodes.Remove(selected);
+				reserveCollections[index].Add(selected);
+				reserveCollections[index].Sort(compareMappingItems);	
+			}
+			return result;
+		}
+		private void generateGroupContextMenuItems()
+		{
+			contextMenuStripGroup.Items.Clear();
+			for (int i = 0; i < tabControl1.TabCount; i++)
+			{
+				if (i != tabControl1.SelectedIndex)
+				{
+					System.Windows.Forms.ToolStripMenuItem temp = new System.Windows.Forms.ToolStripMenuItem("Move to \'" + tabControl1.TabPages[i].Text + "\'", null, moveToToolStripMenuItem_Click);
+					temp.Tag = i;
+					contextMenuStripGroup.Items.Add(temp);
+				}
+			}
 		}
 
 		private void Form1_Load( object sender, EventArgs e )
@@ -90,6 +177,9 @@ namespace BrawlSoundConverter
 
 			comboBoxSearchMode.DropDownStyle = ComboBoxStyle.DropDownList;
 			comboBoxSearchMode.SelectedIndex = 0;
+			reserveCollections.Add(new List<MappingItem>());
+			toolStripMenuItemBRWSDExport.Text = toolsToolStripMenuItem.Text;
+			generateGroupContextMenuItems();
 		}
 
 		private void setInsertButtonState()
@@ -1186,6 +1276,17 @@ namespace BrawlSoundConverter
 				selectedBeforePause = treeViewMapping.SelectedNode;
 				treeViewMapping.SelectedNode = null;
 			}
+		}
+
+		private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
+		{
+			swapLoadedCollection(tabControl1.SelectedIndex);
+			generateGroupContextMenuItems();
+		}
+
+		private void moveToToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			moveSelectedTreeNodeToTree((int)((System.Windows.Forms.ToolStripMenuItem)sender).Tag);
 		}
 	}
 }

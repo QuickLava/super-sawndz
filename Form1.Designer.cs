@@ -80,13 +80,20 @@
 			this.buttonExpand = new System.Windows.Forms.Button();
 			this.label7 = new System.Windows.Forms.Label();
 			this.buttonFindBack = new System.Windows.Forms.Button();
-			this.audioPlaybackBRSARSound = new BrawlLib.Internal.Windows.Controls.AudioPlaybackPanel();
-			this.audioPlaybackPanelWav = new BrawlLib.Internal.Windows.Controls.AudioPlaybackPanel();
 			this.label8 = new System.Windows.Forms.Label();
 			this.textBoxInfoIndex = new System.Windows.Forms.TextBox();
+			this.tabControl1 = new System.Windows.Forms.TabControl();
+			this.tabPage1 = new System.Windows.Forms.TabPage();
+			this.tabPage2 = new System.Windows.Forms.TabPage();
+			this.contextMenuStripGroup = new System.Windows.Forms.ContextMenuStrip(this.components);
+			this.moveToToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.audioPlaybackBRSARSound = new BrawlLib.Internal.Windows.Controls.AudioPlaybackPanel();
+			this.audioPlaybackPanelWav = new BrawlLib.Internal.Windows.Controls.AudioPlaybackPanel();
 			this.contextMenuStripWAV.SuspendLayout();
 			this.contextMenuStripCollection.SuspendLayout();
 			this.menuStrip1.SuspendLayout();
+			this.tabControl1.SuspendLayout();
+			this.contextMenuStripGroup.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// textBoxOutput
@@ -111,10 +118,10 @@
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.treeViewMapping.FullRowSelect = true;
 			this.treeViewMapping.HideSelection = false;
-			this.treeViewMapping.Location = new System.Drawing.Point(933, 80);
+			this.treeViewMapping.Location = new System.Drawing.Point(938, 105);
 			this.treeViewMapping.Margin = new System.Windows.Forms.Padding(4);
 			this.treeViewMapping.Name = "treeViewMapping";
-			this.treeViewMapping.Size = new System.Drawing.Size(629, 584);
+			this.treeViewMapping.Size = new System.Drawing.Size(629, 535);
 			this.treeViewMapping.TabIndex = 3;
 			this.treeViewMapping.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeViewMapping_AfterSelect);
 			this.treeViewMapping.KeyDown += new System.Windows.Forms.KeyEventHandler(this.treeViewMapping_KeyDown);
@@ -373,19 +380,19 @@
             this.toolStripMenuItemBRWSDExport,
             this.toolStripMenuItemBRWSDReplace});
 			this.contextMenuStripCollection.Name = "contextMenuStripCollection";
-			this.contextMenuStripCollection.Size = new System.Drawing.Size(211, 80);
+			this.contextMenuStripCollection.Size = new System.Drawing.Size(173, 52);
 			// 
 			// toolStripMenuItemBRWSDExport
 			// 
 			this.toolStripMenuItemBRWSDExport.Name = "toolStripMenuItemBRWSDExport";
-			this.toolStripMenuItemBRWSDExport.Size = new System.Drawing.Size(210, 24);
+			this.toolStripMenuItemBRWSDExport.Size = new System.Drawing.Size(172, 24);
 			this.toolStripMenuItemBRWSDExport.Text = "Export as...";
 			this.toolStripMenuItemBRWSDExport.Click += new System.EventHandler(this.toolStripMenuItemBRWSDExport_Click);
 			// 
 			// toolStripMenuItemBRWSDReplace
 			// 
 			this.toolStripMenuItemBRWSDReplace.Name = "toolStripMenuItemBRWSDReplace";
-			this.toolStripMenuItemBRWSDReplace.Size = new System.Drawing.Size(210, 24);
+			this.toolStripMenuItemBRWSDReplace.Size = new System.Drawing.Size(172, 24);
 			this.toolStripMenuItemBRWSDReplace.Text = "Replace with...";
 			this.toolStripMenuItemBRWSDReplace.Click += new System.EventHandler(this.toolStripMenuItemBRWSDReplace_Click);
 			// 
@@ -610,6 +617,73 @@
 			this.buttonFindBack.UseVisualStyleBackColor = true;
 			this.buttonFindBack.Click += new System.EventHandler(this.buttonFindBack_Click);
 			// 
+			// label8
+			// 
+			this.label8.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.label8.Location = new System.Drawing.Point(670, 114);
+			this.label8.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+			this.label8.Name = "label8";
+			this.label8.Size = new System.Drawing.Size(90, 17);
+			this.label8.TabIndex = 38;
+			this.label8.Text = "Info Index";
+			this.label8.TextAlign = System.Drawing.ContentAlignment.TopRight;
+			// 
+			// textBoxInfoIndex
+			// 
+			this.textBoxInfoIndex.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.textBoxInfoIndex.Location = new System.Drawing.Point(771, 110);
+			this.textBoxInfoIndex.Margin = new System.Windows.Forms.Padding(4);
+			this.textBoxInfoIndex.Name = "textBoxInfoIndex";
+			this.textBoxInfoIndex.Size = new System.Drawing.Size(132, 22);
+			this.textBoxInfoIndex.TabIndex = 37;
+			// 
+			// tabControl1
+			// 
+			this.tabControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.tabControl1.Controls.Add(this.tabPage1);
+			this.tabControl1.Controls.Add(this.tabPage2);
+			this.tabControl1.Location = new System.Drawing.Point(938, 80);
+			this.tabControl1.Name = "tabControl1";
+			this.tabControl1.SelectedIndex = 0;
+			this.tabControl1.Size = new System.Drawing.Size(629, 26);
+			this.tabControl1.TabIndex = 39;
+			this.tabControl1.SelectedIndexChanged += new System.EventHandler(this.tabControl1_SelectedIndexChanged);
+			// 
+			// tabPage1
+			// 
+			this.tabPage1.Location = new System.Drawing.Point(4, 25);
+			this.tabPage1.Name = "tabPage1";
+			this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
+			this.tabPage1.Size = new System.Drawing.Size(621, 0);
+			this.tabPage1.TabIndex = 0;
+			this.tabPage1.Text = "tabPage1";
+			this.tabPage1.UseVisualStyleBackColor = true;
+			// 
+			// tabPage2
+			// 
+			this.tabPage2.Location = new System.Drawing.Point(4, 25);
+			this.tabPage2.Name = "tabPage2";
+			this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
+			this.tabPage2.Size = new System.Drawing.Size(621, 0);
+			this.tabPage2.TabIndex = 1;
+			this.tabPage2.Text = "tabPage2";
+			this.tabPage2.UseVisualStyleBackColor = true;
+			// 
+			// contextMenuStripGroup
+			// 
+			this.contextMenuStripGroup.ImageScalingSize = new System.Drawing.Size(20, 20);
+			this.contextMenuStripGroup.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.moveToToolStripMenuItem});
+			this.contextMenuStripGroup.Name = "contextMenuStripGroup";
+			this.contextMenuStripGroup.Size = new System.Drawing.Size(143, 28);
+			// 
+			// moveToToolStripMenuItem
+			// 
+			this.moveToToolStripMenuItem.Name = "moveToToolStripMenuItem";
+			this.moveToToolStripMenuItem.Size = new System.Drawing.Size(142, 24);
+			this.moveToToolStripMenuItem.Text = "Move to...";
+			this.moveToToolStripMenuItem.Click += new System.EventHandler(this.moveToToolStripMenuItem_Click);
+			// 
 			// audioPlaybackBRSARSound
 			// 
 			this.audioPlaybackBRSARSound.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
@@ -631,32 +705,13 @@
 			this.audioPlaybackPanelWav.TabIndex = 14;
 			this.audioPlaybackPanelWav.TargetStreams = null;
 			// 
-			// label8
-			// 
-			this.label8.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.label8.Location = new System.Drawing.Point(670, 114);
-			this.label8.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-			this.label8.Name = "label8";
-			this.label8.Size = new System.Drawing.Size(90, 17);
-			this.label8.TabIndex = 38;
-			this.label8.Text = "Info Index";
-			this.label8.TextAlign = System.Drawing.ContentAlignment.TopRight;
-			// 
-			// textBoxInfoIndex
-			// 
-			this.textBoxInfoIndex.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.textBoxInfoIndex.Location = new System.Drawing.Point(771, 110);
-			this.textBoxInfoIndex.Margin = new System.Windows.Forms.Padding(4);
-			this.textBoxInfoIndex.Name = "textBoxInfoIndex";
-			this.textBoxInfoIndex.Size = new System.Drawing.Size(132, 22);
-			this.textBoxInfoIndex.TabIndex = 37;
-			// 
 			// Form1
 			// 
 			this.AllowDrop = true;
 			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(1580, 846);
+			this.Controls.Add(this.tabControl1);
 			this.Controls.Add(this.label8);
 			this.Controls.Add(this.textBoxInfoIndex);
 			this.Controls.Add(this.buttonFindBack);
@@ -707,6 +762,8 @@
 			this.contextMenuStripCollection.ResumeLayout(false);
 			this.menuStrip1.ResumeLayout(false);
 			this.menuStrip1.PerformLayout();
+			this.tabControl1.ResumeLayout(false);
+			this.contextMenuStripGroup.ResumeLayout(false);
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -769,6 +826,11 @@
 		private System.Windows.Forms.Button buttonFindBack;
 		private System.Windows.Forms.Label label8;
 		private System.Windows.Forms.TextBox textBoxInfoIndex;
+		private System.Windows.Forms.TabControl tabControl1;
+		private System.Windows.Forms.TabPage tabPage1;
+		private System.Windows.Forms.TabPage tabPage2;
+		private System.Windows.Forms.ContextMenuStrip contextMenuStripGroup;
+		private System.Windows.Forms.ToolStripMenuItem moveToToolStripMenuItem;
 	}
 }
 
