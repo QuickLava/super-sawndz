@@ -1089,6 +1089,7 @@
       <DependentUpon>SoundPropertiesForm.cs</DependentUpon>
     </Compile>
     <Compile Include="StreamSource.cs" />
+    <Compile Include="TabConfiguration.cs" />
     <Compile Include="TextBoxWriter.cs" />
     <Compile Include="brsar.cs" />
     <Compile Include="Form1.cs">

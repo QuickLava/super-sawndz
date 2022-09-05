@@ -14,6 +14,8 @@ namespace BrawlSoundConverter
 	public partial class SettingsForm : Form
 	{
 		public bool defaultBrsarPathIsValid = true;
+		public bool saveTabSettings = false;
+
 		public SettingsForm()
 		{
 			InitializeComponent();
@@ -143,6 +145,11 @@ namespace BrawlSoundConverter
 		private void button1_Click(object sender, EventArgs e)
 		{
 			textBoxDefaultBrsar.Text = Path.GetFullPath(brsar.RSAR_FileName);
+		}
+
+		private void button1_Click_1(object sender, EventArgs e)
+		{
+			saveTabSettings = true;
 		}
 	}
 }
