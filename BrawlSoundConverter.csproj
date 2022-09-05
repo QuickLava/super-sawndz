@@ -1101,6 +1101,12 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="sawndz.cs" />
+    <Compile Include="TextInputForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TextInputForm.Designer.cs">
+      <DependentUpon>TextInputForm.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="BrawlLib\Internal\Windows\Controls\ASLIndicator.resx">
       <DependentUpon>ASLIndicator.cs</DependentUpon>
     </EmbeddedResource>
@@ -1213,6 +1219,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="SoundPropertiesForm.resx">
       <DependentUpon>SoundPropertiesForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TextInputForm.resx">
+      <DependentUpon>TextInputForm.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="app.config" />
     <None Include="BrawlLib\BrawlLib.txt" />

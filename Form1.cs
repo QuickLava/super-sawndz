@@ -26,6 +26,7 @@ namespace BrawlSoundConverter
 
 		List<List<MappingItem>> reserveCollections = new List<List<MappingItem>>();
 		int currCollectionIndex = 0;
+		int currRightClickedTab = -1;
 
 		//Fill out treeViewMapping with data from the brsar
 		private void loadTreeView()
@@ -70,8 +71,27 @@ namespace BrawlSoundConverter
 				temp.AddRange(treeViewMapping.Nodes.Cast<MappingItem>().ToList());
 				treeViewMapping.Nodes.Clear();
 				treeViewMapping.Nodes.AddRange(reserveCollections[index].Cast<MappingItem>().ToArray());
-				reserveCollections[currCollectionIndex] = temp;
+				if (currCollectionIndex < reserveCollections.Count)
+				{
+					reserveCollections[currCollectionIndex] = temp;
+				}
 				currCollectionIndex = index;
+			}
+		}
+		private void mergeCollectionIntoLowerNeighbor(int index)
+		{
+			if (index > 0 && index < reserveCollections.Count)
+			{
+				reserveCollections[index - 1].AddRange(reserveCollections[index]);
+				reserveCollections[index - 1].Sort(compareMappingItems);
+			}
+		}
+		private void closeCollection(int index)
+		{
+			if (index > 0 && index < reserveCollections.Count)
+			{
+				mergeCollectionIntoLowerNeighbor(index);
+				reserveCollections.RemoveAt(index);
 			}
 		}
 		private int compareMappingItems(MappingItem x, MappingItem y)
@@ -129,7 +149,7 @@ namespace BrawlSoundConverter
 		private void generateGroupContextMenuItems()
 		{
 			contextMenuStripGroup.Items.Clear();
-			for (int i = 0; i < tabControl1.TabCount; i++)
+			for (int i = 0; i < (tabControl1.TabCount - 1); i++)
 			{
 				if (i != tabControl1.SelectedIndex)
 				{
@@ -179,6 +199,7 @@ namespace BrawlSoundConverter
 			comboBoxSearchMode.SelectedIndex = 0;
 			reserveCollections.Add(new List<MappingItem>());
 			toolStripMenuItemBRWSDExport.Text = toolsToolStripMenuItem.Text;
+			tabControl1.TabPages[0].ContextMenuStrip = contextMenuStripTab;
 			generateGroupContextMenuItems();
 		}
 
@@ -1280,13 +1301,77 @@ namespace BrawlSoundConverter
 
 		private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
 		{
-			swapLoadedCollection(tabControl1.SelectedIndex);
-			generateGroupContextMenuItems();
+			if (tabControl1.SelectedIndex == (tabControl1.TabCount - 1))
+			{
+				tabControl1.TabPages.Insert(tabControl1.TabCount - 1, "Tab " + tabControl1.TabCount.ToString());
+				tabControl1.SelectedIndex = tabControl1.TabCount - 2;
+				tabControl1.TabPages[tabControl1.SelectedIndex].ContextMenuStrip = contextMenuStripTab;
+			}
+			else
+			{
+				swapLoadedCollection(tabControl1.SelectedIndex);
+				generateGroupContextMenuItems();
+			}
 		}
 
 		private void moveToToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			moveSelectedTreeNodeToTree((int)((System.Windows.Forms.ToolStripMenuItem)sender).Tag);
+		}
+
+		private void tabControl1_MouseDown(object sender, MouseEventArgs e)
+		{
+			if (e.Button == MouseButtons.Right)
+			{
+				int targetTab = -1;
+				for (int i = 0; i < tabControl1.TabCount - 1; i++)
+				{
+					if (tabControl1.GetTabRect(i).Contains(e.Location))
+					{
+						targetTab = i;
+						break;
+					}
+				}
+				if (targetTab != -1)
+				{
+					contextMenuStripTab.Items[1].Enabled = targetTab > 0;
+					tabControl1.TabPages[targetTab].ContextMenuStrip.Show(tabControl1.TabPages[targetTab], new Point(0, 0));
+					currRightClickedTab = targetTab;
+				}
+			}
+		}
+
+		private void closeTabToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			if (currRightClickedTab > 0 && currRightClickedTab < (tabControl1.TabCount - 1))
+			{
+				closeCollection(currRightClickedTab);
+				if (currRightClickedTab == currCollectionIndex)
+				{
+					tabControl1.SelectedIndex = currRightClickedTab - 1;
+				}
+				tabControl1.TabPages.Remove(tabControl1.TabPages[currRightClickedTab]);
+				generateGroupContextMenuItems();
+			}
+			currRightClickedTab = -1;
+		}
+
+		private void contextMenuStripTab_Closed(object sender, ToolStripDropDownClosedEventArgs e)
+		{
+			if (e.CloseReason != ToolStripDropDownCloseReason.ItemClicked)
+			{
+				currRightClickedTab = -1;
+			}
+		}
+
+		private void renameToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			TextInputForm testForm = new TextInputForm();
+			if (testForm.ShowDialog() == DialogResult.OK)
+			{
+				tabControl1.TabPages[currRightClickedTab].Text = testForm.textBox1.Text;
+				generateGroupContextMenuItems();
+			}
 		}
 	}
 }

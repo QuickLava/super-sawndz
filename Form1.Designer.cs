@@ -87,6 +87,9 @@
 			this.tabPage2 = new System.Windows.Forms.TabPage();
 			this.contextMenuStripGroup = new System.Windows.Forms.ContextMenuStrip(this.components);
 			this.moveToToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.contextMenuStripTab = new System.Windows.Forms.ContextMenuStrip(this.components);
+			this.renameToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.closeTabToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.audioPlaybackBRSARSound = new BrawlLib.Internal.Windows.Controls.AudioPlaybackPanel();
 			this.audioPlaybackPanelWav = new BrawlLib.Internal.Windows.Controls.AudioPlaybackPanel();
 			this.contextMenuStripWAV.SuspendLayout();
@@ -94,6 +97,7 @@
 			this.menuStrip1.SuspendLayout();
 			this.tabControl1.SuspendLayout();
 			this.contextMenuStripGroup.SuspendLayout();
+			this.contextMenuStripTab.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// textBoxOutput
@@ -648,6 +652,7 @@
 			this.tabControl1.Size = new System.Drawing.Size(629, 26);
 			this.tabControl1.TabIndex = 39;
 			this.tabControl1.SelectedIndexChanged += new System.EventHandler(this.tabControl1_SelectedIndexChanged);
+			this.tabControl1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.tabControl1_MouseDown);
 			// 
 			// tabPage1
 			// 
@@ -656,7 +661,7 @@
 			this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
 			this.tabPage1.Size = new System.Drawing.Size(621, 0);
 			this.tabPage1.TabIndex = 0;
-			this.tabPage1.Text = "tabPage1";
+			this.tabPage1.Text = "Tab 1";
 			this.tabPage1.UseVisualStyleBackColor = true;
 			// 
 			// tabPage2
@@ -666,7 +671,7 @@
 			this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
 			this.tabPage2.Size = new System.Drawing.Size(621, 0);
 			this.tabPage2.TabIndex = 1;
-			this.tabPage2.Text = "tabPage2";
+			this.tabPage2.Text = "Add Tab";
 			this.tabPage2.UseVisualStyleBackColor = true;
 			// 
 			// contextMenuStripGroup
@@ -683,6 +688,30 @@
 			this.moveToToolStripMenuItem.Size = new System.Drawing.Size(142, 24);
 			this.moveToToolStripMenuItem.Text = "Move to...";
 			this.moveToToolStripMenuItem.Click += new System.EventHandler(this.moveToToolStripMenuItem_Click);
+			// 
+			// contextMenuStripTab
+			// 
+			this.contextMenuStripTab.ImageScalingSize = new System.Drawing.Size(20, 20);
+			this.contextMenuStripTab.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.renameToolStripMenuItem,
+            this.closeTabToolStripMenuItem});
+			this.contextMenuStripTab.Name = "contextMenuStripTab";
+			this.contextMenuStripTab.Size = new System.Drawing.Size(211, 80);
+			this.contextMenuStripTab.Closed += new System.Windows.Forms.ToolStripDropDownClosedEventHandler(this.contextMenuStripTab_Closed);
+			// 
+			// renameToolStripMenuItem
+			// 
+			this.renameToolStripMenuItem.Name = "renameToolStripMenuItem";
+			this.renameToolStripMenuItem.Size = new System.Drawing.Size(210, 24);
+			this.renameToolStripMenuItem.Text = "Rename";
+			this.renameToolStripMenuItem.Click += new System.EventHandler(this.renameToolStripMenuItem_Click);
+			// 
+			// closeTabToolStripMenuItem
+			// 
+			this.closeTabToolStripMenuItem.Name = "closeTabToolStripMenuItem";
+			this.closeTabToolStripMenuItem.Size = new System.Drawing.Size(210, 24);
+			this.closeTabToolStripMenuItem.Text = "Close Tab";
+			this.closeTabToolStripMenuItem.Click += new System.EventHandler(this.closeTabToolStripMenuItem_Click);
 			// 
 			// audioPlaybackBRSARSound
 			// 
@@ -764,6 +793,7 @@
 			this.menuStrip1.PerformLayout();
 			this.tabControl1.ResumeLayout(false);
 			this.contextMenuStripGroup.ResumeLayout(false);
+			this.contextMenuStripTab.ResumeLayout(false);
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -831,6 +861,9 @@
 		private System.Windows.Forms.TabPage tabPage2;
 		private System.Windows.Forms.ContextMenuStrip contextMenuStripGroup;
 		private System.Windows.Forms.ToolStripMenuItem moveToToolStripMenuItem;
+		private System.Windows.Forms.ContextMenuStrip contextMenuStripTab;
+		private System.Windows.Forms.ToolStripMenuItem renameToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem closeTabToolStripMenuItem;
 	}
 }
 
