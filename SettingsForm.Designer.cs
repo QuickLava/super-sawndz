@@ -57,8 +57,10 @@ namespace BrawlSoundConverter
 			this.radioButtonStereoConvSometimes = new System.Windows.Forms.RadioButton();
 			this.label5 = new System.Windows.Forms.Label();
 			this.groupBox4 = new System.Windows.Forms.GroupBox();
-			this.button1 = new System.Windows.Forms.Button();
-			this.button2 = new System.Windows.Forms.Button();
+			this.buttonConfigLoad = new System.Windows.Forms.Button();
+			this.treeView2 = new System.Windows.Forms.TreeView();
+			this.label7 = new System.Windows.Forms.Label();
+			this.buttonConfigSave = new System.Windows.Forms.Button();
 			this.groupBoxNamingScheme.SuspendLayout();
 			this.groupBox1.SuspendLayout();
 			this.groupBox2.SuspendLayout();
@@ -155,7 +157,7 @@ namespace BrawlSoundConverter
 			// 
 			this.buttonCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.buttonCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-			this.buttonCancel.Location = new System.Drawing.Point(361, 451);
+			this.buttonCancel.Location = new System.Drawing.Point(361, 612);
 			this.buttonCancel.Margin = new System.Windows.Forms.Padding(4);
 			this.buttonCancel.Name = "buttonCancel";
 			this.buttonCancel.Size = new System.Drawing.Size(100, 28);
@@ -167,7 +169,7 @@ namespace BrawlSoundConverter
 			// 
 			this.buttonSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.buttonSave.DialogResult = System.Windows.Forms.DialogResult.OK;
-			this.buttonSave.Location = new System.Drawing.Point(253, 451);
+			this.buttonSave.Location = new System.Drawing.Point(253, 612);
 			this.buttonSave.Margin = new System.Windows.Forms.Padding(4);
 			this.buttonSave.Name = "buttonSave";
 			this.buttonSave.Size = new System.Drawing.Size(100, 28);
@@ -245,7 +247,7 @@ namespace BrawlSoundConverter
 			this.buttonBRSARPathUseCurrent.TabIndex = 38;
 			this.buttonBRSARPathUseCurrent.Text = "Use Current";
 			this.buttonBRSARPathUseCurrent.UseVisualStyleBackColor = true;
-			this.buttonBRSARPathUseCurrent.Click += new System.EventHandler(this.button1_Click);
+			this.buttonBRSARPathUseCurrent.Click += new System.EventHandler(this.buttonBRSARPathUseCurrent_Click);
 			// 
 			// label3
 			// 
@@ -339,7 +341,7 @@ namespace BrawlSoundConverter
 			// label5
 			// 
 			this.label5.AutoSize = true;
-			this.label5.Location = new System.Drawing.Point(10, 376);
+			this.label5.Location = new System.Drawing.Point(10, 367);
 			this.label5.Name = "label5";
 			this.label5.Size = new System.Drawing.Size(88, 17);
 			this.label5.TabIndex = 44;
@@ -347,32 +349,51 @@ namespace BrawlSoundConverter
 			// 
 			// groupBox4
 			// 
-			this.groupBox4.Controls.Add(this.button2);
-			this.groupBox4.Controls.Add(this.button1);
-			this.groupBox4.Location = new System.Drawing.Point(10, 386);
+			this.groupBox4.Controls.Add(this.buttonConfigLoad);
+			this.groupBox4.Controls.Add(this.treeView2);
+			this.groupBox4.Controls.Add(this.label7);
+			this.groupBox4.Controls.Add(this.buttonConfigSave);
+			this.groupBox4.Location = new System.Drawing.Point(10, 377);
 			this.groupBox4.Name = "groupBox4";
-			this.groupBox4.Size = new System.Drawing.Size(445, 51);
+			this.groupBox4.Size = new System.Drawing.Size(445, 223);
 			this.groupBox4.TabIndex = 43;
 			this.groupBox4.TabStop = false;
 			// 
-			// button1
+			// buttonConfigLoad
 			// 
-			this.button1.Location = new System.Drawing.Point(6, 10);
-			this.button1.Name = "button1";
-			this.button1.Size = new System.Drawing.Size(237, 35);
-			this.button1.TabIndex = 0;
-			this.button1.Text = "Save Current Tab Setup";
-			this.button1.UseVisualStyleBackColor = true;
-			this.button1.Click += new System.EventHandler(this.button1_Click_1);
+			this.buttonConfigLoad.Location = new System.Drawing.Point(226, 187);
+			this.buttonConfigLoad.Name = "buttonConfigLoad";
+			this.buttonConfigLoad.Size = new System.Drawing.Size(105, 28);
+			this.buttonConfigLoad.TabIndex = 6;
+			this.buttonConfigLoad.Text = "Load Config";
+			this.buttonConfigLoad.UseVisualStyleBackColor = true;
+			this.buttonConfigLoad.Click += new System.EventHandler(this.buttonConfigLoad_Click);
 			// 
-			// button2
+			// treeView2
 			// 
-			this.button2.Location = new System.Drawing.Point(249, 10);
-			this.button2.Name = "button2";
-			this.button2.Size = new System.Drawing.Size(190, 35);
-			this.button2.TabIndex = 1;
-			this.button2.Text = "Clear All Tab Settings";
-			this.button2.UseVisualStyleBackColor = true;
+			this.treeView2.Location = new System.Drawing.Point(6, 38);
+			this.treeView2.Name = "treeView2";
+			this.treeView2.Size = new System.Drawing.Size(431, 143);
+			this.treeView2.TabIndex = 4;
+			// 
+			// label7
+			// 
+			this.label7.AutoSize = true;
+			this.label7.Location = new System.Drawing.Point(6, 18);
+			this.label7.Name = "label7";
+			this.label7.Size = new System.Drawing.Size(139, 17);
+			this.label7.TabIndex = 3;
+			this.label7.Text = "Configuration Layout";
+			// 
+			// buttonConfigSave
+			// 
+			this.buttonConfigSave.Location = new System.Drawing.Point(337, 187);
+			this.buttonConfigSave.Name = "buttonConfigSave";
+			this.buttonConfigSave.Size = new System.Drawing.Size(105, 28);
+			this.buttonConfigSave.TabIndex = 0;
+			this.buttonConfigSave.Text = "Save Config";
+			this.buttonConfigSave.UseVisualStyleBackColor = true;
+			this.buttonConfigSave.Click += new System.EventHandler(this.buttonSaveConfig_Click);
 			// 
 			// SettingsForm
 			// 
@@ -380,7 +401,7 @@ namespace BrawlSoundConverter
 			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.CancelButton = this.buttonCancel;
-			this.ClientSize = new System.Drawing.Size(474, 492);
+			this.ClientSize = new System.Drawing.Size(474, 653);
 			this.Controls.Add(this.label5);
 			this.Controls.Add(this.groupBox4);
 			this.Controls.Add(this.label4);
@@ -412,6 +433,7 @@ namespace BrawlSoundConverter
 			this.groupBox3.ResumeLayout(false);
 			this.groupBox3.PerformLayout();
 			this.groupBox4.ResumeLayout(false);
+			this.groupBox4.PerformLayout();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -447,7 +469,9 @@ namespace BrawlSoundConverter
 		private System.Windows.Forms.RadioButton radioButtonStereoConvSometimes;
 		private System.Windows.Forms.Label label5;
 		private System.Windows.Forms.GroupBox groupBox4;
-		private System.Windows.Forms.Button button2;
-		private System.Windows.Forms.Button button1;
+		private System.Windows.Forms.Button buttonConfigSave;
+		private System.Windows.Forms.TreeView treeView2;
+		private System.Windows.Forms.Label label7;
+		private System.Windows.Forms.Button buttonConfigLoad;
 	}
 }

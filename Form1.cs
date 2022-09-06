@@ -45,10 +45,10 @@ namespace BrawlSoundConverter
 					tabControl1.TabPages.RemoveAt(1);
 				}
 
-				int tabSettingsIndex = TabConfiguration.getCurrentBRSARSettingsIndex(currRSAR);
-				if (tabSettingsIndex != -1)
+				int tabConfigIndex = TabConfiguration.getCurrentBRSARSettingsIndex(currRSAR);
+				if (tabConfigIndex >= 0 && tabConfigIndex < Properties.Settings.Default.TabSettings.Count)
 				{
-					currTabSettings = new TabConfiguration(Properties.Settings.Default.TabSettings[tabSettingsIndex]);
+					currTabSettings = new TabConfiguration(Properties.Settings.Default.TabSettings[tabConfigIndex]);
 				}
 				else
 				{
@@ -850,40 +850,35 @@ namespace BrawlSoundConverter
 
 		private string buildTabSettingsString()
 		{
+			string result = "";
+
 			BrawlLib.SSBB.ResourceNodes.RSARNode currRsar = brsar.GetRSAR();
-			string tabDataIDString = currRsar.FindChildrenByType("", BrawlLib.SSBB.ResourceNodes.ResourceType.RSARGroup).Length.ToString("X3") +
+			if (currRsar != null)
+			{
+				string tabDataIDString = currRsar.FindChildrenByType("", BrawlLib.SSBB.ResourceNodes.ResourceType.RSARGroup).Length.ToString("X3") +
 				"_" +
 				currRsar.Files.Count.ToString("X3");
-			string dataString = "";
-			for (int i = 1; i < tabControl1.TabPages.Count - 1; i++)
-			{
-				string entry = TabConfiguration.TabDelimiter + "\"" + tabControl1.TabPages[i].Text + "\"";
-				foreach (MappingItem groupInTab in reserveCollections[i])
+				string dataString = "";
+				for (int i = 1; i < tabControl1.TabPages.Count - 1; i++)
 				{
-					entry += TabConfiguration.GroupDelimiter + groupInTab.groupID.ToString("X3");
+					string entry = TabConfiguration.TabDelimiter + "\"" + tabControl1.TabPages[i].Text + "\"";
+					foreach (MappingItem groupInTab in reserveCollections[i])
+					{
+						entry += TabConfiguration.GroupDelimiter + groupInTab.groupID.ToString("X3");
+					}
+					dataString += entry;
 				}
-				dataString += entry;
+				result = tabDataIDString + dataString;
 			}
-			return tabDataIDString + dataString;
+			
+			return result;
 		}
 
 		private void ChangeSettingsToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			SettingsForm settings = new SettingsForm();
+			SettingsForm settings = new SettingsForm(buildTabSettingsString());
 			if (settings.ShowDialog() == DialogResult.OK)
 			{
-				if (settings.saveTabSettings)
-				{
-					int stringID = TabConfiguration.getCurrentBRSARSettingsIndex(brsar.GetRSAR());
-					if (stringID == -1)
-					{
-						Properties.Settings.Default.TabSettings.Add(buildTabSettingsString());
-					}
-					else
-					{
-						Properties.Settings.Default.TabSettings[stringID] = buildTabSettingsString();
-					}
-				}
 				Properties.Settings.Default.Save();
 				textBoxGroupID.Clear();
 				textBoxCollectionID.Clear();
@@ -1442,6 +1437,7 @@ namespace BrawlSoundConverter
 			else
 			{
 				setLoadedCollection(tabControl1.SelectedIndex);
+				generateGroupContextMenuItems();
 			}
 		}
 

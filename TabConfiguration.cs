@@ -10,13 +10,13 @@ namespace BrawlSoundConverter
 	{
 		public string tabName = "";
 		public List<int> includedGroupIDs = new List<int>();
-		public TabConfigurationTabEntry(string stringIn)
+		public TabConfigurationTabEntry(string stringIn, int maxGroups = int.MaxValue)
 		{
 			string[] minorSplit = stringIn.Split(TabConfiguration.GroupDelimiter);
-			if (minorSplit.Length >= 1)
+			if (minorSplit.Length >= 1 && (minorSplit.Length - 1) <= maxGroups)
 			{
 				tabName = minorSplit[0].Substring(1, minorSplit[0].Length - 2);
-				for (int i = 1; i < minorSplit.Length; i++)
+				for (int i = 1; i < minorSplit.Length && (includedGroupIDs.Count < maxGroups); i++)
 				{
 					includedGroupIDs.Add(Convert.ToInt32(minorSplit[i], 16));
 				}
@@ -26,26 +26,34 @@ namespace BrawlSoundConverter
 
 	public class TabConfiguration
 	{
+		public string configurationName = "";
 		public int brsarGroupCount = -1;
 		public int brsarFileCount = -1;
 
 		public static char TabDelimiter = '$';
 		public static char GroupDelimiter = '-';
+		public static string configFileExtension = ".tcfg";
 
 		public List<TabConfigurationTabEntry> tabEntries = new List<TabConfigurationTabEntry>();
 		public TabConfiguration(string stringIn)
 		{
 			string[] majorSplit = stringIn.Split('$');
-			if (majorSplit.Length >= 2)
+			if (majorSplit.Length >= 1)
 			{
 				string[] countSplit = majorSplit[0].Split('_');
-				if (countSplit.Length == 2)
+				if (countSplit.Length >= 2)
 				{
 					brsarGroupCount = Convert.ToInt32(countSplit[0], 16);
 					brsarFileCount = Convert.ToInt32(countSplit[1], 16);
+					int groupBudget = brsarGroupCount;
+					if (countSplit.Length >= 3)
+					{
+						configurationName = countSplit[2];
+					}
 					for (int i = 1; i < majorSplit.Length; i++)
 					{
-						tabEntries.Add(new TabConfigurationTabEntry(majorSplit[i]));
+						tabEntries.Add(new TabConfigurationTabEntry(majorSplit[i], groupBudget));
+						groupBudget -= tabEntries.Last().includedGroupIDs.Count;
 					}
 				}
 			}

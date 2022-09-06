@@ -14,11 +14,56 @@ namespace BrawlSoundConverter
 	public partial class SettingsForm : Form
 	{
 		public bool defaultBrsarPathIsValid = true;
-		public bool saveTabSettings = false;
 
-		public SettingsForm()
+		public TabConfiguration activeTabConfig = null;
+		public string activeTabConfigString = "";
+
+		private void populateTreeView()
+		{
+			treeView2.Nodes.Clear();
+			BrawlLib.SSBB.ResourceNodes.RSARNode currRSAR = brsar.GetRSAR();
+			if (currRSAR != null)
+			{
+				BrawlLib.SSBB.ResourceNodes.ResourceNode[] groups = currRSAR.FindChildrenByType("", BrawlLib.SSBB.ResourceNodes.ResourceType.RSARGroup);
+				int groupArrItr = 0;
+				foreach (TabConfigurationTabEntry tab in activeTabConfig.tabEntries)
+				{
+					TreeNode tabNode = new TreeNode("Tab: \"" + tab.tabName + "\", Containing ");
+					for (int i = 0; i < tab.includedGroupIDs.Count; i++)
+					{
+						BrawlLib.SSBB.ResourceNodes.RSARGroupNode currGroup = groups[groupArrItr] as BrawlLib.SSBB.ResourceNodes.RSARGroupNode;
+						if (currGroup.StringId > tab.includedGroupIDs[i])
+						{
+							break;
+						}
+						bool foundTargetGroup = false;
+						while (!foundTargetGroup && groupArrItr < groups.Length)
+						{
+							currGroup = groups[groupArrItr] as BrawlLib.SSBB.ResourceNodes.RSARGroupNode;
+							if (currGroup.StringId == tab.includedGroupIDs[i])
+							{
+								tabNode.Nodes.Add("[" + currGroup.StringId.ToString("X3") + "] " + currGroup._name);
+								foundTargetGroup = true;
+							}
+							groupArrItr++;
+						}
+						if (groupArrItr >= groups.Length)
+						{
+							break;
+						}
+					}
+					tabNode.Text += tabNode.Nodes.Count.ToString() + " Group(s)";
+					treeView2.Nodes.Add(tabNode);
+				}
+				treeView2.ExpandAll();
+			}
+		}
+
+		public SettingsForm(string activeTabConfigStringIn = "")
 		{
 			InitializeComponent();
+			activeTabConfigString = activeTabConfigStringIn;
+
 			textBoxDefaultBrsar.Text = Properties.Settings.Default.DefaultBrsarFilePath;
 			if (Properties.Settings.Default.EnableFullLengthNames)
 			{
@@ -75,6 +120,17 @@ namespace BrawlSoundConverter
 			{
 				buttonBRSARPathUseCurrent.Enabled = true;
 			}
+
+			if (!String.IsNullOrEmpty(activeTabConfigString))
+			{
+				activeTabConfig = new TabConfiguration(activeTabConfigString);
+				populateTreeView();
+			}
+			else
+			{
+				treeView2.Enabled = false;
+				buttonConfigSave.Enabled = false;
+			}
 		}
 
 		private void buttonBrowse_Click(object sender, EventArgs e)
@@ -125,6 +181,20 @@ namespace BrawlSoundConverter
 				Properties.Settings.Default.ConvertToMono = 0;
 			}
 
+			BrawlLib.SSBB.ResourceNodes.RSARNode currRSAR = brsar.GetRSAR();
+			if (currRSAR != null)
+			{
+				int tabSettingIndex = TabConfiguration.getCurrentBRSARSettingsIndex(currRSAR);
+				if (tabSettingIndex > -1 && tabSettingIndex < Properties.Settings.Default.TabSettings.Count)
+				{
+					Properties.Settings.Default.TabSettings[tabSettingIndex] = activeTabConfigString;
+				}
+				else
+				{
+					Properties.Settings.Default.TabSettings.Add(activeTabConfigString);
+				}
+			}
+
 			DialogResult = DialogResult.OK;
 			Close();
 		}
@@ -142,14 +212,79 @@ namespace BrawlSoundConverter
 			label1.Visible = !defaultBrsarPathIsValid;
 		}
 
-		private void button1_Click(object sender, EventArgs e)
+		private void buttonBRSARPathUseCurrent_Click(object sender, EventArgs e)
 		{
 			textBoxDefaultBrsar.Text = Path.GetFullPath(brsar.RSAR_FileName);
 		}
 
-		private void button1_Click_1(object sender, EventArgs e)
+		private void buttonSaveConfig_Click(object sender, EventArgs e)
 		{
-			saveTabSettings = true;
+			SaveFileDialog sfd = new SaveFileDialog();
+			if (!Directory.Exists("./Config/"))
+			{
+				Directory.CreateDirectory("./Config/");
+			}
+			sfd.InitialDirectory = Path.GetFullPath("./Config/");
+			sfd.Filter = "Tab COnfiguration File(*" + TabConfiguration.configFileExtension + ")|*" + TabConfiguration.configFileExtension;
+			if (sfd.ShowDialog() == DialogResult.OK)
+			{
+				StreamWriter temp = File.CreateText(sfd.FileName);
+				temp.WriteLine(activeTabConfigString);
+				temp.Close();
+			}
+		}
+
+		private void buttonConfigLoad_Click(object sender, EventArgs e)
+		{
+			OpenFileDialog ofd = new OpenFileDialog();
+			if (!Directory.Exists("./Config/"))
+			{
+				Directory.CreateDirectory("./Config/");
+			}
+			ofd.InitialDirectory = Path.GetFullPath("./Config/");
+			ofd.Filter = "Tab COnfiguration File(*" + TabConfiguration.configFileExtension + ")|*" + TabConfiguration.configFileExtension;
+			if (ofd.ShowDialog() == DialogResult.OK)
+			{
+				StreamReader temp = File.OpenText(ofd.FileName);
+				string line = temp.ReadLine();
+				bool success = false;
+				bool validForWrongBRSAR = false;
+				while (!success && line != null)
+				{
+					if (!line.StartsWith("/") && !line.StartsWith("\\") && !line.StartsWith("#"))
+					{
+						TabConfiguration testConfig = new TabConfiguration(line);
+						if (testConfig.brsarGroupCount == activeTabConfig.brsarGroupCount && testConfig.brsarFileCount == activeTabConfig.brsarFileCount)
+						{
+							activeTabConfig = testConfig;
+							activeTabConfigString = line;
+							populateTreeView();
+							line = null;
+							success = true;
+						}
+						else
+						{
+							validForWrongBRSAR = true;
+							line = temp.ReadLine();
+						}
+					}
+					else
+					{
+						line = temp.ReadLine();
+					}
+				}
+				if (!success)
+				{
+					if (validForWrongBRSAR)
+					{
+						MessageBox.Show("Unable to load provided tab configuration: File is valid, but isn't for this BRSAR!");
+					}
+					else
+					{
+						MessageBox.Show("Unable to load provided tab configuration: No valid configuration found!");
+					}
+				}
+			}
 		}
 	}
 }
