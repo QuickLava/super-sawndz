@@ -1103,9 +1103,6 @@ namespace BrawlSoundConverter
 					if (fileKind == ".brsar")
 					{
 						loadBRSAR(strings[0]);
-						brsar.CloseRSAR();
-						enableStuff();
-						loadTreeView();
 					}
 					else if (fileKind == ".sawnd")
 					{
