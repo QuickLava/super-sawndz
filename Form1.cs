@@ -1485,7 +1485,9 @@ namespace BrawlSoundConverter
 				{
 					contextMenuStripTab.Items[0].Enabled = targetTab > 0;
 					contextMenuStripTab.Items[1].Enabled = targetTab > 0;
-					tabControl1.TabPages[targetTab].ContextMenuStrip.Show(tabControl1.TabPages[targetTab], new Point(0, 0));
+					TabPage targetTabPage = tabControl1.TabPages[targetTab];
+					Point contextMenuSpawnOffset = new Point(tabControl1.GetTabRect(targetTab).Left, tabControl1.GetTabRect(targetTab).Top);
+					targetTabPage.ContextMenuStrip.Show(targetTabPage, contextMenuSpawnOffset);
 					currRightClickedTab = targetTab;
 				}
 			}
