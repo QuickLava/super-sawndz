@@ -428,6 +428,19 @@ namespace BrawlSoundConverter
 				audioPlaybackBRSARSound.Play();
 				e.SuppressKeyPress = true;
 			}
+			else if (e.KeyCode == Keys.W && (Control.ModifierKeys & Keys.Control) == Keys.Control)
+			{
+				if (tabControl1.SelectedIndex > 0)
+				{
+					closeTab(tabControl1.SelectedIndex);
+					e.SuppressKeyPress = true;
+				}
+			}
+			else if (e.KeyCode == Keys.T && (Control.ModifierKeys & Keys.Control) == Keys.Control)
+			{
+				createTab();
+				e.SuppressKeyPress = true;
+			}
 		}
 
 		//Called when the ... button is pressed to get the input file.
@@ -1430,14 +1443,18 @@ namespace BrawlSoundConverter
 			}
 		}
 
+		private void createTab()
+		{
+			tabControl1.TabPages.Insert(tabControl1.TabCount - 1, "Tab " + tabControl1.TabCount.ToString());
+			tabControl1.SelectedIndex = tabControl1.TabCount - 2;
+			tabControl1.TabPages[tabControl1.SelectedIndex].ContextMenuStrip = contextMenuStripTab;
+			generateGroupContextMenuItems();
+		}
 		private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
 		{
 			if (tabControl1.SelectedIndex == (tabControl1.TabCount - 1))
 			{
-				tabControl1.TabPages.Insert(tabControl1.TabCount - 1, "Tab " + tabControl1.TabCount.ToString());
-				tabControl1.SelectedIndex = tabControl1.TabCount - 2;
-				tabControl1.TabPages[tabControl1.SelectedIndex].ContextMenuStrip = contextMenuStripTab;
-				generateGroupContextMenuItems();
+				createTab();
 			}
 			else
 			{
@@ -1474,18 +1491,22 @@ namespace BrawlSoundConverter
 			}
 		}
 
-		private void closeTabToolStripMenuItem_Click(object sender, EventArgs e)
+		private void closeTab(int tabIndex)
 		{
-			if (currRightClickedTab > 0 && currRightClickedTab < (tabControl1.TabCount - 1))
+			if (tabIndex > 0 && tabIndex < (tabControl1.TabCount - 1))
 			{
-				closeCollection(currRightClickedTab);
-				if (currRightClickedTab == currCollectionIndex)
+				if (tabIndex == currCollectionIndex)
 				{
-					tabControl1.SelectedIndex = currRightClickedTab - 1;
+					tabControl1.SelectedIndex = tabIndex - 1;
 				}
-				tabControl1.TabPages.Remove(tabControl1.TabPages[currRightClickedTab]);
+				closeCollection(tabIndex);
+				tabControl1.TabPages.Remove(tabControl1.TabPages[tabIndex]);
 				generateGroupContextMenuItems();
 			}
+		}
+		private void closeTabToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			closeTab(currRightClickedTab);
 			currRightClickedTab = -1;
 		}
 
@@ -1508,6 +1529,23 @@ namespace BrawlSoundConverter
 					tabControl1.TabPages[currRightClickedTab].Text = testForm.textBox1.Text;
 					generateGroupContextMenuItems();
 				}
+			}
+		}
+
+		private void tabControl1_KeyDown(object sender, KeyEventArgs e)
+		{
+			if (e.KeyCode == Keys.W && (Control.ModifierKeys & Keys.Control) == Keys.Control)
+			{
+				if (tabControl1.SelectedIndex > 0 && tabControl1.SelectedIndex < (tabControl1.TabCount - 1))
+				{
+					closeTab(tabControl1.SelectedIndex);
+					e.SuppressKeyPress = true;
+				}
+			}
+			if (e.KeyCode == Keys.T && (Control.ModifierKeys & Keys.Control) == Keys.Control)
+			{
+				createTab();
+				e.SuppressKeyPress = true;
 			}
 		}
 	}
