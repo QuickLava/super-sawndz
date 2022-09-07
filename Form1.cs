@@ -1236,7 +1236,12 @@ namespace BrawlSoundConverter
 				{
 					foreach (MappingItem match in entry.Value)
 					{
-						if (treeViewMapping.Nodes.Contains(match))
+						MappingItem matchGroupEval = match;
+						while (matchGroupEval.Parent != null)
+						{
+							matchGroupEval = matchGroupEval.Parent as MappingItem;
+						}
+						if (treeViewMapping.Nodes.Contains(matchGroupEval))
 						{
 							currSearchResults.Add(new KeyValuePair<string, MappingItem>(entry.Key, match));
 						}
