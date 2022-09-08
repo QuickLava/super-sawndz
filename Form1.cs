@@ -1106,7 +1106,7 @@ namespace BrawlSoundConverter
 					}
 					else if (fileKind == ".sawnd")
 					{
-						if (buttonInsert.Enabled)
+						if (brsar.GetRSAR() != null)
 						{
 							if (Sawndz.createSAWNDToImportList("toImport.txt", strings))
 							{
