@@ -11,83 +11,101 @@ namespace BrawlSoundConverter
 	public class Sawndz
 	{
 		public static Process p;
-		static void runWithArgs( string args )
+		public static string VGAudioExePath = "VGAudio/VGAudioCli.exe";
+		public static string lavaResawndzExePath = "lavaResawndz.exe";
+		static bool runWithArgs( string args )
 		{
-			try
+			bool result = false;
+			if (!File.Exists(Path.GetFullPath(lavaResawndzExePath)))
 			{
-				p = new Process();
-				p.StartInfo.UseShellExecute = false;
-				p.StartInfo.CreateNoWindow = true;
-				p.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
-				p.StartInfo.RedirectStandardOutput = true;
-				p.StartInfo.RedirectStandardError = true;
-				p.EnableRaisingEvents = true;
-				p.StartInfo.FileName = "lavaResawndz.exe";
-				p.StartInfo.Arguments = args;
-				p.Start();
-				while( ( !p.HasExited || !p.StandardOutput.EndOfStream ) )
+				Console.WriteLine("[ERROR] Unable to launch lavaResawndz!");
+				Console.WriteLine("Couldn't locate executable (should be at \"" + Path.GetFullPath(lavaResawndzExePath) + "\")");
+			}
+			else
+			{
+				try
 				{
+					p = new Process();
+					p.StartInfo.UseShellExecute = false;
+					p.StartInfo.CreateNoWindow = true;
+					p.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
+					p.StartInfo.RedirectStandardOutput = true;
+					p.StartInfo.RedirectStandardError = true;
+					p.EnableRaisingEvents = true;
+					p.StartInfo.FileName = Path.GetFullPath(lavaResawndzExePath);
+					p.StartInfo.Arguments = args;
+					p.Start();
+					while ((!p.HasExited || !p.StandardOutput.EndOfStream))
+					{
 
-					char[] buffer = new char[ 1 ];
-					int count = p.StandardOutput.Read( buffer, 0, 1 );
-					Console.Write( buffer );
+						char[] buffer = new char[1];
+						int count = p.StandardOutput.Read(buffer, 0, 1);
+						Console.Write(buffer);
+					}
+					if (!p.HasExited)
+						p.WaitForExit();
+					result = true;
 				}
-				if( !p.HasExited )
-					p.WaitForExit();
-				return;
-			}
-			catch( Exception e )
-			{
-				Console.WriteLine( e.ToString());
-				//If the process is still running kill it
-				if( p != null && !p.HasExited )
+				catch (Exception e)
 				{
-					p.Kill();
-					p = null;
+					Console.WriteLine(e.ToString());
+					//If the process is still running kill it
+					if (p != null && !p.HasExited)
+					{
+						p.Kill();
+						p = null;
+					}
 				}
 			}
+			return result;
 		}
-		static void runVGAudio(string args)
+		static bool runVGAudio(string args)
 		{
-			try
+			bool result = false;
+			if (!File.Exists(Path.GetFullPath(VGAudioExePath)))
 			{
-				p = new Process();
-				p.StartInfo.UseShellExecute = false;
-				p.StartInfo.CreateNoWindow = true;
-				p.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
-				p.StartInfo.RedirectStandardOutput = true;
-				p.StartInfo.RedirectStandardError = true;
-				p.EnableRaisingEvents = true;
-				p.StartInfo.FileName = "VGAudio/VGAudioCli.exe";
-				p.StartInfo.Arguments = args;
-				p.Start();
-				while ((!p.HasExited || !p.StandardOutput.EndOfStream))
+				Console.WriteLine("[ERROR] Unable to launch VGAudio!");
+				Console.WriteLine("Couldn't find VGAudio executable (should be at \"" + Path.GetFullPath(VGAudioExePath) + "\") ");
+			}
+			else
+			{
+				try
 				{
+					p = new Process();
+					p.StartInfo.UseShellExecute = false;
+					p.StartInfo.CreateNoWindow = true;
+					p.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
+					p.StartInfo.RedirectStandardOutput = true;
+					p.StartInfo.RedirectStandardError = true;
+					p.EnableRaisingEvents = true;
+					p.StartInfo.FileName = Path.GetFullPath(VGAudioExePath);
+					p.StartInfo.Arguments = args;
+					p.Start();
+					while ((!p.HasExited || !p.StandardOutput.EndOfStream))
+					{
 
-					char[] buffer = new char[1];
-					int count = p.StandardOutput.Read(buffer, 0, 1);
-					Console.Write(buffer);
+						char[] buffer = new char[1];
+						int count = p.StandardOutput.Read(buffer, 0, 1);
+						Console.Write(buffer);
+					}
+					if (!p.HasExited)
+						p.WaitForExit();
+					result = true;
 				}
-				if (!p.HasExited)
-					p.WaitForExit();
-				return;
-			}
-			catch (Exception e)
-			{
-				Console.WriteLine(e.ToString());
-				//If the process is still running kill it
-				if (p != null && !p.HasExited)
+				catch (Exception e)
 				{
-					p.Kill();
-					p = null;
+					Console.WriteLine(e.ToString());
+					//If the process is still running kill it
+					if (p != null && !p.HasExited)
+					{
+						p.Kill();
+						p = null;
+					}
 				}
 			}
+			return result;
 		}
-		public static void insert(int groupID, int collID, int wavID, int frequency, bool loop, string WAV_fileName)
-		{
-			runWithArgs("insert " + groupID + " " + collID + " "
-				+ wavID + " " + frequency + " " + (loop ? "1": "0") + " \"" + brsar.RSAR_FileName + "\" \"" + WAV_fileName + "\"");
-		}
+
 		public static void createSawnd( int groupID , string fileName)
 		{
 			runWithArgs( "sawndcreate " + groupID +" \"" + brsar.RSAR_FileName + "\"" );
@@ -396,25 +414,6 @@ namespace BrawlSoundConverter
 			{
 				Console.WriteLine(e.ToString());
 			}
-		}
-
-		public static void emptySpace( int offset, int numberOfBytes )
-		{
-			runWithArgs("emptyspace " + offset + " " + numberOfBytes);
-		}
-		public static void removeSpace( int offset, int numberOfBytes )
-		{
-			runWithArgs( "removespace " + offset + " " + numberOfBytes );
-		}
-		public static void baseInsert( int groupID, int collID, int wavID, int frequency, bool loop, int baseWavID )
-		{
-			runWithArgs( "baseinsert " + groupID + " " + collID + " "
-				+ wavID + " " + frequency + " " + ( loop ? "1" : "0" ) + " " + baseWavID);
-		}
-		public static void hex(int groupID, string fileName)
-		{
-			File.Copy( fileName, "hex.hex" );
-			runWithArgs("hex " + groupID );
 		}
 
 		public static string getDefaultWAVEName(int groupID, int collID, int wavID)
