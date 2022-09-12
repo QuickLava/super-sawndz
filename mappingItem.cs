@@ -80,7 +80,6 @@ namespace BrawlSoundConverter
 				}
 			}
 			MappingItem p = this;
-			brsar.CloseRSAR();
 			this.TreeView.Invalidate();
 		}
 		public override string ToString()

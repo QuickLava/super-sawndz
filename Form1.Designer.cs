@@ -125,7 +125,7 @@
 			this.treeViewMapping.Location = new System.Drawing.Point(938, 105);
 			this.treeViewMapping.Margin = new System.Windows.Forms.Padding(4);
 			this.treeViewMapping.Name = "treeViewMapping";
-			this.treeViewMapping.Size = new System.Drawing.Size(629, 535);
+			this.treeViewMapping.Size = new System.Drawing.Size(629, 550);
 			this.treeViewMapping.TabIndex = 3;
 			this.treeViewMapping.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeViewMapping_AfterSelect);
 			this.treeViewMapping.KeyDown += new System.Windows.Forms.KeyEventHandler(this.treeViewMapping_KeyDown);
@@ -502,6 +502,7 @@
 			// comboBoxSearchMode
 			// 
 			this.comboBoxSearchMode.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.comboBoxSearchMode.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.comboBoxSearchMode.FormattingEnabled = true;
 			this.comboBoxSearchMode.Items.AddRange(new object[] {
             "Contains",

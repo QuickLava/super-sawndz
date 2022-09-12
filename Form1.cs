@@ -100,6 +100,10 @@ namespace BrawlSoundConverter
 		{
 			bool result = false;
 
+			if (String.IsNullOrEmpty(pathIn))
+			{
+				pathIn = brsar.RSAR_FileName;
+			}
 			if (File.Exists(pathIn))
 			{
 				textBoxOutput.Clear();
@@ -291,8 +295,7 @@ namespace BrawlSoundConverter
 			try
 			{
 				//If it doesn't exist this will throw an exception
-				brsar.GetRSAR();
-				loadTreeView();
+				loadBRSAR("");
 				enableStuff();
 			}
 			catch( Exception ex )
@@ -309,9 +312,7 @@ namespace BrawlSoundConverter
 			audioPlaybackBRSARSound.TargetSource = null;
 			audioPlaybackBRSARSound.VolumePercent = 0.66;
 
-			comboBoxSearchMode.DropDownStyle = ComboBoxStyle.DropDownList;
 			comboBoxSearchMode.SelectedIndex = 0;
-			toolStripMenuItemBRWSDExport.Text = toolsToolStripMenuItem.Text;
 
 			tabControl1.TabPages[0].ContextMenuStrip = contextMenuStripTab;
 		}
@@ -600,7 +601,6 @@ namespace BrawlSoundConverter
 			treeViewMapping.Enabled = false;
 			audioPlaybackPanelWav.Enabled = false;
 			audioPlaybackBRSARSound.Enabled = false;
-			brsar.CloseRSAR();
 		}
 		//Enable stuff again
 		private void enableStuff()
@@ -1111,6 +1111,7 @@ namespace BrawlSoundConverter
 							if (Sawndz.createSAWNDToImportList("toImport.txt", strings))
 							{
 								backgroundWorkerMultiInsertSawnd.RunWorkerAsync();
+								loadBRSAR("");
 								enableStuff();
 							}
 							else
