@@ -97,6 +97,7 @@ namespace BrawlSoundConverter
 		}
 		public static void insertSawnd(string fileName)
 		{
+			brsar.CloseRSAR();
 			if (!File.Exists(fileName))
 			{
 				Console.WriteLine("Specified file doesn't exist!\n");
@@ -108,6 +109,7 @@ namespace BrawlSoundConverter
 		{
 			if (File.Exists("toImport.txt"))
 			{
+				brsar.CloseRSAR();
 				runWithArgs("multisawndinsert \"toImport.txt\" \"" + brsar.RSAR_FileName + "\"");
 				File.Delete("toImport.txt");
 			}
