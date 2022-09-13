@@ -1521,38 +1521,53 @@ namespace BrawlSoundConverter
 
 		private void Form1_KeyDown(object sender, KeyEventArgs e)
 		{
-			if (e.KeyCode == Keys.W && (Control.ModifierKeys & Keys.Control) == Keys.Control)
+			if ((Control.ModifierKeys & Keys.Control) == Keys.Control)
 			{
-				if (tabControl1.SelectedIndex > 0 && tabControl1.SelectedIndex < (tabControl1.TabCount - 1))
+				if (e.KeyCode == Keys.W)
 				{
-					closeTab(tabControl1.SelectedIndex);
+					if (tabControl1.SelectedIndex > 0 && tabControl1.SelectedIndex < (tabControl1.TabCount - 1))
+					{
+						closeTab(tabControl1.SelectedIndex);
+						treeViewMapping.Select();
+						e.SuppressKeyPress = true;
+					}
+				}
+				else if (e.KeyCode == Keys.T)
+				{
+					createTab();
 					treeViewMapping.Select();
 					e.SuppressKeyPress = true;
 				}
-			}
-			else if (e.KeyCode == Keys.T && (Control.ModifierKeys & Keys.Control) == Keys.Control)
-			{
-				createTab();
-				treeViewMapping.Select();
-				e.SuppressKeyPress = true;
-			}
-			else if (e.KeyCode == Keys.Left && (Control.ModifierKeys & Keys.Control) == Keys.Control)
-			{
-				if (tabControl1.SelectedIndex > 0)
+				else if (e.KeyCode == Keys.Left)
 				{
-					tabControl1.SelectedIndex--;
-					treeViewMapping.Select();
+					if (tabControl1.SelectedIndex > 0)
+					{
+						tabControl1.SelectedIndex--;
+						treeViewMapping.Select();
+					}
+					e.SuppressKeyPress = true;
 				}
-				e.SuppressKeyPress = true;
-			}
-			else if (e.KeyCode == Keys.Right && (Control.ModifierKeys & Keys.Control) == Keys.Control)
-			{
-				if (tabControl1.SelectedIndex < (tabControl1.TabCount - 2))
+				else if (e.KeyCode == Keys.Right)
 				{
-					tabControl1.SelectedIndex++;
-					treeViewMapping.Select();
+					if (tabControl1.SelectedIndex < (tabControl1.TabCount - 2))
+					{
+						tabControl1.SelectedIndex++;
+						treeViewMapping.Select();
+					}
+					e.SuppressKeyPress = true;
 				}
-				e.SuppressKeyPress = true;
+				else if (e.KeyCode == Keys.Up)
+				{
+					tabControl1.SelectedIndex = 0;
+					treeViewMapping.Select();
+					e.SuppressKeyPress = true;
+				}
+				else if (e.KeyCode == Keys.Down)
+				{
+					tabControl1.SelectedIndex = tabControl1.TabCount - 2;
+					treeViewMapping.Select();
+					e.SuppressKeyPress = true;
+				}
 			}
 		}
 	}
