@@ -1523,7 +1523,12 @@ namespace BrawlSoundConverter
 		{
 			if ((Control.ModifierKeys & Keys.Control) == Keys.Control)
 			{
-				if (e.KeyCode == Keys.W)
+				if (e.KeyCode == Keys.F)
+				{
+					textBoxSearchBar.Select();
+					textBoxSearchBar.SelectAll();
+				}
+				else if (e.KeyCode == Keys.W)
 				{
 					if (tabControl1.SelectedIndex > 0 && tabControl1.SelectedIndex < (tabControl1.TabCount - 1))
 					{
