@@ -429,19 +429,6 @@ namespace BrawlSoundConverter
 				audioPlaybackBRSARSound.Play();
 				e.SuppressKeyPress = true;
 			}
-			else if (e.KeyCode == Keys.W && (Control.ModifierKeys & Keys.Control) == Keys.Control)
-			{
-				if (tabControl1.SelectedIndex > 0)
-				{
-					closeTab(tabControl1.SelectedIndex);
-					e.SuppressKeyPress = true;
-				}
-			}
-			else if (e.KeyCode == Keys.T && (Control.ModifierKeys & Keys.Control) == Keys.Control)
-			{
-				createTab();
-				e.SuppressKeyPress = true;
-			}
 		}
 
 		//Called when the ... button is pressed to get the input file.
@@ -1532,19 +1519,39 @@ namespace BrawlSoundConverter
 			}
 		}
 
-		private void tabControl1_KeyDown(object sender, KeyEventArgs e)
+		private void Form1_KeyDown(object sender, KeyEventArgs e)
 		{
 			if (e.KeyCode == Keys.W && (Control.ModifierKeys & Keys.Control) == Keys.Control)
 			{
 				if (tabControl1.SelectedIndex > 0 && tabControl1.SelectedIndex < (tabControl1.TabCount - 1))
 				{
 					closeTab(tabControl1.SelectedIndex);
+					treeViewMapping.Select();
 					e.SuppressKeyPress = true;
 				}
 			}
-			if (e.KeyCode == Keys.T && (Control.ModifierKeys & Keys.Control) == Keys.Control)
+			else if (e.KeyCode == Keys.T && (Control.ModifierKeys & Keys.Control) == Keys.Control)
 			{
 				createTab();
+				treeViewMapping.Select();
+				e.SuppressKeyPress = true;
+			}
+			else if (e.KeyCode == Keys.Left && (Control.ModifierKeys & Keys.Control) == Keys.Control)
+			{
+				if (tabControl1.SelectedIndex > 0)
+				{
+					tabControl1.SelectedIndex--;
+					treeViewMapping.Select();
+				}
+				e.SuppressKeyPress = true;
+			}
+			else if (e.KeyCode == Keys.Right && (Control.ModifierKeys & Keys.Control) == Keys.Control)
+			{
+				if (tabControl1.SelectedIndex < (tabControl1.TabCount - 2))
+				{
+					tabControl1.SelectedIndex++;
+					treeViewMapping.Select();
+				}
 				e.SuppressKeyPress = true;
 			}
 		}
