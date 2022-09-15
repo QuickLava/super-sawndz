@@ -30,8 +30,24 @@ namespace BrawlSoundConverter
 		int currCollectionIndex = 0;
 		int currRightClickedTab = -1;
 
-		//Fill out treeViewMapping with data from the brsar
-		private void applyRelevantTabSettings()
+		private void getCurrTabSettingsFromSettings()
+		{
+			int tabConfigIndex = TabConfiguration.getCurrentBRSARSettingsIndex(brsar.GetRSAR());
+			if (tabConfigIndex >= 0 && tabConfigIndex < Properties.Settings.Default.TabSettings.Count)
+			{
+				currTabSettings = new TabConfiguration(Properties.Settings.Default.TabSettings[tabConfigIndex]);
+			}
+			else
+			{
+				currTabSettings = new TabConfiguration(buildTabSettingsString());
+			}
+		}
+		private void updateCurrTabSettings()
+		{
+			currTabSettings = new TabConfiguration(buildTabSettingsString());
+		}
+
+		private void applyRelevantTabSettings(bool reloadTabSettings = false)
 		{
 			BrawlLib.SSBB.ResourceNodes.RSARNode currRSAR = brsar.GetRSAR();
 			if (currRSAR != null)
@@ -45,14 +61,9 @@ namespace BrawlSoundConverter
 					tabControl1.TabPages.RemoveAt(1);
 				}
 
-				int tabConfigIndex = TabConfiguration.getCurrentBRSARSettingsIndex(currRSAR);
-				if (tabConfigIndex >= 0 && tabConfigIndex < Properties.Settings.Default.TabSettings.Count)
+				if (reloadTabSettings)
 				{
-					currTabSettings = new TabConfiguration(Properties.Settings.Default.TabSettings[tabConfigIndex]);
-				}
-				else
-				{
-					currTabSettings = new TabConfiguration(buildTabSettingsString());
+					getCurrTabSettingsFromSettings();
 				}
 
 				// For each tab in the loaded config...
@@ -104,6 +115,10 @@ namespace BrawlSoundConverter
 			{
 				pathIn = brsar.RSAR_FileName;
 			}
+			else
+			{
+				currTabSettings = null;
+			}
 			if (File.Exists(pathIn))
 			{
 				textBoxOutput.Clear();
@@ -123,6 +138,7 @@ namespace BrawlSoundConverter
 			return result;
 		}
 
+		//Fill out treeViewMapping with data from the brsar
 		private void loadTreeView()
 		{
 			try
@@ -143,7 +159,7 @@ namespace BrawlSoundConverter
 						}
 					}
 				}
-				applyRelevantTabSettings();
+				applyRelevantTabSettings(currTabSettings == null);
 				treeViewMapping.Invalidate();
 			}
 			catch ( Exception ex )
@@ -883,6 +899,7 @@ namespace BrawlSoundConverter
 				textBoxGroupID.Clear();
 				textBoxCollectionID.Clear();
 				textBoxWavID.Clear();
+				currTabSettings = null;
 				currSearchResults = null;
 				loadTreeView();
 			}
@@ -1434,6 +1451,7 @@ namespace BrawlSoundConverter
 			tabControl1.SelectedIndex = tabControl1.TabCount - 2;
 			tabControl1.TabPages[tabControl1.SelectedIndex].ContextMenuStrip = contextMenuStripTab;
 			generateGroupContextMenuItems();
+			updateCurrTabSettings();
 		}
 		private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
 		{
@@ -1451,6 +1469,7 @@ namespace BrawlSoundConverter
 		private void moveToToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			moveSelectedTreeNodeToTree((int)((System.Windows.Forms.ToolStripMenuItem)sender).Tag);
+			updateCurrTabSettings();
 		}
 
 		private void tabControl1_MouseDown(object sender, MouseEventArgs e)
@@ -1489,6 +1508,7 @@ namespace BrawlSoundConverter
 				closeCollection(tabIndex);
 				tabControl1.TabPages.Remove(tabControl1.TabPages[tabIndex]);
 				generateGroupContextMenuItems();
+				updateCurrTabSettings();
 			}
 		}
 		private void closeTabToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1516,6 +1536,7 @@ namespace BrawlSoundConverter
 					tabControl1.TabPages[currRightClickedTab].Text = testForm.textBox1.Text;
 					generateGroupContextMenuItems();
 				}
+				updateCurrTabSettings();
 			}
 		}
 
