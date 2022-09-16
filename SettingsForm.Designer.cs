@@ -74,7 +74,7 @@ namespace BrawlSoundConverter
 			this.groupBoxNamingScheme.Controls.Add(this.radioButtonNameDefault);
 			this.groupBoxNamingScheme.Controls.Add(this.radioButtonNamePP);
 			this.groupBoxNamingScheme.Controls.Add(this.radioButtonNamePM);
-			this.groupBoxNamingScheme.Location = new System.Drawing.Point(10, 163);
+			this.groupBoxNamingScheme.Location = new System.Drawing.Point(10, 161);
 			this.groupBoxNamingScheme.Name = "groupBoxNamingScheme";
 			this.groupBoxNamingScheme.Size = new System.Drawing.Size(445, 51);
 			this.groupBoxNamingScheme.TabIndex = 27;
@@ -124,7 +124,7 @@ namespace BrawlSoundConverter
 			// buttonBrowse
 			// 
 			this.buttonBrowse.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.buttonBrowse.Location = new System.Drawing.Point(422, 29);
+			this.buttonBrowse.Location = new System.Drawing.Point(423, 29);
 			this.buttonBrowse.Margin = new System.Windows.Forms.Padding(4);
 			this.buttonBrowse.Name = "buttonBrowse";
 			this.buttonBrowse.Size = new System.Drawing.Size(33, 24);
@@ -137,10 +137,10 @@ namespace BrawlSoundConverter
 			// 
 			this.textBoxDefaultBrsar.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-			this.textBoxDefaultBrsar.Location = new System.Drawing.Point(12, 30);
+			this.textBoxDefaultBrsar.Location = new System.Drawing.Point(10, 30);
 			this.textBoxDefaultBrsar.Margin = new System.Windows.Forms.Padding(4);
 			this.textBoxDefaultBrsar.Name = "textBoxDefaultBrsar";
-			this.textBoxDefaultBrsar.Size = new System.Drawing.Size(405, 22);
+			this.textBoxDefaultBrsar.Size = new System.Drawing.Size(408, 22);
 			this.textBoxDefaultBrsar.TabIndex = 31;
 			this.textBoxDefaultBrsar.TextChanged += new System.EventHandler(this.textBoxDefaultBrsar_TextChanged);
 			// 
@@ -157,7 +157,7 @@ namespace BrawlSoundConverter
 			// 
 			this.buttonCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.buttonCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-			this.buttonCancel.Location = new System.Drawing.Point(361, 612);
+			this.buttonCancel.Location = new System.Drawing.Point(356, 603);
 			this.buttonCancel.Margin = new System.Windows.Forms.Padding(4);
 			this.buttonCancel.Name = "buttonCancel";
 			this.buttonCancel.Size = new System.Drawing.Size(100, 28);
@@ -169,7 +169,7 @@ namespace BrawlSoundConverter
 			// 
 			this.buttonSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.buttonSave.DialogResult = System.Windows.Forms.DialogResult.OK;
-			this.buttonSave.Location = new System.Drawing.Point(253, 612);
+			this.buttonSave.Location = new System.Drawing.Point(248, 603);
 			this.buttonSave.Margin = new System.Windows.Forms.Padding(4);
 			this.buttonSave.Name = "buttonSave";
 			this.buttonSave.Size = new System.Drawing.Size(100, 28);
@@ -181,7 +181,7 @@ namespace BrawlSoundConverter
 			// labelDefaultNameScheme
 			// 
 			this.labelDefaultNameScheme.AutoSize = true;
-			this.labelDefaultNameScheme.Location = new System.Drawing.Point(10, 153);
+			this.labelDefaultNameScheme.Location = new System.Drawing.Point(10, 151);
 			this.labelDefaultNameScheme.Name = "labelDefaultNameScheme";
 			this.labelDefaultNameScheme.Size = new System.Drawing.Size(206, 17);
 			this.labelDefaultNameScheme.TabIndex = 34;
@@ -203,7 +203,7 @@ namespace BrawlSoundConverter
 			// 
 			this.groupBox1.Controls.Add(this.radioButtonGroupDirEnable);
 			this.groupBox1.Controls.Add(this.radioButtonGroupDirDisable);
-			this.groupBox1.Location = new System.Drawing.Point(10, 234);
+			this.groupBox1.Location = new System.Drawing.Point(10, 227);
 			this.groupBox1.Name = "groupBox1";
 			this.groupBox1.Size = new System.Drawing.Size(445, 51);
 			this.groupBox1.TabIndex = 28;
@@ -232,7 +232,7 @@ namespace BrawlSoundConverter
 			// label2
 			// 
 			this.label2.AutoSize = true;
-			this.label2.Location = new System.Drawing.Point(10, 224);
+			this.label2.Location = new System.Drawing.Point(10, 217);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(352, 17);
 			this.label2.TabIndex = 37;
@@ -241,7 +241,7 @@ namespace BrawlSoundConverter
 			// buttonBRSARPathUseCurrent
 			// 
 			this.buttonBRSARPathUseCurrent.Enabled = false;
-			this.buttonBRSARPathUseCurrent.Location = new System.Drawing.Point(365, 56);
+			this.buttonBRSARPathUseCurrent.Location = new System.Drawing.Point(364, 56);
 			this.buttonBRSARPathUseCurrent.Name = "buttonBRSARPathUseCurrent";
 			this.buttonBRSARPathUseCurrent.Size = new System.Drawing.Size(92, 24);
 			this.buttonBRSARPathUseCurrent.TabIndex = 38;
@@ -291,7 +291,7 @@ namespace BrawlSoundConverter
 			// label4
 			// 
 			this.label4.AutoSize = true;
-			this.label4.Location = new System.Drawing.Point(10, 298);
+			this.label4.Location = new System.Drawing.Point(10, 283);
 			this.label4.Name = "label4";
 			this.label4.Size = new System.Drawing.Size(243, 17);
 			this.label4.TabIndex = 42;
@@ -302,7 +302,7 @@ namespace BrawlSoundConverter
 			this.groupBox3.Controls.Add(this.radioButtonStereoConvNever);
 			this.groupBox3.Controls.Add(this.radioButtonStereoConvAlways);
 			this.groupBox3.Controls.Add(this.radioButtonStereoConvSometimes);
-			this.groupBox3.Location = new System.Drawing.Point(10, 308);
+			this.groupBox3.Location = new System.Drawing.Point(10, 293);
 			this.groupBox3.Name = "groupBox3";
 			this.groupBox3.Size = new System.Drawing.Size(445, 51);
 			this.groupBox3.TabIndex = 41;
@@ -341,7 +341,7 @@ namespace BrawlSoundConverter
 			// label5
 			// 
 			this.label5.AutoSize = true;
-			this.label5.Location = new System.Drawing.Point(10, 367);
+			this.label5.Location = new System.Drawing.Point(10, 349);
 			this.label5.Name = "label5";
 			this.label5.Size = new System.Drawing.Size(88, 17);
 			this.label5.TabIndex = 44;
@@ -353,7 +353,7 @@ namespace BrawlSoundConverter
 			this.groupBox4.Controls.Add(this.treeView2);
 			this.groupBox4.Controls.Add(this.label7);
 			this.groupBox4.Controls.Add(this.buttonConfigSave);
-			this.groupBox4.Location = new System.Drawing.Point(10, 377);
+			this.groupBox4.Location = new System.Drawing.Point(10, 359);
 			this.groupBox4.Name = "groupBox4";
 			this.groupBox4.Size = new System.Drawing.Size(445, 223);
 			this.groupBox4.TabIndex = 43;
@@ -401,7 +401,7 @@ namespace BrawlSoundConverter
 			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.CancelButton = this.buttonCancel;
-			this.ClientSize = new System.Drawing.Size(474, 653);
+			this.ClientSize = new System.Drawing.Size(469, 644);
 			this.Controls.Add(this.label5);
 			this.Controls.Add(this.groupBox4);
 			this.Controls.Add(this.label4);
