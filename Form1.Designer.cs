@@ -92,6 +92,7 @@
 			this.closeTabToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.audioPlaybackBRSARSound = new BrawlLib.Internal.Windows.Controls.AudioPlaybackPanel();
 			this.audioPlaybackPanelWav = new BrawlLib.Internal.Windows.Controls.AudioPlaybackPanel();
+			this.buttonRearrangeTabs = new System.Windows.Forms.Button();
 			this.contextMenuStripWAV.SuspendLayout();
 			this.contextMenuStripCollection.SuspendLayout();
 			this.menuStrip1.SuspendLayout();
@@ -410,7 +411,7 @@
 			this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.openBRSARToolStripMenuItem});
 			this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-			this.fileToolStripMenuItem.Size = new System.Drawing.Size(46, 24);
+			this.fileToolStripMenuItem.Size = new System.Drawing.Size(46, 26);
 			this.fileToolStripMenuItem.Text = "File";
 			// 
 			// openBRSARToolStripMenuItem
@@ -463,7 +464,7 @@
             this.toolStripMenuItemHelp});
 			this.menuStrip1.Location = new System.Drawing.Point(0, 0);
 			this.menuStrip1.Name = "menuStrip1";
-			this.menuStrip1.Size = new System.Drawing.Size(167, 28);
+			this.menuStrip1.Size = new System.Drawing.Size(167, 30);
 			this.menuStrip1.TabIndex = 16;
 			this.menuStrip1.Text = "menuStrip1";
 			// 
@@ -651,7 +652,7 @@
 			this.tabControl1.Location = new System.Drawing.Point(938, 80);
 			this.tabControl1.Name = "tabControl1";
 			this.tabControl1.SelectedIndex = 0;
-			this.tabControl1.Size = new System.Drawing.Size(629, 26);
+			this.tabControl1.Size = new System.Drawing.Size(600, 26);
 			this.tabControl1.TabIndex = 39;
 			this.tabControl1.SelectedIndexChanged += new System.EventHandler(this.tabControl1_SelectedIndexChanged);
 			this.tabControl1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.tabControl1_MouseDown);
@@ -661,7 +662,7 @@
 			this.tabPage1.Location = new System.Drawing.Point(4, 25);
 			this.tabPage1.Name = "tabPage1";
 			this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage1.Size = new System.Drawing.Size(621, 0);
+			this.tabPage1.Size = new System.Drawing.Size(592, 0);
 			this.tabPage1.TabIndex = 0;
 			this.tabPage1.Text = "Tab 1";
 			this.tabPage1.UseVisualStyleBackColor = true;
@@ -736,12 +737,25 @@
 			this.audioPlaybackPanelWav.TabIndex = 14;
 			this.audioPlaybackPanelWav.TargetStreams = null;
 			// 
+			// buttonRearrangeTabs
+			// 
+			this.buttonRearrangeTabs.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.buttonRearrangeTabs.Location = new System.Drawing.Point(1542, 78);
+			this.buttonRearrangeTabs.Name = "buttonRearrangeTabs";
+			this.buttonRearrangeTabs.Size = new System.Drawing.Size(26, 26);
+			this.buttonRearrangeTabs.TabIndex = 40;
+			this.buttonRearrangeTabs.Text = "⏣";
+			this.buttonRearrangeTabs.UseVisualStyleBackColor = true;
+			this.buttonRearrangeTabs.Click += new System.EventHandler(this.buttonRearrangeTabs_Click);
+			// 
 			// Form1
 			// 
 			this.AllowDrop = true;
 			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(1580, 846);
+			this.Controls.Add(this.treeViewMapping);
+			this.Controls.Add(this.buttonRearrangeTabs);
 			this.Controls.Add(this.tabControl1);
 			this.Controls.Add(this.label8);
 			this.Controls.Add(this.textBoxInfoIndex);
@@ -776,7 +790,6 @@
 			this.Controls.Add(this.textBoxWavID);
 			this.Controls.Add(this.textBoxCollectionID);
 			this.Controls.Add(this.textBoxGroupID);
-			this.Controls.Add(this.treeViewMapping);
 			this.Controls.Add(this.textBoxOutput);
 			this.Controls.Add(this.menuStrip1);
 			this.KeyPreview = true;
@@ -868,6 +881,7 @@
 		private System.Windows.Forms.ContextMenuStrip contextMenuStripTab;
 		private System.Windows.Forms.ToolStripMenuItem renameToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem closeTabToolStripMenuItem;
+		private System.Windows.Forms.Button buttonRearrangeTabs;
 	}
 }
 

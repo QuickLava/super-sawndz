@@ -1070,6 +1070,12 @@
     <Compile Include="multiSawndExportForm.Designer.cs">
       <DependentUpon>multiSawndExportForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="RearrangeTabsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="RearrangeTabsForm.Designer.cs">
+      <DependentUpon>RearrangeTabsForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="SettingsForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -1212,6 +1218,9 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="RearrangeTabsForm.resx">
+      <DependentUpon>RearrangeTabsForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="SettingsForm.resx">
       <DependentUpon>SettingsForm.cs</DependentUpon>
     </EmbeddedResource>

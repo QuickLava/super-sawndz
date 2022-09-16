@@ -597,6 +597,7 @@ namespace BrawlSoundConverter
 			buttonFindBack.Enabled = false;
 			buttonExpand.Enabled = false;
 			buttonCollapse.Enabled = false;
+			buttonRearrangeTabs.Enabled = false;
 			checkBoxSearchCase.Enabled = false;
 			checkBoxSearchGroups.Enabled = false;
 			checkBoxSearchSounds.Enabled = false;
@@ -626,6 +627,7 @@ namespace BrawlSoundConverter
 			buttonFindBack.Enabled = true;
 			buttonExpand.Enabled = true;
 			buttonCollapse.Enabled = true;
+			buttonRearrangeTabs.Enabled = tabControl1.TabCount > 3;
 			checkBoxSearchCase.Enabled = true;
 			checkBoxSearchGroups.Enabled = true;
 			checkBoxSearchSounds.Enabled = true;
@@ -1452,6 +1454,7 @@ namespace BrawlSoundConverter
 			tabControl1.TabPages[tabControl1.SelectedIndex].ContextMenuStrip = contextMenuStripTab;
 			generateGroupContextMenuItems();
 			updateCurrTabSettings();
+			buttonRearrangeTabs.Enabled = tabControl1.TabCount > 3;
 		}
 		private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
 		{
@@ -1510,6 +1513,7 @@ namespace BrawlSoundConverter
 				generateGroupContextMenuItems();
 				updateCurrTabSettings();
 			}
+			buttonRearrangeTabs.Enabled = tabControl1.TabCount > 3;
 		}
 		private void closeTabToolStripMenuItem_Click(object sender, EventArgs e)
 		{
@@ -1593,6 +1597,19 @@ namespace BrawlSoundConverter
 					tabControl1.SelectedIndex = tabControl1.TabCount - 2;
 					treeViewMapping.Select();
 					e.SuppressKeyPress = true;
+				}
+			}
+		}
+
+		private void buttonRearrangeTabs_Click(object sender, EventArgs e)
+		{
+			if (currTabSettings != null)
+			{
+				RearrangeTabsForm rtf = new RearrangeTabsForm(currTabSettings);
+				if (rtf.ShowDialog() == DialogResult.OK)
+				{
+					currTabSettings = rtf.loadedTabs;
+					loadTreeView();
 				}
 			}
 		}
