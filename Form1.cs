@@ -1564,7 +1564,7 @@ namespace BrawlSoundConverter
 					treeViewMapping.Select();
 					e.SuppressKeyPress = true;
 				}
-				else if (e.KeyCode == Keys.Left)
+				else if (e.KeyCode == Keys.Left || ((Control.ModifierKeys & Keys.Shift) == Keys.Shift && e.KeyCode == Keys.Tab))
 				{
 					if (tabControl1.SelectedIndex > 0)
 					{
@@ -1573,7 +1573,7 @@ namespace BrawlSoundConverter
 					}
 					e.SuppressKeyPress = true;
 				}
-				else if (e.KeyCode == Keys.Right)
+				else if (e.KeyCode == Keys.Right || e.KeyCode == Keys.Tab)
 				{
 					if (tabControl1.SelectedIndex < (tabControl1.TabCount - 2))
 					{
