@@ -123,7 +123,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.treeViewMapping.FullRowSelect = true;
 			this.treeViewMapping.HideSelection = false;
-			this.treeViewMapping.Location = new System.Drawing.Point(938, 105);
+			this.treeViewMapping.Location = new System.Drawing.Point(930, 105);
 			this.treeViewMapping.Margin = new System.Windows.Forms.Padding(4);
 			this.treeViewMapping.Name = "treeViewMapping";
 			this.treeViewMapping.Size = new System.Drawing.Size(629, 550);
@@ -411,7 +411,7 @@
 			this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.openBRSARToolStripMenuItem});
 			this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-			this.fileToolStripMenuItem.Size = new System.Drawing.Size(46, 26);
+			this.fileToolStripMenuItem.Size = new System.Drawing.Size(46, 24);
 			this.fileToolStripMenuItem.Text = "File";
 			// 
 			// openBRSARToolStripMenuItem
@@ -427,7 +427,7 @@
 			this.toolsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.ChangeSettingsToolStripMenuItem});
 			this.toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
-			this.toolsToolStripMenuItem.Size = new System.Drawing.Size(58, 26);
+			this.toolsToolStripMenuItem.Size = new System.Drawing.Size(58, 24);
 			this.toolsToolStripMenuItem.Text = "Tools";
 			// 
 			// ChangeSettingsToolStripMenuItem
@@ -442,7 +442,7 @@
 			this.toolStripMenuItemHelp.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.aboutToolStripMenuItem1});
 			this.toolStripMenuItemHelp.Name = "toolStripMenuItemHelp";
-			this.toolStripMenuItemHelp.Size = new System.Drawing.Size(55, 26);
+			this.toolStripMenuItemHelp.Size = new System.Drawing.Size(55, 24);
 			this.toolStripMenuItemHelp.Text = "Help";
 			// 
 			// aboutToolStripMenuItem1
@@ -464,7 +464,7 @@
             this.toolStripMenuItemHelp});
 			this.menuStrip1.Location = new System.Drawing.Point(0, 0);
 			this.menuStrip1.Name = "menuStrip1";
-			this.menuStrip1.Size = new System.Drawing.Size(167, 30);
+			this.menuStrip1.Size = new System.Drawing.Size(167, 28);
 			this.menuStrip1.TabIndex = 16;
 			this.menuStrip1.Text = "menuStrip1";
 			// 
@@ -472,7 +472,7 @@
 			// 
 			this.label5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.label5.AutoSize = true;
-			this.label5.Location = new System.Drawing.Point(933, 20);
+			this.label5.Location = new System.Drawing.Point(930, 20);
 			this.label5.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
 			this.label5.Name = "label5";
 			this.label5.Size = new System.Drawing.Size(53, 17);
@@ -482,7 +482,7 @@
 			// textBoxSearchBar
 			// 
 			this.textBoxSearchBar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.textBoxSearchBar.Location = new System.Drawing.Point(994, 16);
+			this.textBoxSearchBar.Location = new System.Drawing.Point(991, 16);
 			this.textBoxSearchBar.Margin = new System.Windows.Forms.Padding(4);
 			this.textBoxSearchBar.Name = "textBoxSearchBar";
 			this.textBoxSearchBar.Size = new System.Drawing.Size(370, 22);
@@ -494,7 +494,7 @@
 			// 
 			this.label6.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.label6.AutoSize = true;
-			this.label6.Location = new System.Drawing.Point(1387, 52);
+			this.label6.Location = new System.Drawing.Point(1384, 52);
 			this.label6.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
 			this.label6.Name = "label6";
 			this.label6.Size = new System.Drawing.Size(47, 17);
@@ -511,7 +511,7 @@
             "Starts With",
             "Ends With",
             "RegEx"});
-			this.comboBoxSearchMode.Location = new System.Drawing.Point(1441, 48);
+			this.comboBoxSearchMode.Location = new System.Drawing.Point(1438, 48);
 			this.comboBoxSearchMode.Name = "comboBoxSearchMode";
 			this.comboBoxSearchMode.Size = new System.Drawing.Size(121, 24);
 			this.comboBoxSearchMode.TabIndex = 27;
@@ -523,7 +523,7 @@
 			this.checkBoxSearchGroups.AutoSize = true;
 			this.checkBoxSearchGroups.Checked = true;
 			this.checkBoxSearchGroups.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.checkBoxSearchGroups.Location = new System.Drawing.Point(933, 51);
+			this.checkBoxSearchGroups.Location = new System.Drawing.Point(930, 51);
 			this.checkBoxSearchGroups.Name = "checkBoxSearchGroups";
 			this.checkBoxSearchGroups.Size = new System.Drawing.Size(126, 21);
 			this.checkBoxSearchGroups.TabIndex = 28;
@@ -537,7 +537,7 @@
 			this.checkBoxSearchSounds.AutoSize = true;
 			this.checkBoxSearchSounds.Checked = true;
 			this.checkBoxSearchSounds.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.checkBoxSearchSounds.Location = new System.Drawing.Point(1065, 51);
+			this.checkBoxSearchSounds.Location = new System.Drawing.Point(1062, 51);
 			this.checkBoxSearchSounds.Name = "checkBoxSearchSounds";
 			this.checkBoxSearchSounds.Size = new System.Drawing.Size(127, 21);
 			this.checkBoxSearchSounds.TabIndex = 29;
@@ -551,7 +551,7 @@
 			this.checkBoxSearchCase.AutoSize = true;
 			this.checkBoxSearchCase.Checked = true;
 			this.checkBoxSearchCase.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.checkBoxSearchCase.Location = new System.Drawing.Point(1198, 51);
+			this.checkBoxSearchCase.Location = new System.Drawing.Point(1195, 51);
 			this.checkBoxSearchCase.Name = "checkBoxSearchCase";
 			this.checkBoxSearchCase.Size = new System.Drawing.Size(177, 21);
 			this.checkBoxSearchCase.TabIndex = 30;
@@ -562,7 +562,7 @@
 			// buttonFind
 			// 
 			this.buttonFind.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.buttonFind.Location = new System.Drawing.Point(1392, 13);
+			this.buttonFind.Location = new System.Drawing.Point(1389, 13);
 			this.buttonFind.Name = "buttonFind";
 			this.buttonFind.Size = new System.Drawing.Size(75, 28);
 			this.buttonFind.TabIndex = 31;
@@ -573,7 +573,7 @@
 			// buttonFindAll
 			// 
 			this.buttonFindAll.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.buttonFindAll.Location = new System.Drawing.Point(1472, 13);
+			this.buttonFindAll.Location = new System.Drawing.Point(1469, 13);
 			this.buttonFindAll.Name = "buttonFindAll";
 			this.buttonFindAll.Size = new System.Drawing.Size(91, 28);
 			this.buttonFindAll.TabIndex = 32;
@@ -584,7 +584,7 @@
 			// buttonCollapse
 			// 
 			this.buttonCollapse.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.buttonCollapse.Location = new System.Drawing.Point(1472, 672);
+			this.buttonCollapse.Location = new System.Drawing.Point(1469, 672);
 			this.buttonCollapse.Name = "buttonCollapse";
 			this.buttonCollapse.Size = new System.Drawing.Size(91, 28);
 			this.buttonCollapse.TabIndex = 34;
@@ -595,7 +595,7 @@
 			// buttonExpand
 			// 
 			this.buttonExpand.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.buttonExpand.Location = new System.Drawing.Point(1376, 672);
+			this.buttonExpand.Location = new System.Drawing.Point(1373, 672);
 			this.buttonExpand.Name = "buttonExpand";
 			this.buttonExpand.Size = new System.Drawing.Size(91, 28);
 			this.buttonExpand.TabIndex = 33;
@@ -607,7 +607,7 @@
 			// 
 			this.label7.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.label7.AutoSize = true;
-			this.label7.Location = new System.Drawing.Point(933, 681);
+			this.label7.Location = new System.Drawing.Point(925, 681);
 			this.label7.Name = "label7";
 			this.label7.Size = new System.Drawing.Size(61, 17);
 			this.label7.TabIndex = 35;
@@ -616,7 +616,7 @@
 			// buttonFindBack
 			// 
 			this.buttonFindBack.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.buttonFindBack.Location = new System.Drawing.Point(1370, 13);
+			this.buttonFindBack.Location = new System.Drawing.Point(1367, 13);
 			this.buttonFindBack.Name = "buttonFindBack";
 			this.buttonFindBack.Size = new System.Drawing.Size(23, 28);
 			this.buttonFindBack.TabIndex = 36;
@@ -649,7 +649,7 @@
 			this.tabControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.tabControl1.Controls.Add(this.tabPage1);
 			this.tabControl1.Controls.Add(this.tabPage2);
-			this.tabControl1.Location = new System.Drawing.Point(938, 80);
+			this.tabControl1.Location = new System.Drawing.Point(930, 80);
 			this.tabControl1.Name = "tabControl1";
 			this.tabControl1.SelectedIndex = 0;
 			this.tabControl1.Size = new System.Drawing.Size(600, 26);
@@ -672,7 +672,7 @@
 			this.tabPage2.Location = new System.Drawing.Point(4, 25);
 			this.tabPage2.Name = "tabPage2";
 			this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage2.Size = new System.Drawing.Size(621, 0);
+			this.tabPage2.Size = new System.Drawing.Size(592, 0);
 			this.tabPage2.TabIndex = 1;
 			this.tabPage2.Text = "Add Tab";
 			this.tabPage2.UseVisualStyleBackColor = true;
@@ -719,7 +719,7 @@
 			// audioPlaybackBRSARSound
 			// 
 			this.audioPlaybackBRSARSound.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.audioPlaybackBRSARSound.Location = new System.Drawing.Point(924, 705);
+			this.audioPlaybackBRSARSound.Location = new System.Drawing.Point(916, 705);
 			this.audioPlaybackBRSARSound.Margin = new System.Windows.Forms.Padding(4);
 			this.audioPlaybackBRSARSound.Name = "audioPlaybackBRSARSound";
 			this.audioPlaybackBRSARSound.Size = new System.Drawing.Size(640, 133);
@@ -740,7 +740,7 @@
 			// buttonRearrangeTabs
 			// 
 			this.buttonRearrangeTabs.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.buttonRearrangeTabs.Location = new System.Drawing.Point(1542, 78);
+			this.buttonRearrangeTabs.Location = new System.Drawing.Point(1534, 78);
 			this.buttonRearrangeTabs.Name = "buttonRearrangeTabs";
 			this.buttonRearrangeTabs.Size = new System.Drawing.Size(26, 26);
 			this.buttonRearrangeTabs.TabIndex = 40;
