@@ -113,6 +113,9 @@ namespace BrawlSoundConverter
 			this.Controls.Add(this.buttonMoveDown);
 			this.Controls.Add(this.buttonMoveUp);
 			this.Controls.Add(this.treeView1);
+			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+			this.MaximizeBox = false;
+			this.MinimizeBox = false;
 			this.Name = "RearrangeTabsForm";
 			this.Text = "Rearrange Tabs";
 			this.ResumeLayout(false);
