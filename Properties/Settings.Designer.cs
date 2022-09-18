@@ -96,5 +96,29 @@ namespace BrawlSoundConverter.Properties {
                 this["TabSettings"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int MatchSampleRate {
+            get {
+                return ((int)(this["MatchSampleRate"]));
+            }
+            set {
+                this["MatchSampleRate"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("44100")]
+        public int MaximumSampleRate {
+            get {
+                return ((int)(this["MaximumSampleRate"]));
+            }
+            set {
+                this["MaximumSampleRate"] = value;
+            }
+        }
     }
 }

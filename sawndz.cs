@@ -13,6 +13,7 @@ namespace BrawlSoundConverter
 		public static Process p;
 		public static string VGAudioExePath = "VGAudio/VGAudioCli.exe";
 		public static string lavaResawndzExePath = "lavaResawndz.exe";
+		public static string soundExchangePath = "SoX/sox.exe";
 		static bool runWithArgs( string args )
 		{
 			bool result = false;
@@ -105,6 +106,52 @@ namespace BrawlSoundConverter
 			}
 			return result;
 		}
+		static bool runSoX(string args)
+		{
+			bool result = false;
+			if (!File.Exists(Path.GetFullPath(soundExchangePath)))
+			{
+				Console.WriteLine("[ERROR] Unable to launch Sound eXchange!");
+				Console.WriteLine("Couldn't find SoX executable (should be at \"" + Path.GetFullPath(soundExchangePath) + "\") ");
+			}
+			else
+			{
+				try
+				{
+					p = new Process();
+					p.StartInfo.UseShellExecute = false;
+					p.StartInfo.CreateNoWindow = true;
+					p.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
+					p.StartInfo.RedirectStandardOutput = true;
+					p.StartInfo.RedirectStandardError = true;
+					p.EnableRaisingEvents = true;
+					p.StartInfo.FileName = Path.GetFullPath(soundExchangePath);
+					p.StartInfo.Arguments = args;
+					p.Start();
+					while ((!p.HasExited || !p.StandardOutput.EndOfStream))
+					{
+
+						char[] buffer = new char[1];
+						int count = p.StandardOutput.Read(buffer, 0, 1);
+						Console.Write(buffer);
+					}
+					if (!p.HasExited)
+						p.WaitForExit();
+					result = true;
+				}
+				catch (Exception e)
+				{
+					Console.WriteLine(e.ToString());
+					//If the process is still running kill it
+					if (p != null && !p.HasExited)
+					{
+						p.Kill();
+						p = null;
+					}
+				}
+			}
+			return result;
+		}
 
 		public static void createSawnd( int groupID , string fileName)
 		{
@@ -160,25 +207,48 @@ namespace BrawlSoundConverter
 			}
 			return result;
 		}
-		public static int numChannelsInWavFile(string fileName)
-		{
-			int count = int.MaxValue;
-			BrawlLib.Internal.Audio.IAudioStream temp = BrawlLib.Internal.Audio.WAV.FromFile(fileName);
-			count = temp.Channels;
-			return count;
-		}
 		public static void doInsertWithRespectToChannelCount(string filePath, BrawlLib.SSBB.ResourceNodes.RSARFileAudioNode targetNode, bool headless)
 		{
 			if (targetNode != null && File.Exists(filePath))
 			{
-				bool soundIsMono = numChannelsInWavFile(filePath) == 1;
-				bool replacingMonoSound = targetNode.Channels < 2;
-				if (!soundIsMono && (Properties.Settings.Default.ConvertToMono == 2 || (Properties.Settings.Default.ConvertToMono == 1 && replacingMonoSound)))
+				BrawlLib.Internal.Audio.IAudioStream incomingAudio = BrawlLib.Internal.Audio.WAV.FromFile(filePath);
+
+				bool doMixToMono = Properties.Settings.Default.ConvertToMono == 2;
+				doMixToMono |= (Properties.Settings.Default.ConvertToMono == 1) && (targetNode.Channels < 2);
+				doMixToMono &= incomingAudio.Channels > 1;
+
+				bool doResample = Properties.Settings.Default.MatchSampleRate == 2;
+				doResample |= (Properties.Settings.Default.MatchSampleRate == 1) && (incomingAudio.Frequency > targetNode.SampleRate);
+				int targetSampleRate = int.MaxValue;
+				if (doResample)
+				{
+					targetSampleRate = targetNode.SampleRate;
+				}
+				else
+				{
+					targetSampleRate = incomingAudio.Frequency;
+				}
+				if (Properties.Settings.Default.MaximumSampleRate != 0 && targetSampleRate > Properties.Settings.Default.MaximumSampleRate)
+				{
+					targetSampleRate = Math.Min(targetSampleRate, Properties.Settings.Default.MaximumSampleRate);
+					doResample = true;
+				}
+
+				if (doMixToMono || doResample)
 				{
 					string tempFile = "___tempconvwav.wav";
 					Console.WriteLine("");
 					Console.WriteLine("Converting Sound to Mono... ");
-					runVGAudio(" -i:0 " + filePath + " -o " + tempFile);
+					string arguments = " ";
+					if (doMixToMono)
+					{
+						arguments += "remix - ";
+					}
+					if (doResample)
+					{
+						arguments += "rate " + targetSampleRate.ToString();
+					}
+					runSoX("-V3 " + filePath + " " + tempFile + arguments);
 					if (File.Exists(tempFile))
 					{
 						if (headless)

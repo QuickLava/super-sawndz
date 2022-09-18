@@ -131,6 +131,30 @@ namespace BrawlSoundConverter
 				treeView2.Enabled = false;
 				buttonConfigSave.Enabled = false;
 			}
+
+			switch (Properties.Settings.Default.MatchSampleRate)
+			{
+				case 0:
+					radioButtonMatchSRNever.Checked = true;
+					break;
+				case 1:
+					radioButtonMatchSRSometimes.Checked = true;
+					break;
+				case 2:
+					radioButtonMatchSRAlways.Checked = true;
+					break;
+				default:
+					radioButtonMatchSRNever.Checked = true;
+					break;
+			}
+			if (Properties.Settings.Default.MaximumSampleRate > 0)
+			{
+				numericUpDown1.Value = Math.Min(Properties.Settings.Default.MaximumSampleRate, 44100);
+			}
+			else
+			{
+				numericUpDown1.Value = 0;
+			}
 		}
 
 		private void buttonBrowse_Click(object sender, EventArgs e)
@@ -194,6 +218,19 @@ namespace BrawlSoundConverter
 					Properties.Settings.Default.TabSettings.Add(activeTabConfigString);
 				}
 			}
+			if (radioButtonMatchSRAlways.Checked)
+			{
+				Properties.Settings.Default.MatchSampleRate = 2;
+			}
+			else if (radioButtonMatchSRSometimes.Checked)
+			{
+				Properties.Settings.Default.MatchSampleRate = 1;
+			}
+			else
+			{
+				Properties.Settings.Default.MatchSampleRate = 0;
+			}
+			Properties.Settings.Default.MaximumSampleRate = ((int)numericUpDown1.Value);
 
 			DialogResult = DialogResult.OK;
 			Close();
