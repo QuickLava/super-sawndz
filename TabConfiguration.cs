@@ -10,6 +10,7 @@ namespace BrawlSoundConverter
 	{
 		public string tabName = "";
 		public List<int> includedGroupIDs = new List<int>();
+		public TabConfigurationTabEntry() { }
 		public TabConfigurationTabEntry(string stringIn, int maxGroups = int.MaxValue)
 		{
 			string[] minorSplit = stringIn.Split(TabConfiguration.GroupDelimiter);
@@ -26,30 +27,27 @@ namespace BrawlSoundConverter
 
 	public class TabConfiguration
 	{
-		public string configurationName = "";
 		public int brsarGroupCount = -1;
 		public int brsarFileCount = -1;
 
+		public static char BRSARDataDelimiter = '_';
 		public static char TabDelimiter = '$';
 		public static char GroupDelimiter = '-';
 		public static string configFileExtension = ".tcfg";
 
 		public List<TabConfigurationTabEntry> tabEntries = new List<TabConfigurationTabEntry>();
+		public TabConfiguration() { }
 		public TabConfiguration(string stringIn)
 		{
-			string[] majorSplit = stringIn.Split('$');
+			string[] majorSplit = stringIn.Split(TabDelimiter);
 			if (majorSplit.Length >= 1)
 			{
-				string[] countSplit = majorSplit[0].Split('_');
+				string[] countSplit = majorSplit[0].Split(BRSARDataDelimiter);
 				if (countSplit.Length >= 2)
 				{
 					brsarGroupCount = Convert.ToInt32(countSplit[0], 16);
 					brsarFileCount = Convert.ToInt32(countSplit[1], 16);
 					int groupBudget = brsarGroupCount;
-					if (countSplit.Length >= 3)
-					{
-						configurationName = countSplit[2];
-					}
 					for (int i = 1; i < majorSplit.Length; i++)
 					{
 						tabEntries.Add(new TabConfigurationTabEntry(majorSplit[i], groupBudget));
@@ -58,7 +56,40 @@ namespace BrawlSoundConverter
 				}
 			}
 		}
+		public string getIDString()
+		{
+			string result = "";
 
+			if (brsarGroupCount > 0 && brsarFileCount > 0)
+			{
+				result = brsarGroupCount.ToString("X3") + BRSARDataDelimiter + brsarFileCount.ToString("X3");
+			}
+
+			return result;
+		}
+		public string serialize()
+		{
+			string result = "";
+
+			if (brsarGroupCount > 0 && brsarFileCount > 0)
+			{
+				result = getIDString();
+				string dataString = "";
+				foreach (TabConfigurationTabEntry tabEntry in tabEntries)
+				{
+					string entry = TabDelimiter + "\"" + tabEntry.tabName + "\"";
+					foreach (int groupID in tabEntry.includedGroupIDs)
+					{
+						entry += GroupDelimiter + groupID.ToString("X3");
+					}
+					dataString += entry;
+				}
+				result += dataString;
+			}
+			
+			return result;
+		}
+		
 		public static int getCurrentBRSARSettingsIndex(BrawlLib.SSBB.ResourceNodes.RSARNode rsarIn)
 		{
 			int index = -1;

@@ -12,8 +12,11 @@ namespace BrawlSoundConverter
 {
 	public partial class TextInputForm : Form
 	{
-		public TextInputForm()
+		string blacklistedChars = "";
+
+		public TextInputForm(string blacklistIn = "")
 		{
+			blacklistedChars = blacklistIn;
 			InitializeComponent();
 		}
 
@@ -27,6 +30,14 @@ namespace BrawlSoundConverter
 		{
 			DialogResult = DialogResult.Cancel;
 			Close();
+		}
+
+		private void textBox1_KeyPress(object sender, KeyPressEventArgs e)
+		{
+			if (blacklistedChars.Contains(e.KeyChar))
+			{
+				e.Handled = true;
+			}
 		}
 	}
 }

@@ -16,7 +16,6 @@ namespace BrawlSoundConverter
 		public bool defaultBrsarPathIsValid = true;
 
 		public TabConfiguration activeTabConfig = null;
-		public string activeTabConfigString = "";
 
 		private void populateTreeView()
 		{
@@ -25,9 +24,9 @@ namespace BrawlSoundConverter
 			if (currRSAR != null)
 			{
 				BrawlLib.SSBB.ResourceNodes.ResourceNode[] groups = currRSAR.FindChildrenByType("", BrawlLib.SSBB.ResourceNodes.ResourceType.RSARGroup);
-				int groupArrItr = 0;
 				foreach (TabConfigurationTabEntry tab in activeTabConfig.tabEntries)
 				{
+					int groupArrItr = 0;
 					TreeNode tabNode = new TreeNode("Tab: \"" + tab.tabName + "\", Containing ");
 					for (int i = 0; i < tab.includedGroupIDs.Count; i++)
 					{
@@ -59,10 +58,11 @@ namespace BrawlSoundConverter
 			}
 		}
 
-		public SettingsForm(string activeTabConfigStringIn = "")
+		public SettingsForm(TabConfiguration activeTabConfigIn)
 		{
 			InitializeComponent();
-			activeTabConfigString = activeTabConfigStringIn;
+
+			activeTabConfig = activeTabConfigIn;
 
 			textBoxDefaultBrsar.Text = Properties.Settings.Default.DefaultBrsarFilePath;
 			if (Properties.Settings.Default.EnableFullLengthNames)
@@ -121,9 +121,8 @@ namespace BrawlSoundConverter
 				buttonBRSARPathUseCurrent.Enabled = true;
 			}
 
-			if (!String.IsNullOrEmpty(activeTabConfigString))
+			if (activeTabConfig != null)
 			{
-				activeTabConfig = new TabConfiguration(activeTabConfigString);
 				populateTreeView();
 			}
 			else
@@ -211,11 +210,11 @@ namespace BrawlSoundConverter
 				int tabSettingIndex = TabConfiguration.getCurrentBRSARSettingsIndex(currRSAR);
 				if (tabSettingIndex > -1 && tabSettingIndex < Properties.Settings.Default.TabSettings.Count)
 				{
-					Properties.Settings.Default.TabSettings[tabSettingIndex] = activeTabConfigString;
+					Properties.Settings.Default.TabSettings[tabSettingIndex] = activeTabConfig.serialize();
 				}
 				else
 				{
-					Properties.Settings.Default.TabSettings.Add(activeTabConfigString);
+					Properties.Settings.Default.TabSettings.Add(activeTabConfig.serialize());
 				}
 			}
 			if (radioButtonMatchSRAlways.Checked)
@@ -266,7 +265,7 @@ namespace BrawlSoundConverter
 			if (sfd.ShowDialog() == DialogResult.OK)
 			{
 				StreamWriter temp = File.CreateText(sfd.FileName);
-				temp.WriteLine(activeTabConfigString);
+				temp.WriteLine(activeTabConfig.serialize());
 				temp.Close();
 			}
 		}
@@ -294,7 +293,6 @@ namespace BrawlSoundConverter
 						if (testConfig.brsarGroupCount == activeTabConfig.brsarGroupCount && testConfig.brsarFileCount == activeTabConfig.brsarFileCount)
 						{
 							activeTabConfig = testConfig;
-							activeTabConfigString = line;
 							populateTreeView();
 							line = null;
 							success = true;

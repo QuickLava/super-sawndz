@@ -30,82 +30,7 @@ namespace BrawlSoundConverter
 		int currCollectionIndex = 0;
 		int currRightClickedTab = -1;
 
-		private void getCurrTabSettingsFromSettings()
-		{
-			int tabConfigIndex = TabConfiguration.getCurrentBRSARSettingsIndex(brsar.GetRSAR());
-			if (tabConfigIndex >= 0 && tabConfigIndex < Properties.Settings.Default.TabSettings.Count)
-			{
-				currTabSettings = new TabConfiguration(Properties.Settings.Default.TabSettings[tabConfigIndex]);
-			}
-			else
-			{
-				currTabSettings = new TabConfiguration(buildTabSettingsString());
-			}
-		}
-		private void updateCurrTabSettings()
-		{
-			currTabSettings = new TabConfiguration(buildTabSettingsString());
-		}
-
-		private void applyRelevantTabSettings(bool reloadTabSettings = false)
-		{
-			BrawlLib.SSBB.ResourceNodes.RSARNode currRSAR = brsar.GetRSAR();
-			if (currRSAR != null)
-			{
-				reserveCollections.Clear();
-				reserveCollections.Add(new List<MappingItem>());
-				reserveCollections[0].AddRange(treeViewMapping.Nodes.Cast<MappingItem>().ToList());
-				int toRemove = tabControl1.TabPages.Count - 2;
-				for (int i = 0; i < toRemove; i++)
-				{
-					tabControl1.TabPages.RemoveAt(1);
-				}
-
-				if (reloadTabSettings)
-				{
-					getCurrTabSettingsFromSettings();
-				}
-
-				// For each tab in the loaded config...
-				foreach (TabConfigurationTabEntry tab in currTabSettings.tabEntries)
-				{
-					// Add a node list for it.
-					reserveCollections.Add(new List<MappingItem>());
-					// Then, initialize an iterator for going through the initial list containing all nodes.
-					int baseNodeListItr = 0;
-					// Then iterate through the current tabs list of Group IDs...
-					for (int i = 0; i < tab.includedGroupIDs.Count; i++)
-					{
-						// ... and make sure the current group ID isn't somehow lower than the current main list ID.
-						// The IDs in the main list are strictly increasing, so if this is the case you'll never find a match.
-						if (reserveCollections[0][baseNodeListItr].groupID > tab.includedGroupIDs[i])
-						{
-							// Thus, we can safely abort.
-							break;
-						}
-						// Otherwise, we can simply continue iterating through the full list until we find the ID we're looking for.
-						bool foundTargetGroup = false;
-						while (!foundTargetGroup && baseNodeListItr < reserveCollections[0].Count)
-						{
-							if (reserveCollections[0][baseNodeListItr].groupID == tab.includedGroupIDs[i])
-							{
-								reserveCollections.Last().Add(reserveCollections[0][baseNodeListItr]);
-								foundTargetGroup = true;
-							}
-							baseNodeListItr++;
-						}
-					}
-					foreach (MappingItem inTab in reserveCollections.Last())
-					{
-						reserveCollections[0].Remove(inTab);
-						treeViewMapping.Nodes.Remove(inTab);
-					}
-					tabControl1.TabPages.Insert(tabControl1.TabCount - 1, tab.tabName);
-					tabControl1.TabPages[tabControl1.TabCount - 2].ContextMenuStrip = contextMenuStripTab;
-				}
-				generateGroupContextMenuItems();
-			}
-		}
+		
 
 		private bool loadBRSAR(string pathIn)
 		{
@@ -165,132 +90,6 @@ namespace BrawlSoundConverter
 			catch ( Exception ex )
 			{
 				Console.WriteLine( ex.ToString() );
-			}
-		}
-
-		private void loadActiveCollectionIntoTreeview()
-		{
-			if (currCollectionIndex < reserveCollections.Count)
-			{
-				treeViewMapping.Nodes.Clear();
-				treeViewMapping.Nodes.AddRange(reserveCollections[currCollectionIndex].Cast<MappingItem>().ToArray());
-				currSearchResults = null;
-			}
-		}
-		private void setLoadedCollection(int index)
-		{
-			if (index >= reserveCollections.Count)
-			{
-				index = reserveCollections.Count;
-				reserveCollections.Add(new List<MappingItem>());
-			}
-			if (index != currCollectionIndex)
-			{
-				List<MappingItem> temp = new List<MappingItem>();
-				temp.AddRange(treeViewMapping.Nodes.Cast<MappingItem>().ToList());
-				if (currCollectionIndex < reserveCollections.Count)
-				{
-					reserveCollections[currCollectionIndex] = temp;
-				}
-				currCollectionIndex = index;
-				loadActiveCollectionIntoTreeview();
-			}
-		}
-		private void mergeCollectionIntoLowerNeighbor(int index)
-		{
-			if (index > 0 && index < reserveCollections.Count)
-			{
-				reserveCollections[index - 1].AddRange(reserveCollections[index]);
-				reserveCollections[index - 1].Sort(compareMappingItems);
-				if (currCollectionIndex == (index - 1))
-				{
-					loadActiveCollectionIntoTreeview();
-				}
-			}
-		}
-		private void closeCollection(int index)
-		{
-			if (index > 0 && index < reserveCollections.Count)
-			{
-				mergeCollectionIntoLowerNeighbor(index);
-				reserveCollections.RemoveAt(index);
-				generateGroupContextMenuItems();
-				if (currCollectionIndex == index)
-				{
-					setLoadedCollection(index - 1);
-				}
-			}
-		}
-		private void closeAllButFirstCollection()
-		{
-			for (int i = reserveCollections.Count - 1; i > 0; i--)
-			{
-				closeCollection(i);
-			}
-		}
-		private int compareMappingItems(MappingItem x, MappingItem y)
-		{
-			int result = 0;
-
-			if (x == null)
-			{
-				if (y == null)
-				{
-					result = 0;
-				}
-				else
-				{
-					result = -1;
-				}
-			}
-			else
-			{
-				if (y == null)
-				{
-					result = 1;
-				}
-				else
-				{
-					int xCompVal = (x.groupID < 0) ? int.MaxValue : x.groupID;
-					int yCompVal = (y.groupID < 0) ? int.MaxValue : y.groupID;
-					result = xCompVal.CompareTo(yCompVal);
-					if (result == 0)
-					{
-						result = x.Text.CompareTo(y.Text);
-					}
-				}
-			}
-
-			return result;
-		}
-		private bool moveSelectedTreeNodeToTree(int index)
-		{
-			bool result = false;
-			if (index >= reserveCollections.Count)
-			{
-				index = reserveCollections.Count;
-				reserveCollections.Add(new List<MappingItem>());
-			}
-			if (index != currCollectionIndex)
-			{
-				MappingItem selected = treeViewMapping.SelectedNode as MappingItem;
-				treeViewMapping.Nodes.Remove(selected);
-				reserveCollections[index].Add(selected);
-				reserveCollections[index].Sort(compareMappingItems);	
-			}
-			return result;
-		}
-		private void generateGroupContextMenuItems()
-		{
-			contextMenuStripGroup.Items.Clear();
-			for (int i = 0; i < (tabControl1.TabCount - 1); i++)
-			{
-				if (i != tabControl1.SelectedIndex)
-				{
-					System.Windows.Forms.ToolStripMenuItem temp = new System.Windows.Forms.ToolStripMenuItem("Move to \'" + tabControl1.TabPages[i].Text + "\'", null, moveToToolStripMenuItem_Click);
-					temp.Tag = i;
-					contextMenuStripGroup.Items.Add(temp);
-				}
 			}
 		}
 
@@ -855,35 +654,9 @@ namespace BrawlSoundConverter
 			loadTreeView();
 		}
 
-		private string buildTabSettingsString()
-		{
-			string result = "";
-
-			BrawlLib.SSBB.ResourceNodes.RSARNode currRsar = brsar.GetRSAR();
-			if (currRsar != null)
-			{
-				string tabDataIDString = currRsar.FindChildrenByType("", BrawlLib.SSBB.ResourceNodes.ResourceType.RSARGroup).Length.ToString("X3") +
-				"_" +
-				currRsar.Files.Count.ToString("X3");
-				string dataString = "";
-				for (int i = 1; i < tabControl1.TabPages.Count - 1; i++)
-				{
-					string entry = TabConfiguration.TabDelimiter + "\"" + tabControl1.TabPages[i].Text + "\"";
-					foreach (MappingItem groupInTab in reserveCollections[i])
-					{
-						entry += TabConfiguration.GroupDelimiter + groupInTab.groupID.ToString("X3");
-					}
-					dataString += entry;
-				}
-				result = tabDataIDString + dataString;
-			}
-			
-			return result;
-		}
-
 		private void ChangeSettingsToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			SettingsForm settings = new SettingsForm(buildTabSettingsString());
+			SettingsForm settings = new SettingsForm(currTabSettings);
 			if (settings.ShowDialog() == DialogResult.OK)
 			{
 				Properties.Settings.Default.Save();
@@ -1425,7 +1198,6 @@ namespace BrawlSoundConverter
 				selectedBeforePause = null;
 			}
 		}
-
 		private void Form1_Deactivate(object sender, EventArgs e)
 		{
 			if (!CanFocus && audioPlaybackBRSARSound.IsPlaying)
@@ -1436,14 +1208,272 @@ namespace BrawlSoundConverter
 			}
 		}
 
+
+		// Tab-Related Functions
+		// Managing Tab Settings
+		private bool getCurrTabSettingsFromSettings()
+		{
+			bool success = false;
+
+			int tabConfigIndex = TabConfiguration.getCurrentBRSARSettingsIndex(brsar.GetRSAR());
+			if (tabConfigIndex >= 0 && tabConfigIndex < Properties.Settings.Default.TabSettings.Count)
+			{
+				currTabSettings = new TabConfiguration(Properties.Settings.Default.TabSettings[tabConfigIndex]);
+				success = true;
+			}
+
+			return success;
+		}
+		private void buildCurrTabSettings()
+		{
+			BrawlLib.SSBB.ResourceNodes.RSARNode currRSAR = brsar.GetRSAR();
+			if (currRSAR != null)
+			{
+				if (currTabSettings == null)
+				{
+					currTabSettings = new TabConfiguration();
+				}
+				currTabSettings.brsarGroupCount = currRSAR.FindChildrenByType("", BrawlLib.SSBB.ResourceNodes.ResourceType.RSARGroup).Length;
+				currTabSettings.brsarFileCount = currRSAR.Files.Count;
+				currTabSettings.tabEntries.Clear();
+				for (int i = 1; i < tabControl1.TabPages.Count - 1; i++)
+				{
+					currTabSettings.tabEntries.Add(new TabConfigurationTabEntry());
+					currTabSettings.tabEntries.Last().tabName = tabControl1.TabPages[i].Text;
+					foreach (MappingItem groupInTab in reserveCollections[i])
+					{
+						currTabSettings.tabEntries.Last().includedGroupIDs.Add(groupInTab.groupID);
+					}
+				}
+			}
+		}
+		private void applyRelevantTabSettings(bool reloadTabSettings = false)
+		{
+			BrawlLib.SSBB.ResourceNodes.RSARNode currRSAR = brsar.GetRSAR();
+			if (currRSAR != null)
+			{
+				reserveCollections.Clear();
+				reserveCollections.Add(new List<MappingItem>());
+				reserveCollections[0].AddRange(treeViewMapping.Nodes.Cast<MappingItem>().ToList());
+				int toRemove = tabControl1.TabPages.Count - 2;
+				for (int i = 0; i < toRemove; i++)
+				{
+					tabControl1.TabPages.RemoveAt(1);
+				}
+
+				if (reloadTabSettings)
+				{
+					if (!getCurrTabSettingsFromSettings())
+					{
+						buildCurrTabSettings();
+					}
+				}
+
+				// For each tab in the loaded config...
+				foreach (TabConfigurationTabEntry tab in currTabSettings.tabEntries)
+				{
+					// Add a node list for it.
+					reserveCollections.Add(new List<MappingItem>());
+					// Then, initialize an iterator for going through the initial list containing all nodes.
+					int baseNodeListItr = 0;
+					// Then iterate through the current tabs list of Group IDs...
+					for (int i = 0; i < tab.includedGroupIDs.Count; i++)
+					{
+						// ... and make sure the current group ID isn't somehow lower than the current main list ID.
+						// The IDs in the main list are strictly increasing, so if this is the case you'll never find a match.
+						if (reserveCollections[0][baseNodeListItr].groupID > tab.includedGroupIDs[i])
+						{
+							// Thus, we can safely abort.
+							break;
+						}
+						// Otherwise, we can simply continue iterating through the full list until we find the ID we're looking for.
+						bool foundTargetGroup = false;
+						while (!foundTargetGroup && baseNodeListItr < reserveCollections[0].Count)
+						{
+							if (reserveCollections[0][baseNodeListItr].groupID == tab.includedGroupIDs[i])
+							{
+								reserveCollections.Last().Add(reserveCollections[0][baseNodeListItr]);
+								foundTargetGroup = true;
+							}
+							baseNodeListItr++;
+						}
+					}
+					foreach (MappingItem inTab in reserveCollections.Last())
+					{
+						reserveCollections[0].Remove(inTab);
+						treeViewMapping.Nodes.Remove(inTab);
+					}
+					tabControl1.TabPages.Insert(tabControl1.TabCount - 1, tab.tabName);
+					tabControl1.TabPages[tabControl1.TabCount - 2].ContextMenuStrip = contextMenuStripTab;
+				}
+				generateGroupContextMenuItems();
+			}
+		}
+		// Managing Underlying Group-Collections
+		private void loadActiveCollectionIntoTreeview()
+		{
+			if (currCollectionIndex < reserveCollections.Count)
+			{
+				treeViewMapping.Nodes.Clear();
+				treeViewMapping.Nodes.AddRange(reserveCollections[currCollectionIndex].Cast<MappingItem>().ToArray());
+				currSearchResults = null;
+			}
+		}
+		private void setLoadedCollection(int index)
+		{
+			if (index >= reserveCollections.Count)
+			{
+				index = reserveCollections.Count;
+				reserveCollections.Add(new List<MappingItem>());
+			}
+			if (index != currCollectionIndex)
+			{
+				List<MappingItem> temp = new List<MappingItem>();
+				temp.AddRange(treeViewMapping.Nodes.Cast<MappingItem>().ToList());
+				if (currCollectionIndex < reserveCollections.Count)
+				{
+					reserveCollections[currCollectionIndex] = temp;
+				}
+				currCollectionIndex = index;
+				loadActiveCollectionIntoTreeview();
+			}
+		}
+		private void mergeCollectionIntoLowerNeighbor(int index)
+		{
+			if (index > 0 && index < reserveCollections.Count)
+			{
+				reserveCollections[index - 1].AddRange(reserveCollections[index]);
+				reserveCollections[index - 1].Sort(compareMappingItems);
+				if (currCollectionIndex == (index - 1))
+				{
+					loadActiveCollectionIntoTreeview();
+				}
+			}
+		}
+		private void closeCollection(int index)
+		{
+			if (index > 0 && index < reserveCollections.Count)
+			{
+				mergeCollectionIntoLowerNeighbor(index);
+				reserveCollections.RemoveAt(index);
+				generateGroupContextMenuItems();
+				if (currCollectionIndex == index)
+				{
+					setLoadedCollection(index - 1);
+				}
+			}
+		}
+		private void closeAllButFirstCollection()
+		{
+			for (int i = reserveCollections.Count - 1; i > 0; i--)
+			{
+				closeCollection(i);
+			}
+		}
+		private int compareMappingItems(MappingItem x, MappingItem y)
+		{
+			int result = 0;
+
+			if (x == null)
+			{
+				if (y == null)
+				{
+					result = 0;
+				}
+				else
+				{
+					result = -1;
+				}
+			}
+			else
+			{
+				if (y == null)
+				{
+					result = 1;
+				}
+				else
+				{
+					int xCompVal = (x.groupID < 0) ? int.MaxValue : x.groupID;
+					int yCompVal = (y.groupID < 0) ? int.MaxValue : y.groupID;
+					result = xCompVal.CompareTo(yCompVal);
+					if (result == 0)
+					{
+						result = x.Text.CompareTo(y.Text);
+					}
+				}
+			}
+
+			return result;
+		}
+		private bool moveSelectedItemToCollection(int index)
+		{
+			bool result = false;
+			if (index >= reserveCollections.Count)
+			{
+				index = reserveCollections.Count;
+				reserveCollections.Add(new List<MappingItem>());
+			}
+			if (index != currCollectionIndex)
+			{
+				MappingItem selected = treeViewMapping.SelectedNode as MappingItem;
+				treeViewMapping.Nodes.Remove(selected);
+				reserveCollections[index].Add(selected);
+				reserveCollections[index].Sort(compareMappingItems);
+			}
+			return result;
+		}
+		// Managing Context Menus
+		private void generateGroupContextMenuItems()
+		{
+			contextMenuStripGroup.Items.Clear();
+			for (int i = 0; i < (tabControl1.TabCount - 1); i++)
+			{
+				if (i != tabControl1.SelectedIndex)
+				{
+					System.Windows.Forms.ToolStripMenuItem temp = new System.Windows.Forms.ToolStripMenuItem("Move to \'" + tabControl1.TabPages[i].Text + "\'", null, moveToToolStripMenuItem_Click);
+					temp.Tag = i;
+					contextMenuStripGroup.Items.Add(temp);
+				}
+			}
+		}
+		// Managing Tab UI
 		private void createTab()
 		{
 			tabControl1.TabPages.Insert(tabControl1.TabCount - 1, "Tab " + tabControl1.TabCount.ToString());
 			tabControl1.SelectedIndex = tabControl1.TabCount - 2;
 			tabControl1.TabPages[tabControl1.SelectedIndex].ContextMenuStrip = contextMenuStripTab;
 			generateGroupContextMenuItems();
-			updateCurrTabSettings();
+			buildCurrTabSettings();
 			buttonRearrangeTabs.Enabled = tabControl1.TabCount > 3;
+		}
+		private void closeTab(int tabIndex)
+		{
+			if (tabIndex > 0 && tabIndex < (tabControl1.TabCount - 1))
+			{
+				if (tabIndex == currCollectionIndex)
+				{
+					tabControl1.SelectedIndex = tabIndex - 1;
+				}
+				closeCollection(tabIndex);
+				tabControl1.TabPages.Remove(tabControl1.TabPages[tabIndex]);
+				generateGroupContextMenuItems();
+				buildCurrTabSettings();
+			}
+			buttonRearrangeTabs.Enabled = tabControl1.TabCount > 3;
+		}
+		private void renameTab(int tabIndex)
+		{
+			if (tabIndex > 0 && tabIndex < (tabControl1.TabCount - 1))
+			{
+				TextInputForm testForm = new TextInputForm("" + TabConfiguration.GroupDelimiter + TabConfiguration.TabDelimiter);
+				testForm.textBox1.Text = tabControl1.TabPages[tabIndex].Text;
+				if (testForm.ShowDialog() == DialogResult.OK)
+				{
+					tabControl1.TabPages[tabIndex].Text = testForm.textBox1.Text;
+					buildCurrTabSettings();
+					generateGroupContextMenuItems();
+				}
+			}
 		}
 		private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
 		{
@@ -1461,13 +1491,11 @@ namespace BrawlSoundConverter
 				generateGroupContextMenuItems();
 			}
 		}
-
 		private void moveToToolStripMenuItem_Click(object sender, EventArgs e)
 		{
-			moveSelectedTreeNodeToTree((int)((System.Windows.Forms.ToolStripMenuItem)sender).Tag);
-			updateCurrTabSettings();
+			moveSelectedItemToCollection((int)((System.Windows.Forms.ToolStripMenuItem)sender).Tag);
+			buildCurrTabSettings();
 		}
-
 		private void tabControl1_MouseDown(object sender, MouseEventArgs e)
 		{
 			if (e.Button == MouseButtons.Right)
@@ -1492,28 +1520,11 @@ namespace BrawlSoundConverter
 				}
 			}
 		}
-
-		private void closeTab(int tabIndex)
-		{
-			if (tabIndex > 0 && tabIndex < (tabControl1.TabCount - 1))
-			{
-				if (tabIndex == currCollectionIndex)
-				{
-					tabControl1.SelectedIndex = tabIndex - 1;
-				}
-				closeCollection(tabIndex);
-				tabControl1.TabPages.Remove(tabControl1.TabPages[tabIndex]);
-				generateGroupContextMenuItems();
-				updateCurrTabSettings();
-			}
-			buttonRearrangeTabs.Enabled = tabControl1.TabCount > 3;
-		}
 		private void closeTabToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			closeTab(currRightClickedTab);
 			currRightClickedTab = -1;
 		}
-
 		private void contextMenuStripTab_Closed(object sender, ToolStripDropDownClosedEventArgs e)
 		{
 			if (e.CloseReason != ToolStripDropDownCloseReason.ItemClicked)
@@ -1521,21 +1532,26 @@ namespace BrawlSoundConverter
 				currRightClickedTab = -1;
 			}
 		}
-
 		private void renameToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			if (currRightClickedTab > 0 && currRightClickedTab < (tabControl1.TabCount - 1))
 			{
-				TextInputForm testForm = new TextInputForm();
-				testForm.textBox1.Text = tabControl1.TabPages[currRightClickedTab].Text;
-				if (testForm.ShowDialog() == DialogResult.OK)
-				{
-					tabControl1.TabPages[currRightClickedTab].Text = testForm.textBox1.Text;
-					generateGroupContextMenuItems();
-				}
-				updateCurrTabSettings();
+				renameTab(currRightClickedTab);
 			}
 		}
+		private void buttonRearrangeTabs_Click(object sender, EventArgs e)
+		{
+			if (currTabSettings != null)
+			{
+				RearrangeTabsForm rtf = new RearrangeTabsForm(currTabSettings);
+				if (rtf.ShowDialog() == DialogResult.OK)
+				{
+					currTabSettings = rtf.loadedTabs;
+					loadTreeView();
+				}
+			}
+		}
+
 
 		private void Form1_KeyDown(object sender, KeyEventArgs e)
 		{
@@ -1590,19 +1606,6 @@ namespace BrawlSoundConverter
 					tabControl1.SelectedIndex = tabControl1.TabCount - 2;
 					treeViewMapping.Select();
 					e.SuppressKeyPress = true;
-				}
-			}
-		}
-
-		private void buttonRearrangeTabs_Click(object sender, EventArgs e)
-		{
-			if (currTabSettings != null)
-			{
-				RearrangeTabsForm rtf = new RearrangeTabsForm(currTabSettings);
-				if (rtf.ShowDialog() == DialogResult.OK)
-				{
-					currTabSettings = rtf.loadedTabs;
-					loadTreeView();
 				}
 			}
 		}
