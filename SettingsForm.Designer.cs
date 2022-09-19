@@ -61,21 +61,23 @@ namespace BrawlSoundConverter
 			this.treeView2 = new System.Windows.Forms.TreeView();
 			this.label7 = new System.Windows.Forms.Label();
 			this.buttonConfigSave = new System.Windows.Forms.Button();
-			this.label6 = new System.Windows.Forms.Label();
-			this.groupBox5 = new System.Windows.Forms.GroupBox();
-			this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
-			this.label8 = new System.Windows.Forms.Label();
-			this.label9 = new System.Windows.Forms.Label();
 			this.radioButtonMatchSRNever = new System.Windows.Forms.RadioButton();
+			this.label9 = new System.Windows.Forms.Label();
 			this.radioButtonMatchSRAlways = new System.Windows.Forms.RadioButton();
+			this.label8 = new System.Windows.Forms.Label();
 			this.radioButtonMatchSRSometimes = new System.Windows.Forms.RadioButton();
+			this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
+			this.groupBoxStereoConv = new System.Windows.Forms.GroupBox();
+			this.groupBox6 = new System.Windows.Forms.GroupBox();
+			this.label10 = new System.Windows.Forms.Label();
 			this.groupBoxNamingScheme.SuspendLayout();
 			this.groupBox1.SuspendLayout();
 			this.groupBox2.SuspendLayout();
 			this.groupBox3.SuspendLayout();
 			this.groupBox4.SuspendLayout();
-			this.groupBox5.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
+			this.groupBoxStereoConv.SuspendLayout();
+			this.groupBox6.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// groupBoxNamingScheme
@@ -167,7 +169,7 @@ namespace BrawlSoundConverter
 			// 
 			this.buttonCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.buttonCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-			this.buttonCancel.Location = new System.Drawing.Point(356, 732);
+			this.buttonCancel.Location = new System.Drawing.Point(356, 742);
 			this.buttonCancel.Margin = new System.Windows.Forms.Padding(4);
 			this.buttonCancel.Name = "buttonCancel";
 			this.buttonCancel.Size = new System.Drawing.Size(100, 28);
@@ -179,7 +181,7 @@ namespace BrawlSoundConverter
 			// 
 			this.buttonSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.buttonSave.DialogResult = System.Windows.Forms.DialogResult.OK;
-			this.buttonSave.Location = new System.Drawing.Point(248, 732);
+			this.buttonSave.Location = new System.Drawing.Point(248, 742);
 			this.buttonSave.Margin = new System.Windows.Forms.Padding(4);
 			this.buttonSave.Name = "buttonSave";
 			this.buttonSave.Size = new System.Drawing.Size(100, 28);
@@ -301,27 +303,30 @@ namespace BrawlSoundConverter
 			// label4
 			// 
 			this.label4.AutoSize = true;
-			this.label4.Location = new System.Drawing.Point(10, 283);
+			this.label4.Location = new System.Drawing.Point(9, 18);
 			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(243, 17);
+			this.label4.Size = new System.Drawing.Size(215, 17);
 			this.label4.TabIndex = 42;
-			this.label4.Text = "Convert WAV Files to Mono on Import";
+			this.label4.Text = "Convert Audio to Mono on Import";
 			// 
 			// groupBox3
 			// 
-			this.groupBox3.Controls.Add(this.radioButtonStereoConvNever);
-			this.groupBox3.Controls.Add(this.radioButtonStereoConvAlways);
-			this.groupBox3.Controls.Add(this.radioButtonStereoConvSometimes);
+			this.groupBox3.Controls.Add(this.label8);
+			this.groupBox3.Controls.Add(this.numericUpDown1);
+			this.groupBox3.Controls.Add(this.groupBox6);
+			this.groupBox3.Controls.Add(this.groupBoxStereoConv);
+			this.groupBox3.Controls.Add(this.label9);
+			this.groupBox3.Controls.Add(this.label4);
 			this.groupBox3.Location = new System.Drawing.Point(10, 293);
 			this.groupBox3.Name = "groupBox3";
-			this.groupBox3.Size = new System.Drawing.Size(445, 51);
+			this.groupBox3.Size = new System.Drawing.Size(445, 199);
 			this.groupBox3.TabIndex = 41;
 			this.groupBox3.TabStop = false;
 			// 
 			// radioButtonStereoConvNever
 			// 
 			this.radioButtonStereoConvNever.AutoSize = true;
-			this.radioButtonStereoConvNever.Location = new System.Drawing.Point(289, 21);
+			this.radioButtonStereoConvNever.Location = new System.Drawing.Point(289, 10);
 			this.radioButtonStereoConvNever.Name = "radioButtonStereoConvNever";
 			this.radioButtonStereoConvNever.Size = new System.Drawing.Size(67, 21);
 			this.radioButtonStereoConvNever.TabIndex = 25;
@@ -331,7 +336,7 @@ namespace BrawlSoundConverter
 			// radioButtonStereoConvAlways
 			// 
 			this.radioButtonStereoConvAlways.AutoSize = true;
-			this.radioButtonStereoConvAlways.Location = new System.Drawing.Point(6, 21);
+			this.radioButtonStereoConvAlways.Location = new System.Drawing.Point(6, 10);
 			this.radioButtonStereoConvAlways.Name = "radioButtonStereoConvAlways";
 			this.radioButtonStereoConvAlways.Size = new System.Drawing.Size(72, 21);
 			this.radioButtonStereoConvAlways.TabIndex = 22;
@@ -341,7 +346,7 @@ namespace BrawlSoundConverter
 			// radioButtonStereoConvSometimes
 			// 
 			this.radioButtonStereoConvSometimes.AutoSize = true;
-			this.radioButtonStereoConvSometimes.Location = new System.Drawing.Point(86, 21);
+			this.radioButtonStereoConvSometimes.Location = new System.Drawing.Point(86, 10);
 			this.radioButtonStereoConvSometimes.Name = "radioButtonStereoConvSometimes";
 			this.radioButtonStereoConvSometimes.Size = new System.Drawing.Size(195, 21);
 			this.radioButtonStereoConvSometimes.TabIndex = 24;
@@ -352,7 +357,7 @@ namespace BrawlSoundConverter
 			// 
 			this.label5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.label5.AutoSize = true;
-			this.label5.Location = new System.Drawing.Point(10, 492);
+			this.label5.Location = new System.Drawing.Point(10, 502);
 			this.label5.Name = "label5";
 			this.label5.Size = new System.Drawing.Size(88, 17);
 			this.label5.TabIndex = 44;
@@ -365,7 +370,7 @@ namespace BrawlSoundConverter
 			this.groupBox4.Controls.Add(this.treeView2);
 			this.groupBox4.Controls.Add(this.label7);
 			this.groupBox4.Controls.Add(this.buttonConfigSave);
-			this.groupBox4.Location = new System.Drawing.Point(10, 502);
+			this.groupBox4.Location = new System.Drawing.Point(10, 512);
 			this.groupBox4.Name = "groupBox4";
 			this.groupBox4.Size = new System.Drawing.Size(445, 223);
 			this.groupBox4.TabIndex = 43;
@@ -407,28 +412,53 @@ namespace BrawlSoundConverter
 			this.buttonConfigSave.UseVisualStyleBackColor = true;
 			this.buttonConfigSave.Click += new System.EventHandler(this.buttonSaveConfig_Click);
 			// 
-			// label6
+			// radioButtonMatchSRNever
 			// 
-			this.label6.AutoSize = true;
-			this.label6.Location = new System.Drawing.Point(10, 360);
-			this.label6.Name = "label6";
-			this.label6.Size = new System.Drawing.Size(175, 17);
-			this.label6.TabIndex = 46;
-			this.label6.Text = "Audio Resampling Options";
+			this.radioButtonMatchSRNever.AutoSize = true;
+			this.radioButtonMatchSRNever.Location = new System.Drawing.Point(223, 10);
+			this.radioButtonMatchSRNever.Name = "radioButtonMatchSRNever";
+			this.radioButtonMatchSRNever.Size = new System.Drawing.Size(67, 21);
+			this.radioButtonMatchSRNever.TabIndex = 33;
+			this.radioButtonMatchSRNever.Text = "Never";
+			this.radioButtonMatchSRNever.UseVisualStyleBackColor = true;
 			// 
-			// groupBox5
+			// label9
 			// 
-			this.groupBox5.Controls.Add(this.radioButtonMatchSRNever);
-			this.groupBox5.Controls.Add(this.label9);
-			this.groupBox5.Controls.Add(this.radioButtonMatchSRAlways);
-			this.groupBox5.Controls.Add(this.label8);
-			this.groupBox5.Controls.Add(this.radioButtonMatchSRSometimes);
-			this.groupBox5.Controls.Add(this.numericUpDown1);
-			this.groupBox5.Location = new System.Drawing.Point(10, 370);
-			this.groupBox5.Name = "groupBox5";
-			this.groupBox5.Size = new System.Drawing.Size(445, 108);
-			this.groupBox5.TabIndex = 45;
-			this.groupBox5.TabStop = false;
+			this.label9.AutoSize = true;
+			this.label9.Location = new System.Drawing.Point(9, 81);
+			this.label9.Name = "label9";
+			this.label9.Size = new System.Drawing.Size(278, 17);
+			this.label9.TabIndex = 35;
+			this.label9.Text = "Match Audio Sample Rate to Target Sound";
+			// 
+			// radioButtonMatchSRAlways
+			// 
+			this.radioButtonMatchSRAlways.AutoSize = true;
+			this.radioButtonMatchSRAlways.Location = new System.Drawing.Point(6, 10);
+			this.radioButtonMatchSRAlways.Name = "radioButtonMatchSRAlways";
+			this.radioButtonMatchSRAlways.Size = new System.Drawing.Size(72, 21);
+			this.radioButtonMatchSRAlways.TabIndex = 30;
+			this.radioButtonMatchSRAlways.Text = "Always";
+			this.radioButtonMatchSRAlways.UseVisualStyleBackColor = true;
+			// 
+			// label8
+			// 
+			this.label8.AutoSize = true;
+			this.label8.Location = new System.Drawing.Point(9, 144);
+			this.label8.Name = "label8";
+			this.label8.Size = new System.Drawing.Size(151, 17);
+			this.label8.TabIndex = 34;
+			this.label8.Text = "Maximum Sample Rate";
+			// 
+			// radioButtonMatchSRSometimes
+			// 
+			this.radioButtonMatchSRSometimes.AutoSize = true;
+			this.radioButtonMatchSRSometimes.Location = new System.Drawing.Point(86, 10);
+			this.radioButtonMatchSRSometimes.Name = "radioButtonMatchSRSometimes";
+			this.radioButtonMatchSRSometimes.Size = new System.Drawing.Size(131, 21);
+			this.radioButtonMatchSRSometimes.TabIndex = 32;
+			this.radioButtonMatchSRSometimes.Text = "If Downsampling";
+			this.radioButtonMatchSRSometimes.UseVisualStyleBackColor = true;
 			// 
 			// numericUpDown1
 			// 
@@ -437,7 +467,7 @@ namespace BrawlSoundConverter
             0,
             0,
             0});
-			this.numericUpDown1.Location = new System.Drawing.Point(6, 75);
+			this.numericUpDown1.Location = new System.Drawing.Point(12, 164);
 			this.numericUpDown1.Maximum = new decimal(new int[] {
             44100,
             0,
@@ -445,55 +475,38 @@ namespace BrawlSoundConverter
             0});
 			this.numericUpDown1.Name = "numericUpDown1";
 			this.numericUpDown1.Size = new System.Drawing.Size(120, 22);
-			this.numericUpDown1.TabIndex = 26;
+			this.numericUpDown1.TabIndex = 31;
 			// 
-			// label8
+			// groupBoxStereoConv
 			// 
-			this.label8.AutoSize = true;
-			this.label8.Location = new System.Drawing.Point(3, 55);
-			this.label8.Name = "label8";
-			this.label8.Size = new System.Drawing.Size(151, 17);
-			this.label8.TabIndex = 28;
-			this.label8.Text = "Maximum Sample Rate";
+			this.groupBoxStereoConv.Controls.Add(this.radioButtonStereoConvAlways);
+			this.groupBoxStereoConv.Controls.Add(this.radioButtonStereoConvSometimes);
+			this.groupBoxStereoConv.Controls.Add(this.radioButtonStereoConvNever);
+			this.groupBoxStereoConv.Location = new System.Drawing.Point(6, 38);
+			this.groupBoxStereoConv.Name = "groupBoxStereoConv";
+			this.groupBoxStereoConv.Size = new System.Drawing.Size(430, 40);
+			this.groupBoxStereoConv.TabIndex = 36;
+			this.groupBoxStereoConv.TabStop = false;
 			// 
-			// label9
+			// groupBox6
 			// 
-			this.label9.AutoSize = true;
-			this.label9.Location = new System.Drawing.Point(7, 11);
-			this.label9.Name = "label9";
-			this.label9.Size = new System.Drawing.Size(222, 17);
-			this.label9.TabIndex = 29;
-			this.label9.Text = "Match Target Sound Sample Rate";
+			this.groupBox6.Controls.Add(this.radioButtonMatchSRAlways);
+			this.groupBox6.Controls.Add(this.radioButtonMatchSRSometimes);
+			this.groupBox6.Controls.Add(this.radioButtonMatchSRNever);
+			this.groupBox6.Location = new System.Drawing.Point(6, 101);
+			this.groupBox6.Name = "groupBox6";
+			this.groupBox6.Size = new System.Drawing.Size(430, 40);
+			this.groupBox6.TabIndex = 37;
+			this.groupBox6.TabStop = false;
 			// 
-			// radioButtonMatchSRNever
+			// label10
 			// 
-			this.radioButtonMatchSRNever.AutoSize = true;
-			this.radioButtonMatchSRNever.Location = new System.Drawing.Point(256, 31);
-			this.radioButtonMatchSRNever.Name = "radioButtonMatchSRNever";
-			this.radioButtonMatchSRNever.Size = new System.Drawing.Size(67, 21);
-			this.radioButtonMatchSRNever.TabIndex = 28;
-			this.radioButtonMatchSRNever.Text = "Never";
-			this.radioButtonMatchSRNever.UseVisualStyleBackColor = true;
-			// 
-			// radioButtonMatchSRAlways
-			// 
-			this.radioButtonMatchSRAlways.AutoSize = true;
-			this.radioButtonMatchSRAlways.Location = new System.Drawing.Point(6, 31);
-			this.radioButtonMatchSRAlways.Name = "radioButtonMatchSRAlways";
-			this.radioButtonMatchSRAlways.Size = new System.Drawing.Size(72, 21);
-			this.radioButtonMatchSRAlways.TabIndex = 26;
-			this.radioButtonMatchSRAlways.Text = "Always";
-			this.radioButtonMatchSRAlways.UseVisualStyleBackColor = true;
-			// 
-			// radioButtonMatchSRSometimes
-			// 
-			this.radioButtonMatchSRSometimes.AutoSize = true;
-			this.radioButtonMatchSRSometimes.Location = new System.Drawing.Point(86, 31);
-			this.radioButtonMatchSRSometimes.Name = "radioButtonMatchSRSometimes";
-			this.radioButtonMatchSRSometimes.Size = new System.Drawing.Size(164, 21);
-			this.radioButtonMatchSRSometimes.TabIndex = 27;
-			this.radioButtonMatchSRSometimes.Text = "Only If Downsampling";
-			this.radioButtonMatchSRSometimes.UseVisualStyleBackColor = true;
+			this.label10.AutoSize = true;
+			this.label10.Location = new System.Drawing.Point(10, 283);
+			this.label10.Name = "label10";
+			this.label10.Size = new System.Drawing.Size(142, 17);
+			this.label10.TabIndex = 47;
+			this.label10.Text = "Audio Import Settings";
 			// 
 			// SettingsForm
 			// 
@@ -501,12 +514,10 @@ namespace BrawlSoundConverter
 			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.CancelButton = this.buttonCancel;
-			this.ClientSize = new System.Drawing.Size(469, 773);
-			this.Controls.Add(this.label6);
-			this.Controls.Add(this.groupBox5);
+			this.ClientSize = new System.Drawing.Size(469, 783);
+			this.Controls.Add(this.label10);
 			this.Controls.Add(this.label5);
 			this.Controls.Add(this.groupBox4);
-			this.Controls.Add(this.label4);
 			this.Controls.Add(this.groupBox3);
 			this.Controls.Add(this.label3);
 			this.Controls.Add(this.groupBox2);
@@ -536,9 +547,11 @@ namespace BrawlSoundConverter
 			this.groupBox3.PerformLayout();
 			this.groupBox4.ResumeLayout(false);
 			this.groupBox4.PerformLayout();
-			this.groupBox5.ResumeLayout(false);
-			this.groupBox5.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
+			this.groupBoxStereoConv.ResumeLayout(false);
+			this.groupBoxStereoConv.PerformLayout();
+			this.groupBox6.ResumeLayout(false);
+			this.groupBox6.PerformLayout();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -578,13 +591,14 @@ namespace BrawlSoundConverter
 		private System.Windows.Forms.TreeView treeView2;
 		private System.Windows.Forms.Label label7;
 		private System.Windows.Forms.Button buttonConfigLoad;
-		private System.Windows.Forms.Label label6;
-		private System.Windows.Forms.GroupBox groupBox5;
-		private System.Windows.Forms.NumericUpDown numericUpDown1;
-		private System.Windows.Forms.Label label8;
-		private System.Windows.Forms.RadioButton radioButtonMatchSRNever;
-		private System.Windows.Forms.Label label9;
+		private System.Windows.Forms.GroupBox groupBox6;
 		private System.Windows.Forms.RadioButton radioButtonMatchSRAlways;
 		private System.Windows.Forms.RadioButton radioButtonMatchSRSometimes;
+		private System.Windows.Forms.RadioButton radioButtonMatchSRNever;
+		private System.Windows.Forms.GroupBox groupBoxStereoConv;
+		private System.Windows.Forms.Label label9;
+		private System.Windows.Forms.Label label8;
+		private System.Windows.Forms.NumericUpDown numericUpDown1;
+		private System.Windows.Forms.Label label10;
 	}
 }
