@@ -233,7 +233,7 @@ namespace BrawlSoundConverter
 					Console.WriteLine("Converting file:");
 					Console.WriteLine("\t\"" + audioPath + "\"");
 					Console.Write("to WAV... ");
-					Sawndz.runSoX("\"" + audioPath + "\" \"" + Path.GetFullPath(Properties.Resources.tempAudioTypeConvPath) + "\"");
+					Sawndz.runSoX("\"" + audioPath + "\" -b 16 \"" + Path.GetFullPath(Properties.Resources.tempAudioTypeConvPath) + "\"");
 					if (File.Exists(Properties.Resources.tempAudioTypeConvPath))
 					{
 						success = true;
