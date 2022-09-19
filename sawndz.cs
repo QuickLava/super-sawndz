@@ -207,6 +207,49 @@ namespace BrawlSoundConverter
 			}
 			return result;
 		}
+		public static bool hasSoundExtension(string filePath)
+		{
+			bool result = false;
+
+			if (File.Exists(filePath))
+			{
+				string extension = Path.GetExtension(filePath);
+				result = extension == ".wav";
+				result |= extension == ".mp3";
+				result |= extension == ".ogg";
+				result |= extension == ".flac";
+			}
+
+			return result;
+		}
+		public static bool convertAudioToTempWav(string audioPath)
+		{
+			bool success = false;
+
+			if (hasSoundExtension(audioPath))
+			{
+				if (Path.GetExtension(audioPath) != (".wav"))
+				{
+					Console.WriteLine("Converting file:");
+					Console.WriteLine("\t\"" + audioPath + "\"");
+					Console.Write("to WAV... ");
+					Sawndz.runSoX("\"" + audioPath + "\" \"" + Path.GetFullPath(Properties.Resources.tempAudioTypeConvPath) + "\"");
+					if (File.Exists(Properties.Resources.tempAudioTypeConvPath))
+					{
+						success = true;
+						Console.WriteLine("Success! Converted file created at:");
+						Console.WriteLine("\t\"" + Properties.Resources.tempAudioTypeConvPath + "\"");
+						Console.WriteLine("File will be deleted when the program closes.");
+					}
+					else
+					{
+						Console.WriteLine("Failure, unable to convert file!");
+					}
+				}
+			}
+
+			return success;
+		}
 		public static void doInsertWithRespectToChannelCount(string filePath, BrawlLib.SSBB.ResourceNodes.RSARFileAudioNode targetNode, bool headless)
 		{
 			if (targetNode != null && File.Exists(filePath))
@@ -236,9 +279,11 @@ namespace BrawlSoundConverter
 
 				if (doMixToMono || doResample)
 				{
-					string tempFile = "___tempconvwav.wav";
 					Console.WriteLine("");
-					Console.WriteLine("Converting Sound to Mono... ");
+					Console.WriteLine("Processing audio to:");
+					Console.WriteLine("\t- Mix audio down to mono");
+					Console.WriteLine("\t- Resample audio from " + incomingAudio.Frequency.ToString() + "hz to " + targetSampleRate.ToString() + "hz");
+
 					string arguments = " ";
 					if (doMixToMono)
 					{
@@ -248,22 +293,23 @@ namespace BrawlSoundConverter
 					{
 						arguments += "rate " + targetSampleRate.ToString();
 					}
-					runSoX("-V3 \"" + filePath + "\" \"" + tempFile + "\"" + arguments);
-					if (File.Exists(tempFile))
+					runSoX("-V3 \"" + filePath + "\" \"" + Properties.Resources.tempAudioResamplePath + "\"" + arguments);
+					if (File.Exists(Properties.Resources.tempAudioResamplePath))
 					{
+						Console.WriteLine("Success!");
 						if (headless)
 						{
-							targetNode.HeadlessReplace(tempFile);
+							targetNode.HeadlessReplace(Properties.Resources.tempAudioResamplePath);
 						}
 						else
 						{
-							targetNode.Replace(tempFile);
+							targetNode.Replace(Properties.Resources.tempAudioResamplePath);
 						}
-						File.Delete(tempFile);
+						File.Delete(Properties.Resources.tempAudioResamplePath);
 					}
 					else
 					{
-						Console.WriteLine("Unable to convert to Mono!");
+						Console.WriteLine("Unable to process audio! Aborting import!	");
 					}
 				}
 				else

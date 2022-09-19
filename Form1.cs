@@ -30,8 +30,6 @@ namespace BrawlSoundConverter
 		int currCollectionIndex = 0;
 		int currRightClickedTab = -1;
 
-		string tempTypeConvWavPath = "__typeconvwav.wav";
-
 		private void getCurrTabSettingsFromSettings()
 		{
 			int tabConfigIndex = TabConfiguration.getCurrentBRSARSettingsIndex(brsar.GetRSAR());
@@ -335,21 +333,6 @@ namespace BrawlSoundConverter
 			tabControl1.TabPages[0].ContextMenuStrip = contextMenuStripTab;
 		}
 
-		bool hasSoundExtension(string filePath)
-		{
-			bool result = false;
-
-			if (File.Exists(filePath))
-			{
-				string extension = Path.GetExtension(filePath);
-				result = extension == ".wav";
-				result |= extension == ".mp3";
-				result |= extension == ".ogg";
-				result |= extension == ".flac";
-			}
-
-			return result;
-		}
 		private void setInsertButtonState()
 		{
 			buttonInsert.Enabled = false;
@@ -456,32 +439,12 @@ namespace BrawlSoundConverter
 		{
 			OpenFileDialog ofd = new OpenFileDialog();
 			ofd.Filter = "Sound|*.wav;*.mp3;*.ogg;*.flac;*.sawnd|Audio File|*.wav;*.mp3;*.ogg;*.flac|Sawndz File(*.sawnd)|*.sawnd";
-
 			if ( ofd.ShowDialog() == System.Windows.Forms.DialogResult.OK )
 			{
 				textBoxInputFile.Text = ofd.FileName;
-				if (hasSoundExtension(textBoxInputFile.Text))
+				if (Sawndz.convertAudioToTempWav(textBoxInputFile.Text))
 				{
-					if (Path.GetExtension(textBoxInputFile.Text) != (".wav"))
-					{
-						Console.WriteLine("Converting selected file:");
-						Console.WriteLine("\t\"" + textBoxInputFile.Text + "\"");
-						Console.Write("to WAV... ");
-						Sawndz.runSoX("\"" + textBoxInputFile.Text + "\" \"" + Path.GetFullPath(tempTypeConvWavPath) + "\"");
-						if (File.Exists(tempTypeConvWavPath))
-						{
-							textBoxInputFile.Text = tempTypeConvWavPath;
-							Console.WriteLine("Success! Converted file created at:");
-							Console.WriteLine("\t\"" + tempTypeConvWavPath + "\"");
-							Console.WriteLine("File will be deleted when the program closes.");
-						}
-						else
-						{
-							textBoxInputFile.Clear();
-							Console.WriteLine("Failure, unable to convert file!");
-						}
-					}
-					//If it's not a standard PCM style wav it'll throw an exception
+					textBoxInputFile.Text = Properties.Resources.tempAudioTypeConvPath;
 					try
 					{
 						audioPlaybackPanelWav.TargetSource = new StreamSource(BrawlLib.Internal.Audio.WAV.FromFile(textBoxInputFile.Text));
@@ -492,7 +455,10 @@ namespace BrawlSoundConverter
 					}
 				}
 				else
+				{
+					textBoxInputFile.Text = Properties.Resources.tempAudioTypeConvPath;
 					audioPlaybackPanelWav.TargetSource = null;
+				}
 			}
 		}
 
@@ -1621,22 +1587,25 @@ namespace BrawlSoundConverter
 			}
 		}
 
-		void deleteTemporaryConversionWav()
+		void deleteTemporaryWavs()
 		{
-			if (File.Exists(tempTypeConvWavPath))
+			if (File.Exists(Properties.Resources.tempAudioTypeConvPath))
 			{
-				File.Delete(tempTypeConvWavPath);
+				File.Delete(Properties.Resources.tempAudioTypeConvPath);
+			}
+			if (File.Exists(Properties.Resources.tempAudioResamplePath))
+			{
+				File.Delete(Properties.Resources.tempAudioResamplePath);
 			}
 		}
 
 		private void Form1_FormClosing(object sender, FormClosingEventArgs e)
 		{
-			deleteTemporaryConversionWav();
+			deleteTemporaryWavs();
 		}
-
 		private void Form1_Shown(object sender, EventArgs e)
 		{
-			deleteTemporaryConversionWav();
+			deleteTemporaryWavs();
 		}
 	}
 }

@@ -117,6 +117,14 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="tempAudioResamplePath" xml:space="preserve">
+    <value>___tempconvwav.wav</value>
+    <comment>Location for processed temp audio file.</comment>
+  </data>
+  <data name="tempAudioTypeConvPath" xml:space="preserve">
+    <value>___typeconvwav.wav</value>
+    <comment>Location for type-converted temp audio.</comment>
+  </data>
   <data name="Version" xml:space="preserve">
     <value>1.9.0</value>
     <comment>Denotes the current version of Super Sawndz.</comment>

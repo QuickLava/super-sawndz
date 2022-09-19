@@ -61,6 +61,24 @@ namespace BrawlSoundConverter.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to ___tempconvwav.wav.
+        /// </summary>
+        internal static string tempAudioResamplePath {
+            get {
+                return ResourceManager.GetString("tempAudioResamplePath", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ___typeconvwav.wav.
+        /// </summary>
+        internal static string tempAudioTypeConvPath {
+            get {
+                return ResourceManager.GetString("tempAudioTypeConvPath", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to 1.9.0.
         /// </summary>
         internal static string Version {
