@@ -442,7 +442,23 @@ namespace BrawlSoundConverter
 			if ( ofd.ShowDialog() == System.Windows.Forms.DialogResult.OK )
 			{
 				textBoxInputFile.Text = ofd.FileName;
-				if (Sawndz.convertAudioToTempWav(textBoxInputFile.Text))
+				string extension = Path.GetExtension(textBoxInputFile.Text);
+				if (extension == ".sawnd")
+				{
+					audioPlaybackPanelWav.TargetSource = null;
+				}
+				else if (extension == ".wav")
+				{
+					try
+					{
+						audioPlaybackPanelWav.TargetSource = new StreamSource(BrawlLib.Internal.Audio.WAV.FromFile(textBoxInputFile.Text));
+					}
+					catch (Exception ex)
+					{
+						Console.WriteLine(ex.ToString());
+					}
+				}
+				else if (Sawndz.convertAudioToTempWav(textBoxInputFile.Text))
 				{
 					textBoxInputFile.Text = Properties.Resources.tempAudioTypeConvPath;
 					try
@@ -456,7 +472,7 @@ namespace BrawlSoundConverter
 				}
 				else
 				{
-					textBoxInputFile.Text = Properties.Resources.tempAudioTypeConvPath;
+					textBoxInputFile.Text = "";
 					audioPlaybackPanelWav.TargetSource = null;
 				}
 			}

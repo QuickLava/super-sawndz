@@ -281,8 +281,14 @@ namespace BrawlSoundConverter
 				{
 					Console.WriteLine("");
 					Console.WriteLine("Processing audio to:");
-					Console.WriteLine("\t- Mix audio down to mono");
-					Console.WriteLine("\t- Resample audio from " + incomingAudio.Frequency.ToString() + "hz to " + targetSampleRate.ToString() + "hz");
+					if (doMixToMono)
+					{
+						Console.WriteLine("\t- Mix audio down to mono");
+					}
+					if (doResample)
+					{
+						Console.WriteLine("\t- Resample audio from " + incomingAudio.Frequency.ToString() + "hz to " + targetSampleRate.ToString() + "hz");
+					}
 
 					string arguments = " ";
 					if (doMixToMono)
