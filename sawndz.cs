@@ -271,7 +271,7 @@ namespace BrawlSoundConverter
 				{
 					targetSampleRate = incomingAudio.Frequency;
 				}
-				if (Properties.Settings.Default.MaximumSampleRate != 0 && targetSampleRate > Properties.Settings.Default.MaximumSampleRate)
+				if (Properties.Settings.Default.MaximumSampleRate > 0 && targetSampleRate > Properties.Settings.Default.MaximumSampleRate)
 				{
 					targetSampleRate = Math.Min(targetSampleRate, Properties.Settings.Default.MaximumSampleRate);
 					doResample = true;
