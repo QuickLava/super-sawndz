@@ -106,7 +106,7 @@ namespace BrawlSoundConverter
 			}
 			return result;
 		}
-		static bool runSoX(string args)
+		public static bool runSoX(string args)
 		{
 			bool result = false;
 			if (!File.Exists(Path.GetFullPath(soundExchangePath)))
@@ -248,7 +248,7 @@ namespace BrawlSoundConverter
 					{
 						arguments += "rate " + targetSampleRate.ToString();
 					}
-					runSoX("-V3 " + filePath + " " + tempFile + arguments);
+					runSoX("-V3 \"" + filePath + "\" \"" + tempFile + "\"" + arguments);
 					if (File.Exists(tempFile))
 					{
 						if (headless)

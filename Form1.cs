@@ -30,6 +30,8 @@ namespace BrawlSoundConverter
 		int currCollectionIndex = 0;
 		int currRightClickedTab = -1;
 
+		string tempTypeConvWavPath = "__typeconvwav.wav";
+
 		private void getCurrTabSettingsFromSettings()
 		{
 			int tabConfigIndex = TabConfiguration.getCurrentBRSARSettingsIndex(brsar.GetRSAR());
@@ -333,6 +335,20 @@ namespace BrawlSoundConverter
 			tabControl1.TabPages[0].ContextMenuStrip = contextMenuStripTab;
 		}
 
+		bool hasSoundExtension(string filePath)
+		{
+			bool result = false;
+
+			if (File.Exists(filePath))
+			{
+				string extension = Path.GetExtension(filePath);
+				result = extension == ".wav";
+				result |= extension == ".mp3";
+				result |= extension == ".ogg";
+			}
+
+			return result;
+		}
 		private void setInsertButtonState()
 		{
 			buttonInsert.Enabled = false;
@@ -342,7 +358,7 @@ namespace BrawlSoundConverter
 				{
 					buttonInsert.Enabled = true;
 				}
-				else if (Path.GetExtension(textBoxInputFile.Text).CompareTo(".wav") == 0)
+				else if (Path.GetExtension(textBoxInputFile.Text) == ".wav")
 				{
 					int gid, cid, wid;
 					if (int.TryParse(textBoxGroupID.Text, out gid))
@@ -355,20 +371,6 @@ namespace BrawlSoundConverter
 								{
 									buttonInsert.Enabled = true;
 								}
-							}
-						}
-					}
-				}
-				else if (Path.GetExtension(textBoxInputFile.Text).CompareTo(".brwsd") == 0)
-				{
-					int gid, cid, wid;
-					if (int.TryParse(textBoxGroupID.Text, out gid))
-					{
-						if (int.TryParse(textBoxCollectionID.Text, out cid))
-						{
-							if (gid > -1 && cid > -1)
-							{
-								buttonInsert.Enabled = true;
 							}
 						}
 					}
@@ -452,22 +454,41 @@ namespace BrawlSoundConverter
 		private void buttonBrowse_Click( object sender, EventArgs e )
 		{
 			OpenFileDialog ofd = new OpenFileDialog();
-			ofd.Filter = "Sound|*.wav;*.sawnd|Wave File(*.wav)|*.wav|Sawndz File(*.sawnd)|*.sawnd";
+			ofd.Filter = "Sound|*.wav;*.mp3;*.ogg;*.sawnd|Audio File|*.wav;*.mp3;*.ogg|Sawndz File(*.sawnd)|*.sawnd";
 			//ofd.Filter = "Sound|*.wav;*.brwsd|Wave File(*.wav)|*.wav|BRWSD File(*.brwsd)|*.brwsd";
 
 			if ( ofd.ShowDialog() == System.Windows.Forms.DialogResult.OK )
 			{
 				textBoxInputFile.Text = ofd.FileName;
-				if( Path.GetExtension( ofd.FileName ).CompareTo( ".wav" ) == 0 )
+				if (hasSoundExtension(textBoxInputFile.Text))
 				{
+					if (Path.GetExtension(textBoxInputFile.Text) != (".wav"))
+					{
+						Console.WriteLine("Converting selected file:");
+						Console.WriteLine("\t\"" + textBoxInputFile.Text + "\"");
+						Console.Write("to WAV... ");
+						Sawndz.runSoX("\"" + textBoxInputFile.Text + "\" \"" + Path.GetFullPath(tempTypeConvWavPath) + "\"");
+						if (File.Exists(tempTypeConvWavPath))
+						{
+							textBoxInputFile.Text = tempTypeConvWavPath;
+							Console.WriteLine("Success! Converted file created at:");
+							Console.WriteLine("\t\"" + tempTypeConvWavPath + "\"");
+							Console.WriteLine("File will be deleted when the program closes.");
+						}
+						else
+						{
+							textBoxInputFile.Clear();
+							Console.WriteLine("Failure, unable to convert file!");
+						}
+					}
 					//If it's not a standard PCM style wav it'll throw an exception
 					try
 					{
-						audioPlaybackPanelWav.TargetSource = new StreamSource( BrawlLib.Internal.Audio.WAV.FromFile( ofd.FileName ) );
+						audioPlaybackPanelWav.TargetSource = new StreamSource(BrawlLib.Internal.Audio.WAV.FromFile(textBoxInputFile.Text));
 					}
-					catch( Exception ex )
+					catch (Exception ex)
 					{
-						Console.WriteLine( ex.ToString() );
+						Console.WriteLine(ex.ToString());
 					}
 				}
 				else
@@ -486,7 +507,7 @@ namespace BrawlSoundConverter
 					Console.WriteLine( "Inserting Sawnd " + Path.GetFileName( textBoxInputFile.Text ) );
 					Sawndz.insertSawnd( textBoxInputFile.Text );
 				}
-				else if( Path.GetExtension( textBoxInputFile.Text ).CompareTo( ".wav" ) == 0 )
+				else if (Path.GetExtension(textBoxInputFile.Text) == ".wav")
 				{
 					int gid, cid, wid;
 					if( int.TryParse( textBoxGroupID.Text, out gid ) )
@@ -499,20 +520,6 @@ namespace BrawlSoundConverter
 								{
 									Sawndz.insertWav( textBoxInputFile.Text, gid, cid, wid );
 								}
-							}
-						}
-					}
-				}
-				else if (Path.GetExtension(textBoxInputFile.Text).CompareTo(".brwsd") == 0)
-				{
-					int gid, cid;
-					if (int.TryParse(textBoxGroupID.Text, out gid))
-					{
-						if (int.TryParse(textBoxCollectionID.Text, out cid))
-						{
-							if (gid > -1 && cid > -1)
-							{
-								Sawndz.replaceBRSARSubfile(textBoxInputFile.Text, gid, cid);
 							}
 						}
 					}
@@ -1612,6 +1619,24 @@ namespace BrawlSoundConverter
 					loadTreeView();
 				}
 			}
+		}
+
+		void deleteTemporaryConversionWav()
+		{
+			if (File.Exists(tempTypeConvWavPath))
+			{
+				File.Delete(tempTypeConvWavPath);
+			}
+		}
+
+		private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+		{
+			deleteTemporaryConversionWav();
+		}
+
+		private void Form1_Shown(object sender, EventArgs e)
+		{
+			deleteTemporaryConversionWav();
 		}
 	}
 }

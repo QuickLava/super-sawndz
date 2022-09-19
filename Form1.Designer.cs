@@ -433,7 +433,7 @@
 			// ChangeSettingsToolStripMenuItem
 			// 
 			this.ChangeSettingsToolStripMenuItem.Name = "ChangeSettingsToolStripMenuItem";
-			this.ChangeSettingsToolStripMenuItem.Size = new System.Drawing.Size(199, 26);
+			this.ChangeSettingsToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
 			this.ChangeSettingsToolStripMenuItem.Text = "Change Settings";
 			this.ChangeSettingsToolStripMenuItem.Click += new System.EventHandler(this.ChangeSettingsToolStripMenuItem_Click);
 			// 
@@ -799,7 +799,9 @@
 			this.Text = "Super Sawndz";
 			this.Activated += new System.EventHandler(this.Form1_Activated);
 			this.Deactivate += new System.EventHandler(this.Form1_Deactivate);
+			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
 			this.Load += new System.EventHandler(this.Form1_Load);
+			this.Shown += new System.EventHandler(this.Form1_Shown);
 			this.DragDrop += new System.Windows.Forms.DragEventHandler(this.Form1_DragDrop);
 			this.DragEnter += new System.Windows.Forms.DragEventHandler(this.Form1_DragEnter);
 			this.DragLeave += new System.EventHandler(this.Form1_DragLeave);
