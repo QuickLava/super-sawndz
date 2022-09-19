@@ -408,7 +408,17 @@ namespace BrawlSoundConverter
 								if (File.Exists(mapFolder + filename))
 								{
 									BrawlLib.SSBB.ResourceNodes.RSARFileAudioNode targetNode = brsar.GetNode(groupID, collID, wavID) as BrawlLib.SSBB.ResourceNodes.RSARFileAudioNode;
-									doInsertWithRespectToChannelCount(mapFolder + filename, targetNode, true);
+									if (hasSoundExtension(filename) && Path.GetFileName(filename) != ".wav")
+									{
+										if (convertAudioToTempWav(mapFolder + filename))
+										{
+											doInsertWithRespectToChannelCount(Properties.Resources.tempAudioTypeConvPath, targetNode, true);
+										}
+									}
+									else
+									{
+										doInsertWithRespectToChannelCount(mapFolder + filename, targetNode, true);
+									}
 
 									if (targetNode.IsDirty)
 									{
@@ -441,6 +451,10 @@ namespace BrawlSoundConverter
 					Console.WriteLine("Unable to find any Map nodes in this file (\"" + mapFileName + "\"), it likely isn't a WAVE Map. No WAVs were imported.");
 				}
 
+				if (File.Exists(Properties.Resources.tempAudioTypeConvPath))
+				{
+					File.Delete(Properties.Resources.tempAudioTypeConvPath);
+				}
 			}
 			else
 			{
