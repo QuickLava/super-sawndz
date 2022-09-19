@@ -345,6 +345,7 @@ namespace BrawlSoundConverter
 				result = extension == ".wav";
 				result |= extension == ".mp3";
 				result |= extension == ".ogg";
+				result |= extension == ".flac";
 			}
 
 			return result;
@@ -454,8 +455,7 @@ namespace BrawlSoundConverter
 		private void buttonBrowse_Click( object sender, EventArgs e )
 		{
 			OpenFileDialog ofd = new OpenFileDialog();
-			ofd.Filter = "Sound|*.wav;*.mp3;*.ogg;*.sawnd|Audio File|*.wav;*.mp3;*.ogg|Sawndz File(*.sawnd)|*.sawnd";
-			//ofd.Filter = "Sound|*.wav;*.brwsd|Wave File(*.wav)|*.wav|BRWSD File(*.brwsd)|*.brwsd";
+			ofd.Filter = "Sound|*.wav;*.mp3;*.ogg;*.flac;*.sawnd|Audio File|*.wav;*.mp3;*.ogg;*.flac|Sawndz File(*.sawnd)|*.sawnd";
 
 			if ( ofd.ShowDialog() == System.Windows.Forms.DialogResult.OK )
 			{
