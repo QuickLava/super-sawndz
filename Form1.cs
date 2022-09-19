@@ -1454,6 +1454,10 @@ namespace BrawlSoundConverter
 			else
 			{
 				setLoadedCollection(tabControl1.SelectedIndex);
+				textBoxGroupID.Clear();
+				textBoxCollectionID.Clear();
+				textBoxWavID.Clear();
+				textBoxInfoIndex.Clear();
 				generateGroupContextMenuItems();
 			}
 		}
