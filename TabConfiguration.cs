@@ -44,7 +44,7 @@ namespace BrawlSoundConverter
 			if (majorSplit.Length >= 1)
 			{
 				string[] countSplit = majorSplit[0].Split(BRSARDataDelimiter);
-				if (countSplit.Length >= 2)
+				if (countSplit.Length == 2)
 				{
 					brsarGroupCount = Convert.ToInt32(countSplit[0], 16);
 					brsarFileCount = Convert.ToInt32(countSplit[1], 16);
