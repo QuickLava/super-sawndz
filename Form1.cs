@@ -174,6 +174,10 @@ namespace BrawlSoundConverter
 				}
 			}
 		}
+		private void setTabRearrangeButtonState()
+		{
+			buttonRearrangeTabs.Enabled = tabControl1.TabCount > 3;
+		}
 
 		/*Called when a node is selected.
 		 * Sets the textBox's for group id etc.
@@ -430,7 +434,7 @@ namespace BrawlSoundConverter
 			buttonFindBack.Enabled = true;
 			buttonExpand.Enabled = true;
 			buttonCollapse.Enabled = true;
-			buttonRearrangeTabs.Enabled = tabControl1.TabCount > 3;
+			setTabRearrangeButtonState();
 			checkBoxSearchCase.Enabled = true;
 			checkBoxSearchGroups.Enabled = true;
 			checkBoxSearchSounds.Enabled = true;
@@ -1335,6 +1339,7 @@ namespace BrawlSoundConverter
 					tabControl1.TabPages[tabControl1.TabCount - 2].ContextMenuStrip = contextMenuStripTab;
 				}
 				generateGroupContextMenuItems();
+				setTabRearrangeButtonState();
 			}
 		}
 		// Managing Underlying Group-Collections
@@ -1438,7 +1443,7 @@ namespace BrawlSoundConverter
 			tabControl1.TabPages[tabControl1.SelectedIndex].ContextMenuStrip = contextMenuStripTab;
 			generateGroupContextMenuItems();
 			buildCurrTabSettings();
-			buttonRearrangeTabs.Enabled = tabControl1.TabCount > 3;
+			setTabRearrangeButtonState();
 		}
 		private void closeTab(int tabIndex)
 		{
@@ -1453,7 +1458,7 @@ namespace BrawlSoundConverter
 				generateGroupContextMenuItems();
 				buildCurrTabSettings();
 			}
-			buttonRearrangeTabs.Enabled = tabControl1.TabCount > 3;
+			setTabRearrangeButtonState();
 		}
 		private void renameTab(int tabIndex)
 		{
