@@ -1591,6 +1591,11 @@ namespace BrawlSoundConverter
 						tabControl1.SelectedIndex--;
 						treeViewMapping.Select();
 					}
+					else if (tabControl1.TabCount > 2)
+					{
+						tabControl1.SelectedIndex = tabControl1.TabCount - 2;
+						treeViewMapping.Select();
+					}
 					e.SuppressKeyPress = true;
 				}
 				else if (e.KeyCode == Keys.Right || e.KeyCode == Keys.Tab)
@@ -1598,6 +1603,11 @@ namespace BrawlSoundConverter
 					if (tabControl1.SelectedIndex < (tabControl1.TabCount - 2))
 					{
 						tabControl1.SelectedIndex++;
+						treeViewMapping.Select();
+					}
+					else if (tabControl1.TabCount > 2)
+					{
+						tabControl1.SelectedIndex = 0;
 						treeViewMapping.Select();
 					}
 					e.SuppressKeyPress = true;
