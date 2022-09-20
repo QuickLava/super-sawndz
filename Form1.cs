@@ -1541,6 +1541,14 @@ namespace BrawlSoundConverter
 					textBoxSearchBar.Select();
 					textBoxSearchBar.SelectAll();
 				}
+				else if (e.KeyCode == Keys.R)
+				{
+					if (tabControl1.SelectedIndex > 0 && tabControl1.SelectedIndex < (tabControl1.TabCount - 1))
+					{
+						e.SuppressKeyPress = true;
+						this.BeginInvoke(new Action(() => renameTab(tabControl1.SelectedIndex)));
+					}
+				}
 				else if (e.KeyCode == Keys.W)
 				{
 					if (tabControl1.SelectedIndex > 0 && tabControl1.SelectedIndex < (tabControl1.TabCount - 1))
