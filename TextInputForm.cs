@@ -39,5 +39,19 @@ namespace BrawlSoundConverter
 				e.Handled = true;
 			}
 		}
+
+		private void textBox1_TextChanged(object sender, EventArgs e)
+		{
+			int selectedIndex = textBox1.SelectionStart;
+			string bufferStr = textBox1.Text;
+			int stringSizeDifference = bufferStr.Length;
+			foreach (char blacklistedChar in blacklistedChars)
+			{
+				bufferStr = bufferStr.Replace("" + blacklistedChar, "");
+			}
+			stringSizeDifference -= bufferStr.Length;
+			textBox1.Text = bufferStr;
+			textBox1.SelectionStart = selectedIndex - stringSizeDifference;
+		}
 	}
 }

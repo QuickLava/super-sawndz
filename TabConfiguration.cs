@@ -32,8 +32,8 @@ namespace BrawlSoundConverter
 		public int brsarFileCount = -1;
 
 		public static char BRSARDataDelimiter = '_';
-		public static char TabDelimiter = '$';
-		public static char GroupDelimiter = '-';
+		public static char TabDelimiter = '¼';
+		public static char GroupDelimiter = '½';
 		public static string configFileExtension = ".tcfg";
 
 		public List<TabConfigurationTabEntry> tabEntries = new List<TabConfigurationTabEntry>();
