@@ -22,7 +22,7 @@ namespace BrawlSoundConverter
 		//Returns the rsar node, opens it if it is closed
 		public static BrawlLib.SSBB.ResourceNodes.RSARNode GetRSAR()
 		{
-			if( _rsar == null )
+			if( _rsar == null && File.Exists(RSAR_FileName))
 			{
 				_rsar = new BrawlLib.SSBB.ResourceNodes.RSARNode();
 				_rsar.Replace( RSAR_FileName );

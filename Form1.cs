@@ -69,24 +69,30 @@ namespace BrawlSoundConverter
 		{
 			try
 			{
-				if( treeViewMapping.Nodes.Count > 0 )
-					treeViewMapping.Nodes.Clear();
-				brsar.LoadTreeView( treeViewMapping );
-				// Assign appropriate context menus to all nodes.
-				foreach (TreeNode node in treeViewMapping.Nodes)
+				if (brsar.GetRSAR() != null)
 				{
-					node.ContextMenuStrip = contextMenuStripGroup;
-					foreach (TreeNode collNode in node.Nodes)
+					if (treeViewMapping.Nodes.Count > 0)
 					{
-						collNode.ContextMenuStrip = contextMenuStripCollection;
-						foreach (TreeNode wavNode in collNode.Nodes)
+						treeViewMapping.Nodes.Clear();
+					}
+					brsar.LoadTreeView(treeViewMapping);
+					// Assign appropriate context menus to all nodes.
+					foreach (TreeNode node in treeViewMapping.Nodes)
+					{
+						node.ContextMenuStrip = contextMenuStripGroup;
+						foreach (TreeNode collNode in node.Nodes)
 						{
-							wavNode.ContextMenuStrip = contextMenuStripWAV;
+							collNode.ContextMenuStrip = contextMenuStripCollection;
+							foreach (TreeNode wavNode in collNode.Nodes)
+							{
+								wavNode.ContextMenuStrip = contextMenuStripWAV;
+							}
 						}
 					}
+					applyRelevantTabSettings(currTabSettings == null);
+					treeViewMapping.Invalidate();
+
 				}
-				applyRelevantTabSettings(currTabSettings == null);
-				treeViewMapping.Invalidate();
 			}
 			catch ( Exception ex )
 			{
@@ -111,8 +117,15 @@ namespace BrawlSoundConverter
 			try
 			{
 				//If it doesn't exist this will throw an exception
-				loadBRSAR("");
-				enableStuff();
+				if (loadBRSAR(""))
+				{
+					enableStuff();
+				}
+				else
+				{
+					disableStuff();
+					Console.WriteLine("Select File->Open BRSAR to begin.");
+				}
 			}
 			catch( Exception ex )
 			{
@@ -394,6 +407,7 @@ namespace BrawlSoundConverter
 			treeViewMapping.Enabled = false;
 			audioPlaybackPanelWav.Enabled = false;
 			audioPlaybackBRSARSound.Enabled = false;
+			tabControl1.Enabled = false;
 		}
 		//Enable stuff again
 		private void enableStuff()
@@ -421,6 +435,7 @@ namespace BrawlSoundConverter
 			checkBoxSearchGroups.Enabled = true;
 			checkBoxSearchSounds.Enabled = true;
 			comboBoxSearchMode.Enabled = true;
+			tabControl1.Enabled = true;
 
 			//Make sure that we have a group id before turning on create sawnd button
 			int gid, cid, wid;
