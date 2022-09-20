@@ -117,5 +117,39 @@ namespace BrawlSoundConverter
 
 
 		#endregion
+
+		public static int compareMappingItems(MappingItem x, MappingItem y)
+		{
+			int result = 0;
+			if (x == null)
+			{
+				if (y == null)
+				{
+					result = 0;
+				}
+				else
+				{
+					result = -1;
+				}
+			}
+			else
+			{
+				if (y == null)
+				{
+					result = 1;
+				}
+				else
+				{
+					int xCompVal = (x.groupID < 0) ? int.MaxValue : x.groupID;
+					int yCompVal = (y.groupID < 0) ? int.MaxValue : y.groupID;
+					result = xCompVal.CompareTo(yCompVal);
+					if (result == 0)
+					{
+						result = x.Text.CompareTo(y.Text);
+					}
+				}
+			}
+			return result;
+		}
 	}
 }

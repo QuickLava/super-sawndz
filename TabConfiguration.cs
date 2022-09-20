@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace BrawlSoundConverter
 {
 	public class TabConfigurationTabEntry
 	{
 		public string tabName = "";
-		public List<int> includedGroupIDs = new List<int>();
+		public List<uint> includedGroupIDs = new List<uint>();
 		public TabConfigurationTabEntry() { }
 		public TabConfigurationTabEntry(string stringIn, int maxGroups = int.MaxValue)
 		{
@@ -19,7 +20,7 @@ namespace BrawlSoundConverter
 				tabName = minorSplit[0].Substring(1, minorSplit[0].Length - 2);
 				for (int i = 1; i < minorSplit.Length && (includedGroupIDs.Count < maxGroups); i++)
 				{
-					includedGroupIDs.Add(Convert.ToInt32(minorSplit[i], 16));
+					includedGroupIDs.Add(Convert.ToUInt32(minorSplit[i], 16));
 				}
 			}
 		}
@@ -52,6 +53,7 @@ namespace BrawlSoundConverter
 					{
 						tabEntries.Add(new TabConfigurationTabEntry(majorSplit[i], groupBudget));
 						groupBudget -= tabEntries.Last().includedGroupIDs.Count;
+						tabEntries.Last().includedGroupIDs.Sort();
 					}
 				}
 			}
@@ -88,6 +90,45 @@ namespace BrawlSoundConverter
 			}
 			
 			return result;
+		}
+
+		public void populateTreeView(TreeView destinationView)
+		{
+			BrawlLib.SSBB.ResourceNodes.RSARNode currRSAR = brsar.GetRSAR();
+			if (currRSAR != null)
+			{
+				BrawlLib.SSBB.ResourceNodes.ResourceNode[] groups = currRSAR.FindChildrenByType("", BrawlLib.SSBB.ResourceNodes.ResourceType.RSARGroup);
+				foreach (TabConfigurationTabEntry tab in tabEntries)
+				{
+					int groupArrItr = 0;
+					TreeNode tabNode = new TreeNode("Tab: \"" + tab.tabName + "\", Containing ");
+					for (int i = 0; i < tab.includedGroupIDs.Count; i++)
+					{
+						BrawlLib.SSBB.ResourceNodes.RSARGroupNode currGroup = groups[groupArrItr] as BrawlLib.SSBB.ResourceNodes.RSARGroupNode;
+						if ((uint)currGroup.StringId > tab.includedGroupIDs[i])
+						{
+							break;
+						}
+						bool foundTargetGroup = false;
+						while (!foundTargetGroup && groupArrItr < groups.Length)
+						{
+							currGroup = groups[groupArrItr] as BrawlLib.SSBB.ResourceNodes.RSARGroupNode;
+							if ((uint)currGroup.StringId == tab.includedGroupIDs[i])
+							{
+								tabNode.Nodes.Add("[" + currGroup.StringId.ToString("X3") + "] " + currGroup._name);
+								foundTargetGroup = true;
+							}
+							groupArrItr++;
+						}
+						if (groupArrItr >= groups.Length)
+						{
+							break;
+						}
+					}
+					tabNode.Text += tabNode.Nodes.Count.ToString() + " Group(s)";
+					destinationView.Nodes.Add(tabNode);
+				}
+			}
 		}
 		
 		public static int getCurrentBRSARSettingsIndex(BrawlLib.SSBB.ResourceNodes.RSARNode rsarIn)

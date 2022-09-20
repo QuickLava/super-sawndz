@@ -20,42 +20,7 @@ namespace BrawlSoundConverter
 		private void populateTreeView()
 		{
 			treeView2.Nodes.Clear();
-			BrawlLib.SSBB.ResourceNodes.RSARNode currRSAR = brsar.GetRSAR();
-			if (currRSAR != null)
-			{
-				BrawlLib.SSBB.ResourceNodes.ResourceNode[] groups = currRSAR.FindChildrenByType("", BrawlLib.SSBB.ResourceNodes.ResourceType.RSARGroup);
-				foreach (TabConfigurationTabEntry tab in activeTabConfig.tabEntries)
-				{
-					int groupArrItr = 0;
-					TreeNode tabNode = new TreeNode("Tab: \"" + tab.tabName + "\", Containing ");
-					for (int i = 0; i < tab.includedGroupIDs.Count; i++)
-					{
-						BrawlLib.SSBB.ResourceNodes.RSARGroupNode currGroup = groups[groupArrItr] as BrawlLib.SSBB.ResourceNodes.RSARGroupNode;
-						if (currGroup.StringId > tab.includedGroupIDs[i])
-						{
-							break;
-						}
-						bool foundTargetGroup = false;
-						while (!foundTargetGroup && groupArrItr < groups.Length)
-						{
-							currGroup = groups[groupArrItr] as BrawlLib.SSBB.ResourceNodes.RSARGroupNode;
-							if (currGroup.StringId == tab.includedGroupIDs[i])
-							{
-								tabNode.Nodes.Add("[" + currGroup.StringId.ToString("X3") + "] " + currGroup._name);
-								foundTargetGroup = true;
-							}
-							groupArrItr++;
-						}
-						if (groupArrItr >= groups.Length)
-						{
-							break;
-						}
-					}
-					tabNode.Text += tabNode.Nodes.Count.ToString() + " Group(s)";
-					treeView2.Nodes.Add(tabNode);
-				}
-				treeView2.ExpandAll();
-			}
+			activeTabConfig.populateTreeView(treeView2);
 		}
 
 		public SettingsForm(TabConfiguration activeTabConfigIn)

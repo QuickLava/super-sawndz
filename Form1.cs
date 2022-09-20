@@ -1242,7 +1242,7 @@ namespace BrawlSoundConverter
 					currTabSettings.tabEntries.Last().tabName = tabControl1.TabPages[i].Text;
 					foreach (MappingItem groupInTab in reserveCollections[i])
 					{
-						currTabSettings.tabEntries.Last().includedGroupIDs.Add(groupInTab.groupID);
+						currTabSettings.tabEntries.Last().includedGroupIDs.Add((uint)groupInTab.groupID);
 					}
 				}
 			}
@@ -1281,7 +1281,7 @@ namespace BrawlSoundConverter
 					{
 						// ... and make sure the current group ID isn't somehow lower than the current main list ID.
 						// The IDs in the main list are strictly increasing, so if this is the case you'll never find a match.
-						if (reserveCollections[0][baseNodeListItr].groupID > tab.includedGroupIDs[i])
+						if ((uint)reserveCollections[0][baseNodeListItr].groupID > tab.includedGroupIDs[i])
 						{
 							// Thus, we can safely abort.
 							break;
@@ -1290,7 +1290,7 @@ namespace BrawlSoundConverter
 						bool foundTargetGroup = false;
 						while (!foundTargetGroup && baseNodeListItr < reserveCollections[0].Count)
 						{
-							if (reserveCollections[0][baseNodeListItr].groupID == tab.includedGroupIDs[i])
+							if ((uint)reserveCollections[0][baseNodeListItr].groupID == tab.includedGroupIDs[i])
 							{
 								reserveCollections.Last().Add(reserveCollections[0][baseNodeListItr]);
 								foundTargetGroup = true;
@@ -1343,7 +1343,7 @@ namespace BrawlSoundConverter
 			if (index > 0 && index < reserveCollections.Count)
 			{
 				reserveCollections[index - 1].AddRange(reserveCollections[index]);
-				reserveCollections[index - 1].Sort(compareMappingItems);
+				reserveCollections[index - 1].Sort(MappingItem.compareMappingItems);
 				if (currCollectionIndex == (index - 1))
 				{
 					loadActiveCollectionIntoTreeview();
@@ -1370,41 +1370,7 @@ namespace BrawlSoundConverter
 				closeCollection(i);
 			}
 		}
-		private int compareMappingItems(MappingItem x, MappingItem y)
-		{
-			int result = 0;
 
-			if (x == null)
-			{
-				if (y == null)
-				{
-					result = 0;
-				}
-				else
-				{
-					result = -1;
-				}
-			}
-			else
-			{
-				if (y == null)
-				{
-					result = 1;
-				}
-				else
-				{
-					int xCompVal = (x.groupID < 0) ? int.MaxValue : x.groupID;
-					int yCompVal = (y.groupID < 0) ? int.MaxValue : y.groupID;
-					result = xCompVal.CompareTo(yCompVal);
-					if (result == 0)
-					{
-						result = x.Text.CompareTo(y.Text);
-					}
-				}
-			}
-
-			return result;
-		}
 		private bool moveSelectedItemToCollection(int index)
 		{
 			bool result = false;
@@ -1418,7 +1384,7 @@ namespace BrawlSoundConverter
 				MappingItem selected = treeViewMapping.SelectedNode as MappingItem;
 				treeViewMapping.Nodes.Remove(selected);
 				reserveCollections[index].Add(selected);
-				reserveCollections[index].Sort(compareMappingItems);
+				reserveCollections[index].Sort(MappingItem.compareMappingItems);
 			}
 			return result;
 		}
@@ -1543,7 +1509,7 @@ namespace BrawlSoundConverter
 		{
 			if (currTabSettings != null)
 			{
-				RearrangeTabsForm rtf = new RearrangeTabsForm(currTabSettings);
+				ManageTabsForm rtf = new ManageTabsForm(currTabSettings);
 				if (rtf.ShowDialog() == DialogResult.OK)
 				{
 					currTabSettings = rtf.loadedTabs;
