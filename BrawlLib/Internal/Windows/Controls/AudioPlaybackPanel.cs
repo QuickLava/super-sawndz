@@ -498,7 +498,7 @@ namespace BrawlLib.Internal.Windows.Controls
             btnPlay.Text = "Stop";
         }
 
-        private void Stop()
+        public void Stop()
         {
             if (!_isPlaying)
             {

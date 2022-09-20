@@ -22,7 +22,6 @@ namespace BrawlSoundConverter
 
 		int currSearchResultIndex = 0;
 		List<KeyValuePair<string, MappingItem>> currSearchResults = null;
-		TreeNode selectedBeforePause = null;
 
 		TabConfiguration currTabSettings = null;
 
@@ -31,6 +30,8 @@ namespace BrawlSoundConverter
 		int currRightClickedTab = -1;
 
 		
+		bool interruptedImportAudioPanelPlayback = false;
+		bool interruptedMainAudioPanelPlayback = false;
 
 		private bool loadBRSAR(string pathIn)
 		{
@@ -1192,19 +1193,31 @@ namespace BrawlSoundConverter
 
 		private void Form1_Activated(object sender, EventArgs e)
 		{
-			if (selectedBeforePause != null)
+			if (interruptedMainAudioPanelPlayback)
 			{
-				treeViewMapping.SelectedNode = selectedBeforePause;
-				selectedBeforePause = null;
+				audioPlaybackBRSARSound.Play();
+				interruptedMainAudioPanelPlayback = false;
+			}
+			if (interruptedImportAudioPanelPlayback)
+			{
+				audioPlaybackPanelWav.Play();
+				interruptedImportAudioPanelPlayback = false;
 			}
 		}
 		private void Form1_Deactivate(object sender, EventArgs e)
 		{
-			if (!CanFocus && audioPlaybackBRSARSound.IsPlaying)
+			if (!CanFocus)
 			{
-				audioPlaybackBRSARSound.TargetSource = null;
-				selectedBeforePause = treeViewMapping.SelectedNode;
-				treeViewMapping.SelectedNode = null;
+				if (audioPlaybackBRSARSound.IsPlaying)
+				{
+					audioPlaybackBRSARSound.Stop();
+					interruptedMainAudioPanelPlayback = true;
+				}
+				if (audioPlaybackPanelWav.IsPlaying)
+				{
+					audioPlaybackPanelWav.Stop();
+					interruptedImportAudioPanelPlayback = true;
+				}
 			}
 		}
 
