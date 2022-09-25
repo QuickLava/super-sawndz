@@ -52,6 +52,7 @@ namespace BrawlSoundConverter
 			this.radioButtonFullNameDisable = new System.Windows.Forms.RadioButton();
 			this.label4 = new System.Windows.Forms.Label();
 			this.groupBox3 = new System.Windows.Forms.GroupBox();
+			this.label6 = new System.Windows.Forms.Label();
 			this.label8 = new System.Windows.Forms.Label();
 			this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
 			this.groupBox6 = new System.Windows.Forms.GroupBox();
@@ -70,7 +71,10 @@ namespace BrawlSoundConverter
 			this.label7 = new System.Windows.Forms.Label();
 			this.buttonConfigSave = new System.Windows.Forms.Button();
 			this.label10 = new System.Windows.Forms.Label();
-			this.label6 = new System.Windows.Forms.Label();
+			this.label11 = new System.Windows.Forms.Label();
+			this.groupBox5 = new System.Windows.Forms.GroupBox();
+			this.numericUpDown2 = new System.Windows.Forms.NumericUpDown();
+			this.label12 = new System.Windows.Forms.Label();
 			this.groupBoxNamingScheme.SuspendLayout();
 			this.groupBox1.SuspendLayout();
 			this.groupBox2.SuspendLayout();
@@ -79,6 +83,8 @@ namespace BrawlSoundConverter
 			this.groupBox6.SuspendLayout();
 			this.groupBoxStereoConv.SuspendLayout();
 			this.groupBox4.SuspendLayout();
+			this.groupBox5.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// groupBoxNamingScheme
@@ -170,7 +176,7 @@ namespace BrawlSoundConverter
 			// 
 			this.buttonCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.buttonCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-			this.buttonCancel.Location = new System.Drawing.Point(356, 742);
+			this.buttonCancel.Location = new System.Drawing.Point(356, 806);
 			this.buttonCancel.Margin = new System.Windows.Forms.Padding(4);
 			this.buttonCancel.Name = "buttonCancel";
 			this.buttonCancel.Size = new System.Drawing.Size(100, 28);
@@ -182,7 +188,7 @@ namespace BrawlSoundConverter
 			// 
 			this.buttonSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.buttonSave.DialogResult = System.Windows.Forms.DialogResult.OK;
-			this.buttonSave.Location = new System.Drawing.Point(248, 742);
+			this.buttonSave.Location = new System.Drawing.Point(248, 806);
 			this.buttonSave.Margin = new System.Windows.Forms.Padding(4);
 			this.buttonSave.Name = "buttonSave";
 			this.buttonSave.Size = new System.Drawing.Size(100, 28);
@@ -325,14 +331,24 @@ namespace BrawlSoundConverter
 			this.groupBox3.TabIndex = 41;
 			this.groupBox3.TabStop = false;
 			// 
+			// label6
+			// 
+			this.label6.AutoSize = true;
+			this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.label6.Location = new System.Drawing.Point(138, 166);
+			this.label6.Name = "label6";
+			this.label6.Size = new System.Drawing.Size(164, 17);
+			this.label6.TabIndex = 43;
+			this.label6.Text = "Note: Set to 0 to disable.";
+			// 
 			// label8
 			// 
 			this.label8.AutoSize = true;
 			this.label8.Location = new System.Drawing.Point(9, 144);
 			this.label8.Name = "label8";
-			this.label8.Size = new System.Drawing.Size(151, 17);
+			this.label8.Size = new System.Drawing.Size(180, 17);
 			this.label8.TabIndex = 34;
-			this.label8.Text = "Maximum Sample Rate";
+			this.label8.Text = "Maximum Sample Rate (hz)";
 			// 
 			// numericUpDown1
 			// 
@@ -446,7 +462,7 @@ namespace BrawlSoundConverter
 			// 
 			this.label5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.label5.AutoSize = true;
-			this.label5.Location = new System.Drawing.Point(10, 502);
+			this.label5.Location = new System.Drawing.Point(10, 566);
 			this.label5.Name = "label5";
 			this.label5.Size = new System.Drawing.Size(88, 17);
 			this.label5.TabIndex = 44;
@@ -459,7 +475,7 @@ namespace BrawlSoundConverter
 			this.groupBox4.Controls.Add(this.treeView2);
 			this.groupBox4.Controls.Add(this.label7);
 			this.groupBox4.Controls.Add(this.buttonConfigSave);
-			this.groupBox4.Location = new System.Drawing.Point(10, 512);
+			this.groupBox4.Location = new System.Drawing.Point(10, 576);
 			this.groupBox4.Name = "groupBox4";
 			this.groupBox4.Size = new System.Drawing.Size(445, 223);
 			this.groupBox4.TabIndex = 43;
@@ -510,15 +526,51 @@ namespace BrawlSoundConverter
 			this.label10.TabIndex = 47;
 			this.label10.Text = "Audio Import Settings";
 			// 
-			// label6
+			// label11
 			// 
-			this.label6.AutoSize = true;
-			this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.label6.Location = new System.Drawing.Point(138, 166);
-			this.label6.Name = "label6";
-			this.label6.Size = new System.Drawing.Size(164, 17);
-			this.label6.TabIndex = 43;
-			this.label6.Text = "Note: Set to 0 to disable.";
+			this.label11.AutoSize = true;
+			this.label11.Location = new System.Drawing.Point(10, 495);
+			this.label11.Name = "label11";
+			this.label11.Size = new System.Drawing.Size(272, 17);
+			this.label11.TabIndex = 49;
+			this.label11.Text = "Group Size Warning Threshold (In Bytes):";
+			// 
+			// groupBox5
+			// 
+			this.groupBox5.Controls.Add(this.label12);
+			this.groupBox5.Controls.Add(this.numericUpDown2);
+			this.groupBox5.Location = new System.Drawing.Point(10, 505);
+			this.groupBox5.Name = "groupBox5";
+			this.groupBox5.Size = new System.Drawing.Size(445, 51);
+			this.groupBox5.TabIndex = 48;
+			this.groupBox5.TabStop = false;
+			// 
+			// numericUpDown2
+			// 
+			this.numericUpDown2.Increment = new decimal(new int[] {
+            10000,
+            0,
+            0,
+            0});
+			this.numericUpDown2.Location = new System.Drawing.Point(12, 21);
+			this.numericUpDown2.Maximum = new decimal(new int[] {
+            100000000,
+            0,
+            0,
+            0});
+			this.numericUpDown2.Name = "numericUpDown2";
+			this.numericUpDown2.Size = new System.Drawing.Size(120, 22);
+			this.numericUpDown2.TabIndex = 44;
+			// 
+			// label12
+			// 
+			this.label12.AutoSize = true;
+			this.label12.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.label12.Location = new System.Drawing.Point(138, 23);
+			this.label12.Name = "label12";
+			this.label12.Size = new System.Drawing.Size(164, 17);
+			this.label12.TabIndex = 44;
+			this.label12.Text = "Note: Set to 0 to disable.";
 			// 
 			// SettingsForm
 			// 
@@ -526,7 +578,9 @@ namespace BrawlSoundConverter
 			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.CancelButton = this.buttonCancel;
-			this.ClientSize = new System.Drawing.Size(469, 783);
+			this.ClientSize = new System.Drawing.Size(469, 847);
+			this.Controls.Add(this.label11);
+			this.Controls.Add(this.groupBox5);
 			this.Controls.Add(this.label10);
 			this.Controls.Add(this.label5);
 			this.Controls.Add(this.groupBox4);
@@ -564,6 +618,9 @@ namespace BrawlSoundConverter
 			this.groupBoxStereoConv.PerformLayout();
 			this.groupBox4.ResumeLayout(false);
 			this.groupBox4.PerformLayout();
+			this.groupBox5.ResumeLayout(false);
+			this.groupBox5.PerformLayout();
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).EndInit();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -613,5 +670,9 @@ namespace BrawlSoundConverter
 		private System.Windows.Forms.NumericUpDown numericUpDown1;
 		private System.Windows.Forms.Label label10;
 		private System.Windows.Forms.Label label6;
+		private System.Windows.Forms.Label label11;
+		private System.Windows.Forms.GroupBox groupBox5;
+		private System.Windows.Forms.Label label12;
+		private System.Windows.Forms.NumericUpDown numericUpDown2;
 	}
 }

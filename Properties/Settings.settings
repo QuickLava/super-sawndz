@@ -29,5 +29,8 @@
     <Setting Name="MaximumSampleRate" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">44100</Value>
     </Setting>
+    <Setting Name="GroupSizeWarningThreshold" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">950000</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

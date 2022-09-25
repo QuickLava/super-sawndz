@@ -113,11 +113,20 @@ namespace BrawlSoundConverter
 			}
 			if (Properties.Settings.Default.MaximumSampleRate > 0)
 			{
-				numericUpDown1.Value = Math.Min(Properties.Settings.Default.MaximumSampleRate, 44100);
+				numericUpDown1.Value = Math.Min(Properties.Settings.Default.MaximumSampleRate, numericUpDown1.Maximum);
 			}
 			else
 			{
 				numericUpDown1.Value = 0;
+			}
+
+			if (Properties.Settings.Default.GroupSizeWarningThreshold > 0)
+			{
+				numericUpDown2.Value = Math.Min(Properties.Settings.Default.GroupSizeWarningThreshold, numericUpDown2.Maximum);
+			}
+			else
+			{
+				numericUpDown2.Value = 0;
 			}
 		}
 
@@ -195,6 +204,8 @@ namespace BrawlSoundConverter
 				Properties.Settings.Default.MatchSampleRate = 0;
 			}
 			Properties.Settings.Default.MaximumSampleRate = ((int)numericUpDown1.Value);
+
+			Properties.Settings.Default.GroupSizeWarningThreshold = ((int)numericUpDown2.Value);
 
 			DialogResult = DialogResult.OK;
 			Close();

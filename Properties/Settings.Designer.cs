@@ -120,5 +120,17 @@ namespace BrawlSoundConverter.Properties {
                 this["MaximumSampleRate"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("950000")]
+        public int GroupSizeWarningThreshold {
+            get {
+                return ((int)(this["GroupSizeWarningThreshold"]));
+            }
+            set {
+                this["GroupSizeWarningThreshold"] = value;
+            }
+        }
     }
 }
