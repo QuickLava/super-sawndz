@@ -29,6 +29,7 @@ namespace BrawlSoundConverter
 		int currCollectionIndex = 0;
 		int currRightClickedTab = -1;
 
+		List<int> selectedSawndFileInfo = null;
 		
 		bool interruptedImportAudioPanelPlayback = false;
 		bool interruptedMainAudioPanelPlayback = false;
@@ -43,11 +44,11 @@ namespace BrawlSoundConverter
 			}
 			else
 			{
+				textBoxOutput.Clear();
 				currTabSettings = null;
 			}
 			if (File.Exists(pathIn))
 			{
-				textBoxOutput.Clear();
 				textBoxGroupID.Clear();
 				textBoxCollectionID.Clear();
 				textBoxWavID.Clear();
@@ -303,6 +304,7 @@ namespace BrawlSoundConverter
 			{
 				if( Path.GetExtension( textBoxInputFile.Text ).CompareTo( ".sawnd" ) == 0 )
 				{
+					selectedSawndFileInfo = Sawndz.getSawndFileInfo(textBoxInputFile.Text);
 					Console.WriteLine( "Inserting Sawnd " + Path.GetFileName( textBoxInputFile.Text ) );
 					Sawndz.insertSawnd( textBoxInputFile.Text );
 				}
@@ -338,8 +340,36 @@ namespace BrawlSoundConverter
 			backgroundWorkerInsert.RunWorkerAsync();
 		}
 
+		private int findTabContainingGroup(int groupID)
+		{
+			int result = int.MaxValue;
+
+			int currCollItr = 0;
+			bool found = false;
+			while (!found && currCollItr < reserveCollections.Count)
+			{
+				List<MappingItem> currColl = reserveCollections[currCollItr];
+				for (int i = 0; !found && i < currColl.Count; i++)
+				{
+					if (currColl[i].groupID == groupID)
+					{
+						found = true;
+						result = currCollItr;
+					}
+				}
+				currCollItr++;
+			}
+
+			return result;
+		}
 		private void selectNode(int groupID, int collectionID = -1, int infoIndex = -1)
 		{
+			int relevantTab = findTabContainingGroup(groupID);
+			if (relevantTab != int.MaxValue)
+			{
+				tabControl1.SelectedIndex = relevantTab;
+			}
+
 			foreach (MappingItem groupNode in treeViewMapping.Nodes)
 			{
 				if (groupNode.groupID == groupID)
@@ -379,6 +409,7 @@ namespace BrawlSoundConverter
 			if (treeViewMapping.SelectedNode != null)
 			{
 				treeViewMapping.SelectedNode.Expand();
+				treeViewMapping.Select();
 			}
 		}
 
@@ -476,7 +507,21 @@ namespace BrawlSoundConverter
 				treeViewMapping.SelectedNode = item;
 			}
 			else
-				loadBRSAR("");
+			{
+				DateTime bufferBrsarLastWriteTime = brsar.currLoadedRsarLastWriteTime;
+				if (loadBRSAR(""))
+				{
+					bool doSelect = brsar.currLoadedRsarLastWriteTime > bufferBrsarLastWriteTime;
+					if (doSelect && selectedSawndFileInfo != null && selectedSawndFileInfo.Count >= 1)
+					{
+						selectNode(selectedSawndFileInfo[0]);
+					}
+				}
+				else
+				{
+					MessageBox.Show("Unable to reload BRSAR: it doesn't appear to exist anymore!");
+				}
+			}
 		}
 
 		//Insert the wav or sawnd file
@@ -585,6 +630,7 @@ namespace BrawlSoundConverter
 		}
 		private void textBoxInputFile_TextChanged(object sender, EventArgs e)
 		{
+			selectedSawndFileInfo = null;
 			setInsertButtonState();
 		}
 
@@ -671,7 +717,7 @@ namespace BrawlSoundConverter
 		private void backgroundWorkerMultiInsertSawnd_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
 		{
 			enableStuff();
-			loadTreeView();
+			loadBRSAR("");
 		}
 
 		private void ChangeSettingsToolStripMenuItem_Click(object sender, EventArgs e)
@@ -896,15 +942,23 @@ namespace BrawlSoundConverter
 					{
 						if (brsar.GetRSAR() != null)
 						{
-							if (Sawndz.createSAWNDToImportList("toImport.txt", strings))
+							if (strings.Length == 1)
 							{
-								backgroundWorkerMultiInsertSawnd.RunWorkerAsync();
-								loadBRSAR("");
-								enableStuff();
+								textBoxInputFile.Text = strings[0];
+								audioPlaybackPanelWav.TargetSource = null;
+								buttonInsert_Click(this, EventArgs.Empty);
 							}
 							else
 							{
-								Console.WriteLine("Unable to import .sawnd file(s), couldn't generate list!");
+								if (Sawndz.createSAWNDToImportList("toImport.txt", strings))
+								{
+									backgroundWorkerMultiInsertSawnd.RunWorkerAsync();
+									enableStuff();
+								}
+								else
+								{
+									Console.WriteLine("Unable to import .sawnd file(s), couldn't generate list!");
+								}
 							}
 						}
 						else

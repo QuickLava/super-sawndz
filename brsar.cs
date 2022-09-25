@@ -18,15 +18,24 @@ namespace BrawlSoundConverter
 		public static Dictionary<string, List<MappingItem>> soundDict;
 		//The current rsar itself
 		static BrawlLib.SSBB.ResourceNodes.RSARNode _rsar;
+		public static DateTime currLoadedRsarLastWriteTime;
 
 		//Returns the rsar node, opens it if it is closed
 		public static BrawlLib.SSBB.ResourceNodes.RSARNode GetRSAR()
 		{
-			if( _rsar == null && File.Exists(RSAR_FileName))
+			if( _rsar == null)
 			{
-				_rsar = new BrawlLib.SSBB.ResourceNodes.RSARNode();
-				_rsar.Replace( RSAR_FileName );
-				_rsar._origPath = Path.GetFullPath(RSAR_FileName);
+				if (File.Exists(RSAR_FileName))
+				{
+					_rsar = new BrawlLib.SSBB.ResourceNodes.RSARNode();
+					_rsar.Replace(RSAR_FileName);
+					_rsar._origPath = Path.GetFullPath(RSAR_FileName);
+					currLoadedRsarLastWriteTime = File.GetLastWriteTime(RSAR_FileName);
+				}
+				else
+				{
+					currLoadedRsarLastWriteTime = DateTime.MinValue;
+				}
 				groupDict = new Dictionary<string, List<MappingItem>>();
 				soundDict = new Dictionary<string, List<MappingItem>>();
 			}

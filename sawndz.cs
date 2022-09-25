@@ -170,6 +170,96 @@ namespace BrawlSoundConverter
 			}
 			runWithArgs("sawnd \"" + brsar.RSAR_FileName + "\" \"" + fileName + "\"");
 		}
+
+		public static int findFirstRSARHexTag(byte[] arrIn, int startingFrom)
+		{
+			int loc = int.MaxValue;
+
+			if (startingFrom <= (arrIn.Length - 4))
+			{
+				bool foundTag = false;
+				int index = startingFrom;
+				while (!foundTag && index <= (arrIn.Length - 4))
+				{
+					if (arrIn[index] == 0x52)
+					{
+						string possibleTag = "";
+						for (int i = index; i < (index + 4); i++)
+						{
+							possibleTag += (char)arrIn[i];
+						}
+						switch (possibleTag)
+						{
+							case "RWSD":
+							case "RBNK":
+							case "RSEQ":
+								{
+									foundTag = true;
+									break;
+								}
+							default:
+								break;
+						}
+						if (foundTag)
+						{
+							loc = index;
+						}
+					}
+					index++;
+				}
+			}
+
+			return loc;
+		}
+		public static List<int> getSawndFileInfo(string fileName, bool getFileIDs = false)
+		{
+			List<int> info = new List<int>();
+
+			if (File.Exists(fileName))
+			{
+				byte[] sawndBytes = File.ReadAllBytes(fileName);
+				info.Add(0);
+				if (sawndBytes.Length >= 9 && sawndBytes[0] == 2)
+				{
+					// Store group ID
+					info[0] |= ((int)sawndBytes[1]) << 0x18;
+					info[0] |= ((int)sawndBytes[2]) << 0x10;
+					info[0] |= ((int)sawndBytes[3]) << 0x08;
+					info[0] |= ((int)sawndBytes[4]) << 0x00;
+				}
+
+				if (getFileIDs)
+				{
+					int firstFile = findFirstRSARHexTag(sawndBytes, 0x09);
+					if (firstFile != int.MaxValue)
+					{
+						int lengthOfFileSummarySection = firstFile - 0x09;
+						if ((lengthOfFileSummarySection % 0x0C) == 0)
+						{
+							int numFileTriples = lengthOfFileSummarySection / 0x0C;
+							int addr = 0x09;
+							for (int i = 0; i < numFileTriples; i++)
+							{
+								int currFileID = 0;
+								currFileID |= ((int)sawndBytes[addr]) << 0x18;
+								currFileID |= ((int)sawndBytes[addr + 1]) << 0x10;
+								currFileID |= ((int)sawndBytes[addr + 2]) << 0x08;
+								currFileID |= ((int)sawndBytes[addr + 3]) << 0x00;
+								addr += 0x0C;
+								info.Add(currFileID);
+							}
+						}
+						else
+						{
+							Console.WriteLine("Couldn't find File IDs for Sawnd ID");
+						}
+					}
+				}
+			}
+
+			return info;
+		}
+
 		public static void multiInsertSawnd()
 		{
 			if (File.Exists("toImport.txt"))
