@@ -73,8 +73,8 @@ namespace BrawlSoundConverter
 			this.label10 = new System.Windows.Forms.Label();
 			this.label11 = new System.Windows.Forms.Label();
 			this.groupBox5 = new System.Windows.Forms.GroupBox();
-			this.numericUpDown2 = new System.Windows.Forms.NumericUpDown();
 			this.label12 = new System.Windows.Forms.Label();
+			this.numericUpDown2 = new System.Windows.Forms.NumericUpDown();
 			this.groupBoxNamingScheme.SuspendLayout();
 			this.groupBox1.SuspendLayout();
 			this.groupBox2.SuspendLayout();
@@ -166,7 +166,7 @@ namespace BrawlSoundConverter
 			// labelDefaultBrsar
 			// 
 			this.labelDefaultBrsar.AutoSize = true;
-			this.labelDefaultBrsar.Location = new System.Drawing.Point(12, 9);
+			this.labelDefaultBrsar.Location = new System.Drawing.Point(10, 9);
 			this.labelDefaultBrsar.Name = "labelDefaultBrsar";
 			this.labelDefaultBrsar.Size = new System.Drawing.Size(130, 17);
 			this.labelDefaultBrsar.TabIndex = 33;
@@ -176,7 +176,7 @@ namespace BrawlSoundConverter
 			// 
 			this.buttonCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.buttonCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-			this.buttonCancel.Location = new System.Drawing.Point(356, 806);
+			this.buttonCancel.Location = new System.Drawing.Point(356, 804);
 			this.buttonCancel.Margin = new System.Windows.Forms.Padding(4);
 			this.buttonCancel.Name = "buttonCancel";
 			this.buttonCancel.Size = new System.Drawing.Size(100, 28);
@@ -188,7 +188,7 @@ namespace BrawlSoundConverter
 			// 
 			this.buttonSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.buttonSave.DialogResult = System.Windows.Forms.DialogResult.OK;
-			this.buttonSave.Location = new System.Drawing.Point(248, 806);
+			this.buttonSave.Location = new System.Drawing.Point(248, 804);
 			this.buttonSave.Margin = new System.Windows.Forms.Padding(4);
 			this.buttonSave.Name = "buttonSave";
 			this.buttonSave.Size = new System.Drawing.Size(100, 28);
@@ -325,7 +325,7 @@ namespace BrawlSoundConverter
 			this.groupBox3.Controls.Add(this.groupBoxStereoConv);
 			this.groupBox3.Controls.Add(this.label9);
 			this.groupBox3.Controls.Add(this.label4);
-			this.groupBox3.Location = new System.Drawing.Point(10, 293);
+			this.groupBox3.Location = new System.Drawing.Point(10, 359);
 			this.groupBox3.Name = "groupBox3";
 			this.groupBox3.Size = new System.Drawing.Size(445, 199);
 			this.groupBox3.TabIndex = 41;
@@ -462,7 +462,7 @@ namespace BrawlSoundConverter
 			// 
 			this.label5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.label5.AutoSize = true;
-			this.label5.Location = new System.Drawing.Point(10, 566);
+			this.label5.Location = new System.Drawing.Point(10, 563);
 			this.label5.Name = "label5";
 			this.label5.Size = new System.Drawing.Size(88, 17);
 			this.label5.TabIndex = 44;
@@ -475,7 +475,7 @@ namespace BrawlSoundConverter
 			this.groupBox4.Controls.Add(this.treeView2);
 			this.groupBox4.Controls.Add(this.label7);
 			this.groupBox4.Controls.Add(this.buttonConfigSave);
-			this.groupBox4.Location = new System.Drawing.Point(10, 576);
+			this.groupBox4.Location = new System.Drawing.Point(10, 573);
 			this.groupBox4.Name = "groupBox4";
 			this.groupBox4.Size = new System.Drawing.Size(445, 223);
 			this.groupBox4.TabIndex = 43;
@@ -520,7 +520,7 @@ namespace BrawlSoundConverter
 			// label10
 			// 
 			this.label10.AutoSize = true;
-			this.label10.Location = new System.Drawing.Point(10, 283);
+			this.label10.Location = new System.Drawing.Point(10, 349);
 			this.label10.Name = "label10";
 			this.label10.Size = new System.Drawing.Size(142, 17);
 			this.label10.TabIndex = 47;
@@ -529,7 +529,7 @@ namespace BrawlSoundConverter
 			// label11
 			// 
 			this.label11.AutoSize = true;
-			this.label11.Location = new System.Drawing.Point(10, 495);
+			this.label11.Location = new System.Drawing.Point(10, 283);
 			this.label11.Name = "label11";
 			this.label11.Size = new System.Drawing.Size(272, 17);
 			this.label11.TabIndex = 49;
@@ -539,11 +539,21 @@ namespace BrawlSoundConverter
 			// 
 			this.groupBox5.Controls.Add(this.label12);
 			this.groupBox5.Controls.Add(this.numericUpDown2);
-			this.groupBox5.Location = new System.Drawing.Point(10, 505);
+			this.groupBox5.Location = new System.Drawing.Point(10, 293);
 			this.groupBox5.Name = "groupBox5";
 			this.groupBox5.Size = new System.Drawing.Size(445, 51);
 			this.groupBox5.TabIndex = 48;
 			this.groupBox5.TabStop = false;
+			// 
+			// label12
+			// 
+			this.label12.AutoSize = true;
+			this.label12.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.label12.Location = new System.Drawing.Point(138, 23);
+			this.label12.Name = "label12";
+			this.label12.Size = new System.Drawing.Size(164, 17);
+			this.label12.TabIndex = 44;
+			this.label12.Text = "Note: Set to 0 to disable.";
 			// 
 			// numericUpDown2
 			// 
@@ -562,23 +572,13 @@ namespace BrawlSoundConverter
 			this.numericUpDown2.Size = new System.Drawing.Size(120, 22);
 			this.numericUpDown2.TabIndex = 44;
 			// 
-			// label12
-			// 
-			this.label12.AutoSize = true;
-			this.label12.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.label12.Location = new System.Drawing.Point(138, 23);
-			this.label12.Name = "label12";
-			this.label12.Size = new System.Drawing.Size(164, 17);
-			this.label12.TabIndex = 44;
-			this.label12.Text = "Note: Set to 0 to disable.";
-			// 
 			// SettingsForm
 			// 
 			this.AcceptButton = this.buttonSave;
 			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.CancelButton = this.buttonCancel;
-			this.ClientSize = new System.Drawing.Size(469, 847);
+			this.ClientSize = new System.Drawing.Size(469, 845);
 			this.Controls.Add(this.label11);
 			this.Controls.Add(this.groupBox5);
 			this.Controls.Add(this.label10);
