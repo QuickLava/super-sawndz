@@ -1701,5 +1701,20 @@ namespace BrawlSoundConverter
 		{
 			deleteTemporaryWavs();
 		}
+
+		private void bulkCollectionExportToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			multiCollectionExportForm mCEF = new multiCollectionExportForm();
+			textBoxOutput.Clear();
+			Console.Write("Exporting Collections... ");
+			if (mCEF.ShowDialog() == DialogResult.OK)
+			{
+				Console.WriteLine("Success!");
+			}
+			else
+			{
+				Console.WriteLine("Operation cancelled!");
+			}
+		}
 	}
 }

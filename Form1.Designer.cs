@@ -93,6 +93,7 @@
 			this.audioPlaybackBRSARSound = new BrawlLib.Internal.Windows.Controls.AudioPlaybackPanel();
 			this.audioPlaybackPanelWav = new BrawlLib.Internal.Windows.Controls.AudioPlaybackPanel();
 			this.buttonRearrangeTabs = new System.Windows.Forms.Button();
+			this.bulkCollectionExportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.contextMenuStripWAV.SuspendLayout();
 			this.contextMenuStripCollection.SuspendLayout();
 			this.menuStrip1.SuspendLayout();
@@ -425,7 +426,8 @@
 			// toolsToolStripMenuItem
 			// 
 			this.toolsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.ChangeSettingsToolStripMenuItem});
+            this.ChangeSettingsToolStripMenuItem,
+            this.bulkCollectionExportToolStripMenuItem});
 			this.toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
 			this.toolsToolStripMenuItem.Size = new System.Drawing.Size(58, 24);
 			this.toolsToolStripMenuItem.Text = "Tools";
@@ -433,7 +435,7 @@
 			// ChangeSettingsToolStripMenuItem
 			// 
 			this.ChangeSettingsToolStripMenuItem.Name = "ChangeSettingsToolStripMenuItem";
-			this.ChangeSettingsToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+			this.ChangeSettingsToolStripMenuItem.Size = new System.Drawing.Size(238, 26);
 			this.ChangeSettingsToolStripMenuItem.Text = "Change Settings";
 			this.ChangeSettingsToolStripMenuItem.Click += new System.EventHandler(this.ChangeSettingsToolStripMenuItem_Click);
 			// 
@@ -748,6 +750,13 @@
 			this.buttonRearrangeTabs.UseVisualStyleBackColor = true;
 			this.buttonRearrangeTabs.Click += new System.EventHandler(this.buttonRearrangeTabs_Click);
 			// 
+			// bulkCollectionExportToolStripMenuItem
+			// 
+			this.bulkCollectionExportToolStripMenuItem.Name = "bulkCollectionExportToolStripMenuItem";
+			this.bulkCollectionExportToolStripMenuItem.Size = new System.Drawing.Size(238, 26);
+			this.bulkCollectionExportToolStripMenuItem.Text = "Bulk Collection Export";
+			this.bulkCollectionExportToolStripMenuItem.Click += new System.EventHandler(this.bulkCollectionExportToolStripMenuItem_Click);
+			// 
 			// Form1
 			// 
 			this.AllowDrop = true;
@@ -884,6 +893,7 @@
 		private System.Windows.Forms.ToolStripMenuItem renameToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem closeTabToolStripMenuItem;
 		private System.Windows.Forms.Button buttonRearrangeTabs;
+		private System.Windows.Forms.ToolStripMenuItem bulkCollectionExportToolStripMenuItem;
 	}
 }
 
