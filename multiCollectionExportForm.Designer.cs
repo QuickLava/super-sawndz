@@ -42,12 +42,14 @@ namespace BrawlSoundConverter
 			this.treeViewSounds = new System.Windows.Forms.TreeView();
 			this.label3 = new System.Windows.Forms.Label();
 			this.treeViewCollections = new System.Windows.Forms.TreeView();
-			this.audioPlaybackPanel1 = new BrawlLib.Internal.Windows.Controls.AudioPlaybackPanel();
 			this.checkBox1 = new System.Windows.Forms.CheckBox();
 			this.checkBox2 = new System.Windows.Forms.CheckBox();
 			this.checkBox3 = new System.Windows.Forms.CheckBox();
 			this.label5 = new System.Windows.Forms.Label();
 			this.treeViewCollectionDetails = new System.Windows.Forms.TreeView();
+			this.comboBoxSortMode = new System.Windows.Forms.ComboBox();
+			this.label6 = new System.Windows.Forms.Label();
+			this.audioPlaybackPanel1 = new BrawlLib.Internal.Windows.Controls.AudioPlaybackPanel();
 			this.SuspendLayout();
 			// 
 			// label1
@@ -100,7 +102,7 @@ namespace BrawlSoundConverter
 			// 
 			this.buttonInvertSelection.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.buttonInvertSelection.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.7F);
-			this.buttonInvertSelection.Location = new System.Drawing.Point(834, 662);
+			this.buttonInvertSelection.Location = new System.Drawing.Point(835, 672);
 			this.buttonInvertSelection.Name = "buttonInvertSelection";
 			this.buttonInvertSelection.Size = new System.Drawing.Size(110, 40);
 			this.buttonInvertSelection.TabIndex = 18;
@@ -111,7 +113,7 @@ namespace BrawlSoundConverter
 			// buttonSelectAll
 			// 
 			this.buttonSelectAll.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.buttonSelectAll.Location = new System.Drawing.Point(602, 662);
+			this.buttonSelectAll.Location = new System.Drawing.Point(602, 672);
 			this.buttonSelectAll.Name = "buttonSelectAll";
 			this.buttonSelectAll.Size = new System.Drawing.Size(110, 40);
 			this.buttonSelectAll.TabIndex = 19;
@@ -122,7 +124,7 @@ namespace BrawlSoundConverter
 			// buttonDeselectAll
 			// 
 			this.buttonDeselectAll.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.buttonDeselectAll.Location = new System.Drawing.Point(718, 662);
+			this.buttonDeselectAll.Location = new System.Drawing.Point(718, 672);
 			this.buttonDeselectAll.Name = "buttonDeselectAll";
 			this.buttonDeselectAll.Size = new System.Drawing.Size(110, 40);
 			this.buttonDeselectAll.TabIndex = 20;
@@ -158,7 +160,7 @@ namespace BrawlSoundConverter
 			this.labelPreview.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.labelPreview.AutoSize = true;
-			this.labelPreview.Location = new System.Drawing.Point(17, 484);
+			this.labelPreview.Location = new System.Drawing.Point(12, 522);
 			this.labelPreview.Name = "labelPreview";
 			this.labelPreview.Size = new System.Drawing.Size(61, 17);
 			this.labelPreview.TabIndex = 36;
@@ -173,7 +175,7 @@ namespace BrawlSoundConverter
 			this.treeViewSounds.ShowLines = false;
 			this.treeViewSounds.ShowPlusMinus = false;
 			this.treeViewSounds.ShowRootLines = false;
-			this.treeViewSounds.Size = new System.Drawing.Size(419, 153);
+			this.treeViewSounds.Size = new System.Drawing.Size(419, 176);
 			this.treeViewSounds.TabIndex = 34;
 			this.treeViewSounds.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeViewSounds_AfterSelect);
 			// 
@@ -199,28 +201,18 @@ namespace BrawlSoundConverter
 			this.treeViewCollections.ShowLines = false;
 			this.treeViewCollections.ShowPlusMinus = false;
 			this.treeViewCollections.ShowRootLines = false;
-			this.treeViewCollections.Size = new System.Drawing.Size(504, 330);
+			this.treeViewCollections.Size = new System.Drawing.Size(504, 374);
 			this.treeViewCollections.TabIndex = 27;
 			this.treeViewCollections.AfterCheck += new System.Windows.Forms.TreeViewEventHandler(this.treeViewGroups_AfterCheck);
 			this.treeViewCollections.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeViewCollections_AfterSelect);
 			this.treeViewCollections.DoubleClick += new System.EventHandler(this.treeViewGroups_DoubleClick);
 			this.treeViewCollections.KeyDown += new System.Windows.Forms.KeyEventHandler(this.treeViewCollections_KeyDown);
 			// 
-			// audioPlaybackPanel1
-			// 
-			this.audioPlaybackPanel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-			this.audioPlaybackPanel1.Location = new System.Drawing.Point(14, 516);
-			this.audioPlaybackPanel1.Name = "audioPlaybackPanel1";
-			this.audioPlaybackPanel1.Size = new System.Drawing.Size(929, 109);
-			this.audioPlaybackPanel1.TabIndex = 35;
-			this.audioPlaybackPanel1.TargetStreams = null;
-			// 
 			// checkBox1
 			// 
 			this.checkBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.checkBox1.AutoSize = true;
-			this.checkBox1.Location = new System.Drawing.Point(14, 442);
+			this.checkBox1.Location = new System.Drawing.Point(14, 489);
 			this.checkBox1.Name = "checkBox1";
 			this.checkBox1.Size = new System.Drawing.Size(117, 21);
 			this.checkBox1.TabIndex = 38;
@@ -232,7 +224,7 @@ namespace BrawlSoundConverter
 			// 
 			this.checkBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.checkBox2.AutoSize = true;
-			this.checkBox2.Location = new System.Drawing.Point(137, 442);
+			this.checkBox2.Location = new System.Drawing.Point(137, 489);
 			this.checkBox2.Name = "checkBox2";
 			this.checkBox2.Size = new System.Drawing.Size(113, 21);
 			this.checkBox2.TabIndex = 39;
@@ -244,7 +236,7 @@ namespace BrawlSoundConverter
 			// 
 			this.checkBox3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.checkBox3.AutoSize = true;
-			this.checkBox3.Location = new System.Drawing.Point(256, 442);
+			this.checkBox3.Location = new System.Drawing.Point(256, 488);
 			this.checkBox3.Name = "checkBox3";
 			this.checkBox3.Size = new System.Drawing.Size(114, 21);
 			this.checkBox3.TabIndex = 40;
@@ -256,7 +248,7 @@ namespace BrawlSoundConverter
 			// 
 			this.label5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.label5.AutoSize = true;
-			this.label5.Location = new System.Drawing.Point(525, 262);
+			this.label5.Location = new System.Drawing.Point(525, 285);
 			this.label5.Name = "label5";
 			this.label5.Size = new System.Drawing.Size(116, 17);
 			this.label5.TabIndex = 44;
@@ -265,10 +257,49 @@ namespace BrawlSoundConverter
 			// treeViewCollectionDetails
 			// 
 			this.treeViewCollectionDetails.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.treeViewCollectionDetails.Location = new System.Drawing.Point(524, 282);
+			this.treeViewCollectionDetails.Location = new System.Drawing.Point(525, 305);
 			this.treeViewCollectionDetails.Name = "treeViewCollectionDetails";
-			this.treeViewCollectionDetails.Size = new System.Drawing.Size(420, 154);
+			this.treeViewCollectionDetails.Size = new System.Drawing.Size(420, 175);
 			this.treeViewCollectionDetails.TabIndex = 43;
+			// 
+			// comboBoxSortMode
+			// 
+			this.comboBoxSortMode.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+			this.comboBoxSortMode.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.comboBoxSortMode.FormattingEnabled = true;
+			this.comboBoxSortMode.Items.AddRange(new object[] {
+            "Collection ID",
+            "Parent Group ID",
+            "Parent Group Name",
+            "Collection ID (Desc.)",
+            "Parent Group ID (Desc.)",
+            "Parent Group Name (Desc.)"});
+			this.comboBoxSortMode.Location = new System.Drawing.Point(748, 486);
+			this.comboBoxSortMode.Name = "comboBoxSortMode";
+			this.comboBoxSortMode.Size = new System.Drawing.Size(197, 24);
+			this.comboBoxSortMode.TabIndex = 46;
+			this.comboBoxSortMode.SelectedIndexChanged += new System.EventHandler(this.comboBoxSortMode_SelectedIndexChanged);
+			// 
+			// label6
+			// 
+			this.label6.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+			this.label6.AutoSize = true;
+			this.label6.Location = new System.Drawing.Point(683, 490);
+			this.label6.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+			this.label6.Name = "label6";
+			this.label6.Size = new System.Drawing.Size(58, 17);
+			this.label6.TabIndex = 45;
+			this.label6.Text = "Sort By:";
+			// 
+			// audioPlaybackPanel1
+			// 
+			this.audioPlaybackPanel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.audioPlaybackPanel1.Location = new System.Drawing.Point(14, 557);
+			this.audioPlaybackPanel1.Name = "audioPlaybackPanel1";
+			this.audioPlaybackPanel1.Size = new System.Drawing.Size(929, 109);
+			this.audioPlaybackPanel1.TabIndex = 35;
+			this.audioPlaybackPanel1.TargetStreams = null;
 			// 
 			// multiCollectionExportForm
 			// 
@@ -276,6 +307,8 @@ namespace BrawlSoundConverter
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.CancelButton = this.buttonCancel;
 			this.ClientSize = new System.Drawing.Size(957, 724);
+			this.Controls.Add(this.comboBoxSortMode);
+			this.Controls.Add(this.label6);
 			this.Controls.Add(this.label5);
 			this.Controls.Add(this.treeViewCollectionDetails);
 			this.Controls.Add(this.checkBox3);
@@ -322,5 +355,7 @@ namespace BrawlSoundConverter
 		private System.Windows.Forms.CheckBox checkBox3;
 		private System.Windows.Forms.Label label5;
 		private System.Windows.Forms.TreeView treeViewCollectionDetails;
+		private System.Windows.Forms.ComboBox comboBoxSortMode;
+		private System.Windows.Forms.Label label6;
 	}
 }

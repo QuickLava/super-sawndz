@@ -17,64 +17,194 @@ namespace BrawlSoundConverter
 	{
 		BrawlLib.SSBB.ResourceNodes.RSARNode currRSAR = null;
 		BrawlLib.SSBB.ResourceNodes.RSARFileNode currSelectedFile = null;
+		List<BrawlLib.SSBB.ResourceNodes.RSARFileNode> fileList = new List<BrawlLib.SSBB.ResourceNodes.RSARFileNode>();
 
-		private void buildCollectionView()
+		public static int compareFilesByFirstParentGroupName(BrawlLib.SSBB.ResourceNodes.RSARFileNode x, BrawlLib.SSBB.ResourceNodes.RSARFileNode y)
+		{
+			int result = 0;
+			if (x == null)
+			{
+				if (y == null)
+				{
+					result = 0;
+				}
+				else
+				{
+					result = -1;
+				}
+			}
+			else
+			{
+				if (y == null)
+				{
+					result = 1;
+				}
+				else
+				{
+					result = x.GroupRefNodes[0].Name.CompareTo(y.GroupRefNodes[0].Name);
+				}
+			}
+			return result;
+		}
+		public static int compareFilesByFirstParentGroupID(BrawlLib.SSBB.ResourceNodes.RSARFileNode x, BrawlLib.SSBB.ResourceNodes.RSARFileNode y)
+		{
+			int result = 0;
+			if (x == null)
+			{
+				if (y == null)
+				{
+					result = 0;
+				}
+				else
+				{
+					result = -1;
+				}
+			}
+			else
+			{
+				if (y == null)
+				{
+					result = 1;
+				}
+				else
+				{
+					int xCompVal = (x.GroupRefNodes[0].StringId < 0) ? int.MaxValue : x.GroupRefNodes[0].StringId;
+					int yCompVal = (y.GroupRefNodes[0].StringId < 0) ? int.MaxValue : y.GroupRefNodes[0].StringId;
+					result = xCompVal.CompareTo(yCompVal);
+				}
+			}
+			return result;
+		}
+		public static int compareFilesByFileID(BrawlLib.SSBB.ResourceNodes.RSARFileNode x, BrawlLib.SSBB.ResourceNodes.RSARFileNode y)
+		{
+			int result = 0;
+			if (x == null)
+			{
+				if (y == null)
+				{
+					result = 0;
+				}
+				else
+				{
+					result = -1;
+				}
+			}
+			else
+			{
+				if (y == null)
+				{
+					result = 1;
+				}
+				else
+				{
+					int xCompVal = (x.FileNodeIndex < 0) ? int.MaxValue : x.FileNodeIndex;
+					int yCompVal = (y.FileNodeIndex < 0) ? int.MaxValue : y.FileNodeIndex;
+					result = xCompVal.CompareTo(yCompVal);
+				}
+			}
+			return result;
+		}
+
+		private void buildCollectionView(bool refreshFileList)
 		{
 			treeViewCollections.Nodes.Clear();
 			treeViewSounds.Nodes.Clear();
 			treeViewCollectionDetails.Nodes.Clear();
 			currSelectedFile = null;
-			foreach (BrawlLib.SSBB.ResourceNodes.RSARFileNode file in currRSAR.Files)
+			buttonExport.Enabled = false;
+			audioPlaybackPanel1.TargetSource = null;
+
+			if (refreshFileList)
 			{
-				if (file.GroupRefNodes.Length == 0 || Convert.ToInt32(file.DataOffset, 16) == 0x00)
-					continue;
-				switch (file.ResourceFileType)
+				fileList.Clear();
+				foreach (BrawlLib.SSBB.ResourceNodes.RSARFileNode file in currRSAR.Files)
 				{
-					case BrawlLib.SSBB.ResourceNodes.ResourceType.RWSD:
-						{
-							if (!checkBox1.Checked)
+					if (file.GroupRefNodes.Length == 0 || Convert.ToInt32(file.DataOffset, 16) == 0x00)
+						continue;
+					switch (file.ResourceFileType)
+					{
+						case BrawlLib.SSBB.ResourceNodes.ResourceType.RWSD:
+							{
+								if (!checkBox1.Checked)
+									continue;
+								break;
+							}
+						case BrawlLib.SSBB.ResourceNodes.ResourceType.RBNK:
+							{
+								if (!checkBox2.Checked)
+									continue;
+								break;
+							}
+						case BrawlLib.SSBB.ResourceNodes.ResourceType.RSEQ:
+							{
+								if (!checkBox3.Checked)
+									continue;
+								break;
+							}
+						default:
+							{
 								continue;
-							break;
-						}
-					case BrawlLib.SSBB.ResourceNodes.ResourceType.RBNK:
-						{
-							if (!checkBox2.Checked)
-								continue;
-							break;
-						}
-					case BrawlLib.SSBB.ResourceNodes.ResourceType.RSEQ:
-						{
-							if (!checkBox3.Checked)
-								continue;
-							break;
-						}
-					default:
-						{
-							continue;
-							break;
-						}
+								break;
+							}
+					}
+
+					fileList.Add(file);
 				}
+			}
+
+			switch (comboBoxSortMode.SelectedIndex % 3)
+			{
+				case 0:
+					{
+						if (!refreshFileList)
+						{
+							fileList.Sort(compareFilesByFileID);
+						}
+						break;
+					}
+				case 1:
+					{
+						fileList.Sort(compareFilesByFirstParentGroupID);
+						break;
+					}
+				case 2:
+					{
+						fileList.Sort(compareFilesByFirstParentGroupName);
+						break;
+					}
+				default:
+					break;
+			}
+
+			if (comboBoxSortMode.SelectedIndex > 2)
+			{
+				fileList.Reverse();
+			}
+
+			for (int i = 0; i < fileList.Count; i++)
+			{
+				BrawlLib.SSBB.ResourceNodes.RSARFileNode file = fileList[i];
 
 				string displayString = "[" + file.FileNodeIndex.ToString("X3") + "] " + file.ResourceFileType + " - in \"[" + file.GroupRefNodes[0].StringId.ToString("X3") + "] " + file.GroupRefNodes[0].TreePath.Replace('/', '_') + "\"";
-
 				List<int> usedStringIDs = new List<int> { file.GroupRefNodes[0].StringId };
-				for (int i = 1; i < file.GroupRefNodes.Length; i++)
+				for (int u = 1; u < file.GroupRefNodes.Length; u++)
 				{
-					BrawlLib.SSBB.ResourceNodes.RSARGroupNode group = file.GroupRefNodes[i];
+					BrawlLib.SSBB.ResourceNodes.RSARGroupNode group = file.GroupRefNodes[u];
 					if (usedStringIDs.Contains(group.StringId))
 						continue;
 					usedStringIDs.Add(group.StringId);
 				}
-
 				if (usedStringIDs.Count > 1)
 				{
-					displayString += " and " + (usedStringIDs.Count - 1).ToString() + " other(s)" ;
+					displayString += " and " + (usedStringIDs.Count - 1).ToString() + " other(s)";
 				}
 
 				TreeNode newNode = new TreeNode(displayString);
-				newNode.Tag = file._fileIndex;
+				newNode.Tag = i;
 				treeViewCollections.Nodes.Add(newNode);
 			}
+
+			setNumCheckedText();
 		}
 
 		public multiCollectionExportForm()
@@ -85,8 +215,9 @@ namespace BrawlSoundConverter
 			checkBox1.Checked = true;
 			checkBox2.Checked = true;
 			checkBox3.Checked = true;
+			comboBoxSortMode.SelectedIndex = 0;
 
-			buildCollectionView();
+			buildCollectionView(true);
 
 			buttonCancel.Enabled = true;
 		}
@@ -102,6 +233,29 @@ namespace BrawlSoundConverter
 				}
 			}
 			return numChecked;
+		}
+
+		private void setExportButtonState()
+		{
+			if (textBoxExportDirectory.Text.Length > 0)
+			{
+				if (numTreeNodesChecked() > 0)
+				{
+					buttonExport.Enabled = true;
+				}
+				else
+				{
+					buttonExport.Enabled = false;
+				}
+			}
+			else
+			{
+				buttonExport.Enabled = false;
+			}
+		}
+		private void setNumCheckedText()
+		{
+			label2.Text = "Collections (" + numTreeNodesChecked().ToString() + " out of " + treeViewCollections.Nodes.Count.ToString() + " checked)";
 		}
 
 		private void buttonBrowse_Click(object sender, EventArgs e)
@@ -124,7 +278,7 @@ namespace BrawlSoundConverter
 				{
 					if (collection.Checked)
 					{
-						BrawlLib.SSBB.ResourceNodes.RSARFileNode targetFile = currRSAR.Files[(int)collection.Tag];
+						BrawlLib.SSBB.ResourceNodes.RSARFileNode targetFile = fileList[(int)collection.Tag];
 						string exportName = targetFile.TreePath.Replace('/', '_').Replace("<", "").Replace(">", "");
 						exportName += ".b" + targetFile.ResourceFileType.ToString().ToLower();
 						targetFile.Export(textBoxExportDirectory.Text + "\\" + exportName);
@@ -159,21 +313,8 @@ namespace BrawlSoundConverter
 
 		private void treeViewGroups_AfterCheck(object sender, TreeViewEventArgs e)
 		{
-			if (textBoxExportDirectory.Text.Length > 0)
-			{
-				if (numTreeNodesChecked() > 0)
-				{
-					buttonExport.Enabled = true;
-				}
-				else
-				{
-					buttonExport.Enabled = false;
-				}
-			}
-			else
-			{
-				buttonExport.Enabled = false;
-			}
+			setExportButtonState();
+			setNumCheckedText();
 		}
 		private void treeViewCollections_KeyDown(object sender, KeyEventArgs e)
 		{
@@ -209,7 +350,7 @@ namespace BrawlSoundConverter
 
 		private void treeViewCollections_AfterSelect(object sender, TreeViewEventArgs e)
 		{
-			currSelectedFile = currRSAR.Files[(int)treeViewCollections.SelectedNode.Tag];
+			currSelectedFile = fileList[(int)treeViewCollections.SelectedNode.Tag];
 
 			treeViewSounds.Nodes.Clear();
 			brsar.CollectSoundNodesFromSubfile(currSelectedFile.GroupRefNodes[0].StringId, currSelectedFile.FileNodeIndex, treeViewSounds.Nodes);
@@ -248,17 +389,20 @@ namespace BrawlSoundConverter
 
 		private void checkBox1_CheckedChanged(object sender, EventArgs e)
 		{
-			buildCollectionView();
+			buildCollectionView(true);
 		}
-
 		private void checkBox2_CheckedChanged(object sender, EventArgs e)
 		{
-			buildCollectionView();
+			buildCollectionView(true);
 		}
-
 		private void checkBox3_CheckedChanged(object sender, EventArgs e)
 		{
-			buildCollectionView();
+			buildCollectionView(true);
+		}
+
+		private void comboBoxSortMode_SelectedIndexChanged(object sender, EventArgs e)
+		{
+			buildCollectionView(false);
 		}
 	}
 }
