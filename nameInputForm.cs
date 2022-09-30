@@ -96,7 +96,8 @@ namespace BrawlSoundConverter
 					insertLoc = (textBox1.Text.Length > 0) ? textBox1.Text.Length - 1 : 0;
 				}
 				textBox1.Text = textBox1.Text.Insert(insertLoc, toInsert);
-				textBox1.SelectionStart += toInsert.Length;
+				textBox1.SelectionStart = insertLoc + toInsert.Length;
+				textBox1.Focus();
 			}
 		}
 
