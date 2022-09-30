@@ -15,6 +15,80 @@ namespace BrawlSoundConverter
 {
 	public partial class multiSawndExportForm : Form
 	{
+		public static string getNameNodeGroupIDHex(TreeNode nodeIn)
+		{
+			string result = "";
+
+			BrawlLib.SSBB.ResourceNodes.RSARGroupNode attachedFile = nodeIn.Tag as BrawlLib.SSBB.ResourceNodes.RSARGroupNode;
+			if (attachedFile != null)
+			{
+				result = attachedFile.StringId.ToString("X3");
+			}
+
+			return result;
+		}
+		public static string getNameNodeGroupIDDec(TreeNode nodeIn)
+		{
+			string result = "";
+
+			BrawlLib.SSBB.ResourceNodes.RSARGroupNode attachedFile = nodeIn.Tag as BrawlLib.SSBB.ResourceNodes.RSARGroupNode;
+			if (attachedFile != null)
+			{
+				result = attachedFile.StringId.ToString("D3");
+			}
+
+			return result;
+		}
+		public static string getNameNodeGroupInfoIndexHex(TreeNode nodeIn)
+		{
+			string result = "";
+
+			BrawlLib.SSBB.ResourceNodes.RSARGroupNode attachedFile = nodeIn.Tag as BrawlLib.SSBB.ResourceNodes.RSARGroupNode;
+			if (attachedFile != null)
+			{
+				result = attachedFile.InfoIndex.ToString("X3");
+			}
+
+			return result;
+		}
+		public static string getNameNodeGroupInfoIndexDec(TreeNode nodeIn)
+		{
+			string result = "";
+
+			BrawlLib.SSBB.ResourceNodes.RSARGroupNode attachedFile = nodeIn.Tag as BrawlLib.SSBB.ResourceNodes.RSARGroupNode;
+			if (attachedFile != null)
+			{
+				result = attachedFile.InfoIndex.ToString("D3");
+			}
+
+			return result;
+		}
+		public static string getNameNodeGroupNameShort(TreeNode nodeIn)
+		{
+			string result = "";
+
+			BrawlLib.SSBB.ResourceNodes.RSARGroupNode attachedFile = nodeIn.Tag as BrawlLib.SSBB.ResourceNodes.RSARGroupNode;
+			if (attachedFile != null)
+			{
+				result = attachedFile.Name;
+			}
+
+			return result;
+		}
+		public static string getNameNodeGroupNameLong(TreeNode nodeIn)
+		{
+			string result = "";
+
+			BrawlLib.SSBB.ResourceNodes.RSARGroupNode attachedFile = nodeIn.Tag as BrawlLib.SSBB.ResourceNodes.RSARGroupNode;
+			if (attachedFile != null)
+			{
+				result = attachedFile.TreePath.Replace('/', '_');
+			}
+
+			return result;
+		}
+
+
 		public multiSawndExportForm(TreeView sourceTree)
 		{
 			InitializeComponent();
@@ -103,21 +177,40 @@ namespace BrawlSoundConverter
 				}
 				else if (radioButtonNameManual.Checked)
 				{
-					nameInputForm nif = new nameInputForm();
+					string initialBaseString = "";
+					if (Properties.Settings.Default.EnableFullLengthNames)
+					{
+						initialBaseString = "[${GRP_ID_HEX}] ${GRP_NAME_L}.sawnd";
+					}
+					else
+					{
+						initialBaseString = "[${GRP_ID_HEX}] ${GRP_NAME_S}.sawnd";
+					}
+					NamingSchemeStruct wildCardStruct = new NamingSchemeStruct(initialBaseString);
+					wildCardStruct.blacklistedChars = NamingSchemeBlacklists.IllegalFilepathCharacters;
+					wildCardStruct.wildCards.Add("Group ID (Hex)", new NamingSchemeWildcardEntry("${GRP_ID_HEX}", getNameNodeGroupIDHex));
+					wildCardStruct.wildCards.Add("Group ID (Dec)", new NamingSchemeWildcardEntry("${GRP_ID_DEC}", getNameNodeGroupIDDec));
+					wildCardStruct.wildCards.Add("Group Info Index (Hex)", new NamingSchemeWildcardEntry("${GRP_INFO_ID_HEX}", getNameNodeGroupInfoIndexHex));
+					wildCardStruct.wildCards.Add("Group Info Index (Dec)", new NamingSchemeWildcardEntry("${GRP_INFO_ID_DEC}", getNameNodeGroupInfoIndexDec));
+					wildCardStruct.wildCards.Add("Group Name (Short)", new NamingSchemeWildcardEntry("${GRP_NAME_S}", getNameNodeGroupNameShort));
+					wildCardStruct.wildCards.Add("Group Name (Long)", new NamingSchemeWildcardEntry("${GRP_NAME_L}", getNameNodeGroupNameLong));
+
+					nameInputForm nif = new nameInputForm(wildCardStruct);
 					foreach (MappingItem item in treeViewGroups.Nodes)
 					{
 						if (item.Checked)
 						{
 							TreeNode currNode = nif.treeViewNames.Nodes.Add(item.ToString());
 							currNode.Text += ".sawnd";
-							currNode.Tag = item.groupID.ToString();
+							currNode.Tag = brsar.GetNode(item.groupID) as BrawlLib.SSBB.ResourceNodes.RSARGroupNode;
 						}
 					}
+					nif.applyBaseString();
 					if (nif.ShowDialog() == DialogResult.OK)
 					{
 						foreach (TreeNode item in nif.treeViewNames.Nodes)
 						{
-							exportList.WriteLine("\"" + item.Text + "\" = " + item.Tag);
+							exportList.WriteLine("\"" + item.Text + "\" = " + (item.Tag as BrawlLib.SSBB.ResourceNodes.RSARGroupNode).StringId.ToString());
 						}
 					}
 					else

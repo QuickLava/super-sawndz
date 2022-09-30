@@ -1082,6 +1082,7 @@
     <Compile Include="ManageTabsForm.Designer.cs">
       <DependentUpon>ManageTabsForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="NamingSchemeStruct.cs" />
     <Compile Include="SettingsForm.cs">
       <SubType>Form</SubType>
     </Compile>

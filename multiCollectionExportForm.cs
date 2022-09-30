@@ -105,6 +105,104 @@ namespace BrawlSoundConverter
 			return result;
 		}
 
+		public static string getNameNodeFileType(TreeNode nodeIn)
+		{
+			string result = "";
+
+			BrawlLib.SSBB.ResourceNodes.RSARFileNode attachedFile = nodeIn.Tag as BrawlLib.SSBB.ResourceNodes.RSARFileNode;
+			if (attachedFile != null)
+			{
+				result = attachedFile.ResourceFileType.ToString();
+			}
+
+			return result;
+		}
+		public static string getNameNodeFileExt(TreeNode nodeIn)
+		{
+			string result = "";
+
+			BrawlLib.SSBB.ResourceNodes.RSARFileNode attachedFile = nodeIn.Tag as BrawlLib.SSBB.ResourceNodes.RSARFileNode;
+			if (attachedFile != null)
+			{
+				result = "b" + attachedFile.ResourceFileType.ToString().ToLower();
+			}
+
+			return result;
+		}
+		public static string getNameNodeFileIDDec(TreeNode nodeIn)
+		{
+			string result = "";
+
+			BrawlLib.SSBB.ResourceNodes.RSARFileNode attachedFile = nodeIn.Tag as BrawlLib.SSBB.ResourceNodes.RSARFileNode;
+			if (attachedFile != null)
+			{
+				result = attachedFile.FileNodeIndex.ToString("D3");
+			}
+
+			return result;
+		}
+		public static string getNameNodeFileIDHex(TreeNode nodeIn)
+		{
+			string result = "";
+
+			BrawlLib.SSBB.ResourceNodes.RSARFileNode attachedFile = nodeIn.Tag as BrawlLib.SSBB.ResourceNodes.RSARFileNode;
+			if (attachedFile != null)
+			{
+				result = attachedFile.FileNodeIndex.ToString("X3");
+			}
+
+			return result;
+		}
+		public static string getNameNodeFileParentGroupNameLong(TreeNode nodeIn)
+		{
+			string result = "";
+
+			BrawlLib.SSBB.ResourceNodes.RSARFileNode attachedFile = nodeIn.Tag as BrawlLib.SSBB.ResourceNodes.RSARFileNode;
+			if (attachedFile != null)
+			{
+				result = attachedFile.GroupRefNodes[0].TreePath.Replace('/', '_');
+			}
+
+			return result;
+		}
+		public static string getNameNodeFileParentGroupNameShort(TreeNode nodeIn)
+		{
+			string result = "";
+
+			BrawlLib.SSBB.ResourceNodes.RSARFileNode attachedFile = nodeIn.Tag as BrawlLib.SSBB.ResourceNodes.RSARFileNode;
+			if (attachedFile != null)
+			{
+				result = attachedFile.GroupRefNodes[0].Name;
+			}
+
+			return result;
+		}
+		public static string getNameNodeFileParentGroupIDDec(TreeNode nodeIn)
+		{
+			string result = "";
+
+			BrawlLib.SSBB.ResourceNodes.RSARFileNode attachedFile = nodeIn.Tag as BrawlLib.SSBB.ResourceNodes.RSARFileNode;
+			if (attachedFile != null)
+			{
+				result = attachedFile.GroupRefNodes[0].StringId.ToString("D3");
+			}
+
+			return result;
+		}
+		public static string getNameNodeFileParentGroupIDHex(TreeNode nodeIn)
+		{
+			string result = "";
+
+			BrawlLib.SSBB.ResourceNodes.RSARFileNode attachedFile = nodeIn.Tag as BrawlLib.SSBB.ResourceNodes.RSARFileNode;
+			if (attachedFile != null)
+			{
+				result = attachedFile.GroupRefNodes[0].StringId.ToString("X3");
+			}
+
+			return result;
+		}
+
+
 		private void buildCollectionView(bool refreshFileList)
 		{
 			treeViewCollections.Nodes.Clear();
@@ -278,22 +376,34 @@ namespace BrawlSoundConverter
 			{
 				if (radioButtonNameManual.Checked)
 				{
-					nameInputForm nif = new nameInputForm();
+					NamingSchemeStruct wildCardStruct = new NamingSchemeStruct("${COLL_P_GRP_NAME_L}.${COLL_EXT}");
+					wildCardStruct.blacklistedChars = NamingSchemeBlacklists.IllegalFilepathCharacters;
+					wildCardStruct.wildCards.Add("Collection Type", new NamingSchemeWildcardEntry("${COLL_TYPE}", getNameNodeFileType));
+					wildCardStruct.wildCards.Add("Collection ID (Hex)", new NamingSchemeWildcardEntry("${COLL_ID_HEX}", getNameNodeFileIDHex));
+					wildCardStruct.wildCards.Add("Collection ID (Dec)", new NamingSchemeWildcardEntry("${COLL_ID_DEC}", getNameNodeFileIDDec));
+					wildCardStruct.wildCards.Add("Parent Group Short Name", new NamingSchemeWildcardEntry("${COLL_P_GRP_NAME_S}", getNameNodeFileParentGroupNameShort));
+					wildCardStruct.wildCards.Add("Parent Group Long Name", new NamingSchemeWildcardEntry("${COLL_P_GRP_NAME_L}", getNameNodeFileParentGroupNameLong));
+					wildCardStruct.wildCards.Add("Parent Group ID (Hex)", new NamingSchemeWildcardEntry("${COLL_P_GRP_ID_HEX}", getNameNodeFileParentGroupIDHex));
+					wildCardStruct.wildCards.Add("Parent Group ID (Dec)", new NamingSchemeWildcardEntry("${COLL_P_GRP_ID_DEC}", getNameNodeFileParentGroupIDDec));
+					wildCardStruct.wildCards.Add("Collection Extension", new NamingSchemeWildcardEntry("${COLL_EXT}", getNameNodeFileExt));
+
+					nameInputForm nif = new nameInputForm(wildCardStruct);
 					foreach (TreeNode item in treeViewCollections.Nodes)
 					{
 						if (item.Checked)
 						{
 							BrawlLib.SSBB.ResourceNodes.RSARFileNode targetFile = fileList[(int)item.Tag];
-							TreeNode currNode = nif.treeViewNames.Nodes.Add(targetFile.GroupRefNodes[0].TreePath.Replace('/', '_').Replace("<", "").Replace(">", ""));
+							TreeNode currNode = nif.treeViewNames.Nodes.Add(targetFile.FileNodeIndex.ToString("X3"));
 							currNode.Text += ".b" + targetFile.ResourceFileType.ToString().ToLower();
-							currNode.Tag = item.Tag;
+							currNode.Tag = targetFile;
 						}
 					}
+					nif.applyBaseString();
 					if (nif.ShowDialog() == DialogResult.OK)
 					{
 						foreach (TreeNode item in nif.treeViewNames.Nodes)
 						{
-							BrawlLib.SSBB.ResourceNodes.RSARFileNode targetFile = fileList[(int)item.Tag];
+							BrawlLib.SSBB.ResourceNodes.RSARFileNode targetFile = item.Tag as BrawlLib.SSBB.ResourceNodes.RSARFileNode;
 							string exportName = item.Text;
 							targetFile.Export(textBoxExportDirectory.Text + "\\" + exportName);
 						}
