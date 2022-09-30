@@ -29,6 +29,7 @@ namespace BrawlSoundConverter
 		/// </summary>
 		private void InitializeComponent()
 		{
+			this.components = new System.ComponentModel.Container();
 			this.label1 = new System.Windows.Forms.Label();
 			this.buttonBrowse = new System.Windows.Forms.Button();
 			this.textBoxExportDirectory = new System.Windows.Forms.TextBox();
@@ -56,6 +57,10 @@ namespace BrawlSoundConverter
 			this.radioButtonNameHexID = new System.Windows.Forms.RadioButton();
 			this.radioButtonNameDecimalID = new System.Windows.Forms.RadioButton();
 			this.label4 = new System.Windows.Forms.Label();
+			this.toolTipNameDefault = new System.Windows.Forms.ToolTip(this.components);
+			this.toolTipNameFID = new System.Windows.Forms.ToolTip(this.components);
+			this.toolTipNameFIDHex = new System.Windows.Forms.ToolTip(this.components);
+			this.toolTipNameManual = new System.Windows.Forms.ToolTip(this.components);
 			this.groupBoxNamingScheme.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -438,5 +443,9 @@ namespace BrawlSoundConverter
 		private System.Windows.Forms.RadioButton radioButtonNameHexID;
 		private System.Windows.Forms.RadioButton radioButtonNameDecimalID;
 		private System.Windows.Forms.Label label4;
+		private System.Windows.Forms.ToolTip toolTipNameDefault;
+		private System.Windows.Forms.ToolTip toolTipNameFID;
+		private System.Windows.Forms.ToolTip toolTipNameFIDHex;
+		private System.Windows.Forms.ToolTip toolTipNameManual;
 	}
 }
