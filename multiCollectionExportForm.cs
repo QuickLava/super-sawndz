@@ -17,7 +17,6 @@ namespace BrawlSoundConverter
 	{
 		BrawlLib.SSBB.ResourceNodes.RSARNode currRSAR = null;
 		BrawlLib.SSBB.ResourceNodes.RSARFileNode currSelectedFile = null;
-		List<BrawlLib.SSBB.ResourceNodes.RSARFileNode> fileList = new List<BrawlLib.SSBB.ResourceNodes.RSARFileNode>();
 
 		public static int compareFilesByFirstParentGroupName(BrawlLib.SSBB.ResourceNodes.RSARFileNode x, BrawlLib.SSBB.ResourceNodes.RSARFileNode y)
 		{
@@ -103,6 +102,90 @@ namespace BrawlSoundConverter
 				}
 			}
 			return result;
+		}
+		public class FirstParentGroupNameNodeSorter : System.Collections.IComparer
+		{
+			public FirstParentGroupNameNodeSorter() { }
+
+			public int Compare(object x, object y)
+			{
+				TreeNode nodeX = x as TreeNode;
+				TreeNode nodeY = y as TreeNode;
+				BrawlLib.SSBB.ResourceNodes.RSARFileNode fileX = nodeX.Tag as BrawlLib.SSBB.ResourceNodes.RSARFileNode;
+				BrawlLib.SSBB.ResourceNodes.RSARFileNode fileY = nodeY.Tag as BrawlLib.SSBB.ResourceNodes.RSARFileNode;
+
+				return compareFilesByFirstParentGroupName(fileX, fileY);
+			}
+		}
+		public class FirstParentGroupNameDescNodeSorter : System.Collections.IComparer
+		{
+			public FirstParentGroupNameDescNodeSorter() { }
+
+			public int Compare(object x, object y)
+			{
+				TreeNode nodeX = x as TreeNode;
+				TreeNode nodeY = y as TreeNode;
+				BrawlLib.SSBB.ResourceNodes.RSARFileNode fileX = nodeX.Tag as BrawlLib.SSBB.ResourceNodes.RSARFileNode;
+				BrawlLib.SSBB.ResourceNodes.RSARFileNode fileY = nodeY.Tag as BrawlLib.SSBB.ResourceNodes.RSARFileNode;
+
+				return 0 - compareFilesByFirstParentGroupName(fileX, fileY);
+			}
+		}
+		public class FirstParentGroupIDNodeSorter : System.Collections.IComparer
+		{
+			public FirstParentGroupIDNodeSorter() { }
+
+			public int Compare(object x, object y)
+			{
+				TreeNode nodeX = x as TreeNode;
+				TreeNode nodeY = y as TreeNode;
+				BrawlLib.SSBB.ResourceNodes.RSARFileNode fileX = nodeX.Tag as BrawlLib.SSBB.ResourceNodes.RSARFileNode;
+				BrawlLib.SSBB.ResourceNodes.RSARFileNode fileY = nodeY.Tag as BrawlLib.SSBB.ResourceNodes.RSARFileNode;
+
+				return compareFilesByFirstParentGroupID(fileX, fileY);
+			}
+		}
+		public class FirstParentGroupIDDescNodeSorter : System.Collections.IComparer
+		{
+			public FirstParentGroupIDDescNodeSorter() { }
+
+			public int Compare(object x, object y)
+			{
+				TreeNode nodeX = x as TreeNode;
+				TreeNode nodeY = y as TreeNode;
+				BrawlLib.SSBB.ResourceNodes.RSARFileNode fileX = nodeX.Tag as BrawlLib.SSBB.ResourceNodes.RSARFileNode;
+				BrawlLib.SSBB.ResourceNodes.RSARFileNode fileY = nodeY.Tag as BrawlLib.SSBB.ResourceNodes.RSARFileNode;
+
+				return 0 - compareFilesByFirstParentGroupID(fileX, fileY);
+			}
+		}
+		public class FileIDNodeSorter : System.Collections.IComparer
+		{
+			public FileIDNodeSorter() { }
+
+			public int Compare(object x, object y)
+			{
+				TreeNode nodeX = x as TreeNode;
+				TreeNode nodeY = y as TreeNode;
+				BrawlLib.SSBB.ResourceNodes.RSARFileNode fileX = nodeX.Tag as BrawlLib.SSBB.ResourceNodes.RSARFileNode;
+				BrawlLib.SSBB.ResourceNodes.RSARFileNode fileY = nodeY.Tag as BrawlLib.SSBB.ResourceNodes.RSARFileNode;
+
+				return compareFilesByFileID(fileX, fileY);
+			}
+		}
+		public class FileIDDescNodeSorter : System.Collections.IComparer
+		{
+			public FileIDDescNodeSorter() { }
+
+			public int Compare(object x, object y)
+			{
+				TreeNode nodeX = x as TreeNode;
+				TreeNode nodeY = y as TreeNode;
+				BrawlLib.SSBB.ResourceNodes.RSARFileNode fileX = nodeX.Tag as BrawlLib.SSBB.ResourceNodes.RSARFileNode;
+				BrawlLib.SSBB.ResourceNodes.RSARFileNode fileY = nodeY.Tag as BrawlLib.SSBB.ResourceNodes.RSARFileNode;
+
+				return 0 - compareFilesByFileID(fileX, fileY);
+			}
 		}
 
 		public static string getNameNodeFileType(TreeNode nodeIn)
@@ -212,76 +295,36 @@ namespace BrawlSoundConverter
 			buttonExport.Enabled = false;
 			audioPlaybackPanel1.TargetSource = null;
 
-			if (refreshFileList)
+			foreach (BrawlLib.SSBB.ResourceNodes.RSARFileNode file in currRSAR.Files)
 			{
-				fileList.Clear();
-				foreach (BrawlLib.SSBB.ResourceNodes.RSARFileNode file in currRSAR.Files)
+				if (file.GroupRefNodes.Length == 0 || Convert.ToInt32(file.DataOffset, 16) == 0x00)
+					continue;
+				switch (file.ResourceFileType)
 				{
-					if (file.GroupRefNodes.Length == 0 || Convert.ToInt32(file.DataOffset, 16) == 0x00)
-						continue;
-					switch (file.ResourceFileType)
-					{
-						case BrawlLib.SSBB.ResourceNodes.ResourceType.RWSD:
-							{
-								if (!checkBox1.Checked)
-									continue;
-								break;
-							}
-						case BrawlLib.SSBB.ResourceNodes.ResourceType.RBNK:
-							{
-								if (!checkBox2.Checked)
-									continue;
-								break;
-							}
-						case BrawlLib.SSBB.ResourceNodes.ResourceType.RSEQ:
-							{
-								if (!checkBox3.Checked)
-									continue;
-								break;
-							}
-						default:
-							{
-								continue;
-								break;
-							}
-					}
-
-					fileList.Add(file);
-				}
-			}
-
-			switch (comboBoxSortMode.SelectedIndex % 3)
-			{
-				case 0:
-					{
-						if (!refreshFileList)
+					case BrawlLib.SSBB.ResourceNodes.ResourceType.RWSD:
 						{
-							fileList.Sort(compareFilesByFileID);
+							if (!checkBox1.Checked)
+								continue;
+							break;
 						}
-						break;
-					}
-				case 1:
-					{
-						fileList.Sort(compareFilesByFirstParentGroupID);
-						break;
-					}
-				case 2:
-					{
-						fileList.Sort(compareFilesByFirstParentGroupName);
-						break;
-					}
-				default:
-					break;
-			}
-
-			if (comboBoxSortMode.SelectedIndex > 2)
-			{
-				fileList.Reverse();
-			}
-
-			for (int i = 0; i < fileList.Count; i++)
-			{
-				BrawlLib.SSBB.ResourceNodes.RSARFileNode file = fileList[i];
+					case BrawlLib.SSBB.ResourceNodes.ResourceType.RBNK:
+						{
+							if (!checkBox2.Checked)
+								continue;
+							break;
+						}
+					case BrawlLib.SSBB.ResourceNodes.ResourceType.RSEQ:
+						{
+							if (!checkBox3.Checked)
+								continue;
+							break;
+						}
+					default:
+						{
+							continue;
+							break;
+						}
+				}
 
 				string displayString = "[" + file.FileNodeIndex.ToString("X3") + "] " + file.ResourceFileType + " - in \"[" + file.GroupRefNodes[0].StringId.ToString("X3") + "] " + file.GroupRefNodes[0].TreePath.Replace('/', '_') + "\"";
 				List<int> usedStringIDs = new List<int> { file.GroupRefNodes[0].StringId };
@@ -298,11 +341,16 @@ namespace BrawlSoundConverter
 				}
 
 				TreeNode newNode = new TreeNode(displayString);
-				newNode.Tag = i;
+				newNode.Tag = file;
 				treeViewCollections.Nodes.Add(newNode);
 			}
+			reorderCollectionView();
 
 			setNumCheckedText();
+		}
+		private void reorderCollectionView()
+		{
+			treeViewCollections.Sort();
 		}
 
 		public multiCollectionExportForm()
@@ -310,9 +358,6 @@ namespace BrawlSoundConverter
 			InitializeComponent();
 			currRSAR = brsar.GetRSAR();
 
-			checkBox1.Checked = true;
-			checkBox2.Checked = true;
-			checkBox3.Checked = true;
 			comboBoxSortMode.SelectedIndex = 0;
 
 			radioButtonNameDefault.Checked = true;
@@ -376,7 +421,7 @@ namespace BrawlSoundConverter
 		}
 		private void buttonExport_Click(object sender, EventArgs e)
 		{
-			bool doExport = true;
+			bool didExport = false;
 			if (textBoxExportDirectory.Text.Length > 0)
 			{
 				if (radioButtonNameManual.Checked)
@@ -397,7 +442,7 @@ namespace BrawlSoundConverter
 					{
 						if (item.Checked)
 						{
-							BrawlLib.SSBB.ResourceNodes.RSARFileNode targetFile = fileList[(int)item.Tag];
+							BrawlLib.SSBB.ResourceNodes.RSARFileNode targetFile = item.Tag as BrawlLib.SSBB.ResourceNodes.RSARFileNode;
 							TreeNode currNode = nif.treeViewNames.Nodes.Add(targetFile.FileNodeIndex.ToString("X3"));
 							currNode.Text += ".b" + targetFile.ResourceFileType.ToString().ToLower();
 							currNode.Tag = targetFile;
@@ -412,6 +457,7 @@ namespace BrawlSoundConverter
 							string exportName = item.Text;
 							targetFile.Export(textBoxExportDirectory.Text + "\\" + exportName);
 						}
+						didExport = true;
 					}
 				}
 				else
@@ -420,7 +466,7 @@ namespace BrawlSoundConverter
 					{
 						if (collection.Checked)
 						{
-							BrawlLib.SSBB.ResourceNodes.RSARFileNode targetFile = fileList[(int)collection.Tag];
+							BrawlLib.SSBB.ResourceNodes.RSARFileNode targetFile = collection.Tag as BrawlLib.SSBB.ResourceNodes.RSARFileNode;
 							string exportName = "";
 							if (radioButtonNameDecimalID.Checked)
 							{
@@ -436,13 +482,17 @@ namespace BrawlSoundConverter
 							}
 							exportName += ".b" + targetFile.ResourceFileType.ToString().ToLower();
 							targetFile.Export(textBoxExportDirectory.Text + "\\" + exportName);
+							didExport = true;
 						}
 					}
 				}
 			}
 
-			DialogResult = DialogResult.OK;
-			Close();
+			if (didExport)
+			{
+				DialogResult = DialogResult.OK;
+				Close();
+			}
 		}
 		private void buttonSelectAll_Click(object sender, EventArgs e)
 		{
@@ -505,7 +555,7 @@ namespace BrawlSoundConverter
 
 		private void treeViewCollections_AfterSelect(object sender, TreeViewEventArgs e)
 		{
-			currSelectedFile = fileList[(int)treeViewCollections.SelectedNode.Tag];
+			currSelectedFile = treeViewCollections.SelectedNode.Tag as BrawlLib.SSBB.ResourceNodes.RSARFileNode;
 
 			treeViewSounds.Nodes.Clear();
 			brsar.CollectSoundNodesFromSubfile(currSelectedFile.GroupRefNodes[0].StringId, currSelectedFile.FileNodeIndex, treeViewSounds.Nodes);
@@ -557,7 +607,48 @@ namespace BrawlSoundConverter
 
 		private void comboBoxSortMode_SelectedIndexChanged(object sender, EventArgs e)
 		{
-			buildCollectionView(false);
+			switch (comboBoxSortMode.SelectedIndex % 3)
+			{
+				case 0:
+					{
+						if (comboBoxSortMode.SelectedIndex < 3)
+						{
+							treeViewCollections.TreeViewNodeSorter = new FileIDNodeSorter();
+						}
+						else
+						{
+							treeViewCollections.TreeViewNodeSorter = new FileIDDescNodeSorter();
+						}
+						break;
+					}
+				case 1:
+					{
+						if (comboBoxSortMode.SelectedIndex < 3)
+						{
+							treeViewCollections.TreeViewNodeSorter = new FirstParentGroupIDNodeSorter();
+						}
+						else
+						{
+							treeViewCollections.TreeViewNodeSorter = new FirstParentGroupIDDescNodeSorter();
+						}
+						break;
+					}
+				case 2:
+					{
+						if (comboBoxSortMode.SelectedIndex < 3)
+						{
+							treeViewCollections.TreeViewNodeSorter = new FirstParentGroupNameNodeSorter();
+						}
+						else
+						{
+							treeViewCollections.TreeViewNodeSorter = new FirstParentGroupNameDescNodeSorter();
+						}
+						break;
+					}
+				default:
+					break;
+			}
+			reorderCollectionView();
 		}
 	}
 }
