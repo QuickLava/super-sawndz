@@ -325,10 +325,10 @@ namespace BrawlSoundConverter
 			this.radioButtonNameManual.AutoSize = true;
 			this.radioButtonNameManual.Location = new System.Drawing.Point(314, 22);
 			this.radioButtonNameManual.Name = "radioButtonNameManual";
-			this.radioButtonNameManual.Size = new System.Drawing.Size(75, 21);
+			this.radioButtonNameManual.Size = new System.Drawing.Size(76, 21);
 			this.radioButtonNameManual.TabIndex = 26;
 			this.radioButtonNameManual.TabStop = true;
-			this.radioButtonNameManual.Text = "Manual";
+			this.radioButtonNameManual.Text = "Custom";
 			this.radioButtonNameManual.UseVisualStyleBackColor = true;
 			// 
 			// radioButtonNameDefault

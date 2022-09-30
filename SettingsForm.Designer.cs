@@ -66,6 +66,7 @@ namespace BrawlSoundConverter
 			this.label9 = new System.Windows.Forms.Label();
 			this.label5 = new System.Windows.Forms.Label();
 			this.groupBox4 = new System.Windows.Forms.GroupBox();
+			this.checkBoxSaveAsDefault = new System.Windows.Forms.CheckBox();
 			this.buttonConfigLoad = new System.Windows.Forms.Button();
 			this.treeView2 = new System.Windows.Forms.TreeView();
 			this.label7 = new System.Windows.Forms.Label();
@@ -75,7 +76,6 @@ namespace BrawlSoundConverter
 			this.groupBox5 = new System.Windows.Forms.GroupBox();
 			this.label12 = new System.Windows.Forms.Label();
 			this.numericUpDown2 = new System.Windows.Forms.NumericUpDown();
-			this.checkBoxSaveAsDefault = new System.Windows.Forms.CheckBox();
 			this.groupBoxNamingScheme.SuspendLayout();
 			this.groupBox1.SuspendLayout();
 			this.groupBox2.SuspendLayout();
@@ -105,10 +105,10 @@ namespace BrawlSoundConverter
 			this.radioButtonNameManual.AutoSize = true;
 			this.radioButtonNameManual.Location = new System.Drawing.Point(314, 22);
 			this.radioButtonNameManual.Name = "radioButtonNameManual";
-			this.radioButtonNameManual.Size = new System.Drawing.Size(75, 21);
+			this.radioButtonNameManual.Size = new System.Drawing.Size(76, 21);
 			this.radioButtonNameManual.TabIndex = 26;
 			this.radioButtonNameManual.TabStop = true;
-			this.radioButtonNameManual.Text = "Manual";
+			this.radioButtonNameManual.Text = "Custom";
 			this.radioButtonNameManual.UseVisualStyleBackColor = true;
 			// 
 			// radioButtonNameDefault
@@ -483,6 +483,18 @@ namespace BrawlSoundConverter
 			this.groupBox4.TabIndex = 43;
 			this.groupBox4.TabStop = false;
 			// 
+			// checkBoxSaveAsDefault
+			// 
+			this.checkBoxSaveAsDefault.AutoSize = true;
+			this.checkBoxSaveAsDefault.Checked = true;
+			this.checkBoxSaveAsDefault.CheckState = System.Windows.Forms.CheckState.Checked;
+			this.checkBoxSaveAsDefault.Location = new System.Drawing.Point(272, 17);
+			this.checkBoxSaveAsDefault.Name = "checkBoxSaveAsDefault";
+			this.checkBoxSaveAsDefault.Size = new System.Drawing.Size(174, 21);
+			this.checkBoxSaveAsDefault.TabIndex = 7;
+			this.checkBoxSaveAsDefault.Text = "Save Config as Default";
+			this.checkBoxSaveAsDefault.UseVisualStyleBackColor = true;
+			// 
 			// buttonConfigLoad
 			// 
 			this.buttonConfigLoad.Location = new System.Drawing.Point(226, 187);
@@ -573,18 +585,6 @@ namespace BrawlSoundConverter
 			this.numericUpDown2.Name = "numericUpDown2";
 			this.numericUpDown2.Size = new System.Drawing.Size(120, 22);
 			this.numericUpDown2.TabIndex = 44;
-			// 
-			// checkBoxSaveAsDefault
-			// 
-			this.checkBoxSaveAsDefault.AutoSize = true;
-			this.checkBoxSaveAsDefault.Checked = true;
-			this.checkBoxSaveAsDefault.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.checkBoxSaveAsDefault.Location = new System.Drawing.Point(272, 17);
-			this.checkBoxSaveAsDefault.Name = "checkBoxSaveAsDefault";
-			this.checkBoxSaveAsDefault.Size = new System.Drawing.Size(174, 21);
-			this.checkBoxSaveAsDefault.TabIndex = 7;
-			this.checkBoxSaveAsDefault.Text = "Save Config as Default";
-			this.checkBoxSaveAsDefault.UseVisualStyleBackColor = true;
 			// 
 			// SettingsForm
 			// 
