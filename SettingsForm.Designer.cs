@@ -75,6 +75,7 @@ namespace BrawlSoundConverter
 			this.groupBox5 = new System.Windows.Forms.GroupBox();
 			this.label12 = new System.Windows.Forms.Label();
 			this.numericUpDown2 = new System.Windows.Forms.NumericUpDown();
+			this.checkBoxSaveAsDefault = new System.Windows.Forms.CheckBox();
 			this.groupBoxNamingScheme.SuspendLayout();
 			this.groupBox1.SuspendLayout();
 			this.groupBox2.SuspendLayout();
@@ -471,6 +472,7 @@ namespace BrawlSoundConverter
 			// groupBox4
 			// 
 			this.groupBox4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+			this.groupBox4.Controls.Add(this.checkBoxSaveAsDefault);
 			this.groupBox4.Controls.Add(this.buttonConfigLoad);
 			this.groupBox4.Controls.Add(this.treeView2);
 			this.groupBox4.Controls.Add(this.label7);
@@ -571,6 +573,18 @@ namespace BrawlSoundConverter
 			this.numericUpDown2.Name = "numericUpDown2";
 			this.numericUpDown2.Size = new System.Drawing.Size(120, 22);
 			this.numericUpDown2.TabIndex = 44;
+			// 
+			// checkBoxSaveAsDefault
+			// 
+			this.checkBoxSaveAsDefault.AutoSize = true;
+			this.checkBoxSaveAsDefault.Checked = true;
+			this.checkBoxSaveAsDefault.CheckState = System.Windows.Forms.CheckState.Checked;
+			this.checkBoxSaveAsDefault.Location = new System.Drawing.Point(272, 17);
+			this.checkBoxSaveAsDefault.Name = "checkBoxSaveAsDefault";
+			this.checkBoxSaveAsDefault.Size = new System.Drawing.Size(174, 21);
+			this.checkBoxSaveAsDefault.TabIndex = 7;
+			this.checkBoxSaveAsDefault.Text = "Save Config as Default";
+			this.checkBoxSaveAsDefault.UseVisualStyleBackColor = true;
 			// 
 			// SettingsForm
 			// 
@@ -674,5 +688,6 @@ namespace BrawlSoundConverter
 		private System.Windows.Forms.GroupBox groupBox5;
 		private System.Windows.Forms.Label label12;
 		private System.Windows.Forms.NumericUpDown numericUpDown2;
+		public System.Windows.Forms.CheckBox checkBoxSaveAsDefault;
 	}
 }

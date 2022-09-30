@@ -179,7 +179,7 @@ namespace BrawlSoundConverter
 			}
 
 			BrawlLib.SSBB.ResourceNodes.RSARNode currRSAR = brsar.GetRSAR();
-			if (currRSAR != null)
+			if (checkBoxSaveAsDefault.Checked && currRSAR != null)
 			{
 				int tabSettingIndex = TabConfiguration.getCurrentBRSARSettingsIndex(currRSAR);
 				if (tabSettingIndex > -1 && tabSettingIndex < Properties.Settings.Default.TabSettings.Count)
@@ -272,6 +272,7 @@ namespace BrawlSoundConverter
 							populateTreeView();
 							line = null;
 							success = true;
+							checkBoxSaveAsDefault.Checked = true;
 						}
 						else
 						{

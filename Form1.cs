@@ -729,7 +729,10 @@ namespace BrawlSoundConverter
 				textBoxGroupID.Clear();
 				textBoxCollectionID.Clear();
 				textBoxWavID.Clear();
-				currTabSettings = null;
+				if (settings.checkBoxSaveAsDefault.Checked)
+				{
+					currTabSettings = null;
+				}
 				currSearchResults = null;
 				loadTreeView();
 			}
