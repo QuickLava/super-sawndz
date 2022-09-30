@@ -43,6 +43,8 @@ namespace BrawlSoundConverter
 			buttonCancel.Enabled = true;
 			treeViewAudio.CheckBoxes = true;
 			checkBox1.Checked = Properties.Settings.Default.DefaultMultiWAVExportCreateGroupDirectory;
+
+			setNumCheckedText();
 		}
 
 		private void setTextBox(string folderIn)
@@ -69,6 +71,10 @@ namespace BrawlSoundConverter
 				}
 			}
 			return numChecked;
+		}
+		private void setNumCheckedText()
+		{
+			label2.Text = "WAVs (" + numTreeNodesChecked().ToString() + " out of " + treeViewAudio.Nodes.Count.ToString() + " checked)";
 		}
 
 		private void buttonBrowse_Click(object sender, EventArgs e)
@@ -135,7 +141,7 @@ namespace BrawlSoundConverter
 			}
 		}
 
-		private void treeViewGroups_AfterCheck(object sender, TreeViewEventArgs e)
+		private void treeViewAudio_AfterCheck(object sender, TreeViewEventArgs e)
 		{
 			if (textBoxExportDirectory.Text.Length > 0)
 			{
@@ -152,6 +158,7 @@ namespace BrawlSoundConverter
 			{
 				buttonExport.Enabled = false;
 			}
+			setNumCheckedText();
 		}
 		private void treeViewAudio_KeyDown(object sender, KeyEventArgs e)
 		{

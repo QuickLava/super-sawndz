@@ -154,7 +154,7 @@ namespace BrawlSoundConverter
 			this.treeViewAudio.ShowRootLines = false;
 			this.treeViewAudio.Size = new System.Drawing.Size(270, 337);
 			this.treeViewAudio.TabIndex = 27;
-			this.treeViewAudio.AfterCheck += new System.Windows.Forms.TreeViewEventHandler(this.treeViewGroups_AfterCheck);
+			this.treeViewAudio.AfterCheck += new System.Windows.Forms.TreeViewEventHandler(this.treeViewAudio_AfterCheck);
 			this.treeViewAudio.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeViewAudio_AfterSelect);
 			this.treeViewAudio.DoubleClick += new System.EventHandler(this.treeViewAudio_DoubleClick);
 			this.treeViewAudio.KeyDown += new System.Windows.Forms.KeyEventHandler(this.treeViewAudio_KeyDown);

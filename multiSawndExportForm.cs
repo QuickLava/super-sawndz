@@ -43,6 +43,8 @@ namespace BrawlSoundConverter
 			toolTipNamePM.SetToolTip(radioButtonNamePM, "Names exported files according to their Group ID (in decimal).");
 			toolTipNamePP.SetToolTip(radioButtonNamePP, "Names exported files according to their Internal ID (Group ID minus 7, in hexadecimal).");
 			toolTipNameManual.SetToolTip(radioButtonNameManual, "Presents a menu in which you may specify the filenames to be used by each selected group.");
+
+			setNumCheckedText();
 		}
 
 		private uint numTreeNodesChecked()
@@ -56,6 +58,10 @@ namespace BrawlSoundConverter
 				}
 			}
 			return numChecked;
+		}
+		private void setNumCheckedText()
+		{
+			label2.Text = "Groups (" + numTreeNodesChecked().ToString() + " out of " + treeViewGroups.Nodes.Count.ToString() + " checked)";
 		}
 
 		private void buttonBrowse_Click(object sender, EventArgs e)
@@ -176,6 +182,7 @@ namespace BrawlSoundConverter
 			{
 				buttonExport.Enabled = false;
 			}
+			setNumCheckedText();
 		}
 		private void treeViewGroups_KeyDown(object sender, KeyEventArgs e)
 		{
