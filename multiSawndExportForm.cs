@@ -224,7 +224,7 @@ namespace BrawlSoundConverter
 					{
 						if (item.Checked)
 						{
-							exportList.WriteLine("\"" + item.name + ".sawnd" + "\" = " + item.groupID.ToString());
+							exportList.WriteLine("\"" + item.name.Replace("<", "").Replace(">", "") + ".sawnd" + "\" = " + item.groupID.ToString());
 						}
 					}
 				}
@@ -232,6 +232,7 @@ namespace BrawlSoundConverter
 				if (doExport)
 				{
 					Sawndz.multiCreateSawnd(textBoxExportDirectory.Text);
+					DialogResult = DialogResult.OK;
 					this.Close();
 				}
 			}
