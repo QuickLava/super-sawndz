@@ -217,6 +217,8 @@ namespace BrawlSoundConverter
 			checkBox3.Checked = true;
 			comboBoxSortMode.SelectedIndex = 0;
 
+			radioButtonNameDefault.Checked = true;
+
 			buildCollectionView(true);
 
 			buttonCancel.Enabled = true;
@@ -274,14 +276,52 @@ namespace BrawlSoundConverter
 			bool doExport = true;
 			if (textBoxExportDirectory.Text.Length > 0)
 			{
-				foreach (TreeNode collection in treeViewCollections.Nodes)
+				if (radioButtonNameManual.Checked)
 				{
-					if (collection.Checked)
+					nameInputForm nif = new nameInputForm();
+					foreach (TreeNode item in treeViewCollections.Nodes)
 					{
-						BrawlLib.SSBB.ResourceNodes.RSARFileNode targetFile = fileList[(int)collection.Tag];
-						string exportName = targetFile.TreePath.Replace('/', '_').Replace("<", "").Replace(">", "");
-						exportName += ".b" + targetFile.ResourceFileType.ToString().ToLower();
-						targetFile.Export(textBoxExportDirectory.Text + "\\" + exportName);
+						if (item.Checked)
+						{
+							BrawlLib.SSBB.ResourceNodes.RSARFileNode targetFile = fileList[(int)item.Tag];
+							TreeNode currNode = nif.treeViewNames.Nodes.Add(targetFile.GroupRefNodes[0].TreePath.Replace('/', '_').Replace("<", "").Replace(">", ""));
+							currNode.Text += ".b" + targetFile.ResourceFileType.ToString().ToLower();
+							currNode.Tag = item.Tag;
+						}
+					}
+					if (nif.ShowDialog() == DialogResult.OK)
+					{
+						foreach (TreeNode item in nif.treeViewNames.Nodes)
+						{
+							BrawlLib.SSBB.ResourceNodes.RSARFileNode targetFile = fileList[(int)item.Tag];
+							string exportName = item.Text;
+							targetFile.Export(textBoxExportDirectory.Text + "\\" + exportName);
+						}
+					}
+				}
+				else
+				{
+					foreach (TreeNode collection in treeViewCollections.Nodes)
+					{
+						if (collection.Checked)
+						{
+							BrawlLib.SSBB.ResourceNodes.RSARFileNode targetFile = fileList[(int)collection.Tag];
+							string exportName = "";
+							if (radioButtonNameDecimalID.Checked)
+							{
+								exportName = targetFile.FileNodeIndex.ToString("D3");
+							}
+							else if (radioButtonNameHexID.Checked)
+							{
+								exportName = targetFile.FileNodeIndex.ToString("X3");
+							}
+							else
+							{
+								exportName = targetFile.TreePath.Replace('/', '_').Replace("<", "").Replace(">", "");
+							}
+							exportName += ".b" + targetFile.ResourceFileType.ToString().ToLower();
+							targetFile.Export(textBoxExportDirectory.Text + "\\" + exportName);
+						}
 					}
 				}
 			}
