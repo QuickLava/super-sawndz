@@ -29,6 +29,7 @@ namespace BrawlSoundConverter
 				currNode.Tag = index;
 				index++;
 			}
+			this.Focus();
 		}
 
 		private void button1_Click(object sender, EventArgs e)
@@ -41,6 +42,15 @@ namespace BrawlSoundConverter
 			DialogResult = DialogResult.Cancel;
 			Close();
 		}
+
+		private void activateTextInputBox(TreeNode selectedNode)
+		{
+			textBoxTextInput.Location = new Point(treeViewNames.Location.X + selectedNode.Bounds.Left, treeViewNames.Location.Y + selectedNode.Bounds.Top);
+			textBoxTextInput.Visible = true;
+			textBoxTextInput.Focus();
+			textBoxTextInput.Text = selectedNode.Text;
+		}
+
 		private void treeViewNames_KeyDown(object sender, KeyEventArgs e)
 		{
 			TreeNode selectedNode = treeViewNames.SelectedNode;
@@ -48,8 +58,8 @@ namespace BrawlSoundConverter
 			{
 				if (e.KeyCode == Keys.Enter)
 				{
-					selectedNode.BeginEdit();
 					e.SuppressKeyPress = true;
+					activateTextInputBox(selectedNode);
 				}
 			}
 		}
@@ -58,7 +68,7 @@ namespace BrawlSoundConverter
 			TreeNode selectedNode = treeViewNames.SelectedNode;
 			if (selectedNode != null)
 			{
-				selectedNode.BeginEdit();
+				activateTextInputBox(selectedNode);
 			}
 		}
 
@@ -104,21 +114,70 @@ namespace BrawlSoundConverter
 			}
 		}
 
-		private void textBox1_TextChanged(object sender, EventArgs e)
+		private string scrubText(string textIn)
 		{
-			int selectedIndex = textBox1.SelectionStart;
-			int stringSizeDifference = textBox1.Text.Length;
-			string bufferStr = "";
-			foreach (char character in textBox1.Text)
+			string result = "";
+
+			foreach (char character in textIn)
 			{
 				if (!blacklistedChars.Contains(character))
 				{
-					bufferStr += character;
+					result += character;
 				}
 			}
-			stringSizeDifference -= bufferStr.Length;
+
+			return result;
+		}
+		private void textBox1_TextChanged(object sender, EventArgs e)
+		{
+			int selectedIndex = textBox1.SelectionStart;
+			string bufferStr = scrubText(textBox1.Text);
+			int stringSizeDifference = textBox1.Text.Length - bufferStr.Length;
 			textBox1.Text = bufferStr;
 			textBox1.SelectionStart = selectedIndex - stringSizeDifference;
+		}
+
+		private void textBoxTextInput_VisibleChanged(object sender, EventArgs e)
+		{
+			textBoxTextInput.Clear();
+		}
+
+		private void textBoxTextInput_Leave(object sender, EventArgs e)
+		{
+			textBoxTextInput.Visible = false;
+		}
+
+		private void textBoxTextInput_KeyDown(object sender, KeyEventArgs e)
+		{
+			if (e.KeyCode == Keys.Enter)
+			{
+				treeViewNames.SelectedNode.Text = textBoxTextInput.Text;
+				textBoxTextInput.Visible = false;
+				e.SuppressKeyPress = true;
+			}
+			else if (e.KeyCode == Keys.Escape)
+			{
+				textBoxTextInput.Visible = false;
+				e.SuppressKeyPress = true;
+			}
+		}
+
+		private void textBoxTextInput_TextChanged(object sender, EventArgs e)
+		{
+			int selectedIndex = textBoxTextInput.SelectionStart;
+			string bufferStr = scrubText(textBoxTextInput.Text);
+			int stringSizeDifference = textBoxTextInput.Text.Length - bufferStr.Length;
+			textBoxTextInput.Text = bufferStr;
+			textBoxTextInput.SelectionStart = selectedIndex - stringSizeDifference;
+		}
+
+		private void nameInputForm_KeyDown(object sender, KeyEventArgs e)
+		{
+			if (!textBoxTextInput.Focused && e.KeyCode == Keys.Escape)
+			{
+				DialogResult = DialogResult.Cancel;
+				Close();
+			}
 		}
 	}
 }

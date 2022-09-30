@@ -40,6 +40,7 @@ namespace BrawlSoundConverter
 			this.textBox1 = new System.Windows.Forms.TextBox();
 			this.label3 = new System.Windows.Forms.Label();
 			this.label4 = new System.Windows.Forms.Label();
+			this.textBoxTextInput = new System.Windows.Forms.TextBox();
 			this.SuspendLayout();
 			// 
 			// treeViewNames
@@ -155,12 +156,25 @@ namespace BrawlSoundConverter
 			this.label4.TabIndex = 13;
 			this.label4.Text = "Note: Double-click or press Enter on a File Name to directly edit it.";
 			// 
+			// textBoxTextInput
+			// 
+			this.textBoxTextInput.Location = new System.Drawing.Point(13, 422);
+			this.textBoxTextInput.Name = "textBoxTextInput";
+			this.textBoxTextInput.Size = new System.Drawing.Size(410, 22);
+			this.textBoxTextInput.TabIndex = 14;
+			this.textBoxTextInput.TabStop = false;
+			this.textBoxTextInput.Visible = false;
+			this.textBoxTextInput.TextChanged += new System.EventHandler(this.textBoxTextInput_TextChanged);
+			this.textBoxTextInput.VisibleChanged += new System.EventHandler(this.textBoxTextInput_VisibleChanged);
+			this.textBoxTextInput.KeyDown += new System.Windows.Forms.KeyEventHandler(this.textBoxTextInput_KeyDown);
+			this.textBoxTextInput.Leave += new System.EventHandler(this.textBoxTextInput_Leave);
+			// 
 			// nameInputForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.CancelButton = this.button2;
 			this.ClientSize = new System.Drawing.Size(771, 462);
+			this.Controls.Add(this.textBoxTextInput);
 			this.Controls.Add(this.label4);
 			this.Controls.Add(this.label3);
 			this.Controls.Add(this.textBox1);
@@ -173,10 +187,12 @@ namespace BrawlSoundConverter
 			this.Controls.Add(this.label1);
 			this.Controls.Add(this.treeViewNames);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+			this.KeyPreview = true;
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;
 			this.Name = "nameInputForm";
 			this.Text = "Input Name";
+			this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.nameInputForm_KeyDown);
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -194,5 +210,6 @@ namespace BrawlSoundConverter
 		private System.Windows.Forms.TextBox textBox1;
 		private System.Windows.Forms.Label label3;
 		private System.Windows.Forms.Label label4;
+		private System.Windows.Forms.TextBox textBoxTextInput;
 	}
 }
