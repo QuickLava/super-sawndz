@@ -9,7 +9,7 @@ namespace BrawlSoundConverter
 {
 	public static class NamingSchemeBlacklists
 	{
-		public static string IllegalFilepathCharacters = "<>\",|/\\\t";
+		public static string IllegalFilepathCharacters = "<>:?*\"|/\\\t";
 	}
 
 
