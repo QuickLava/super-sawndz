@@ -120,7 +120,7 @@ namespace BrawlSoundConverter
 			// label2
 			// 
 			this.label2.AutoSize = true;
-			this.label2.Location = new System.Drawing.Point(432, 56);
+			this.label2.Location = new System.Drawing.Point(429, 56);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(147, 17);
 			this.label2.TabIndex = 10;
