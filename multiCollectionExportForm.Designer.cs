@@ -50,7 +50,6 @@ namespace BrawlSoundConverter
 			this.treeViewCollectionDetails = new System.Windows.Forms.TreeView();
 			this.comboBoxSortMode = new System.Windows.Forms.ComboBox();
 			this.label6 = new System.Windows.Forms.Label();
-			this.audioPlaybackPanel1 = new BrawlLib.Internal.Windows.Controls.AudioPlaybackPanel();
 			this.groupBoxNamingScheme = new System.Windows.Forms.GroupBox();
 			this.radioButtonNameManual = new System.Windows.Forms.RadioButton();
 			this.radioButtonNameDefault = new System.Windows.Forms.RadioButton();
@@ -61,6 +60,7 @@ namespace BrawlSoundConverter
 			this.toolTipNameFID = new System.Windows.Forms.ToolTip(this.components);
 			this.toolTipNameFIDHex = new System.Windows.Forms.ToolTip(this.components);
 			this.toolTipNameManual = new System.Windows.Forms.ToolTip(this.components);
+			this.audioPlaybackPanel1 = new BrawlLib.Internal.Windows.Controls.AudioPlaybackPanel();
 			this.groupBoxNamingScheme.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -309,16 +309,6 @@ namespace BrawlSoundConverter
 			this.label6.TabIndex = 45;
 			this.label6.Text = "Sort By:";
 			// 
-			// audioPlaybackPanel1
-			// 
-			this.audioPlaybackPanel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-			this.audioPlaybackPanel1.Location = new System.Drawing.Point(14, 576);
-			this.audioPlaybackPanel1.Name = "audioPlaybackPanel1";
-			this.audioPlaybackPanel1.Size = new System.Drawing.Size(929, 109);
-			this.audioPlaybackPanel1.TabIndex = 35;
-			this.audioPlaybackPanel1.TargetStreams = null;
-			// 
 			// groupBoxNamingScheme
 			// 
 			this.groupBoxNamingScheme.Controls.Add(this.radioButtonNameManual);
@@ -327,14 +317,14 @@ namespace BrawlSoundConverter
 			this.groupBoxNamingScheme.Controls.Add(this.radioButtonNameDecimalID);
 			this.groupBoxNamingScheme.Location = new System.Drawing.Point(15, 72);
 			this.groupBoxNamingScheme.Name = "groupBoxNamingScheme";
-			this.groupBoxNamingScheme.Size = new System.Drawing.Size(403, 51);
+			this.groupBoxNamingScheme.Size = new System.Drawing.Size(437, 51);
 			this.groupBoxNamingScheme.TabIndex = 47;
 			this.groupBoxNamingScheme.TabStop = false;
 			// 
 			// radioButtonNameManual
 			// 
 			this.radioButtonNameManual.AutoSize = true;
-			this.radioButtonNameManual.Location = new System.Drawing.Point(314, 22);
+			this.radioButtonNameManual.Location = new System.Drawing.Point(350, 21);
 			this.radioButtonNameManual.Name = "radioButtonNameManual";
 			this.radioButtonNameManual.Size = new System.Drawing.Size(76, 21);
 			this.radioButtonNameManual.TabIndex = 26;
@@ -355,11 +345,11 @@ namespace BrawlSoundConverter
 			// radioButtonNameHexID
 			// 
 			this.radioButtonNameHexID.AutoSize = true;
-			this.radioButtonNameHexID.Location = new System.Drawing.Point(202, 21);
+			this.radioButtonNameHexID.Location = new System.Drawing.Point(199, 21);
 			this.radioButtonNameHexID.Name = "radioButtonNameHexID";
-			this.radioButtonNameHexID.Size = new System.Drawing.Size(106, 21);
+			this.radioButtonNameHexID.Size = new System.Drawing.Size(145, 21);
 			this.radioButtonNameHexID.TabIndex = 25;
-			this.radioButtonNameHexID.Text = "File ID (Hex)";
+			this.radioButtonNameHexID.Text = "Collection ID (Hex)";
 			this.radioButtonNameHexID.UseVisualStyleBackColor = true;
 			// 
 			// radioButtonNameDecimalID
@@ -367,9 +357,9 @@ namespace BrawlSoundConverter
 			this.radioButtonNameDecimalID.AutoSize = true;
 			this.radioButtonNameDecimalID.Location = new System.Drawing.Point(86, 21);
 			this.radioButtonNameDecimalID.Name = "radioButtonNameDecimalID";
-			this.radioButtonNameDecimalID.Size = new System.Drawing.Size(111, 21);
+			this.radioButtonNameDecimalID.Size = new System.Drawing.Size(107, 21);
 			this.radioButtonNameDecimalID.TabIndex = 24;
-			this.radioButtonNameDecimalID.Text = "File ID (Dec.)";
+			this.radioButtonNameDecimalID.Text = "Collection ID";
 			this.radioButtonNameDecimalID.UseVisualStyleBackColor = true;
 			// 
 			// label4
@@ -380,6 +370,16 @@ namespace BrawlSoundConverter
 			this.label4.Size = new System.Drawing.Size(111, 17);
 			this.label4.TabIndex = 48;
 			this.label4.Text = "Naming Scheme";
+			// 
+			// audioPlaybackPanel1
+			// 
+			this.audioPlaybackPanel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.audioPlaybackPanel1.Location = new System.Drawing.Point(14, 576);
+			this.audioPlaybackPanel1.Name = "audioPlaybackPanel1";
+			this.audioPlaybackPanel1.Size = new System.Drawing.Size(929, 109);
+			this.audioPlaybackPanel1.TabIndex = 35;
+			this.audioPlaybackPanel1.TargetStreams = null;
 			// 
 			// multiCollectionExportForm
 			// 

@@ -78,6 +78,12 @@ namespace BrawlSoundConverter
 			this.buttonResetGroupThresh = new System.Windows.Forms.Button();
 			this.label12 = new System.Windows.Forms.Label();
 			this.numericUpDownGroupSizeThresh = new System.Windows.Forms.NumericUpDown();
+			this.label13 = new System.Windows.Forms.Label();
+			this.groupBox7 = new System.Windows.Forms.GroupBox();
+			this.radioButtonCollNameCustom = new System.Windows.Forms.RadioButton();
+			this.radioButtonCollNameDefault = new System.Windows.Forms.RadioButton();
+			this.radioButtonCollNameIDHex = new System.Windows.Forms.RadioButton();
+			this.radioButtonCollNameID = new System.Windows.Forms.RadioButton();
 			this.groupBoxNamingScheme.SuspendLayout();
 			this.groupBox1.SuspendLayout();
 			this.groupBox2.SuspendLayout();
@@ -88,6 +94,7 @@ namespace BrawlSoundConverter
 			this.groupBox4.SuspendLayout();
 			this.groupBox5.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDownGroupSizeThresh)).BeginInit();
+			this.groupBox7.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// groupBoxNamingScheme
@@ -179,7 +186,7 @@ namespace BrawlSoundConverter
 			// 
 			this.buttonCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.buttonCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-			this.buttonCancel.Location = new System.Drawing.Point(356, 804);
+			this.buttonCancel.Location = new System.Drawing.Point(356, 870);
 			this.buttonCancel.Margin = new System.Windows.Forms.Padding(4);
 			this.buttonCancel.Name = "buttonCancel";
 			this.buttonCancel.Size = new System.Drawing.Size(100, 28);
@@ -191,7 +198,7 @@ namespace BrawlSoundConverter
 			// 
 			this.buttonSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.buttonSave.DialogResult = System.Windows.Forms.DialogResult.OK;
-			this.buttonSave.Location = new System.Drawing.Point(248, 804);
+			this.buttonSave.Location = new System.Drawing.Point(248, 870);
 			this.buttonSave.Margin = new System.Windows.Forms.Padding(4);
 			this.buttonSave.Name = "buttonSave";
 			this.buttonSave.Size = new System.Drawing.Size(100, 28);
@@ -225,7 +232,7 @@ namespace BrawlSoundConverter
 			// 
 			this.groupBox1.Controls.Add(this.radioButtonGroupDirEnable);
 			this.groupBox1.Controls.Add(this.radioButtonGroupDirDisable);
-			this.groupBox1.Location = new System.Drawing.Point(10, 227);
+			this.groupBox1.Location = new System.Drawing.Point(10, 293);
 			this.groupBox1.Name = "groupBox1";
 			this.groupBox1.Size = new System.Drawing.Size(445, 51);
 			this.groupBox1.TabIndex = 28;
@@ -254,7 +261,7 @@ namespace BrawlSoundConverter
 			// label2
 			// 
 			this.label2.AutoSize = true;
-			this.label2.Location = new System.Drawing.Point(10, 217);
+			this.label2.Location = new System.Drawing.Point(10, 283);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(352, 17);
 			this.label2.TabIndex = 37;
@@ -329,7 +336,7 @@ namespace BrawlSoundConverter
 			this.groupBox3.Controls.Add(this.groupBoxStereoConv);
 			this.groupBox3.Controls.Add(this.label9);
 			this.groupBox3.Controls.Add(this.label4);
-			this.groupBox3.Location = new System.Drawing.Point(10, 359);
+			this.groupBox3.Location = new System.Drawing.Point(10, 425);
 			this.groupBox3.Name = "groupBox3";
 			this.groupBox3.Size = new System.Drawing.Size(445, 199);
 			this.groupBox3.TabIndex = 41;
@@ -476,7 +483,7 @@ namespace BrawlSoundConverter
 			// 
 			this.label5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.label5.AutoSize = true;
-			this.label5.Location = new System.Drawing.Point(10, 563);
+			this.label5.Location = new System.Drawing.Point(10, 629);
 			this.label5.Name = "label5";
 			this.label5.Size = new System.Drawing.Size(88, 17);
 			this.label5.TabIndex = 44;
@@ -490,7 +497,7 @@ namespace BrawlSoundConverter
 			this.groupBox4.Controls.Add(this.treeView2);
 			this.groupBox4.Controls.Add(this.label7);
 			this.groupBox4.Controls.Add(this.buttonConfigSave);
-			this.groupBox4.Location = new System.Drawing.Point(10, 573);
+			this.groupBox4.Location = new System.Drawing.Point(10, 639);
 			this.groupBox4.Name = "groupBox4";
 			this.groupBox4.Size = new System.Drawing.Size(445, 223);
 			this.groupBox4.TabIndex = 43;
@@ -547,7 +554,7 @@ namespace BrawlSoundConverter
 			// label10
 			// 
 			this.label10.AutoSize = true;
-			this.label10.Location = new System.Drawing.Point(10, 349);
+			this.label10.Location = new System.Drawing.Point(10, 415);
 			this.label10.Name = "label10";
 			this.label10.Size = new System.Drawing.Size(142, 17);
 			this.label10.TabIndex = 47;
@@ -556,7 +563,7 @@ namespace BrawlSoundConverter
 			// label11
 			// 
 			this.label11.AutoSize = true;
-			this.label11.Location = new System.Drawing.Point(10, 283);
+			this.label11.Location = new System.Drawing.Point(10, 349);
 			this.label11.Name = "label11";
 			this.label11.Size = new System.Drawing.Size(272, 17);
 			this.label11.TabIndex = 49;
@@ -567,7 +574,7 @@ namespace BrawlSoundConverter
 			this.groupBox5.Controls.Add(this.buttonResetGroupThresh);
 			this.groupBox5.Controls.Add(this.label12);
 			this.groupBox5.Controls.Add(this.numericUpDownGroupSizeThresh);
-			this.groupBox5.Location = new System.Drawing.Point(10, 293);
+			this.groupBox5.Location = new System.Drawing.Point(10, 359);
 			this.groupBox5.Name = "groupBox5";
 			this.groupBox5.Size = new System.Drawing.Size(445, 51);
 			this.groupBox5.TabIndex = 48;
@@ -610,13 +617,77 @@ namespace BrawlSoundConverter
 			this.numericUpDownGroupSizeThresh.Size = new System.Drawing.Size(120, 22);
 			this.numericUpDownGroupSizeThresh.TabIndex = 44;
 			// 
+			// label13
+			// 
+			this.label13.AutoSize = true;
+			this.label13.Location = new System.Drawing.Point(12, 217);
+			this.label13.Name = "label13";
+			this.label13.Size = new System.Drawing.Size(225, 17);
+			this.label13.TabIndex = 51;
+			this.label13.Text = "Default Collection Naming Scheme";
+			// 
+			// groupBox7
+			// 
+			this.groupBox7.Controls.Add(this.radioButtonCollNameCustom);
+			this.groupBox7.Controls.Add(this.radioButtonCollNameDefault);
+			this.groupBox7.Controls.Add(this.radioButtonCollNameIDHex);
+			this.groupBox7.Controls.Add(this.radioButtonCollNameID);
+			this.groupBox7.Location = new System.Drawing.Point(12, 227);
+			this.groupBox7.Name = "groupBox7";
+			this.groupBox7.Size = new System.Drawing.Size(445, 51);
+			this.groupBox7.TabIndex = 50;
+			this.groupBox7.TabStop = false;
+			// 
+			// radioButtonCollNameCustom
+			// 
+			this.radioButtonCollNameCustom.AutoSize = true;
+			this.radioButtonCollNameCustom.Location = new System.Drawing.Point(350, 21);
+			this.radioButtonCollNameCustom.Name = "radioButtonCollNameCustom";
+			this.radioButtonCollNameCustom.Size = new System.Drawing.Size(76, 21);
+			this.radioButtonCollNameCustom.TabIndex = 26;
+			this.radioButtonCollNameCustom.TabStop = true;
+			this.radioButtonCollNameCustom.Text = "Custom";
+			this.radioButtonCollNameCustom.UseVisualStyleBackColor = true;
+			// 
+			// radioButtonCollNameDefault
+			// 
+			this.radioButtonCollNameDefault.AutoSize = true;
+			this.radioButtonCollNameDefault.Location = new System.Drawing.Point(6, 21);
+			this.radioButtonCollNameDefault.Name = "radioButtonCollNameDefault";
+			this.radioButtonCollNameDefault.Size = new System.Drawing.Size(74, 21);
+			this.radioButtonCollNameDefault.TabIndex = 22;
+			this.radioButtonCollNameDefault.Text = "Default";
+			this.radioButtonCollNameDefault.UseVisualStyleBackColor = true;
+			// 
+			// radioButtonCollNameIDHex
+			// 
+			this.radioButtonCollNameIDHex.AutoSize = true;
+			this.radioButtonCollNameIDHex.Location = new System.Drawing.Point(199, 21);
+			this.radioButtonCollNameIDHex.Name = "radioButtonCollNameIDHex";
+			this.radioButtonCollNameIDHex.Size = new System.Drawing.Size(145, 21);
+			this.radioButtonCollNameIDHex.TabIndex = 25;
+			this.radioButtonCollNameIDHex.Text = "Collection ID (Hex)";
+			this.radioButtonCollNameIDHex.UseVisualStyleBackColor = true;
+			// 
+			// radioButtonCollNameID
+			// 
+			this.radioButtonCollNameID.AutoSize = true;
+			this.radioButtonCollNameID.Location = new System.Drawing.Point(86, 21);
+			this.radioButtonCollNameID.Name = "radioButtonCollNameID";
+			this.radioButtonCollNameID.Size = new System.Drawing.Size(107, 21);
+			this.radioButtonCollNameID.TabIndex = 24;
+			this.radioButtonCollNameID.Text = "Collection ID";
+			this.radioButtonCollNameID.UseVisualStyleBackColor = true;
+			// 
 			// SettingsForm
 			// 
 			this.AcceptButton = this.buttonSave;
 			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.CancelButton = this.buttonCancel;
-			this.ClientSize = new System.Drawing.Size(469, 845);
+			this.ClientSize = new System.Drawing.Size(469, 911);
+			this.Controls.Add(this.label13);
+			this.Controls.Add(this.groupBox7);
 			this.Controls.Add(this.label11);
 			this.Controls.Add(this.groupBox5);
 			this.Controls.Add(this.label10);
@@ -659,6 +730,8 @@ namespace BrawlSoundConverter
 			this.groupBox5.ResumeLayout(false);
 			this.groupBox5.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDownGroupSizeThresh)).EndInit();
+			this.groupBox7.ResumeLayout(false);
+			this.groupBox7.PerformLayout();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -715,5 +788,11 @@ namespace BrawlSoundConverter
 		public System.Windows.Forms.CheckBox checkBoxSaveAsDefault;
 		private System.Windows.Forms.Button buttonResetMaxSampRate;
 		private System.Windows.Forms.Button buttonResetGroupThresh;
+		private System.Windows.Forms.Label label13;
+		private System.Windows.Forms.GroupBox groupBox7;
+		private System.Windows.Forms.RadioButton radioButtonCollNameCustom;
+		private System.Windows.Forms.RadioButton radioButtonCollNameDefault;
+		private System.Windows.Forms.RadioButton radioButtonCollNameIDHex;
+		private System.Windows.Forms.RadioButton radioButtonCollNameID;
 	}
 }

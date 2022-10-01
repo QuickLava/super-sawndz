@@ -374,7 +374,29 @@ namespace BrawlSoundConverter
 
 			comboBoxSortMode.SelectedIndex = 0;
 
-			radioButtonNameDefault.Checked = true;
+			switch (Properties.Settings.Default.DefaultCollectionExportNameScheme)
+			{
+				case 1:
+					{
+						radioButtonNameDecimalID.Checked = true;
+						break;
+					}
+				case 2:
+					{
+						radioButtonNameHexID.Checked = true;
+						break;
+					}
+				case 3:
+					{
+						radioButtonNameManual.Checked = true;
+						break;
+					}
+				default:
+					{
+						radioButtonNameDefault.Checked = true;
+						break;
+					}
+			}
 
 			buildCollectionView(true);
 
@@ -581,21 +603,6 @@ namespace BrawlSoundConverter
 				currNode.Checked = !currNode.Checked;
 			}
 		}
-
-		private void buttonCancel_Click(object sender, EventArgs e)
-		{
-			DialogResult = DialogResult.Cancel;
-			Close();
-		}
-
-		private void textBoxExportDirectory_TextChanged(object sender, EventArgs e)
-		{
-			if (numTreeNodesChecked() > 0)
-			{
-				buttonExport.Enabled = true;
-			}
-		}
-
 		private void treeViewCollections_AfterSelect(object sender, TreeViewEventArgs e)
 		{
 			currSelectedFile = treeViewCollections.SelectedNode.Tag as BrawlLib.SSBB.ResourceNodes.RSARFileNode;
@@ -607,7 +614,7 @@ namespace BrawlSoundConverter
 
 			treeViewCollectionDetails.Nodes.Clear();
 
-			TreeNode usedInNode = new TreeNode("Used in ") ;
+			TreeNode usedInNode = new TreeNode("Used in ");
 			List<int> usedStringIDs = new List<int>();
 			for (int i = 0; i < currSelectedFile.GroupRefNodes.Length; i++)
 			{
@@ -628,6 +635,22 @@ namespace BrawlSoundConverter
 			treeViewCollectionDetails.Nodes.Add(new TreeNode("Audio Offset: 0x" + currSelectedFile.AudioOffset));
 		}
 
+
+		private void buttonCancel_Click(object sender, EventArgs e)
+		{
+			DialogResult = DialogResult.Cancel;
+			Close();
+		}
+
+		private void textBoxExportDirectory_TextChanged(object sender, EventArgs e)
+		{
+			if (numTreeNodesChecked() > 0)
+			{
+				buttonExport.Enabled = true;
+			}
+		}
+
+		
 		private void treeViewSounds_AfterSelect(object sender, TreeViewEventArgs e)
 		{
 			audioPlaybackPanel1.TargetSource = treeViewSounds.SelectedNode as BrawlLib.Internal.Audio.IAudioSource;

@@ -38,11 +38,9 @@ namespace BrawlSoundConverter
 			{
 				radioButtonFullNameDisable.Checked = true;
 			}
+
 			switch (Properties.Settings.Default.DefaultSAWNDExportNameScheme)
 			{
-				case 0:
-					radioButtonNameDefault.Checked = true;
-					break;
 				case 1:
 					radioButtonNamePM.Checked = true;
 					break;
@@ -56,6 +54,23 @@ namespace BrawlSoundConverter
 					radioButtonNameDefault.Checked = true;
 					break;
 			}
+
+			switch (Properties.Settings.Default.DefaultCollectionExportNameScheme)
+			{
+				case 1:
+					radioButtonCollNameID.Checked = true;
+					break;
+				case 2:
+					radioButtonCollNameIDHex.Checked = true;
+					break;
+				case 3:
+					radioButtonCollNameCustom.Checked = true;
+					break;
+				default:
+					radioButtonCollNameDefault.Checked = true;
+					break;
+			}
+
 			if (Properties.Settings.Default.DefaultMultiWAVExportCreateGroupDirectory)
 			{
 				radioButtonGroupDirEnable.Checked = true;
@@ -161,6 +176,23 @@ namespace BrawlSoundConverter
 			else
 			{
 				Properties.Settings.Default.DefaultSAWNDExportNameScheme = 0;
+			}
+
+			if (radioButtonCollNameID.Checked)
+			{
+				Properties.Settings.Default.DefaultCollectionExportNameScheme = 1;
+			}
+			else if (radioButtonCollNameIDHex.Checked)
+			{
+				Properties.Settings.Default.DefaultCollectionExportNameScheme = 2;
+			}
+			else if (radioButtonCollNameCustom.Checked)
+			{
+				Properties.Settings.Default.DefaultCollectionExportNameScheme = 3;
+			}
+			else
+			{
+				Properties.Settings.Default.DefaultCollectionExportNameScheme = 0;
 			}
 
 			Properties.Settings.Default.DefaultMultiWAVExportCreateGroupDirectory = radioButtonGroupDirEnable.Checked;

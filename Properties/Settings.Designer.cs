@@ -132,5 +132,17 @@ namespace BrawlSoundConverter.Properties {
                 this["GroupSizeWarningThreshold"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int DefaultCollectionExportNameScheme {
+            get {
+                return ((int)(this["DefaultCollectionExportNameScheme"]));
+            }
+            set {
+                this["DefaultCollectionExportNameScheme"] = value;
+            }
+        }
     }
 }
