@@ -224,7 +224,7 @@ namespace BrawlSoundConverter
 					{
 						if (item.Checked)
 						{
-							exportList.WriteLine("\"" + item.name.Replace("<", "").Replace(">", "") + ".sawnd" + "\" = " + item.groupID.ToString());
+							exportList.WriteLine("\"" + NamingSchemeBlacklists.scrubString(item.name, NamingSchemeBlacklists.IllegalFilepathCharacters) + ".sawnd" + "\" = " + item.groupID.ToString());
 						}
 					}
 				}
@@ -239,27 +239,42 @@ namespace BrawlSoundConverter
 		}
 		private void buttonSelectAll_Click(object sender, EventArgs e)
 		{
+			treeViewGroups.SuspendLayout();
+			treeViewGroups.AfterCheck -= treeViewGroups_AfterCheck;
 			foreach (TreeNode group in treeViewGroups.Nodes)
 			{
 				group.Checked = true;
 			}
+			treeViewGroups.AfterCheck += treeViewGroups_AfterCheck;
+			treeViewGroups.ResumeLayout();
+			handleCheckUIUpdates();
 		}
 		private void buttonDeselectAll_Click(object sender, EventArgs e)
 		{
+			treeViewGroups.SuspendLayout();
+			treeViewGroups.AfterCheck -= treeViewGroups_AfterCheck;
 			foreach (TreeNode group in treeViewGroups.Nodes)
 			{
 				group.Checked = false;
 			}
+			treeViewGroups.AfterCheck += treeViewGroups_AfterCheck;
+			treeViewGroups.ResumeLayout();
+			handleCheckUIUpdates();
 		}
 		private void buttonInvertSelection_Click(object sender, EventArgs e)
 		{
+			treeViewGroups.SuspendLayout();
+			treeViewGroups.AfterCheck -= treeViewGroups_AfterCheck;
 			foreach (TreeNode group in treeViewGroups.Nodes)
 			{
 				group.Checked = !group.Checked;
 			}
+			treeViewGroups.AfterCheck += treeViewGroups_AfterCheck;
+			treeViewGroups.ResumeLayout();
+			handleCheckUIUpdates();
 		}
 
-		private void treeViewGroups_AfterCheck(object sender, TreeViewEventArgs e)
+		private void handleCheckUIUpdates()
 		{
 			if (textBoxExportDirectory.Text.Length > 0)
 			{
@@ -277,6 +292,10 @@ namespace BrawlSoundConverter
 				buttonExport.Enabled = false;
 			}
 			setNumCheckedText();
+		}
+		private void treeViewGroups_AfterCheck(object sender, TreeViewEventArgs e)
+		{
+			handleCheckUIUpdates();
 		}
 		private void treeViewGroups_KeyDown(object sender, KeyEventArgs e)
 		{

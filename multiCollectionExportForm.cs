@@ -40,7 +40,14 @@ namespace BrawlSoundConverter
 				}
 				else
 				{
-					result = x.GroupRefNodes[0].Name.CompareTo(y.GroupRefNodes[0].Name);
+					if (Properties.Settings.Default.EnableFullLengthNames)
+					{
+						result = x.GroupRefNodes[0].TreePath.CompareTo(y.GroupRefNodes[0].TreePath);
+					}
+					else
+					{
+						result = x.GroupRefNodes[0].Name.CompareTo(y.GroupRefNodes[0].Name);
+					}
 				}
 			}
 			return result;
@@ -294,7 +301,6 @@ namespace BrawlSoundConverter
 			currSelectedFile = null;
 			buttonExport.Enabled = false;
 			audioPlaybackPanel1.TargetSource = null;
-
 			foreach (BrawlLib.SSBB.ResourceNodes.RSARFileNode file in currRSAR.Files)
 			{
 				if (file.GroupRefNodes.Length == 0 || Convert.ToInt32(file.DataOffset, 16) == 0x00)
@@ -326,7 +332,15 @@ namespace BrawlSoundConverter
 						}
 				}
 
-				string displayString = "[" + file.FileNodeIndex.ToString("X3") + "] " + file.ResourceFileType + " - in \"[" + file.GroupRefNodes[0].StringId.ToString("X3") + "] " + file.GroupRefNodes[0].TreePath.Replace('/', '_') + "\"";
+				string displayString = "[" + file.FileNodeIndex.ToString("X3") + "] " + file.ResourceFileType + " - in \"[" + file.GroupRefNodes[0].StringId.ToString("X3") + "] ";
+				if (Properties.Settings.Default.EnableFullLengthNames)
+				{
+					displayString += file.GroupRefNodes[0].TreePath.Replace('/', '_') + "\"";
+				}
+				else
+				{
+					displayString += file.GroupRefNodes[0].Name + "\"";
+				}
 				List<int> usedStringIDs = new List<int> { file.GroupRefNodes[0].StringId };
 				for (int u = 1; u < file.GroupRefNodes.Length; u++)
 				{
@@ -426,7 +440,17 @@ namespace BrawlSoundConverter
 			{
 				if (radioButtonNameManual.Checked)
 				{
-					NamingSchemeStruct wildCardStruct = new NamingSchemeStruct("${COLL_P_GRP_NAME_L}.${COLL_EXT}");
+					string initialBaseString = "";
+					if (Properties.Settings.Default.EnableFullLengthNames)
+					{
+						initialBaseString += "${COLL_P_GRP_NAME_L}";
+					}
+					else
+					{
+						initialBaseString += "${COLL_P_GRP_NAME_S}";
+					}
+					initialBaseString += ".${COLL_EXT}";
+					NamingSchemeStruct wildCardStruct = new NamingSchemeStruct(initialBaseString);
 					wildCardStruct.blacklistedChars = NamingSchemeBlacklists.IllegalFilepathCharacters;
 					wildCardStruct.wildCards.Add("Collection Type", new NamingSchemeWildcardEntry("${COLL_TYPE}", getNameNodeFileType));
 					wildCardStruct.wildCards.Add("Collection ID (Hex)", new NamingSchemeWildcardEntry("${COLL_ID_HEX}", getNameNodeFileIDHex));
@@ -478,7 +502,7 @@ namespace BrawlSoundConverter
 							}
 							else
 							{
-								exportName = targetFile.TreePath.Replace('/', '_').Replace("<", "").Replace(">", "");
+								exportName = NamingSchemeBlacklists.scrubString(targetFile.TreePath.Replace('/', '_'), NamingSchemeBlacklists.IllegalFilepathCharacters);
 							}
 							exportName += ".b" + targetFile.ResourceFileType.ToString().ToLower();
 							targetFile.Export(textBoxExportDirectory.Text + "\\" + exportName);
@@ -496,30 +520,49 @@ namespace BrawlSoundConverter
 		}
 		private void buttonSelectAll_Click(object sender, EventArgs e)
 		{
-			foreach (TreeNode group in treeViewCollections.Nodes)
+			treeViewCollections.SuspendLayout();
+			treeViewCollections.AfterCheck -= treeViewCollections_AfterCheck;
+			foreach (TreeNode collection in treeViewCollections.Nodes)
 			{
-				group.Checked = true;
+				collection.Checked = true;
 			}
+			treeViewCollections.AfterCheck += treeViewCollections_AfterCheck;
+			treeViewCollections.ResumeLayout();
+			handleCheckUIUpdates();
 		}
 		private void buttonDeselectAll_Click(object sender, EventArgs e)
 		{
-			foreach (TreeNode group in treeViewCollections.Nodes)
+			treeViewCollections.SuspendLayout();
+			treeViewCollections.AfterCheck -= treeViewCollections_AfterCheck;
+			foreach (TreeNode collection in treeViewCollections.Nodes)
 			{
-				group.Checked = false;
+				collection.Checked = false;
 			}
+			treeViewCollections.AfterCheck += treeViewCollections_AfterCheck;
+			treeViewCollections.ResumeLayout();
+			handleCheckUIUpdates();
 		}
 		private void buttonInvertSelection_Click(object sender, EventArgs e)
 		{
-			foreach (TreeNode group in treeViewCollections.Nodes)
+			treeViewCollections.SuspendLayout();
+			treeViewCollections.AfterCheck -= treeViewCollections_AfterCheck;
+			foreach (TreeNode collection in treeViewCollections.Nodes)
 			{
-				group.Checked = !group.Checked;
+				collection.Checked = !collection.Checked;
 			}
+			treeViewCollections.AfterCheck += treeViewCollections_AfterCheck;
+			treeViewCollections.ResumeLayout();
+			handleCheckUIUpdates();
 		}
 
-		private void treeViewGroups_AfterCheck(object sender, TreeViewEventArgs e)
+		private void handleCheckUIUpdates()
 		{
 			setExportButtonState();
 			setNumCheckedText();
+		}
+		private void treeViewCollections_AfterCheck(object sender, TreeViewEventArgs e)
+		{
+			handleCheckUIUpdates();
 		}
 		private void treeViewCollections_KeyDown(object sender, KeyEventArgs e)
 		{
@@ -530,7 +573,7 @@ namespace BrawlSoundConverter
 				e.SuppressKeyPress = true;
 			}
 		}
-		private void treeViewGroups_DoubleClick(object sender, EventArgs e)
+		private void treeViewCollections_DoubleClick(object sender, EventArgs e)
 		{
 			TreeNode currNode = treeViewCollections.SelectedNode;
 			if (currNode != null)

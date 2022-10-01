@@ -33,11 +33,11 @@ namespace BrawlSoundConverter
 			BrawlLib.SSBB.ResourceNodes.RSARGroupNode targetGroup = brsar.GetNode(targetGroupID) as BrawlLib.SSBB.ResourceNodes.RSARGroupNode;
 			if (Properties.Settings.Default.EnableFullLengthNames)
 			{
-				groupName = targetGroup.TreePath.Replace('/', '_');
+				groupName = NamingSchemeBlacklists.scrubString(targetGroup.TreePath.Replace('/', '_'), NamingSchemeBlacklists.IllegalFilepathCharacters);
 			}
 			else
 			{
-				groupName = targetGroup.Name;
+				groupName = NamingSchemeBlacklists.scrubString(targetGroup.Name, NamingSchemeBlacklists.IllegalFilepathCharacters);
 			}
 			labelFileLabel.Text = "Sounds in Collection 0x" + targetFileID.ToString("X3") + " from Group 0x" + targetGroupID.ToString("X3") + " (\"" + groupName + "\"):";
 			buttonCancel.Enabled = true;
@@ -121,27 +121,42 @@ namespace BrawlSoundConverter
 		}
 		private void buttonSelectAll_Click(object sender, EventArgs e)
 		{
+			treeViewAudio.SuspendLayout();
+			treeViewAudio.AfterCheck -= treeViewAudio_AfterCheck;
 			foreach (TreeNode group in treeViewAudio.Nodes)
 			{
 				group.Checked = true;
 			}
+			treeViewAudio.AfterCheck += treeViewAudio_AfterCheck;
+			treeViewAudio.ResumeLayout();
+			handleCheckUIUpdates();
 		}
 		private void buttonDeselectAll_Click(object sender, EventArgs e)
 		{
+			treeViewAudio.SuspendLayout();
+			treeViewAudio.AfterCheck -= treeViewAudio_AfterCheck;
 			foreach (TreeNode group in treeViewAudio.Nodes)
 			{
 				group.Checked = false;
 			}
+			treeViewAudio.AfterCheck += treeViewAudio_AfterCheck;
+			treeViewAudio.ResumeLayout();
+			handleCheckUIUpdates();
 		}
 		private void buttonInvertSelection_Click(object sender, EventArgs e)
 		{
+			treeViewAudio.SuspendLayout();
+			treeViewAudio.AfterCheck -= treeViewAudio_AfterCheck;
 			foreach (TreeNode group in treeViewAudio.Nodes)
 			{
 				group.Checked = !group.Checked;
 			}
+			treeViewAudio.AfterCheck += treeViewAudio_AfterCheck;
+			treeViewAudio.ResumeLayout();
+			handleCheckUIUpdates();
 		}
 
-		private void treeViewAudio_AfterCheck(object sender, TreeViewEventArgs e)
+		private void handleCheckUIUpdates()
 		{
 			if (textBoxExportDirectory.Text.Length > 0)
 			{
@@ -159,6 +174,10 @@ namespace BrawlSoundConverter
 				buttonExport.Enabled = false;
 			}
 			setNumCheckedText();
+		}
+		private void treeViewAudio_AfterCheck(object sender, TreeViewEventArgs e)
+		{
+			handleCheckUIUpdates();
 		}
 		private void treeViewAudio_KeyDown(object sender, KeyEventArgs e)
 		{

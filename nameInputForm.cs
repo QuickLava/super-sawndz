@@ -115,24 +115,10 @@ namespace BrawlSoundConverter
 			}
 		}
 
-		private string scrubText(string textIn)
-		{
-			string result = "";
-
-			foreach (char character in textIn)
-			{
-				if (!blacklistedChars.Contains(character))
-				{
-					result += character;
-				}
-			}
-
-			return result;
-		}
 		private void textBox1_TextChanged(object sender, EventArgs e)
 		{
 			int selectedIndex = textBox1.SelectionStart;
-			string bufferStr = scrubText(textBox1.Text);
+			string bufferStr = NamingSchemeBlacklists.scrubString(textBox1.Text, blacklistedChars);
 			int stringSizeDifference = textBox1.Text.Length - bufferStr.Length;
 			textBox1.Text = bufferStr;
 			textBox1.SelectionStart = selectedIndex - stringSizeDifference;
@@ -166,7 +152,7 @@ namespace BrawlSoundConverter
 		private void textBoxTextInput_TextChanged(object sender, EventArgs e)
 		{
 			int selectedIndex = textBoxTextInput.SelectionStart;
-			string bufferStr = scrubText(textBoxTextInput.Text);
+			string bufferStr = NamingSchemeBlacklists.scrubString(textBoxTextInput.Text, blacklistedChars);
 			int stringSizeDifference = textBoxTextInput.Text.Length - bufferStr.Length;
 			textBoxTextInput.Text = bufferStr;
 			textBoxTextInput.SelectionStart = selectedIndex - stringSizeDifference;

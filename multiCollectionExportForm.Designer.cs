@@ -215,9 +215,9 @@ namespace BrawlSoundConverter
 			this.treeViewCollections.ShowRootLines = false;
 			this.treeViewCollections.Size = new System.Drawing.Size(504, 353);
 			this.treeViewCollections.TabIndex = 27;
-			this.treeViewCollections.AfterCheck += new System.Windows.Forms.TreeViewEventHandler(this.treeViewGroups_AfterCheck);
+			this.treeViewCollections.AfterCheck += new System.Windows.Forms.TreeViewEventHandler(this.treeViewCollections_AfterCheck);
 			this.treeViewCollections.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeViewCollections_AfterSelect);
-			this.treeViewCollections.DoubleClick += new System.EventHandler(this.treeViewGroups_DoubleClick);
+			this.treeViewCollections.DoubleClick += new System.EventHandler(this.treeViewCollections_DoubleClick);
 			this.treeViewCollections.KeyDown += new System.Windows.Forms.KeyEventHandler(this.treeViewCollections_KeyDown);
 			// 
 			// checkBox1
@@ -374,8 +374,6 @@ namespace BrawlSoundConverter
 			// 
 			// label4
 			// 
-			this.label4.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
 			this.label4.AutoSize = true;
 			this.label4.Location = new System.Drawing.Point(11, 67);
 			this.label4.Name = "label4";

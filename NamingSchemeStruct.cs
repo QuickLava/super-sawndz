@@ -10,6 +10,21 @@ namespace BrawlSoundConverter
 	public static class NamingSchemeBlacklists
 	{
 		public static string IllegalFilepathCharacters = "<>:?*\"|/\\\t";
+
+		public static string scrubString(string textIn, string blacklistedChars)
+		{
+			string result = "";
+
+			foreach (char character in textIn)
+			{
+				if (!blacklistedChars.Contains(character))
+				{
+					result += character;
+				}
+			}
+
+			return result;
+		}
 	}
 
 
@@ -52,13 +67,7 @@ namespace BrawlSoundConverter
 
 			if (blacklistedChars.Length > 0)
 			{
-				foreach (char character in bufferString)
-				{
-					if (!blacklistedChars.Contains(character))
-					{
-						result += character;
-					}
-				}
+				result = NamingSchemeBlacklists.scrubString(bufferString, blacklistedChars);
 			}
 			else
 			{
