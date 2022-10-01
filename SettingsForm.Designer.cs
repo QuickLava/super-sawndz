@@ -52,9 +52,10 @@ namespace BrawlSoundConverter
 			this.radioButtonFullNameDisable = new System.Windows.Forms.RadioButton();
 			this.label4 = new System.Windows.Forms.Label();
 			this.groupBox3 = new System.Windows.Forms.GroupBox();
+			this.buttonResetMaxSampRate = new System.Windows.Forms.Button();
 			this.label6 = new System.Windows.Forms.Label();
 			this.label8 = new System.Windows.Forms.Label();
-			this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
+			this.numericUpDownMaxSampRate = new System.Windows.Forms.NumericUpDown();
 			this.groupBox6 = new System.Windows.Forms.GroupBox();
 			this.radioButtonMatchSRAlways = new System.Windows.Forms.RadioButton();
 			this.radioButtonMatchSRSometimes = new System.Windows.Forms.RadioButton();
@@ -74,18 +75,19 @@ namespace BrawlSoundConverter
 			this.label10 = new System.Windows.Forms.Label();
 			this.label11 = new System.Windows.Forms.Label();
 			this.groupBox5 = new System.Windows.Forms.GroupBox();
+			this.buttonResetGroupThresh = new System.Windows.Forms.Button();
 			this.label12 = new System.Windows.Forms.Label();
-			this.numericUpDown2 = new System.Windows.Forms.NumericUpDown();
+			this.numericUpDownGroupSizeThresh = new System.Windows.Forms.NumericUpDown();
 			this.groupBoxNamingScheme.SuspendLayout();
 			this.groupBox1.SuspendLayout();
 			this.groupBox2.SuspendLayout();
 			this.groupBox3.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDownMaxSampRate)).BeginInit();
 			this.groupBox6.SuspendLayout();
 			this.groupBoxStereoConv.SuspendLayout();
 			this.groupBox4.SuspendLayout();
 			this.groupBox5.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDownGroupSizeThresh)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// groupBoxNamingScheme
@@ -319,9 +321,10 @@ namespace BrawlSoundConverter
 			// 
 			// groupBox3
 			// 
+			this.groupBox3.Controls.Add(this.buttonResetMaxSampRate);
 			this.groupBox3.Controls.Add(this.label6);
 			this.groupBox3.Controls.Add(this.label8);
-			this.groupBox3.Controls.Add(this.numericUpDown1);
+			this.groupBox3.Controls.Add(this.numericUpDownMaxSampRate);
 			this.groupBox3.Controls.Add(this.groupBox6);
 			this.groupBox3.Controls.Add(this.groupBoxStereoConv);
 			this.groupBox3.Controls.Add(this.label9);
@@ -332,11 +335,21 @@ namespace BrawlSoundConverter
 			this.groupBox3.TabIndex = 41;
 			this.groupBox3.TabStop = false;
 			// 
+			// buttonResetMaxSampRate
+			// 
+			this.buttonResetMaxSampRate.Location = new System.Drawing.Point(132, 163);
+			this.buttonResetMaxSampRate.Name = "buttonResetMaxSampRate";
+			this.buttonResetMaxSampRate.Size = new System.Drawing.Size(23, 23);
+			this.buttonResetMaxSampRate.TabIndex = 46;
+			this.buttonResetMaxSampRate.Text = "*";
+			this.buttonResetMaxSampRate.UseVisualStyleBackColor = true;
+			this.buttonResetMaxSampRate.Click += new System.EventHandler(this.buttonResetMaxSampRate_Click);
+			// 
 			// label6
 			// 
 			this.label6.AutoSize = true;
 			this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.label6.Location = new System.Drawing.Point(138, 166);
+			this.label6.Location = new System.Drawing.Point(161, 166);
 			this.label6.Name = "label6";
 			this.label6.Size = new System.Drawing.Size(164, 17);
 			this.label6.TabIndex = 43;
@@ -351,22 +364,22 @@ namespace BrawlSoundConverter
 			this.label8.TabIndex = 34;
 			this.label8.Text = "Maximum Sample Rate (hz)";
 			// 
-			// numericUpDown1
+			// numericUpDownMaxSampRate
 			// 
-			this.numericUpDown1.Increment = new decimal(new int[] {
+			this.numericUpDownMaxSampRate.Increment = new decimal(new int[] {
             100,
             0,
             0,
             0});
-			this.numericUpDown1.Location = new System.Drawing.Point(12, 164);
-			this.numericUpDown1.Maximum = new decimal(new int[] {
+			this.numericUpDownMaxSampRate.Location = new System.Drawing.Point(12, 164);
+			this.numericUpDownMaxSampRate.Maximum = new decimal(new int[] {
             44100,
             0,
             0,
             0});
-			this.numericUpDown1.Name = "numericUpDown1";
-			this.numericUpDown1.Size = new System.Drawing.Size(120, 22);
-			this.numericUpDown1.TabIndex = 31;
+			this.numericUpDownMaxSampRate.Name = "numericUpDownMaxSampRate";
+			this.numericUpDownMaxSampRate.Size = new System.Drawing.Size(120, 22);
+			this.numericUpDownMaxSampRate.TabIndex = 31;
 			// 
 			// groupBox6
 			// 
@@ -551,40 +564,51 @@ namespace BrawlSoundConverter
 			// 
 			// groupBox5
 			// 
+			this.groupBox5.Controls.Add(this.buttonResetGroupThresh);
 			this.groupBox5.Controls.Add(this.label12);
-			this.groupBox5.Controls.Add(this.numericUpDown2);
+			this.groupBox5.Controls.Add(this.numericUpDownGroupSizeThresh);
 			this.groupBox5.Location = new System.Drawing.Point(10, 293);
 			this.groupBox5.Name = "groupBox5";
 			this.groupBox5.Size = new System.Drawing.Size(445, 51);
 			this.groupBox5.TabIndex = 48;
 			this.groupBox5.TabStop = false;
 			// 
+			// buttonResetGroupThresh
+			// 
+			this.buttonResetGroupThresh.Location = new System.Drawing.Point(132, 20);
+			this.buttonResetGroupThresh.Name = "buttonResetGroupThresh";
+			this.buttonResetGroupThresh.Size = new System.Drawing.Size(23, 23);
+			this.buttonResetGroupThresh.TabIndex = 45;
+			this.buttonResetGroupThresh.Text = "*";
+			this.buttonResetGroupThresh.UseVisualStyleBackColor = true;
+			this.buttonResetGroupThresh.Click += new System.EventHandler(this.buttonResetGroupThresh_Click);
+			// 
 			// label12
 			// 
 			this.label12.AutoSize = true;
 			this.label12.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.label12.Location = new System.Drawing.Point(138, 23);
+			this.label12.Location = new System.Drawing.Point(161, 23);
 			this.label12.Name = "label12";
 			this.label12.Size = new System.Drawing.Size(164, 17);
 			this.label12.TabIndex = 44;
 			this.label12.Text = "Note: Set to 0 to disable.";
 			// 
-			// numericUpDown2
+			// numericUpDownGroupSizeThresh
 			// 
-			this.numericUpDown2.Increment = new decimal(new int[] {
+			this.numericUpDownGroupSizeThresh.Increment = new decimal(new int[] {
             10000,
             0,
             0,
             0});
-			this.numericUpDown2.Location = new System.Drawing.Point(12, 21);
-			this.numericUpDown2.Maximum = new decimal(new int[] {
+			this.numericUpDownGroupSizeThresh.Location = new System.Drawing.Point(12, 21);
+			this.numericUpDownGroupSizeThresh.Maximum = new decimal(new int[] {
             100000000,
             0,
             0,
             0});
-			this.numericUpDown2.Name = "numericUpDown2";
-			this.numericUpDown2.Size = new System.Drawing.Size(120, 22);
-			this.numericUpDown2.TabIndex = 44;
+			this.numericUpDownGroupSizeThresh.Name = "numericUpDownGroupSizeThresh";
+			this.numericUpDownGroupSizeThresh.Size = new System.Drawing.Size(120, 22);
+			this.numericUpDownGroupSizeThresh.TabIndex = 44;
 			// 
 			// SettingsForm
 			// 
@@ -625,7 +649,7 @@ namespace BrawlSoundConverter
 			this.groupBox2.PerformLayout();
 			this.groupBox3.ResumeLayout(false);
 			this.groupBox3.PerformLayout();
-			((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDownMaxSampRate)).EndInit();
 			this.groupBox6.ResumeLayout(false);
 			this.groupBox6.PerformLayout();
 			this.groupBoxStereoConv.ResumeLayout(false);
@@ -634,7 +658,7 @@ namespace BrawlSoundConverter
 			this.groupBox4.PerformLayout();
 			this.groupBox5.ResumeLayout(false);
 			this.groupBox5.PerformLayout();
-			((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDownGroupSizeThresh)).EndInit();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -681,13 +705,15 @@ namespace BrawlSoundConverter
 		private System.Windows.Forms.GroupBox groupBoxStereoConv;
 		private System.Windows.Forms.Label label9;
 		private System.Windows.Forms.Label label8;
-		private System.Windows.Forms.NumericUpDown numericUpDown1;
+		private System.Windows.Forms.NumericUpDown numericUpDownMaxSampRate;
 		private System.Windows.Forms.Label label10;
 		private System.Windows.Forms.Label label6;
 		private System.Windows.Forms.Label label11;
 		private System.Windows.Forms.GroupBox groupBox5;
 		private System.Windows.Forms.Label label12;
-		private System.Windows.Forms.NumericUpDown numericUpDown2;
+		private System.Windows.Forms.NumericUpDown numericUpDownGroupSizeThresh;
 		public System.Windows.Forms.CheckBox checkBoxSaveAsDefault;
+		private System.Windows.Forms.Button buttonResetMaxSampRate;
+		private System.Windows.Forms.Button buttonResetGroupThresh;
 	}
 }

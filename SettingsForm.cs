@@ -113,20 +113,20 @@ namespace BrawlSoundConverter
 			}
 			if (Properties.Settings.Default.MaximumSampleRate > 0)
 			{
-				numericUpDown1.Value = Math.Min(Properties.Settings.Default.MaximumSampleRate, numericUpDown1.Maximum);
+				numericUpDownMaxSampRate.Value = Math.Min(Properties.Settings.Default.MaximumSampleRate, numericUpDownMaxSampRate.Maximum);
 			}
 			else
 			{
-				numericUpDown1.Value = 0;
+				numericUpDownMaxSampRate.Value = 0;
 			}
 
 			if (Properties.Settings.Default.GroupSizeWarningThreshold > 0)
 			{
-				numericUpDown2.Value = Math.Min(Properties.Settings.Default.GroupSizeWarningThreshold, numericUpDown2.Maximum);
+				numericUpDownGroupSizeThresh.Value = Math.Min(Properties.Settings.Default.GroupSizeWarningThreshold, numericUpDownGroupSizeThresh.Maximum);
 			}
 			else
 			{
-				numericUpDown2.Value = 0;
+				numericUpDownGroupSizeThresh.Value = 0;
 			}
 		}
 
@@ -203,9 +203,9 @@ namespace BrawlSoundConverter
 			{
 				Properties.Settings.Default.MatchSampleRate = 0;
 			}
-			Properties.Settings.Default.MaximumSampleRate = ((int)numericUpDown1.Value);
+			Properties.Settings.Default.MaximumSampleRate = ((int)numericUpDownMaxSampRate.Value);
 
-			Properties.Settings.Default.GroupSizeWarningThreshold = ((int)numericUpDown2.Value);
+			Properties.Settings.Default.GroupSizeWarningThreshold = ((int)numericUpDownGroupSizeThresh.Value);
 
 			DialogResult = DialogResult.OK;
 			Close();
@@ -297,6 +297,16 @@ namespace BrawlSoundConverter
 					}
 				}
 			}
+		}
+
+		private void buttonResetGroupThresh_Click(object sender, EventArgs e)
+		{
+			numericUpDownGroupSizeThresh.Value = 950000;
+		}
+
+		private void buttonResetMaxSampRate_Click(object sender, EventArgs e)
+		{
+			numericUpDownMaxSampRate.Value = 44100;
 		}
 	}
 }
