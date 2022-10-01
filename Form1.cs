@@ -138,9 +138,9 @@ namespace BrawlSoundConverter
 			//These are not the crossthread calls you are looking for
 			Control.CheckForIllegalCrossThreadCalls = false;
 			audioPlaybackPanelWav.TargetSource = null;
-			audioPlaybackPanelWav.VolumePercent = 0.66;
+			audioPlaybackPanelWav.VolumePercent = 0.33;
 			audioPlaybackBRSARSound.TargetSource = null;
-			audioPlaybackBRSARSound.VolumePercent = 0.66;
+			audioPlaybackBRSARSound.VolumePercent = 0.33;
 
 			comboBoxSearchMode.SelectedIndex = 0;
 
