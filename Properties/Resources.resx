@@ -126,7 +126,7 @@
     <comment>Location for type-converted temp audio.</comment>
   </data>
   <data name="Version" xml:space="preserve">
-    <value>2.0.0</value>
+    <value>1.9.5</value>
     <comment>Denotes the current version of Super Sawndz.</comment>
   </data>
 </root>
