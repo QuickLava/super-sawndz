@@ -402,10 +402,10 @@ namespace BrawlSoundConverter
 
 			buttonCancel.Enabled = true;
 
-			toolTipNameDefault.SetToolTip(radioButtonNameDefault, "Names exported files according to their appearance in the below \"Groups\" list.");
+			toolTipNameDefault.SetToolTip(radioButtonNameDefault, "Names exported files according to their appearance in the below \"Collections\" list.");
 			toolTipNameFID.SetToolTip(radioButtonNameDecimalID, "Names exported files according to their Collection ID (in decimal).");
 			toolTipNameFIDHex.SetToolTip(radioButtonNameHexID, "Names exported files according to their Collection ID (in hexadecimal).");
-			toolTipNameManual.SetToolTip(radioButtonNameManual, "Presents a menu in which you may specify the filenames to be used by each selected group.");
+			toolTipNameManual.SetToolTip(radioButtonNameManual, "Presents a menu in which you may specify the filenames to be used by each selected collection.");
 		}
 
 		private uint numTreeNodesChecked()
