@@ -462,7 +462,7 @@ namespace BrawlSoundConverter
 			{
 				if (radioButtonNameManual.Checked)
 				{
-					string initialBaseString = "";
+					string initialBaseString = "[${COLL_ID_HEX}] ";
 					if (Properties.Settings.Default.EnableFullLengthNames)
 					{
 						initialBaseString += "${COLL_P_GRP_NAME_L}";
