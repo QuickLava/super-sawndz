@@ -232,6 +232,7 @@ namespace BrawlSoundConverter
 				textBoxInfoIndex.Text = "";
 			}
 			contextMenuStripWAV.Items[0].Enabled = item.infoIndex > -1;
+			contextMenuStripWAV.Items[1].Enabled = item.infoIndex > -1;
 			if (item.groupID > -1 && item.collectionID > -1 && item.wavID <= -1)
 			{
 				string type = "B" + e.Node.Text.Substring(6, 4);
