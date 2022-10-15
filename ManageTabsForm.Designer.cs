@@ -84,7 +84,7 @@ namespace BrawlSoundConverter
 			this.label1.Location = new System.Drawing.Point(12, 7);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(139, 17);
-			this.label1.TabIndex = 3;
+			this.label1.TabIndex = 7;
 			this.label1.Text = "Configuration Layout";
 			// 
 			// buttonSave
@@ -93,7 +93,7 @@ namespace BrawlSoundConverter
 			this.buttonSave.Location = new System.Drawing.Point(230, 419);
 			this.buttonSave.Name = "buttonSave";
 			this.buttonSave.Size = new System.Drawing.Size(100, 28);
-			this.buttonSave.TabIndex = 4;
+			this.buttonSave.TabIndex = 8;
 			this.buttonSave.Text = "Save";
 			this.buttonSave.UseVisualStyleBackColor = true;
 			this.buttonSave.Click += new System.EventHandler(this.buttonSave_Click);
@@ -105,7 +105,7 @@ namespace BrawlSoundConverter
 			this.buttonCancel.Location = new System.Drawing.Point(338, 419);
 			this.buttonCancel.Name = "buttonCancel";
 			this.buttonCancel.Size = new System.Drawing.Size(100, 28);
-			this.buttonCancel.TabIndex = 5;
+			this.buttonCancel.TabIndex = 9;
 			this.buttonCancel.Text = "Cancel";
 			this.buttonCancel.UseVisualStyleBackColor = true;
 			this.buttonCancel.Click += new System.EventHandler(this.buttonCancel_Click);
@@ -117,7 +117,7 @@ namespace BrawlSoundConverter
 			this.buttonMergeUp.Location = new System.Drawing.Point(338, 97);
 			this.buttonMergeUp.Name = "buttonMergeUp";
 			this.buttonMergeUp.Size = new System.Drawing.Size(100, 28);
-			this.buttonMergeUp.TabIndex = 6;
+			this.buttonMergeUp.TabIndex = 3;
 			this.buttonMergeUp.Text = "Merge Up";
 			this.buttonMergeUp.UseVisualStyleBackColor = true;
 			this.buttonMergeUp.Click += new System.EventHandler(this.buttonMergeUp_Click);
@@ -129,7 +129,7 @@ namespace BrawlSoundConverter
 			this.buttonMergeDown.Location = new System.Drawing.Point(338, 131);
 			this.buttonMergeDown.Name = "buttonMergeDown";
 			this.buttonMergeDown.Size = new System.Drawing.Size(100, 28);
-			this.buttonMergeDown.TabIndex = 7;
+			this.buttonMergeDown.TabIndex = 4;
 			this.buttonMergeDown.Text = "Merge Down";
 			this.buttonMergeDown.UseVisualStyleBackColor = true;
 			this.buttonMergeDown.Click += new System.EventHandler(this.buttonMergeDown_Click);
@@ -141,7 +141,7 @@ namespace BrawlSoundConverter
 			this.buttonDeleteTab.Location = new System.Drawing.Point(338, 165);
 			this.buttonDeleteTab.Name = "buttonDeleteTab";
 			this.buttonDeleteTab.Size = new System.Drawing.Size(100, 28);
-			this.buttonDeleteTab.TabIndex = 8;
+			this.buttonDeleteTab.TabIndex = 5;
 			this.buttonDeleteTab.Text = "Close Tab";
 			this.buttonDeleteTab.UseVisualStyleBackColor = true;
 			this.buttonDeleteTab.Click += new System.EventHandler(this.buttonDeleteTab_Click);
@@ -153,7 +153,7 @@ namespace BrawlSoundConverter
 			this.buttonRenameTab.Location = new System.Drawing.Point(338, 233);
 			this.buttonRenameTab.Name = "buttonRenameTab";
 			this.buttonRenameTab.Size = new System.Drawing.Size(100, 28);
-			this.buttonRenameTab.TabIndex = 9;
+			this.buttonRenameTab.TabIndex = 7;
 			this.buttonRenameTab.Text = "Rename Tab";
 			this.buttonRenameTab.UseVisualStyleBackColor = true;
 			this.buttonRenameTab.Click += new System.EventHandler(this.buttonRenameTab_Click);
@@ -165,7 +165,7 @@ namespace BrawlSoundConverter
 			this.buttonDeleteAll.Location = new System.Drawing.Point(338, 199);
 			this.buttonDeleteAll.Name = "buttonDeleteAll";
 			this.buttonDeleteAll.Size = new System.Drawing.Size(100, 28);
-			this.buttonDeleteAll.TabIndex = 10;
+			this.buttonDeleteAll.TabIndex = 6;
 			this.buttonDeleteAll.Text = "Close All";
 			this.buttonDeleteAll.UseVisualStyleBackColor = true;
 			this.buttonDeleteAll.Click += new System.EventHandler(this.buttonDeleteAll_Click);
