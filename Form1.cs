@@ -1722,5 +1722,27 @@ namespace BrawlSoundConverter
 				Console.WriteLine("Operation cancelled!");
 			}
 		}
+
+		private void checkBoxSearchGroups_KeyDown(object sender, KeyEventArgs e)
+		{
+			if (e.KeyCode == Keys.Enter)
+			{
+				checkBoxSearchGroups.Checked = !checkBoxSearchGroups.Checked;
+			}
+		}
+		private void checkBoxSearchSounds_KeyDown(object sender, KeyEventArgs e)
+		{
+			if (e.KeyCode == Keys.Enter)
+			{
+				checkBoxSearchSounds.Checked = !checkBoxSearchSounds.Checked;
+			}
+		}
+		private void checkBoxSearchCase_KeyDown(object sender, KeyEventArgs e)
+		{
+			if (e.KeyCode == Keys.Enter)
+			{
+				checkBoxSearchCase.Checked = !checkBoxSearchCase.Checked;
+			}
+		}
 	}
 }

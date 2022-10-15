@@ -64,6 +64,7 @@
 			this.openBRSARToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.ChangeSettingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.bulkCollectionExportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripMenuItemHelp = new System.Windows.Forms.ToolStripMenuItem();
 			this.aboutToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
 			this.menuStrip1 = new System.Windows.Forms.MenuStrip();
@@ -93,7 +94,6 @@
 			this.audioPlaybackBRSARSound = new BrawlLib.Internal.Windows.Controls.AudioPlaybackPanel();
 			this.audioPlaybackPanelWav = new BrawlLib.Internal.Windows.Controls.AudioPlaybackPanel();
 			this.buttonRearrangeTabs = new System.Windows.Forms.Button();
-			this.bulkCollectionExportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.contextMenuStripWAV.SuspendLayout();
 			this.contextMenuStripCollection.SuspendLayout();
 			this.menuStrip1.SuspendLayout();
@@ -116,7 +116,7 @@
 			this.textBoxOutput.ReadOnly = true;
 			this.textBoxOutput.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
 			this.textBoxOutput.Size = new System.Drawing.Size(883, 536);
-			this.textBoxOutput.TabIndex = 1;
+			this.textBoxOutput.TabIndex = 22;
 			// 
 			// treeViewMapping
 			// 
@@ -128,7 +128,7 @@
 			this.treeViewMapping.Margin = new System.Windows.Forms.Padding(4);
 			this.treeViewMapping.Name = "treeViewMapping";
 			this.treeViewMapping.Size = new System.Drawing.Size(629, 550);
-			this.treeViewMapping.TabIndex = 3;
+			this.treeViewMapping.TabIndex = 18;
 			this.treeViewMapping.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeViewMapping_AfterSelect);
 			this.treeViewMapping.KeyDown += new System.Windows.Forms.KeyEventHandler(this.treeViewMapping_KeyDown);
 			// 
@@ -139,7 +139,8 @@
 			this.textBoxGroupID.Margin = new System.Windows.Forms.Padding(4);
 			this.textBoxGroupID.Name = "textBoxGroupID";
 			this.textBoxGroupID.Size = new System.Drawing.Size(132, 22);
-			this.textBoxGroupID.TabIndex = 4;
+			this.textBoxGroupID.TabIndex = 39;
+			this.textBoxGroupID.TabStop = false;
 			this.textBoxGroupID.TextChanged += new System.EventHandler(this.textBoxGroupID_TextChanged);
 			// 
 			// textBoxCollectionID
@@ -149,7 +150,8 @@
 			this.textBoxCollectionID.Margin = new System.Windows.Forms.Padding(4);
 			this.textBoxCollectionID.Name = "textBoxCollectionID";
 			this.textBoxCollectionID.Size = new System.Drawing.Size(132, 22);
-			this.textBoxCollectionID.TabIndex = 5;
+			this.textBoxCollectionID.TabIndex = 38;
+			this.textBoxCollectionID.TabStop = false;
 			this.textBoxCollectionID.TextChanged += new System.EventHandler(this.textBoxCollectionID_TextChanged);
 			// 
 			// textBoxWavID
@@ -159,7 +161,8 @@
 			this.textBoxWavID.Margin = new System.Windows.Forms.Padding(4);
 			this.textBoxWavID.Name = "textBoxWavID";
 			this.textBoxWavID.Size = new System.Drawing.Size(132, 22);
-			this.textBoxWavID.TabIndex = 6;
+			this.textBoxWavID.TabIndex = 37;
+			this.textBoxWavID.TabStop = false;
 			this.textBoxWavID.TextChanged += new System.EventHandler(this.textBoxWavID_TextChanged);
 			// 
 			// label1
@@ -169,7 +172,7 @@
 			this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(90, 17);
-			this.label1.TabIndex = 8;
+			this.label1.TabIndex = 36;
 			this.label1.Text = "Group ID";
 			this.label1.TextAlign = System.Drawing.ContentAlignment.TopRight;
 			// 
@@ -180,7 +183,7 @@
 			this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(90, 17);
-			this.label2.TabIndex = 9;
+			this.label2.TabIndex = 35;
 			this.label2.Text = "Collection ID";
 			this.label2.TextAlign = System.Drawing.ContentAlignment.TopRight;
 			// 
@@ -191,7 +194,7 @@
 			this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
 			this.label3.Name = "label3";
 			this.label3.Size = new System.Drawing.Size(90, 17);
-			this.label3.TabIndex = 10;
+			this.label3.TabIndex = 34;
 			this.label3.Text = "WAV ID";
 			this.label3.TextAlign = System.Drawing.ContentAlignment.TopRight;
 			// 
@@ -204,7 +207,8 @@
 			this.textBoxInputFile.Margin = new System.Windows.Forms.Padding(4);
 			this.textBoxInputFile.Name = "textBoxInputFile";
 			this.textBoxInputFile.Size = new System.Drawing.Size(569, 22);
-			this.textBoxInputFile.TabIndex = 11;
+			this.textBoxInputFile.TabIndex = 33;
+			this.textBoxInputFile.TabStop = false;
 			this.textBoxInputFile.TextChanged += new System.EventHandler(this.textBoxInputFile_TextChanged);
 			// 
 			// buttonBrowse
@@ -214,7 +218,7 @@
 			this.buttonBrowse.Margin = new System.Windows.Forms.Padding(4);
 			this.buttonBrowse.Name = "buttonBrowse";
 			this.buttonBrowse.Size = new System.Drawing.Size(33, 28);
-			this.buttonBrowse.TabIndex = 12;
+			this.buttonBrowse.TabIndex = 0;
 			this.buttonBrowse.Text = "...";
 			this.buttonBrowse.UseVisualStyleBackColor = true;
 			this.buttonBrowse.Click += new System.EventHandler(this.buttonBrowse_Click);
@@ -227,7 +231,7 @@
 			this.buttonInsert.Margin = new System.Windows.Forms.Padding(4);
 			this.buttonInsert.Name = "buttonInsert";
 			this.buttonInsert.Size = new System.Drawing.Size(134, 28);
-			this.buttonInsert.TabIndex = 13;
+			this.buttonInsert.TabIndex = 1;
 			this.buttonInsert.Text = "Insert";
 			this.buttonInsert.UseVisualStyleBackColor = true;
 			this.buttonInsert.Click += new System.EventHandler(this.buttonInsert_Click);
@@ -239,7 +243,7 @@
 			this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
 			this.label4.Name = "label4";
 			this.label4.Size = new System.Drawing.Size(65, 17);
-			this.label4.TabIndex = 15;
+			this.label4.TabIndex = 29;
 			this.label4.Text = "Input File";
 			// 
 			// backgroundWorkerInsert
@@ -255,7 +259,7 @@
 			this.buttonCreateSawnd.Margin = new System.Windows.Forms.Padding(4);
 			this.buttonCreateSawnd.Name = "buttonCreateSawnd";
 			this.buttonCreateSawnd.Size = new System.Drawing.Size(134, 28);
-			this.buttonCreateSawnd.TabIndex = 17;
+			this.buttonCreateSawnd.TabIndex = 4;
 			this.buttonCreateSawnd.Text = "Create Sawnd";
 			this.buttonCreateSawnd.UseVisualStyleBackColor = true;
 			this.buttonCreateSawnd.Click += new System.EventHandler(this.buttonCreateSawnd_Click);
@@ -273,7 +277,7 @@
 			this.buttonCreateWAV.Margin = new System.Windows.Forms.Padding(4);
 			this.buttonCreateWAV.Name = "buttonCreateWAV";
 			this.buttonCreateWAV.Size = new System.Drawing.Size(134, 28);
-			this.buttonCreateWAV.TabIndex = 19;
+			this.buttonCreateWAV.TabIndex = 6;
 			this.buttonCreateWAV.Text = "Create WAV";
 			this.buttonCreateWAV.UseVisualStyleBackColor = true;
 			this.buttonCreateWAV.Click += new System.EventHandler(this.buttonCreateWAV_Click);
@@ -292,7 +296,7 @@
 			this.buttonMultiExportSawnd.Margin = new System.Windows.Forms.Padding(4);
 			this.buttonMultiExportSawnd.Name = "buttonMultiExportSawnd";
 			this.buttonMultiExportSawnd.Size = new System.Drawing.Size(134, 28);
-			this.buttonMultiExportSawnd.TabIndex = 20;
+			this.buttonMultiExportSawnd.TabIndex = 5;
 			this.buttonMultiExportSawnd.Text = "Multi Create Sawnd";
 			this.buttonMultiExportSawnd.UseVisualStyleBackColor = true;
 			this.buttonMultiExportSawnd.Click += new System.EventHandler(this.buttonMultiExportSawnd_Click);
@@ -306,7 +310,7 @@
 			this.buttonMultiInsertSawnd.Margin = new System.Windows.Forms.Padding(4);
 			this.buttonMultiInsertSawnd.Name = "buttonMultiInsertSawnd";
 			this.buttonMultiInsertSawnd.Size = new System.Drawing.Size(134, 28);
-			this.buttonMultiInsertSawnd.TabIndex = 21;
+			this.buttonMultiInsertSawnd.TabIndex = 2;
 			this.buttonMultiInsertSawnd.Text = "Multi Insert Sawnd";
 			this.buttonMultiInsertSawnd.UseVisualStyleBackColor = true;
 			this.buttonMultiInsertSawnd.Click += new System.EventHandler(this.buttonMultiImportSawnd_Click);
@@ -324,7 +328,7 @@
 			this.buttonMultiCreateWAV.Margin = new System.Windows.Forms.Padding(4);
 			this.buttonMultiCreateWAV.Name = "buttonMultiCreateWAV";
 			this.buttonMultiCreateWAV.Size = new System.Drawing.Size(134, 28);
-			this.buttonMultiCreateWAV.TabIndex = 22;
+			this.buttonMultiCreateWAV.TabIndex = 7;
 			this.buttonMultiCreateWAV.Text = "Multi Create WAV";
 			this.buttonMultiCreateWAV.UseVisualStyleBackColor = true;
 			this.buttonMultiCreateWAV.Click += new System.EventHandler(this.buttonMultiCreateWAV_Click);
@@ -338,7 +342,7 @@
 			this.buttonMultiInsertWAV.Margin = new System.Windows.Forms.Padding(4);
 			this.buttonMultiInsertWAV.Name = "buttonMultiInsertWAV";
 			this.buttonMultiInsertWAV.Size = new System.Drawing.Size(134, 28);
-			this.buttonMultiInsertWAV.TabIndex = 23;
+			this.buttonMultiInsertWAV.TabIndex = 3;
 			this.buttonMultiInsertWAV.Text = "Multi Insert WAV";
 			this.buttonMultiInsertWAV.UseVisualStyleBackColor = true;
 			this.buttonMultiInsertWAV.Click += new System.EventHandler(this.buttonMultiInsertWAV_Click);
@@ -439,6 +443,13 @@
 			this.ChangeSettingsToolStripMenuItem.Text = "Change Settings";
 			this.ChangeSettingsToolStripMenuItem.Click += new System.EventHandler(this.ChangeSettingsToolStripMenuItem_Click);
 			// 
+			// bulkCollectionExportToolStripMenuItem
+			// 
+			this.bulkCollectionExportToolStripMenuItem.Name = "bulkCollectionExportToolStripMenuItem";
+			this.bulkCollectionExportToolStripMenuItem.Size = new System.Drawing.Size(238, 26);
+			this.bulkCollectionExportToolStripMenuItem.Text = "Bulk Collection Export";
+			this.bulkCollectionExportToolStripMenuItem.Click += new System.EventHandler(this.bulkCollectionExportToolStripMenuItem_Click);
+			// 
 			// toolStripMenuItemHelp
 			// 
 			this.toolStripMenuItemHelp.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -467,7 +478,7 @@
 			this.menuStrip1.Location = new System.Drawing.Point(0, 0);
 			this.menuStrip1.Name = "menuStrip1";
 			this.menuStrip1.Size = new System.Drawing.Size(167, 28);
-			this.menuStrip1.TabIndex = 16;
+			this.menuStrip1.TabIndex = 41;
 			this.menuStrip1.Text = "menuStrip1";
 			// 
 			// label5
@@ -478,7 +489,7 @@
 			this.label5.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
 			this.label5.Name = "label5";
 			this.label5.Size = new System.Drawing.Size(53, 17);
-			this.label5.TabIndex = 25;
+			this.label5.TabIndex = 20;
 			this.label5.Text = "Search";
 			// 
 			// textBoxSearchBar
@@ -488,7 +499,7 @@
 			this.textBoxSearchBar.Margin = new System.Windows.Forms.Padding(4);
 			this.textBoxSearchBar.Name = "textBoxSearchBar";
 			this.textBoxSearchBar.Size = new System.Drawing.Size(370, 22);
-			this.textBoxSearchBar.TabIndex = 24;
+			this.textBoxSearchBar.TabIndex = 8;
 			this.textBoxSearchBar.TextChanged += new System.EventHandler(this.textBoxSearchBar_TextChanged);
 			this.textBoxSearchBar.KeyDown += new System.Windows.Forms.KeyEventHandler(this.textBoxSearchBar_KeyDown);
 			// 
@@ -500,7 +511,7 @@
 			this.label6.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
 			this.label6.Name = "label6";
 			this.label6.Size = new System.Drawing.Size(47, 17);
-			this.label6.TabIndex = 26;
+			this.label6.TabIndex = 19;
 			this.label6.Text = "Mode:";
 			// 
 			// comboBoxSearchMode
@@ -516,7 +527,7 @@
 			this.comboBoxSearchMode.Location = new System.Drawing.Point(1438, 48);
 			this.comboBoxSearchMode.Name = "comboBoxSearchMode";
 			this.comboBoxSearchMode.Size = new System.Drawing.Size(121, 24);
-			this.comboBoxSearchMode.TabIndex = 27;
+			this.comboBoxSearchMode.TabIndex = 15;
 			this.comboBoxSearchMode.SelectedIndexChanged += new System.EventHandler(this.comboBoxSearchMode_SelectedIndexChanged);
 			// 
 			// checkBoxSearchGroups
@@ -528,10 +539,11 @@
 			this.checkBoxSearchGroups.Location = new System.Drawing.Point(930, 51);
 			this.checkBoxSearchGroups.Name = "checkBoxSearchGroups";
 			this.checkBoxSearchGroups.Size = new System.Drawing.Size(126, 21);
-			this.checkBoxSearchGroups.TabIndex = 28;
+			this.checkBoxSearchGroups.TabIndex = 12;
 			this.checkBoxSearchGroups.Text = "Search Groups";
 			this.checkBoxSearchGroups.UseVisualStyleBackColor = true;
 			this.checkBoxSearchGroups.CheckedChanged += new System.EventHandler(this.checkBoxSearchGroups_CheckedChanged);
+			this.checkBoxSearchGroups.KeyDown += new System.Windows.Forms.KeyEventHandler(this.checkBoxSearchGroups_KeyDown);
 			// 
 			// checkBoxSearchSounds
 			// 
@@ -542,10 +554,11 @@
 			this.checkBoxSearchSounds.Location = new System.Drawing.Point(1062, 51);
 			this.checkBoxSearchSounds.Name = "checkBoxSearchSounds";
 			this.checkBoxSearchSounds.Size = new System.Drawing.Size(127, 21);
-			this.checkBoxSearchSounds.TabIndex = 29;
+			this.checkBoxSearchSounds.TabIndex = 13;
 			this.checkBoxSearchSounds.Text = "Search Sounds";
 			this.checkBoxSearchSounds.UseVisualStyleBackColor = true;
 			this.checkBoxSearchSounds.CheckedChanged += new System.EventHandler(this.checkBoxSearchSounds_CheckedChanged);
+			this.checkBoxSearchSounds.KeyDown += new System.Windows.Forms.KeyEventHandler(this.checkBoxSearchSounds_KeyDown);
 			// 
 			// checkBoxSearchCase
 			// 
@@ -556,10 +569,11 @@
 			this.checkBoxSearchCase.Location = new System.Drawing.Point(1195, 51);
 			this.checkBoxSearchCase.Name = "checkBoxSearchCase";
 			this.checkBoxSearchCase.Size = new System.Drawing.Size(177, 21);
-			this.checkBoxSearchCase.TabIndex = 30;
+			this.checkBoxSearchCase.TabIndex = 14;
 			this.checkBoxSearchCase.Text = "Enable Case Sensitivity";
 			this.checkBoxSearchCase.UseVisualStyleBackColor = true;
 			this.checkBoxSearchCase.CheckedChanged += new System.EventHandler(this.checkBoxSearchCase_CheckedChanged);
+			this.checkBoxSearchCase.KeyDown += new System.Windows.Forms.KeyEventHandler(this.checkBoxSearchCase_KeyDown);
 			// 
 			// buttonFind
 			// 
@@ -567,7 +581,7 @@
 			this.buttonFind.Location = new System.Drawing.Point(1389, 13);
 			this.buttonFind.Name = "buttonFind";
 			this.buttonFind.Size = new System.Drawing.Size(75, 28);
-			this.buttonFind.TabIndex = 31;
+			this.buttonFind.TabIndex = 10;
 			this.buttonFind.Text = "Find";
 			this.buttonFind.UseVisualStyleBackColor = true;
 			this.buttonFind.Click += new System.EventHandler(this.buttonFind_Click);
@@ -578,7 +592,7 @@
 			this.buttonFindAll.Location = new System.Drawing.Point(1469, 13);
 			this.buttonFindAll.Name = "buttonFindAll";
 			this.buttonFindAll.Size = new System.Drawing.Size(91, 28);
-			this.buttonFindAll.TabIndex = 32;
+			this.buttonFindAll.TabIndex = 11;
 			this.buttonFindAll.Text = "Find All";
 			this.buttonFindAll.UseVisualStyleBackColor = true;
 			this.buttonFindAll.Click += new System.EventHandler(this.buttonFindAll_Click);
@@ -589,7 +603,7 @@
 			this.buttonCollapse.Location = new System.Drawing.Point(1469, 672);
 			this.buttonCollapse.Name = "buttonCollapse";
 			this.buttonCollapse.Size = new System.Drawing.Size(91, 28);
-			this.buttonCollapse.TabIndex = 34;
+			this.buttonCollapse.TabIndex = 20;
 			this.buttonCollapse.Text = "Collapse All";
 			this.buttonCollapse.UseVisualStyleBackColor = true;
 			this.buttonCollapse.Click += new System.EventHandler(this.buttonCollapse_Click);
@@ -600,7 +614,7 @@
 			this.buttonExpand.Location = new System.Drawing.Point(1373, 672);
 			this.buttonExpand.Name = "buttonExpand";
 			this.buttonExpand.Size = new System.Drawing.Size(91, 28);
-			this.buttonExpand.TabIndex = 33;
+			this.buttonExpand.TabIndex = 19;
 			this.buttonExpand.Text = "Expand All";
 			this.buttonExpand.UseVisualStyleBackColor = true;
 			this.buttonExpand.Click += new System.EventHandler(this.buttonExpand_Click);
@@ -612,7 +626,7 @@
 			this.label7.Location = new System.Drawing.Point(925, 681);
 			this.label7.Name = "label7";
 			this.label7.Size = new System.Drawing.Size(61, 17);
-			this.label7.TabIndex = 35;
+			this.label7.TabIndex = 10;
 			this.label7.Text = "Preview:";
 			// 
 			// buttonFindBack
@@ -621,7 +635,7 @@
 			this.buttonFindBack.Location = new System.Drawing.Point(1367, 13);
 			this.buttonFindBack.Name = "buttonFindBack";
 			this.buttonFindBack.Size = new System.Drawing.Size(23, 28);
-			this.buttonFindBack.TabIndex = 36;
+			this.buttonFindBack.TabIndex = 9;
 			this.buttonFindBack.Text = "<";
 			this.buttonFindBack.UseVisualStyleBackColor = true;
 			this.buttonFindBack.Click += new System.EventHandler(this.buttonFindBack_Click);
@@ -633,7 +647,7 @@
 			this.label8.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
 			this.label8.Name = "label8";
 			this.label8.Size = new System.Drawing.Size(90, 17);
-			this.label8.TabIndex = 38;
+			this.label8.TabIndex = 7;
 			this.label8.Text = "Info Index";
 			this.label8.TextAlign = System.Drawing.ContentAlignment.TopRight;
 			// 
@@ -644,7 +658,8 @@
 			this.textBoxInfoIndex.Margin = new System.Windows.Forms.Padding(4);
 			this.textBoxInfoIndex.Name = "textBoxInfoIndex";
 			this.textBoxInfoIndex.Size = new System.Drawing.Size(132, 22);
-			this.textBoxInfoIndex.TabIndex = 37;
+			this.textBoxInfoIndex.TabIndex = 8;
+			this.textBoxInfoIndex.TabStop = false;
 			// 
 			// tabControl1
 			// 
@@ -655,7 +670,7 @@
 			this.tabControl1.Name = "tabControl1";
 			this.tabControl1.SelectedIndex = 0;
 			this.tabControl1.Size = new System.Drawing.Size(600, 26);
-			this.tabControl1.TabIndex = 39;
+			this.tabControl1.TabIndex = 16;
 			this.tabControl1.SelectedIndexChanged += new System.EventHandler(this.tabControl1_SelectedIndexChanged);
 			this.tabControl1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.tabControl1_MouseDown);
 			// 
@@ -725,7 +740,8 @@
 			this.audioPlaybackBRSARSound.Margin = new System.Windows.Forms.Padding(4);
 			this.audioPlaybackBRSARSound.Name = "audioPlaybackBRSARSound";
 			this.audioPlaybackBRSARSound.Size = new System.Drawing.Size(640, 133);
-			this.audioPlaybackBRSARSound.TabIndex = 18;
+			this.audioPlaybackBRSARSound.TabIndex = 27;
+			this.audioPlaybackBRSARSound.TabStop = false;
 			this.audioPlaybackBRSARSound.TargetStreams = null;
 			// 
 			// audioPlaybackPanelWav
@@ -736,7 +752,8 @@
 			this.audioPlaybackPanelWav.Margin = new System.Windows.Forms.Padding(4);
 			this.audioPlaybackPanelWav.Name = "audioPlaybackPanelWav";
 			this.audioPlaybackPanelWav.Size = new System.Drawing.Size(611, 105);
-			this.audioPlaybackPanelWav.TabIndex = 14;
+			this.audioPlaybackPanelWav.TabIndex = 30;
+			this.audioPlaybackPanelWav.TabStop = false;
 			this.audioPlaybackPanelWav.TargetStreams = null;
 			// 
 			// buttonRearrangeTabs
@@ -745,17 +762,10 @@
 			this.buttonRearrangeTabs.Location = new System.Drawing.Point(1534, 78);
 			this.buttonRearrangeTabs.Name = "buttonRearrangeTabs";
 			this.buttonRearrangeTabs.Size = new System.Drawing.Size(26, 26);
-			this.buttonRearrangeTabs.TabIndex = 40;
+			this.buttonRearrangeTabs.TabIndex = 17;
 			this.buttonRearrangeTabs.Text = "⏣";
 			this.buttonRearrangeTabs.UseVisualStyleBackColor = true;
 			this.buttonRearrangeTabs.Click += new System.EventHandler(this.buttonRearrangeTabs_Click);
-			// 
-			// bulkCollectionExportToolStripMenuItem
-			// 
-			this.bulkCollectionExportToolStripMenuItem.Name = "bulkCollectionExportToolStripMenuItem";
-			this.bulkCollectionExportToolStripMenuItem.Size = new System.Drawing.Size(238, 26);
-			this.bulkCollectionExportToolStripMenuItem.Text = "Bulk Collection Export";
-			this.bulkCollectionExportToolStripMenuItem.Click += new System.EventHandler(this.bulkCollectionExportToolStripMenuItem_Click);
 			// 
 			// Form1
 			// 
