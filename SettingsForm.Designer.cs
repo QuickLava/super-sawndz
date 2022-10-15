@@ -106,7 +106,7 @@ namespace BrawlSoundConverter
 			this.groupBoxNamingScheme.Location = new System.Drawing.Point(10, 161);
 			this.groupBoxNamingScheme.Name = "groupBoxNamingScheme";
 			this.groupBoxNamingScheme.Size = new System.Drawing.Size(445, 51);
-			this.groupBoxNamingScheme.TabIndex = 27;
+			this.groupBoxNamingScheme.TabIndex = 4;
 			this.groupBoxNamingScheme.TabStop = false;
 			// 
 			// radioButtonNameManual
@@ -115,7 +115,7 @@ namespace BrawlSoundConverter
 			this.radioButtonNameManual.Location = new System.Drawing.Point(314, 22);
 			this.radioButtonNameManual.Name = "radioButtonNameManual";
 			this.radioButtonNameManual.Size = new System.Drawing.Size(76, 21);
-			this.radioButtonNameManual.TabIndex = 26;
+			this.radioButtonNameManual.TabIndex = 3;
 			this.radioButtonNameManual.TabStop = true;
 			this.radioButtonNameManual.Text = "Custom";
 			this.radioButtonNameManual.UseVisualStyleBackColor = true;
@@ -126,7 +126,8 @@ namespace BrawlSoundConverter
 			this.radioButtonNameDefault.Location = new System.Drawing.Point(6, 21);
 			this.radioButtonNameDefault.Name = "radioButtonNameDefault";
 			this.radioButtonNameDefault.Size = new System.Drawing.Size(74, 21);
-			this.radioButtonNameDefault.TabIndex = 22;
+			this.radioButtonNameDefault.TabIndex = 0;
+			this.radioButtonNameDefault.TabStop = true;
 			this.radioButtonNameDefault.Text = "Default";
 			this.radioButtonNameDefault.UseVisualStyleBackColor = true;
 			// 
@@ -136,7 +137,8 @@ namespace BrawlSoundConverter
 			this.radioButtonNamePP.Location = new System.Drawing.Point(226, 21);
 			this.radioButtonNamePP.Name = "radioButtonNamePP";
 			this.radioButtonNamePP.Size = new System.Drawing.Size(81, 21);
-			this.radioButtonNamePP.TabIndex = 25;
+			this.radioButtonNamePP.TabIndex = 2;
+			this.radioButtonNamePP.TabStop = true;
 			this.radioButtonNamePP.Text = "Project+";
 			this.radioButtonNamePP.UseVisualStyleBackColor = true;
 			// 
@@ -146,7 +148,8 @@ namespace BrawlSoundConverter
 			this.radioButtonNamePM.Location = new System.Drawing.Point(86, 21);
 			this.radioButtonNamePM.Name = "radioButtonNamePM";
 			this.radioButtonNamePM.Size = new System.Drawing.Size(134, 21);
-			this.radioButtonNamePM.TabIndex = 24;
+			this.radioButtonNamePM.TabIndex = 1;
+			this.radioButtonNamePM.TabStop = true;
 			this.radioButtonNamePM.Text = "Brawl / Project M";
 			this.radioButtonNamePM.UseVisualStyleBackColor = true;
 			// 
@@ -157,7 +160,7 @@ namespace BrawlSoundConverter
 			this.buttonBrowse.Margin = new System.Windows.Forms.Padding(4);
 			this.buttonBrowse.Name = "buttonBrowse";
 			this.buttonBrowse.Size = new System.Drawing.Size(33, 24);
-			this.buttonBrowse.TabIndex = 32;
+			this.buttonBrowse.TabIndex = 1;
 			this.buttonBrowse.Text = "...";
 			this.buttonBrowse.UseVisualStyleBackColor = true;
 			this.buttonBrowse.Click += new System.EventHandler(this.buttonBrowse_Click);
@@ -170,7 +173,7 @@ namespace BrawlSoundConverter
 			this.textBoxDefaultBrsar.Margin = new System.Windows.Forms.Padding(4);
 			this.textBoxDefaultBrsar.Name = "textBoxDefaultBrsar";
 			this.textBoxDefaultBrsar.Size = new System.Drawing.Size(408, 22);
-			this.textBoxDefaultBrsar.TabIndex = 31;
+			this.textBoxDefaultBrsar.TabIndex = 0;
 			this.textBoxDefaultBrsar.TextChanged += new System.EventHandler(this.textBoxDefaultBrsar_TextChanged);
 			// 
 			// labelDefaultBrsar
@@ -179,7 +182,7 @@ namespace BrawlSoundConverter
 			this.labelDefaultBrsar.Location = new System.Drawing.Point(10, 9);
 			this.labelDefaultBrsar.Name = "labelDefaultBrsar";
 			this.labelDefaultBrsar.Size = new System.Drawing.Size(130, 17);
-			this.labelDefaultBrsar.TabIndex = 33;
+			this.labelDefaultBrsar.TabIndex = 17;
 			this.labelDefaultBrsar.Text = "Default BRSAR File";
 			// 
 			// buttonCancel
@@ -190,7 +193,7 @@ namespace BrawlSoundConverter
 			this.buttonCancel.Margin = new System.Windows.Forms.Padding(4);
 			this.buttonCancel.Name = "buttonCancel";
 			this.buttonCancel.Size = new System.Drawing.Size(100, 28);
-			this.buttonCancel.TabIndex = 35;
+			this.buttonCancel.TabIndex = 11;
 			this.buttonCancel.Text = "Cancel";
 			this.buttonCancel.UseVisualStyleBackColor = true;
 			// 
@@ -202,7 +205,7 @@ namespace BrawlSoundConverter
 			this.buttonSave.Margin = new System.Windows.Forms.Padding(4);
 			this.buttonSave.Name = "buttonSave";
 			this.buttonSave.Size = new System.Drawing.Size(100, 28);
-			this.buttonSave.TabIndex = 34;
+			this.buttonSave.TabIndex = 10;
 			this.buttonSave.Text = "Save";
 			this.buttonSave.UseVisualStyleBackColor = true;
 			this.buttonSave.Click += new System.EventHandler(this.buttonSave_Click);
@@ -213,7 +216,7 @@ namespace BrawlSoundConverter
 			this.labelDefaultNameScheme.Location = new System.Drawing.Point(10, 151);
 			this.labelDefaultNameScheme.Name = "labelDefaultNameScheme";
 			this.labelDefaultNameScheme.Size = new System.Drawing.Size(206, 17);
-			this.labelDefaultNameScheme.TabIndex = 34;
+			this.labelDefaultNameScheme.TabIndex = 14;
 			this.labelDefaultNameScheme.Text = "Default Sawnd Naming Scheme";
 			// 
 			// label1
@@ -224,7 +227,7 @@ namespace BrawlSoundConverter
 			this.label1.Location = new System.Drawing.Point(12, 56);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(241, 17);
-			this.label1.TabIndex = 36;
+			this.label1.TabIndex = 13;
 			this.label1.Text = "Warning: Specified File Doesn\'t Exist!";
 			this.label1.Visible = false;
 			// 
@@ -235,8 +238,7 @@ namespace BrawlSoundConverter
 			this.groupBox1.Location = new System.Drawing.Point(10, 293);
 			this.groupBox1.Name = "groupBox1";
 			this.groupBox1.Size = new System.Drawing.Size(445, 51);
-			this.groupBox1.TabIndex = 28;
-			this.groupBox1.TabStop = false;
+			this.groupBox1.TabIndex = 6;
 			// 
 			// radioButtonGroupDirEnable
 			// 
@@ -244,7 +246,8 @@ namespace BrawlSoundConverter
 			this.radioButtonGroupDirEnable.Location = new System.Drawing.Point(6, 21);
 			this.radioButtonGroupDirEnable.Name = "radioButtonGroupDirEnable";
 			this.radioButtonGroupDirEnable.Size = new System.Drawing.Size(73, 21);
-			this.radioButtonGroupDirEnable.TabIndex = 22;
+			this.radioButtonGroupDirEnable.TabIndex = 0;
+			this.radioButtonGroupDirEnable.TabStop = true;
 			this.radioButtonGroupDirEnable.Text = "Enable";
 			this.radioButtonGroupDirEnable.UseVisualStyleBackColor = true;
 			// 
@@ -254,7 +257,8 @@ namespace BrawlSoundConverter
 			this.radioButtonGroupDirDisable.Location = new System.Drawing.Point(86, 21);
 			this.radioButtonGroupDirDisable.Name = "radioButtonGroupDirDisable";
 			this.radioButtonGroupDirDisable.Size = new System.Drawing.Size(76, 21);
-			this.radioButtonGroupDirDisable.TabIndex = 24;
+			this.radioButtonGroupDirDisable.TabIndex = 1;
+			this.radioButtonGroupDirDisable.TabStop = true;
 			this.radioButtonGroupDirDisable.Text = "Disable";
 			this.radioButtonGroupDirDisable.UseVisualStyleBackColor = true;
 			// 
@@ -264,7 +268,7 @@ namespace BrawlSoundConverter
 			this.label2.Location = new System.Drawing.Point(10, 283);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(352, 17);
-			this.label2.TabIndex = 37;
+			this.label2.TabIndex = 11;
 			this.label2.Text = "Create Group Directory by Default in Multi Create WAV";
 			// 
 			// buttonBRSARPathUseCurrent
@@ -273,7 +277,7 @@ namespace BrawlSoundConverter
 			this.buttonBRSARPathUseCurrent.Location = new System.Drawing.Point(364, 56);
 			this.buttonBRSARPathUseCurrent.Name = "buttonBRSARPathUseCurrent";
 			this.buttonBRSARPathUseCurrent.Size = new System.Drawing.Size(92, 24);
-			this.buttonBRSARPathUseCurrent.TabIndex = 38;
+			this.buttonBRSARPathUseCurrent.TabIndex = 2;
 			this.buttonBRSARPathUseCurrent.Text = "Use Current";
 			this.buttonBRSARPathUseCurrent.UseVisualStyleBackColor = true;
 			this.buttonBRSARPathUseCurrent.Click += new System.EventHandler(this.buttonBRSARPathUseCurrent_Click);
@@ -284,7 +288,7 @@ namespace BrawlSoundConverter
 			this.label3.Location = new System.Drawing.Point(10, 85);
 			this.label3.Name = "label3";
 			this.label3.Size = new System.Drawing.Size(262, 17);
-			this.label3.TabIndex = 40;
+			this.label3.TabIndex = 8;
 			this.label3.Text = "Enable Full-Length Group Name Display";
 			// 
 			// groupBox2
@@ -294,8 +298,7 @@ namespace BrawlSoundConverter
 			this.groupBox2.Location = new System.Drawing.Point(10, 95);
 			this.groupBox2.Name = "groupBox2";
 			this.groupBox2.Size = new System.Drawing.Size(445, 51);
-			this.groupBox2.TabIndex = 39;
-			this.groupBox2.TabStop = false;
+			this.groupBox2.TabIndex = 3;
 			// 
 			// radioButtonFullNameEnable
 			// 
@@ -303,7 +306,8 @@ namespace BrawlSoundConverter
 			this.radioButtonFullNameEnable.Location = new System.Drawing.Point(6, 21);
 			this.radioButtonFullNameEnable.Name = "radioButtonFullNameEnable";
 			this.radioButtonFullNameEnable.Size = new System.Drawing.Size(73, 21);
-			this.radioButtonFullNameEnable.TabIndex = 22;
+			this.radioButtonFullNameEnable.TabIndex = 0;
+			this.radioButtonFullNameEnable.TabStop = true;
 			this.radioButtonFullNameEnable.Text = "Enable";
 			this.radioButtonFullNameEnable.UseVisualStyleBackColor = true;
 			// 
@@ -313,7 +317,8 @@ namespace BrawlSoundConverter
 			this.radioButtonFullNameDisable.Location = new System.Drawing.Point(86, 21);
 			this.radioButtonFullNameDisable.Name = "radioButtonFullNameDisable";
 			this.radioButtonFullNameDisable.Size = new System.Drawing.Size(76, 21);
-			this.radioButtonFullNameDisable.TabIndex = 24;
+			this.radioButtonFullNameDisable.TabIndex = 1;
+			this.radioButtonFullNameDisable.TabStop = true;
 			this.radioButtonFullNameDisable.Text = "Disable";
 			this.radioButtonFullNameDisable.UseVisualStyleBackColor = true;
 			// 
@@ -323,7 +328,7 @@ namespace BrawlSoundConverter
 			this.label4.Location = new System.Drawing.Point(9, 18);
 			this.label4.Name = "label4";
 			this.label4.Size = new System.Drawing.Size(215, 17);
-			this.label4.TabIndex = 42;
+			this.label4.TabIndex = 7;
 			this.label4.Text = "Convert Audio to Mono on Import";
 			// 
 			// groupBox3
@@ -339,15 +344,14 @@ namespace BrawlSoundConverter
 			this.groupBox3.Location = new System.Drawing.Point(10, 425);
 			this.groupBox3.Name = "groupBox3";
 			this.groupBox3.Size = new System.Drawing.Size(445, 199);
-			this.groupBox3.TabIndex = 41;
-			this.groupBox3.TabStop = false;
+			this.groupBox3.TabIndex = 8;
 			// 
 			// buttonResetMaxSampRate
 			// 
 			this.buttonResetMaxSampRate.Location = new System.Drawing.Point(132, 163);
 			this.buttonResetMaxSampRate.Name = "buttonResetMaxSampRate";
 			this.buttonResetMaxSampRate.Size = new System.Drawing.Size(23, 23);
-			this.buttonResetMaxSampRate.TabIndex = 46;
+			this.buttonResetMaxSampRate.TabIndex = 3;
 			this.buttonResetMaxSampRate.Text = "*";
 			this.buttonResetMaxSampRate.UseVisualStyleBackColor = true;
 			this.buttonResetMaxSampRate.Click += new System.EventHandler(this.buttonResetMaxSampRate_Click);
@@ -359,7 +363,7 @@ namespace BrawlSoundConverter
 			this.label6.Location = new System.Drawing.Point(161, 166);
 			this.label6.Name = "label6";
 			this.label6.Size = new System.Drawing.Size(164, 17);
-			this.label6.TabIndex = 43;
+			this.label6.TabIndex = 1;
 			this.label6.Text = "Note: Set to 0 to disable.";
 			// 
 			// label8
@@ -368,7 +372,7 @@ namespace BrawlSoundConverter
 			this.label8.Location = new System.Drawing.Point(9, 144);
 			this.label8.Name = "label8";
 			this.label8.Size = new System.Drawing.Size(180, 17);
-			this.label8.TabIndex = 34;
+			this.label8.TabIndex = 2;
 			this.label8.Text = "Maximum Sample Rate (hz)";
 			// 
 			// numericUpDownMaxSampRate
@@ -386,7 +390,7 @@ namespace BrawlSoundConverter
             0});
 			this.numericUpDownMaxSampRate.Name = "numericUpDownMaxSampRate";
 			this.numericUpDownMaxSampRate.Size = new System.Drawing.Size(120, 22);
-			this.numericUpDownMaxSampRate.TabIndex = 31;
+			this.numericUpDownMaxSampRate.TabIndex = 2;
 			// 
 			// groupBox6
 			// 
@@ -396,8 +400,7 @@ namespace BrawlSoundConverter
 			this.groupBox6.Location = new System.Drawing.Point(6, 101);
 			this.groupBox6.Name = "groupBox6";
 			this.groupBox6.Size = new System.Drawing.Size(430, 40);
-			this.groupBox6.TabIndex = 37;
-			this.groupBox6.TabStop = false;
+			this.groupBox6.TabIndex = 1;
 			// 
 			// radioButtonMatchSRAlways
 			// 
@@ -405,7 +408,8 @@ namespace BrawlSoundConverter
 			this.radioButtonMatchSRAlways.Location = new System.Drawing.Point(6, 10);
 			this.radioButtonMatchSRAlways.Name = "radioButtonMatchSRAlways";
 			this.radioButtonMatchSRAlways.Size = new System.Drawing.Size(72, 21);
-			this.radioButtonMatchSRAlways.TabIndex = 30;
+			this.radioButtonMatchSRAlways.TabIndex = 0;
+			this.radioButtonMatchSRAlways.TabStop = true;
 			this.radioButtonMatchSRAlways.Text = "Always";
 			this.radioButtonMatchSRAlways.UseVisualStyleBackColor = true;
 			// 
@@ -415,7 +419,8 @@ namespace BrawlSoundConverter
 			this.radioButtonMatchSRSometimes.Location = new System.Drawing.Point(86, 10);
 			this.radioButtonMatchSRSometimes.Name = "radioButtonMatchSRSometimes";
 			this.radioButtonMatchSRSometimes.Size = new System.Drawing.Size(131, 21);
-			this.radioButtonMatchSRSometimes.TabIndex = 32;
+			this.radioButtonMatchSRSometimes.TabIndex = 1;
+			this.radioButtonMatchSRSometimes.TabStop = true;
 			this.radioButtonMatchSRSometimes.Text = "If Downsampling";
 			this.radioButtonMatchSRSometimes.UseVisualStyleBackColor = true;
 			// 
@@ -425,7 +430,8 @@ namespace BrawlSoundConverter
 			this.radioButtonMatchSRNever.Location = new System.Drawing.Point(223, 10);
 			this.radioButtonMatchSRNever.Name = "radioButtonMatchSRNever";
 			this.radioButtonMatchSRNever.Size = new System.Drawing.Size(67, 21);
-			this.radioButtonMatchSRNever.TabIndex = 33;
+			this.radioButtonMatchSRNever.TabIndex = 2;
+			this.radioButtonMatchSRNever.TabStop = true;
 			this.radioButtonMatchSRNever.Text = "Never";
 			this.radioButtonMatchSRNever.UseVisualStyleBackColor = true;
 			// 
@@ -437,7 +443,7 @@ namespace BrawlSoundConverter
 			this.groupBoxStereoConv.Location = new System.Drawing.Point(6, 38);
 			this.groupBoxStereoConv.Name = "groupBoxStereoConv";
 			this.groupBoxStereoConv.Size = new System.Drawing.Size(430, 40);
-			this.groupBoxStereoConv.TabIndex = 36;
+			this.groupBoxStereoConv.TabIndex = 0;
 			this.groupBoxStereoConv.TabStop = false;
 			// 
 			// radioButtonStereoConvAlways
@@ -446,7 +452,8 @@ namespace BrawlSoundConverter
 			this.radioButtonStereoConvAlways.Location = new System.Drawing.Point(6, 10);
 			this.radioButtonStereoConvAlways.Name = "radioButtonStereoConvAlways";
 			this.radioButtonStereoConvAlways.Size = new System.Drawing.Size(72, 21);
-			this.radioButtonStereoConvAlways.TabIndex = 22;
+			this.radioButtonStereoConvAlways.TabIndex = 0;
+			this.radioButtonStereoConvAlways.TabStop = true;
 			this.radioButtonStereoConvAlways.Text = "Always";
 			this.radioButtonStereoConvAlways.UseVisualStyleBackColor = true;
 			// 
@@ -456,7 +463,8 @@ namespace BrawlSoundConverter
 			this.radioButtonStereoConvSometimes.Location = new System.Drawing.Point(86, 10);
 			this.radioButtonStereoConvSometimes.Name = "radioButtonStereoConvSometimes";
 			this.radioButtonStereoConvSometimes.Size = new System.Drawing.Size(195, 21);
-			this.radioButtonStereoConvSometimes.TabIndex = 24;
+			this.radioButtonStereoConvSometimes.TabIndex = 1;
+			this.radioButtonStereoConvSometimes.TabStop = true;
 			this.radioButtonStereoConvSometimes.Text = "If Overwriting Mono Sound";
 			this.radioButtonStereoConvSometimes.UseVisualStyleBackColor = true;
 			// 
@@ -466,7 +474,8 @@ namespace BrawlSoundConverter
 			this.radioButtonStereoConvNever.Location = new System.Drawing.Point(289, 10);
 			this.radioButtonStereoConvNever.Name = "radioButtonStereoConvNever";
 			this.radioButtonStereoConvNever.Size = new System.Drawing.Size(67, 21);
-			this.radioButtonStereoConvNever.TabIndex = 25;
+			this.radioButtonStereoConvNever.TabIndex = 2;
+			this.radioButtonStereoConvNever.TabStop = true;
 			this.radioButtonStereoConvNever.Text = "Never";
 			this.radioButtonStereoConvNever.UseVisualStyleBackColor = true;
 			// 
@@ -476,7 +485,7 @@ namespace BrawlSoundConverter
 			this.label9.Location = new System.Drawing.Point(9, 81);
 			this.label9.Name = "label9";
 			this.label9.Size = new System.Drawing.Size(278, 17);
-			this.label9.TabIndex = 35;
+			this.label9.TabIndex = 6;
 			this.label9.Text = "Match Audio Sample Rate to Target Sound";
 			// 
 			// label5
@@ -486,7 +495,7 @@ namespace BrawlSoundConverter
 			this.label5.Location = new System.Drawing.Point(10, 629);
 			this.label5.Name = "label5";
 			this.label5.Size = new System.Drawing.Size(88, 17);
-			this.label5.TabIndex = 44;
+			this.label5.TabIndex = 5;
 			this.label5.Text = "Tab Settings";
 			// 
 			// groupBox4
@@ -500,8 +509,7 @@ namespace BrawlSoundConverter
 			this.groupBox4.Location = new System.Drawing.Point(10, 639);
 			this.groupBox4.Name = "groupBox4";
 			this.groupBox4.Size = new System.Drawing.Size(445, 223);
-			this.groupBox4.TabIndex = 43;
-			this.groupBox4.TabStop = false;
+			this.groupBox4.TabIndex = 9;
 			// 
 			// checkBoxSaveAsDefault
 			// 
@@ -511,7 +519,7 @@ namespace BrawlSoundConverter
 			this.checkBoxSaveAsDefault.Location = new System.Drawing.Point(272, 17);
 			this.checkBoxSaveAsDefault.Name = "checkBoxSaveAsDefault";
 			this.checkBoxSaveAsDefault.Size = new System.Drawing.Size(174, 21);
-			this.checkBoxSaveAsDefault.TabIndex = 7;
+			this.checkBoxSaveAsDefault.TabIndex = 0;
 			this.checkBoxSaveAsDefault.Text = "Save Config as Default";
 			this.checkBoxSaveAsDefault.UseVisualStyleBackColor = true;
 			// 
@@ -520,7 +528,7 @@ namespace BrawlSoundConverter
 			this.buttonConfigLoad.Location = new System.Drawing.Point(226, 187);
 			this.buttonConfigLoad.Name = "buttonConfigLoad";
 			this.buttonConfigLoad.Size = new System.Drawing.Size(105, 28);
-			this.buttonConfigLoad.TabIndex = 6;
+			this.buttonConfigLoad.TabIndex = 2;
 			this.buttonConfigLoad.Text = "Load Config";
 			this.buttonConfigLoad.UseVisualStyleBackColor = true;
 			this.buttonConfigLoad.Click += new System.EventHandler(this.buttonConfigLoad_Click);
@@ -530,7 +538,7 @@ namespace BrawlSoundConverter
 			this.treeView2.Location = new System.Drawing.Point(6, 38);
 			this.treeView2.Name = "treeView2";
 			this.treeView2.Size = new System.Drawing.Size(431, 143);
-			this.treeView2.TabIndex = 4;
+			this.treeView2.TabIndex = 1;
 			// 
 			// label7
 			// 
@@ -546,7 +554,7 @@ namespace BrawlSoundConverter
 			this.buttonConfigSave.Location = new System.Drawing.Point(337, 187);
 			this.buttonConfigSave.Name = "buttonConfigSave";
 			this.buttonConfigSave.Size = new System.Drawing.Size(105, 28);
-			this.buttonConfigSave.TabIndex = 0;
+			this.buttonConfigSave.TabIndex = 3;
 			this.buttonConfigSave.Text = "Save Config";
 			this.buttonConfigSave.UseVisualStyleBackColor = true;
 			this.buttonConfigSave.Click += new System.EventHandler(this.buttonSaveConfig_Click);
@@ -557,7 +565,7 @@ namespace BrawlSoundConverter
 			this.label10.Location = new System.Drawing.Point(10, 415);
 			this.label10.Name = "label10";
 			this.label10.Size = new System.Drawing.Size(142, 17);
-			this.label10.TabIndex = 47;
+			this.label10.TabIndex = 4;
 			this.label10.Text = "Audio Import Settings";
 			// 
 			// label11
@@ -566,7 +574,7 @@ namespace BrawlSoundConverter
 			this.label11.Location = new System.Drawing.Point(10, 349);
 			this.label11.Name = "label11";
 			this.label11.Size = new System.Drawing.Size(272, 17);
-			this.label11.TabIndex = 49;
+			this.label11.TabIndex = 2;
 			this.label11.Text = "Group Size Warning Threshold (In Bytes):";
 			// 
 			// groupBox5
@@ -577,15 +585,14 @@ namespace BrawlSoundConverter
 			this.groupBox5.Location = new System.Drawing.Point(10, 359);
 			this.groupBox5.Name = "groupBox5";
 			this.groupBox5.Size = new System.Drawing.Size(445, 51);
-			this.groupBox5.TabIndex = 48;
-			this.groupBox5.TabStop = false;
+			this.groupBox5.TabIndex = 7;
 			// 
 			// buttonResetGroupThresh
 			// 
 			this.buttonResetGroupThresh.Location = new System.Drawing.Point(132, 20);
 			this.buttonResetGroupThresh.Name = "buttonResetGroupThresh";
 			this.buttonResetGroupThresh.Size = new System.Drawing.Size(23, 23);
-			this.buttonResetGroupThresh.TabIndex = 45;
+			this.buttonResetGroupThresh.TabIndex = 1;
 			this.buttonResetGroupThresh.Text = "*";
 			this.buttonResetGroupThresh.UseVisualStyleBackColor = true;
 			this.buttonResetGroupThresh.Click += new System.EventHandler(this.buttonResetGroupThresh_Click);
@@ -597,7 +604,7 @@ namespace BrawlSoundConverter
 			this.label12.Location = new System.Drawing.Point(161, 23);
 			this.label12.Name = "label12";
 			this.label12.Size = new System.Drawing.Size(164, 17);
-			this.label12.TabIndex = 44;
+			this.label12.TabIndex = 1;
 			this.label12.Text = "Note: Set to 0 to disable.";
 			// 
 			// numericUpDownGroupSizeThresh
@@ -615,7 +622,7 @@ namespace BrawlSoundConverter
             0});
 			this.numericUpDownGroupSizeThresh.Name = "numericUpDownGroupSizeThresh";
 			this.numericUpDownGroupSizeThresh.Size = new System.Drawing.Size(120, 22);
-			this.numericUpDownGroupSizeThresh.TabIndex = 44;
+			this.numericUpDownGroupSizeThresh.TabIndex = 0;
 			// 
 			// label13
 			// 
@@ -623,7 +630,7 @@ namespace BrawlSoundConverter
 			this.label13.Location = new System.Drawing.Point(12, 217);
 			this.label13.Name = "label13";
 			this.label13.Size = new System.Drawing.Size(225, 17);
-			this.label13.TabIndex = 51;
+			this.label13.TabIndex = 0;
 			this.label13.Text = "Default Collection Naming Scheme";
 			// 
 			// groupBox7
@@ -635,8 +642,7 @@ namespace BrawlSoundConverter
 			this.groupBox7.Location = new System.Drawing.Point(12, 227);
 			this.groupBox7.Name = "groupBox7";
 			this.groupBox7.Size = new System.Drawing.Size(445, 51);
-			this.groupBox7.TabIndex = 50;
-			this.groupBox7.TabStop = false;
+			this.groupBox7.TabIndex = 5;
 			// 
 			// radioButtonCollNameCustom
 			// 
@@ -644,7 +650,7 @@ namespace BrawlSoundConverter
 			this.radioButtonCollNameCustom.Location = new System.Drawing.Point(350, 21);
 			this.radioButtonCollNameCustom.Name = "radioButtonCollNameCustom";
 			this.radioButtonCollNameCustom.Size = new System.Drawing.Size(76, 21);
-			this.radioButtonCollNameCustom.TabIndex = 26;
+			this.radioButtonCollNameCustom.TabIndex = 3;
 			this.radioButtonCollNameCustom.TabStop = true;
 			this.radioButtonCollNameCustom.Text = "Custom";
 			this.radioButtonCollNameCustom.UseVisualStyleBackColor = true;
@@ -655,7 +661,8 @@ namespace BrawlSoundConverter
 			this.radioButtonCollNameDefault.Location = new System.Drawing.Point(6, 21);
 			this.radioButtonCollNameDefault.Name = "radioButtonCollNameDefault";
 			this.radioButtonCollNameDefault.Size = new System.Drawing.Size(74, 21);
-			this.radioButtonCollNameDefault.TabIndex = 22;
+			this.radioButtonCollNameDefault.TabIndex = 0;
+			this.radioButtonCollNameDefault.TabStop = true;
 			this.radioButtonCollNameDefault.Text = "Default";
 			this.radioButtonCollNameDefault.UseVisualStyleBackColor = true;
 			// 
@@ -665,7 +672,8 @@ namespace BrawlSoundConverter
 			this.radioButtonCollNameIDHex.Location = new System.Drawing.Point(199, 21);
 			this.radioButtonCollNameIDHex.Name = "radioButtonCollNameIDHex";
 			this.radioButtonCollNameIDHex.Size = new System.Drawing.Size(145, 21);
-			this.radioButtonCollNameIDHex.TabIndex = 25;
+			this.radioButtonCollNameIDHex.TabIndex = 2;
+			this.radioButtonCollNameIDHex.TabStop = true;
 			this.radioButtonCollNameIDHex.Text = "Collection ID (Hex)";
 			this.radioButtonCollNameIDHex.UseVisualStyleBackColor = true;
 			// 
@@ -675,7 +683,8 @@ namespace BrawlSoundConverter
 			this.radioButtonCollNameID.Location = new System.Drawing.Point(86, 21);
 			this.radioButtonCollNameID.Name = "radioButtonCollNameID";
 			this.radioButtonCollNameID.Size = new System.Drawing.Size(107, 21);
-			this.radioButtonCollNameID.TabIndex = 24;
+			this.radioButtonCollNameID.TabIndex = 1;
+			this.radioButtonCollNameID.TabStop = true;
 			this.radioButtonCollNameID.Text = "Collection ID";
 			this.radioButtonCollNameID.UseVisualStyleBackColor = true;
 			// 
