@@ -1001,13 +1001,8 @@ namespace BrawlSoundConverter
 		//About window
 		private void aboutToolStripMenuItem1_Click(object sender, EventArgs e)
 		{
-			MessageBox.Show("Super Sawndz Version: " + Properties.Resources.Version + "\n" +
-				"Created by Agoaj (http://http://agoaj.com/blog)\n" +
-				"Modified by QuickLava (https://github.com/QuickLava)\n" +
-				"Uses BrawlLib: https://github.com/soopercool101/BrawlCrate \n" +
-				"Formerly Based off of Sawndz 0.12 (2010-2011 Jaklub)\n" +
-				"Currently Based off of lavaResawndz 1.2.8 (2022 QuickLava)\n" +
-				"Special thanks to mastaklo, ssbbtailsfan, stickman, VILE\n");
+			AboutForm about = new AboutForm();
+			about.ShowDialog();
 		}
 
 		private void toolStripMenuItemWAVEID_Click(object sender, EventArgs e)
