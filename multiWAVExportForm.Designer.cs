@@ -60,7 +60,7 @@ namespace BrawlSoundConverter
 			this.label1.Location = new System.Drawing.Point(12, 9);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(109, 17);
-			this.label1.TabIndex = 2;
+			this.label1.TabIndex = 16;
 			this.label1.Text = "Export Directory";
 			// 
 			// buttonBrowse
@@ -70,7 +70,7 @@ namespace BrawlSoundConverter
 			this.buttonBrowse.Margin = new System.Windows.Forms.Padding(4);
 			this.buttonBrowse.Name = "buttonBrowse";
 			this.buttonBrowse.Size = new System.Drawing.Size(33, 25);
-			this.buttonBrowse.TabIndex = 14;
+			this.buttonBrowse.TabIndex = 0;
 			this.buttonBrowse.Text = "...";
 			this.buttonBrowse.UseVisualStyleBackColor = true;
 			this.buttonBrowse.Click += new System.EventHandler(this.buttonBrowse_Click);
@@ -84,7 +84,8 @@ namespace BrawlSoundConverter
 			this.textBoxExportDirectory.Margin = new System.Windows.Forms.Padding(4);
 			this.textBoxExportDirectory.Name = "textBoxExportDirectory";
 			this.textBoxExportDirectory.Size = new System.Drawing.Size(664, 22);
-			this.textBoxExportDirectory.TabIndex = 13;
+			this.textBoxExportDirectory.TabIndex = 15;
+			this.textBoxExportDirectory.TabStop = false;
 			this.textBoxExportDirectory.TextChanged += new System.EventHandler(this.textBoxExportDirectory_TextChanged);
 			// 
 			// buttonExport
@@ -95,7 +96,7 @@ namespace BrawlSoundConverter
 			this.buttonExport.Margin = new System.Windows.Forms.Padding(4);
 			this.buttonExport.Name = "buttonExport";
 			this.buttonExport.Size = new System.Drawing.Size(100, 28);
-			this.buttonExport.TabIndex = 15;
+			this.buttonExport.TabIndex = 2;
 			this.buttonExport.Text = "Export";
 			this.buttonExport.UseVisualStyleBackColor = true;
 			this.buttonExport.Click += new System.EventHandler(this.buttonExport_Click);
@@ -107,7 +108,7 @@ namespace BrawlSoundConverter
 			this.buttonInvertSelection.Location = new System.Drawing.Point(611, 673);
 			this.buttonInvertSelection.Name = "buttonInvertSelection";
 			this.buttonInvertSelection.Size = new System.Drawing.Size(110, 40);
-			this.buttonInvertSelection.TabIndex = 18;
+			this.buttonInvertSelection.TabIndex = 8;
 			this.buttonInvertSelection.Text = "Invert Selection";
 			this.buttonInvertSelection.UseVisualStyleBackColor = true;
 			this.buttonInvertSelection.Click += new System.EventHandler(this.buttonInvertSelection_Click);
@@ -118,7 +119,7 @@ namespace BrawlSoundConverter
 			this.buttonSelectAll.Location = new System.Drawing.Point(379, 673);
 			this.buttonSelectAll.Name = "buttonSelectAll";
 			this.buttonSelectAll.Size = new System.Drawing.Size(110, 40);
-			this.buttonSelectAll.TabIndex = 19;
+			this.buttonSelectAll.TabIndex = 6;
 			this.buttonSelectAll.Text = "Select All";
 			this.buttonSelectAll.UseVisualStyleBackColor = true;
 			this.buttonSelectAll.Click += new System.EventHandler(this.buttonSelectAll_Click);
@@ -129,7 +130,7 @@ namespace BrawlSoundConverter
 			this.buttonDeselectAll.Location = new System.Drawing.Point(495, 673);
 			this.buttonDeselectAll.Name = "buttonDeselectAll";
 			this.buttonDeselectAll.Size = new System.Drawing.Size(110, 40);
-			this.buttonDeselectAll.TabIndex = 20;
+			this.buttonDeselectAll.TabIndex = 7;
 			this.buttonDeselectAll.Text = "Deselect All";
 			this.buttonDeselectAll.UseVisualStyleBackColor = true;
 			this.buttonDeselectAll.Click += new System.EventHandler(this.buttonDeselectAll_Click);
@@ -140,7 +141,7 @@ namespace BrawlSoundConverter
 			this.label2.Location = new System.Drawing.Point(11, 123);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(96, 17);
-			this.label2.TabIndex = 21;
+			this.label2.TabIndex = 9;
 			this.label2.Text = "WAVE Entries";
 			// 
 			// treeViewAudio
@@ -153,7 +154,7 @@ namespace BrawlSoundConverter
 			this.treeViewAudio.ShowPlusMinus = false;
 			this.treeViewAudio.ShowRootLines = false;
 			this.treeViewAudio.Size = new System.Drawing.Size(270, 337);
-			this.treeViewAudio.TabIndex = 27;
+			this.treeViewAudio.TabIndex = 4;
 			this.treeViewAudio.AfterCheck += new System.Windows.Forms.TreeViewEventHandler(this.treeViewAudio_AfterCheck);
 			this.treeViewAudio.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeViewAudio_AfterSelect);
 			this.treeViewAudio.DoubleClick += new System.EventHandler(this.treeViewAudio_DoubleClick);
@@ -168,7 +169,7 @@ namespace BrawlSoundConverter
 			this.buttonCancel.Margin = new System.Windows.Forms.Padding(4);
 			this.buttonCancel.Name = "buttonCancel";
 			this.buttonCancel.Size = new System.Drawing.Size(100, 28);
-			this.buttonCancel.TabIndex = 28;
+			this.buttonCancel.TabIndex = 3;
 			this.buttonCancel.Text = "Cancel";
 			this.buttonCancel.UseVisualStyleBackColor = true;
 			this.buttonCancel.Click += new System.EventHandler(this.buttonCancel_Click);
@@ -184,7 +185,7 @@ namespace BrawlSoundConverter
 			this.treeViewSoundInfo.ShowPlusMinus = false;
 			this.treeViewSoundInfo.ShowRootLines = false;
 			this.treeViewSoundInfo.Size = new System.Drawing.Size(428, 337);
-			this.treeViewSoundInfo.TabIndex = 29;
+			this.treeViewSoundInfo.TabIndex = 5;
 			this.treeViewSoundInfo.NodeMouseDoubleClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.treeView1_NodeMouseDoubleClick);
 			this.treeViewSoundInfo.KeyDown += new System.Windows.Forms.KeyEventHandler(this.treeViewSoundInfo_KeyDown);
 			// 
@@ -194,7 +195,7 @@ namespace BrawlSoundConverter
 			this.label3.Location = new System.Drawing.Point(288, 123);
 			this.label3.Name = "label3";
 			this.label3.Size = new System.Drawing.Size(212, 17);
-			this.label3.TabIndex = 30;
+			this.label3.TabIndex = 5;
 			this.label3.Text = "Sound - Associated WAVE Entry";
 			// 
 			// labelFileLabel
@@ -203,7 +204,7 @@ namespace BrawlSoundConverter
 			this.labelFileLabel.Location = new System.Drawing.Point(12, 100);
 			this.labelFileLabel.Name = "labelFileLabel";
 			this.labelFileLabel.Size = new System.Drawing.Size(95, 17);
-			this.labelFileLabel.TabIndex = 31;
+			this.labelFileLabel.TabIndex = 4;
 			this.labelFileLabel.Text = "labelFileLabel";
 			// 
 			// audioPlaybackPanel1
@@ -213,7 +214,8 @@ namespace BrawlSoundConverter
 			this.audioPlaybackPanel1.Location = new System.Drawing.Point(12, 539);
 			this.audioPlaybackPanel1.Name = "audioPlaybackPanel1";
 			this.audioPlaybackPanel1.Size = new System.Drawing.Size(706, 128);
-			this.audioPlaybackPanel1.TabIndex = 32;
+			this.audioPlaybackPanel1.TabIndex = 3;
+			this.audioPlaybackPanel1.TabStop = false;
 			this.audioPlaybackPanel1.TargetStreams = null;
 			// 
 			// labelPreview
@@ -224,7 +226,7 @@ namespace BrawlSoundConverter
 			this.labelPreview.Location = new System.Drawing.Point(15, 507);
 			this.labelPreview.Name = "labelPreview";
 			this.labelPreview.Size = new System.Drawing.Size(61, 17);
-			this.labelPreview.TabIndex = 33;
+			this.labelPreview.TabIndex = 2;
 			this.labelPreview.Text = "Preview:";
 			// 
 			// label4
@@ -235,7 +237,7 @@ namespace BrawlSoundConverter
 			this.label4.Location = new System.Drawing.Point(291, 487);
 			this.label4.Name = "label4";
 			this.label4.Size = new System.Drawing.Size(435, 17);
-			this.label4.TabIndex = 34;
+			this.label4.TabIndex = 1;
 			this.label4.Text = "Note: Double-click or press Enter to jump to a Sound\'s WAVE Entry.";
 			// 
 			// checkBox1
@@ -246,7 +248,7 @@ namespace BrawlSoundConverter
 			this.checkBox1.Location = new System.Drawing.Point(549, 61);
 			this.checkBox1.Name = "checkBox1";
 			this.checkBox1.Size = new System.Drawing.Size(177, 21);
-			this.checkBox1.TabIndex = 35;
+			this.checkBox1.TabIndex = 1;
 			this.checkBox1.Text = "Create Group Directory";
 			this.checkBox1.UseVisualStyleBackColor = true;
 			this.checkBox1.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);

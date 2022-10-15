@@ -716,5 +716,27 @@ namespace BrawlSoundConverter
 			}
 			reorderCollectionView();
 		}
+
+		private void checkBox1_KeyDown(object sender, KeyEventArgs e)
+		{
+			if (e.KeyCode == Keys.Enter)
+			{
+				checkBox1.Checked = !checkBox1.Checked;
+			}
+		}
+		private void checkBox2_KeyDown(object sender, KeyEventArgs e)
+		{
+			if (e.KeyCode == Keys.Enter)
+			{
+				checkBox2.Checked = !checkBox2.Checked;
+			}
+		}
+		private void checkBox3_KeyDown(object sender, KeyEventArgs e)
+		{
+			if (e.KeyCode == Keys.Enter)
+			{
+				checkBox3.Checked = !checkBox3.Checked;
+			}
+		}
 	}
 }
