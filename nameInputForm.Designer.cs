@@ -51,7 +51,7 @@ namespace BrawlSoundConverter
 			this.treeViewNames.ShowPlusMinus = false;
 			this.treeViewNames.ShowRootLines = false;
 			this.treeViewNames.Size = new System.Drawing.Size(414, 302);
-			this.treeViewNames.TabIndex = 1;
+			this.treeViewNames.TabIndex = 2;
 			this.treeViewNames.DoubleClick += new System.EventHandler(this.treeViewNames_DoubleClick);
 			this.treeViewNames.KeyDown += new System.Windows.Forms.KeyEventHandler(this.treeViewNames_KeyDown);
 			// 
@@ -61,7 +61,7 @@ namespace BrawlSoundConverter
 			this.label1.Location = new System.Drawing.Point(9, 57);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(78, 17);
-			this.label1.TabIndex = 2;
+			this.label1.TabIndex = 10;
 			this.label1.Text = "File Names";
 			// 
 			// button1
@@ -70,7 +70,7 @@ namespace BrawlSoundConverter
 			this.button1.Location = new System.Drawing.Point(595, 423);
 			this.button1.Name = "button1";
 			this.button1.Size = new System.Drawing.Size(79, 28);
-			this.button1.TabIndex = 3;
+			this.button1.TabIndex = 4;
 			this.button1.Text = "Finish";
 			this.button1.UseVisualStyleBackColor = true;
 			this.button1.Click += new System.EventHandler(this.button1_Click);
@@ -82,7 +82,7 @@ namespace BrawlSoundConverter
 			this.button2.Location = new System.Drawing.Point(680, 422);
 			this.button2.Name = "button2";
 			this.button2.Size = new System.Drawing.Size(79, 28);
-			this.button2.TabIndex = 4;
+			this.button2.TabIndex = 5;
 			this.button2.Text = "Cancel";
 			this.button2.UseVisualStyleBackColor = true;
 			this.button2.Click += new System.EventHandler(this.button2_Click);
@@ -95,7 +95,7 @@ namespace BrawlSoundConverter
 			this.treeView1.ShowPlusMinus = false;
 			this.treeView1.ShowRootLines = false;
 			this.treeView1.Size = new System.Drawing.Size(326, 301);
-			this.treeView1.TabIndex = 6;
+			this.treeView1.TabIndex = 3;
 			this.treeView1.NodeMouseDoubleClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.treeView1_NodeMouseDoubleClick);
 			this.treeView1.KeyDown += new System.Windows.Forms.KeyEventHandler(this.treeView1_KeyDown);
 			// 
@@ -105,7 +105,7 @@ namespace BrawlSoundConverter
 			this.labelBaseString.Location = new System.Drawing.Point(9, 9);
 			this.labelBaseString.Name = "labelBaseString";
 			this.labelBaseString.Size = new System.Drawing.Size(122, 17);
-			this.labelBaseString.TabIndex = 8;
+			this.labelBaseString.TabIndex = 6;
 			this.labelBaseString.Text = "Base Name String";
 			// 
 			// button3
@@ -113,7 +113,7 @@ namespace BrawlSoundConverter
 			this.button3.Location = new System.Drawing.Point(683, 25);
 			this.button3.Name = "button3";
 			this.button3.Size = new System.Drawing.Size(75, 28);
-			this.button3.TabIndex = 9;
+			this.button3.TabIndex = 1;
 			this.button3.Text = "Apply";
 			this.button3.UseVisualStyleBackColor = true;
 			this.button3.Click += new System.EventHandler(this.button3_Click);
@@ -124,7 +124,7 @@ namespace BrawlSoundConverter
 			this.label2.Location = new System.Drawing.Point(429, 56);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(147, 17);
-			this.label2.TabIndex = 10;
+			this.label2.TabIndex = 4;
 			this.label2.Text = "Base Name Wildcards";
 			// 
 			// textBox1
@@ -132,7 +132,7 @@ namespace BrawlSoundConverter
 			this.textBox1.Location = new System.Drawing.Point(13, 28);
 			this.textBox1.Name = "textBox1";
 			this.textBox1.Size = new System.Drawing.Size(661, 22);
-			this.textBox1.TabIndex = 11;
+			this.textBox1.TabIndex = 0;
 			this.textBox1.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
 			// 
 			// label3
@@ -142,7 +142,7 @@ namespace BrawlSoundConverter
 			this.label3.Location = new System.Drawing.Point(211, 399);
 			this.label3.Name = "label3";
 			this.label3.Size = new System.Drawing.Size(547, 17);
-			this.label3.TabIndex = 12;
+			this.label3.TabIndex = 2;
 			this.label3.Text = "Note: Double-click or press Enter on a Wildcard to insert it into the Base Name S" +
     "tring.";
 			// 
@@ -153,7 +153,7 @@ namespace BrawlSoundConverter
 			this.label4.Location = new System.Drawing.Point(336, 382);
 			this.label4.Name = "label4";
 			this.label4.Size = new System.Drawing.Size(423, 17);
-			this.label4.TabIndex = 13;
+			this.label4.TabIndex = 1;
 			this.label4.Text = "Note: Double-click or press Enter on a File Name to directly edit it.";
 			// 
 			// textBoxTextInput
@@ -161,7 +161,7 @@ namespace BrawlSoundConverter
 			this.textBoxTextInput.Location = new System.Drawing.Point(13, 422);
 			this.textBoxTextInput.Name = "textBoxTextInput";
 			this.textBoxTextInput.Size = new System.Drawing.Size(410, 22);
-			this.textBoxTextInput.TabIndex = 14;
+			this.textBoxTextInput.TabIndex = 0;
 			this.textBoxTextInput.TabStop = false;
 			this.textBoxTextInput.Visible = false;
 			this.textBoxTextInput.TextChanged += new System.EventHandler(this.textBoxTextInput_TextChanged);
