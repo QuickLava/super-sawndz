@@ -49,7 +49,7 @@ namespace BrawlSoundConverter
 			this.treeViewMapping.Margin = new System.Windows.Forms.Padding(4);
 			this.treeViewMapping.Name = "treeViewMapping";
 			this.treeViewMapping.Size = new System.Drawing.Size(487, 278);
-			this.treeViewMapping.TabIndex = 4;
+			this.treeViewMapping.TabIndex = 0;
 			this.treeViewMapping.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeViewMapping_AfterSelect);
 			this.treeViewMapping.NodeMouseDoubleClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.treeViewMapping_NodeMouseDoubleClick);
 			// 
@@ -68,7 +68,7 @@ namespace BrawlSoundConverter
 			this.button1.Location = new System.Drawing.Point(345, 499);
 			this.button1.Name = "button1";
 			this.button1.Size = new System.Drawing.Size(76, 26);
-			this.button1.TabIndex = 6;
+			this.button1.TabIndex = 1;
 			this.button1.Text = "Jump To";
 			this.button1.UseVisualStyleBackColor = true;
 			this.button1.Click += new System.EventHandler(this.button1_Click);
@@ -80,7 +80,7 @@ namespace BrawlSoundConverter
 			this.button2.Location = new System.Drawing.Point(424, 499);
 			this.button2.Name = "button2";
 			this.button2.Size = new System.Drawing.Size(76, 26);
-			this.button2.TabIndex = 7;
+			this.button2.TabIndex = 2;
 			this.button2.Text = "Cancel";
 			this.button2.UseVisualStyleBackColor = true;
 			this.button2.Click += new System.EventHandler(this.button2_Click);
@@ -93,7 +93,7 @@ namespace BrawlSoundConverter
 			this.labelPreview.Location = new System.Drawing.Point(13, 345);
 			this.labelPreview.Name = "labelPreview";
 			this.labelPreview.Size = new System.Drawing.Size(61, 17);
-			this.labelPreview.TabIndex = 35;
+			this.labelPreview.TabIndex = 1;
 			this.labelPreview.Text = "Preview:";
 			// 
 			// audioPlaybackPanel1
@@ -103,7 +103,8 @@ namespace BrawlSoundConverter
 			this.audioPlaybackPanel1.Location = new System.Drawing.Point(12, 365);
 			this.audioPlaybackPanel1.Name = "audioPlaybackPanel1";
 			this.audioPlaybackPanel1.Size = new System.Drawing.Size(485, 128);
-			this.audioPlaybackPanel1.TabIndex = 34;
+			this.audioPlaybackPanel1.TabIndex = 2;
+			this.audioPlaybackPanel1.TabStop = false;
 			this.audioPlaybackPanel1.TargetStreams = null;
 			// 
 			// label4
@@ -114,7 +115,7 @@ namespace BrawlSoundConverter
 			this.label4.Location = new System.Drawing.Point(46, 313);
 			this.label4.Name = "label4";
 			this.label4.Size = new System.Drawing.Size(460, 17);
-			this.label4.TabIndex = 36;
+			this.label4.TabIndex = 0;
 			this.label4.Text = "Note: Double-click or press Enter to jump to a result in the main window.";
 			// 
 			// FindAllForm
