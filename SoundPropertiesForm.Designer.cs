@@ -70,7 +70,7 @@ namespace BrawlSoundConverter
 			this.label1.Location = new System.Drawing.Point(13, 13);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(90, 17);
-			this.label1.TabIndex = 0;
+			this.label1.TabIndex = 26;
 			this.label1.Text = "Sound Name";
 			// 
 			// label2
@@ -79,7 +79,7 @@ namespace BrawlSoundConverter
 			this.label2.Location = new System.Drawing.Point(13, 155);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(71, 17);
-			this.label2.TabIndex = 2;
+			this.label2.TabIndex = 24;
 			this.label2.Text = "MainSend";
 			// 
 			// numericUpDownVol
@@ -92,7 +92,7 @@ namespace BrawlSoundConverter
             0});
 			this.numericUpDownVol.Name = "numericUpDownVol";
 			this.numericUpDownVol.Size = new System.Drawing.Size(70, 22);
-			this.numericUpDownVol.TabIndex = 3;
+			this.numericUpDownVol.TabIndex = 6;
 			// 
 			// textBox1
 			// 
@@ -102,7 +102,7 @@ namespace BrawlSoundConverter
 			this.textBox1.Location = new System.Drawing.Point(16, 34);
 			this.textBox1.Name = "textBox1";
 			this.textBox1.Size = new System.Drawing.Size(452, 22);
-			this.textBox1.TabIndex = 1;
+			this.textBox1.TabIndex = 0;
 			// 
 			// numericUpDownPan
 			// 
@@ -140,7 +140,7 @@ namespace BrawlSoundConverter
 			this.label4.Location = new System.Drawing.Point(165, 156);
 			this.label4.Name = "label4";
 			this.label4.Size = new System.Drawing.Size(39, 17);
-			this.label4.TabIndex = 9;
+			this.label4.TabIndex = 20;
 			this.label4.Text = "Pitch";
 			// 
 			// label5
@@ -149,7 +149,7 @@ namespace BrawlSoundConverter
 			this.label5.Location = new System.Drawing.Point(93, 155);
 			this.label5.Name = "label5";
 			this.label5.Size = new System.Drawing.Size(33, 17);
-			this.label5.TabIndex = 10;
+			this.label5.TabIndex = 19;
 			this.label5.Text = "Pan";
 			// 
 			// button1
@@ -158,7 +158,7 @@ namespace BrawlSoundConverter
 			this.button1.Location = new System.Drawing.Point(320, 222);
 			this.button1.Name = "button1";
 			this.button1.Size = new System.Drawing.Size(70, 28);
-			this.button1.TabIndex = 11;
+			this.button1.TabIndex = 12;
 			this.button1.Text = "Save";
 			this.button1.UseVisualStyleBackColor = true;
 			this.button1.Click += new System.EventHandler(this.button1_Click);
@@ -170,7 +170,7 @@ namespace BrawlSoundConverter
 			this.button2.Location = new System.Drawing.Point(396, 222);
 			this.button2.Name = "button2";
 			this.button2.Size = new System.Drawing.Size(72, 28);
-			this.button2.TabIndex = 12;
+			this.button2.TabIndex = 13;
 			this.button2.Text = "Cancel";
 			this.button2.UseVisualStyleBackColor = true;
 			this.button2.Click += new System.EventHandler(this.button2_Click);
@@ -185,7 +185,7 @@ namespace BrawlSoundConverter
             0});
 			this.numericUpDownFX1.Name = "numericUpDownFX1";
 			this.numericUpDownFX1.Size = new System.Drawing.Size(70, 22);
-			this.numericUpDownFX1.TabIndex = 13;
+			this.numericUpDownFX1.TabIndex = 9;
 			// 
 			// numericUpDownFX2
 			// 
@@ -197,7 +197,7 @@ namespace BrawlSoundConverter
             0});
 			this.numericUpDownFX2.Name = "numericUpDownFX2";
 			this.numericUpDownFX2.Size = new System.Drawing.Size(70, 22);
-			this.numericUpDownFX2.TabIndex = 14;
+			this.numericUpDownFX2.TabIndex = 10;
 			// 
 			// numericUpDownFX3
 			// 
@@ -209,7 +209,7 @@ namespace BrawlSoundConverter
             0});
 			this.numericUpDownFX3.Name = "numericUpDownFX3";
 			this.numericUpDownFX3.Size = new System.Drawing.Size(70, 22);
-			this.numericUpDownFX3.TabIndex = 15;
+			this.numericUpDownFX3.TabIndex = 11;
 			// 
 			// label3
 			// 
@@ -217,7 +217,7 @@ namespace BrawlSoundConverter
 			this.label3.Location = new System.Drawing.Point(241, 156);
 			this.label3.Name = "label3";
 			this.label3.Size = new System.Drawing.Size(68, 17);
-			this.label3.TabIndex = 16;
+			this.label3.TabIndex = 13;
 			this.label3.Text = "FxSend A";
 			// 
 			// label6
@@ -226,7 +226,7 @@ namespace BrawlSoundConverter
 			this.label6.Location = new System.Drawing.Point(317, 156);
 			this.label6.Name = "label6";
 			this.label6.Size = new System.Drawing.Size(68, 17);
-			this.label6.TabIndex = 17;
+			this.label6.TabIndex = 12;
 			this.label6.Text = "FxSend B";
 			// 
 			// label7
@@ -235,7 +235,7 @@ namespace BrawlSoundConverter
 			this.label7.Location = new System.Drawing.Point(393, 156);
 			this.label7.Name = "label7";
 			this.label7.Size = new System.Drawing.Size(68, 17);
-			this.label7.TabIndex = 18;
+			this.label7.TabIndex = 11;
 			this.label7.Text = "FxSend C";
 			// 
 			// label8
@@ -244,7 +244,7 @@ namespace BrawlSoundConverter
 			this.label8.Location = new System.Drawing.Point(13, 59);
 			this.label8.Name = "label8";
 			this.label8.Size = new System.Drawing.Size(113, 17);
-			this.label8.TabIndex = 19;
+			this.label8.TabIndex = 10;
 			this.label8.Text = "Sound Info Index";
 			// 
 			// textBox2
@@ -255,7 +255,7 @@ namespace BrawlSoundConverter
 			this.textBox2.Location = new System.Drawing.Point(16, 79);
 			this.textBox2.Name = "textBox2";
 			this.textBox2.Size = new System.Drawing.Size(452, 22);
-			this.textBox2.TabIndex = 20;
+			this.textBox2.TabIndex = 1;
 			// 
 			// label9
 			// 
@@ -264,7 +264,7 @@ namespace BrawlSoundConverter
 			this.label9.Location = new System.Drawing.Point(49, 201);
 			this.label9.Name = "label9";
 			this.label9.Size = new System.Drawing.Size(425, 17);
-			this.label9.TabIndex = 21;
+			this.label9.TabIndex = 8;
 			this.label9.Text = "Note: \'MainSend\' controls sound volume, \'FxSend\' controls reverb.";
 			// 
 			// textBox3
@@ -273,7 +273,7 @@ namespace BrawlSoundConverter
 			this.textBox3.Location = new System.Drawing.Point(15, 124);
 			this.textBox3.Name = "textBox3";
 			this.textBox3.Size = new System.Drawing.Size(106, 22);
-			this.textBox3.TabIndex = 23;
+			this.textBox3.TabIndex = 2;
 			// 
 			// label10
 			// 
@@ -281,7 +281,7 @@ namespace BrawlSoundConverter
 			this.label10.Location = new System.Drawing.Point(12, 104);
 			this.label10.Name = "label10";
 			this.label10.Size = new System.Drawing.Size(96, 17);
-			this.label10.TabIndex = 22;
+			this.label10.TabIndex = 7;
 			this.label10.Text = "Sample Count";
 			// 
 			// textBox4
@@ -290,7 +290,7 @@ namespace BrawlSoundConverter
 			this.textBox4.Location = new System.Drawing.Point(129, 124);
 			this.textBox4.Name = "textBox4";
 			this.textBox4.Size = new System.Drawing.Size(106, 22);
-			this.textBox4.TabIndex = 25;
+			this.textBox4.TabIndex = 3;
 			// 
 			// label11
 			// 
@@ -298,7 +298,7 @@ namespace BrawlSoundConverter
 			this.label11.Location = new System.Drawing.Point(126, 104);
 			this.label11.Name = "label11";
 			this.label11.Size = new System.Drawing.Size(89, 17);
-			this.label11.TabIndex = 24;
+			this.label11.TabIndex = 5;
 			this.label11.Text = "Sample Rate";
 			// 
 			// textBox5
@@ -307,7 +307,7 @@ namespace BrawlSoundConverter
 			this.textBox5.Location = new System.Drawing.Point(244, 124);
 			this.textBox5.Name = "textBox5";
 			this.textBox5.Size = new System.Drawing.Size(106, 22);
-			this.textBox5.TabIndex = 27;
+			this.textBox5.TabIndex = 4;
 			// 
 			// label12
 			// 
@@ -315,7 +315,7 @@ namespace BrawlSoundConverter
 			this.label12.Location = new System.Drawing.Point(241, 104);
 			this.label12.Name = "label12";
 			this.label12.Size = new System.Drawing.Size(110, 17);
-			this.label12.TabIndex = 26;
+			this.label12.TabIndex = 3;
 			this.label12.Text = "Loop Start Point";
 			// 
 			// textBox6
@@ -324,7 +324,7 @@ namespace BrawlSoundConverter
 			this.textBox6.Location = new System.Drawing.Point(359, 124);
 			this.textBox6.Name = "textBox6";
 			this.textBox6.Size = new System.Drawing.Size(106, 22);
-			this.textBox6.TabIndex = 29;
+			this.textBox6.TabIndex = 5;
 			// 
 			// label13
 			// 
@@ -332,7 +332,7 @@ namespace BrawlSoundConverter
 			this.label13.Location = new System.Drawing.Point(356, 104);
 			this.label13.Name = "label13";
 			this.label13.Size = new System.Drawing.Size(101, 17);
-			this.label13.TabIndex = 28;
+			this.label13.TabIndex = 1;
 			this.label13.Text = "Channel Count";
 			// 
 			// SoundPropertiesForm
