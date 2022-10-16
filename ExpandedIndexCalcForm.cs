@@ -80,29 +80,24 @@ namespace BrawlSoundConverter
 			treeViewBankContents.Nodes.Add(groupIn);
 		}
 
-		private void numericUpDown1_ValueChanged(object sender, EventArgs e)
+		private void numericUpDownSoundbankID_ValueChanged(object sender, EventArgs e)
 		{
 			updateExpandedInfoIndexBox();
 		}
+		private void numericUpDownSoundbankID_KeyDown(object sender, KeyEventArgs e)
+		{
+			if (e.KeyCode == Keys.Enter)
+			{
+				e.SuppressKeyPress = true;
+			}
+		}
 
-		private void checkBox1_CheckedChanged(object sender, EventArgs e)
+		private void checkBoxHexInput_CheckedChanged(object sender, EventArgs e)
 		{
 			numericUpDownSoundbankID.Hexadecimal = checkBoxHexInput.Checked;
 		}
 
-		private void treeView1_AfterSelect(object sender, TreeViewEventArgs e)
-		{
-			if (treeViewBankContents.SelectedNode != null)
-			{
-				MappingItem selectedItem = treeViewBankContents.SelectedNode as MappingItem;
-				audioPlaybackPanelBankContents.TargetSource = selectedItem as BrawlLib.Internal.Audio.IAudioSource;
-				audioPlaybackPanelBankContents.TargetSource.CreateStreams();
-				audioPlaybackPanelBankContents.Play();
-			}
-			updateExpandedInfoIndexBox();
-		}
-
-		private void checkBox2_CheckedChanged(object sender, EventArgs e)
+		private void checkBoxPPEXMode_CheckedChanged(object sender, EventArgs e)
 		{
 			if (checkBoxPPEXMode.Checked)
 			{
@@ -117,14 +112,17 @@ namespace BrawlSoundConverter
 			updateExpandedInfoIndexBox();
 		}
 
-		private void numericUpDownSoundbankID_KeyDown(object sender, KeyEventArgs e)
+		private void treeViewBankContents_AfterSelect(object sender, TreeViewEventArgs e)
 		{
-			if (e.KeyCode == Keys.Enter)
+			if (treeViewBankContents.SelectedNode != null)
 			{
-				e.SuppressKeyPress = true;
+				MappingItem selectedItem = treeViewBankContents.SelectedNode as MappingItem;
+				audioPlaybackPanelBankContents.TargetSource = selectedItem as BrawlLib.Internal.Audio.IAudioSource;
+				audioPlaybackPanelBankContents.TargetSource.CreateStreams();
+				audioPlaybackPanelBankContents.Play();
 			}
+			updateExpandedInfoIndexBox();
 		}
-
 		private void treeViewBankContents_KeyDown(object sender, KeyEventArgs e)
 		{
 			if (e.KeyCode == Keys.Enter && audioPlaybackPanelBankContents.TargetSource != null)

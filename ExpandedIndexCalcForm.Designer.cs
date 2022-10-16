@@ -85,7 +85,7 @@ namespace BrawlSoundConverter
 			this.treeViewBankContents.Name = "treeViewBankContents";
 			this.treeViewBankContents.Size = new System.Drawing.Size(495, 235);
 			this.treeViewBankContents.TabIndex = 0;
-			this.treeViewBankContents.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeView1_AfterSelect);
+			this.treeViewBankContents.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeViewBankContents_AfterSelect);
 			this.treeViewBankContents.KeyDown += new System.Windows.Forms.KeyEventHandler(this.treeViewBankContents_KeyDown);
 			// 
 			// buttonClose
@@ -120,7 +120,7 @@ namespace BrawlSoundConverter
             0,
             0,
             0});
-			this.numericUpDownSoundbankID.ValueChanged += new System.EventHandler(this.numericUpDown1_ValueChanged);
+			this.numericUpDownSoundbankID.ValueChanged += new System.EventHandler(this.numericUpDownSoundbankID_ValueChanged);
 			this.numericUpDownSoundbankID.KeyDown += new System.Windows.Forms.KeyEventHandler(this.numericUpDownSoundbankID_KeyDown);
 			// 
 			// labelIDInput
@@ -152,7 +152,7 @@ namespace BrawlSoundConverter
 			this.checkBoxHexInput.TabIndex = 2;
 			this.checkBoxHexInput.Text = "Hexadecimal Input";
 			this.checkBoxHexInput.UseVisualStyleBackColor = true;
-			this.checkBoxHexInput.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
+			this.checkBoxHexInput.CheckedChanged += new System.EventHandler(this.checkBoxHexInput_CheckedChanged);
 			// 
 			// labelEInfoIndexOut
 			// 
@@ -179,7 +179,7 @@ namespace BrawlSoundConverter
 			this.checkBoxPPEXMode.TabIndex = 3;
 			this.checkBoxPPEXMode.Text = "Enable P+EX Mode";
 			this.checkBoxPPEXMode.UseVisualStyleBackColor = true;
-			this.checkBoxPPEXMode.CheckedChanged += new System.EventHandler(this.checkBox2_CheckedChanged);
+			this.checkBoxPPEXMode.CheckedChanged += new System.EventHandler(this.checkBoxPPEXMode_CheckedChanged);
 			// 
 			// labelNoteHexadecimal
 			// 
