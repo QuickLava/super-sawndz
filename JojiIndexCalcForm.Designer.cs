@@ -33,7 +33,7 @@ namespace BrawlSoundConverter
 			this.audioPlaybackPanelBankContents = new BrawlLib.Internal.Windows.Controls.AudioPlaybackPanel();
 			this.labelTreeViewLabel = new System.Windows.Forms.Label();
 			this.treeViewBankContents = new System.Windows.Forms.TreeView();
-			this.button2 = new System.Windows.Forms.Button();
+			this.buttonClose = new System.Windows.Forms.Button();
 			this.numericUpDownSoundbankID = new System.Windows.Forms.NumericUpDown();
 			this.labelIDInput = new System.Windows.Forms.Label();
 			this.labelNoteValidIDRange = new System.Windows.Forms.Label();
@@ -87,16 +87,16 @@ namespace BrawlSoundConverter
 			this.treeViewBankContents.TabIndex = 15;
 			this.treeViewBankContents.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeView1_AfterSelect);
 			// 
-			// button2
+			// buttonClose
 			// 
-			this.button2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.button2.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-			this.button2.Location = new System.Drawing.Point(432, 549);
-			this.button2.Name = "button2";
-			this.button2.Size = new System.Drawing.Size(75, 28);
-			this.button2.TabIndex = 19;
-			this.button2.Text = "Close";
-			this.button2.UseVisualStyleBackColor = true;
+			this.buttonClose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+			this.buttonClose.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+			this.buttonClose.Location = new System.Drawing.Point(432, 549);
+			this.buttonClose.Name = "buttonClose";
+			this.buttonClose.Size = new System.Drawing.Size(75, 28);
+			this.buttonClose.TabIndex = 19;
+			this.buttonClose.Text = "Close";
+			this.buttonClose.UseVisualStyleBackColor = true;
 			// 
 			// numericUpDownSoundbankID
 			// 
@@ -193,6 +193,7 @@ namespace BrawlSoundConverter
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+			this.CancelButton = this.buttonClose;
 			this.ClientSize = new System.Drawing.Size(517, 589);
 			this.Controls.Add(this.labelNoteHexadecimal);
 			this.Controls.Add(this.checkBoxPPEXMode);
@@ -206,7 +207,7 @@ namespace BrawlSoundConverter
 			this.Controls.Add(this.audioPlaybackPanelBankContents);
 			this.Controls.Add(this.labelTreeViewLabel);
 			this.Controls.Add(this.treeViewBankContents);
-			this.Controls.Add(this.button2);
+			this.Controls.Add(this.buttonClose);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;
@@ -223,7 +224,7 @@ namespace BrawlSoundConverter
 		private BrawlLib.Internal.Windows.Controls.AudioPlaybackPanel audioPlaybackPanelBankContents;
 		private System.Windows.Forms.Label labelTreeViewLabel;
 		private System.Windows.Forms.TreeView treeViewBankContents;
-		private System.Windows.Forms.Button button2;
+		private System.Windows.Forms.Button buttonClose;
 		private System.Windows.Forms.NumericUpDown numericUpDownSoundbankID;
 		private System.Windows.Forms.Label labelIDInput;
 		private System.Windows.Forms.Label labelNoteValidIDRange;

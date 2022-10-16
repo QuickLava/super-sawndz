@@ -445,6 +445,7 @@ namespace BrawlSoundConverter
 			audioPlaybackBRSARSound.Enabled = false;
 			tabControl1.Enabled = false;
 			bulkCollectionExportToolStripMenuItem.Enabled = false;
+			eInfoIndexCalcToolStripMenuItem.Enabled = false;
 		}
 		//Enable stuff again
 		private void enableStuff()
@@ -474,6 +475,7 @@ namespace BrawlSoundConverter
 			comboBoxSearchMode.Enabled = true;
 			tabControl1.Enabled = true;
 			bulkCollectionExportToolStripMenuItem.Enabled = true;
+			eInfoIndexCalcToolStripMenuItem.Enabled = true;
 
 			//Make sure that we have a group id before turning on create sawnd button
 			int gid, cid, wid;

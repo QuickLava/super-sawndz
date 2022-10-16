@@ -91,10 +91,10 @@
 			this.contextMenuStripTab = new System.Windows.Forms.ContextMenuStrip(this.components);
 			this.renameToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.closeTabToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.buttonRearrangeTabs = new System.Windows.Forms.Button();
+			this.eInfoIndexCalcToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.audioPlaybackBRSARSound = new BrawlLib.Internal.Windows.Controls.AudioPlaybackPanel();
 			this.audioPlaybackPanelWav = new BrawlLib.Internal.Windows.Controls.AudioPlaybackPanel();
-			this.buttonRearrangeTabs = new System.Windows.Forms.Button();
-			this.jOJIToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.contextMenuStripWAV.SuspendLayout();
 			this.contextMenuStripCollection.SuspendLayout();
 			this.menuStrip1.SuspendLayout();
@@ -433,7 +433,7 @@
 			this.toolsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.ChangeSettingsToolStripMenuItem,
             this.bulkCollectionExportToolStripMenuItem,
-            this.jOJIToolStripMenuItem});
+            this.eInfoIndexCalcToolStripMenuItem});
 			this.toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
 			this.toolsToolStripMenuItem.Size = new System.Drawing.Size(58, 24);
 			this.toolsToolStripMenuItem.Text = "Tools";
@@ -441,14 +441,14 @@
 			// ChangeSettingsToolStripMenuItem
 			// 
 			this.ChangeSettingsToolStripMenuItem.Name = "ChangeSettingsToolStripMenuItem";
-			this.ChangeSettingsToolStripMenuItem.Size = new System.Drawing.Size(268, 26);
+			this.ChangeSettingsToolStripMenuItem.Size = new System.Drawing.Size(299, 26);
 			this.ChangeSettingsToolStripMenuItem.Text = "Change Settings";
 			this.ChangeSettingsToolStripMenuItem.Click += new System.EventHandler(this.ChangeSettingsToolStripMenuItem_Click);
 			// 
 			// bulkCollectionExportToolStripMenuItem
 			// 
 			this.bulkCollectionExportToolStripMenuItem.Name = "bulkCollectionExportToolStripMenuItem";
-			this.bulkCollectionExportToolStripMenuItem.Size = new System.Drawing.Size(268, 26);
+			this.bulkCollectionExportToolStripMenuItem.Size = new System.Drawing.Size(299, 26);
 			this.bulkCollectionExportToolStripMenuItem.Text = "Bulk Collection Export";
 			this.bulkCollectionExportToolStripMenuItem.Click += new System.EventHandler(this.bulkCollectionExportToolStripMenuItem_Click);
 			// 
@@ -735,6 +735,24 @@
 			this.closeTabToolStripMenuItem.Text = "Close Tab";
 			this.closeTabToolStripMenuItem.Click += new System.EventHandler(this.closeTabToolStripMenuItem_Click);
 			// 
+			// buttonRearrangeTabs
+			// 
+			this.buttonRearrangeTabs.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.buttonRearrangeTabs.Location = new System.Drawing.Point(1534, 78);
+			this.buttonRearrangeTabs.Name = "buttonRearrangeTabs";
+			this.buttonRearrangeTabs.Size = new System.Drawing.Size(26, 26);
+			this.buttonRearrangeTabs.TabIndex = 17;
+			this.buttonRearrangeTabs.Text = "⏣";
+			this.buttonRearrangeTabs.UseVisualStyleBackColor = true;
+			this.buttonRearrangeTabs.Click += new System.EventHandler(this.buttonRearrangeTabs_Click);
+			// 
+			// eInfoIndexCalcToolStripMenuItem
+			// 
+			this.eInfoIndexCalcToolStripMenuItem.Name = "eInfoIndexCalcToolStripMenuItem";
+			this.eInfoIndexCalcToolStripMenuItem.Size = new System.Drawing.Size(299, 26);
+			this.eInfoIndexCalcToolStripMenuItem.Text = "Expanded Info Index Calculator";
+			this.eInfoIndexCalcToolStripMenuItem.Click += new System.EventHandler(this.jOJIToolStripMenuItem_Click);
+			// 
 			// audioPlaybackBRSARSound
 			// 
 			this.audioPlaybackBRSARSound.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
@@ -757,24 +775,6 @@
 			this.audioPlaybackPanelWav.TabIndex = 30;
 			this.audioPlaybackPanelWav.TabStop = false;
 			this.audioPlaybackPanelWav.TargetStreams = null;
-			// 
-			// buttonRearrangeTabs
-			// 
-			this.buttonRearrangeTabs.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.buttonRearrangeTabs.Location = new System.Drawing.Point(1534, 78);
-			this.buttonRearrangeTabs.Name = "buttonRearrangeTabs";
-			this.buttonRearrangeTabs.Size = new System.Drawing.Size(26, 26);
-			this.buttonRearrangeTabs.TabIndex = 17;
-			this.buttonRearrangeTabs.Text = "⏣";
-			this.buttonRearrangeTabs.UseVisualStyleBackColor = true;
-			this.buttonRearrangeTabs.Click += new System.EventHandler(this.buttonRearrangeTabs_Click);
-			// 
-			// jOJIToolStripMenuItem
-			// 
-			this.jOJIToolStripMenuItem.Name = "jOJIToolStripMenuItem";
-			this.jOJIToolStripMenuItem.Size = new System.Drawing.Size(268, 26);
-			this.jOJIToolStripMenuItem.Text = "Expanded INFO Index Tool";
-			this.jOJIToolStripMenuItem.Click += new System.EventHandler(this.jOJIToolStripMenuItem_Click);
 			// 
 			// Form1
 			// 
@@ -913,7 +913,7 @@
 		private System.Windows.Forms.ToolStripMenuItem closeTabToolStripMenuItem;
 		private System.Windows.Forms.Button buttonRearrangeTabs;
 		private System.Windows.Forms.ToolStripMenuItem bulkCollectionExportToolStripMenuItem;
-		private System.Windows.Forms.ToolStripMenuItem jOJIToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem eInfoIndexCalcToolStripMenuItem;
 	}
 }
 
