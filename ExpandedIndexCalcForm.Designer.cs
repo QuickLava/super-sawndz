@@ -52,7 +52,7 @@ namespace BrawlSoundConverter
 			this.labelPreview.Location = new System.Drawing.Point(12, 398);
 			this.labelPreview.Name = "labelPreview";
 			this.labelPreview.Size = new System.Drawing.Size(61, 17);
-			this.labelPreview.TabIndex = 14;
+			this.labelPreview.TabIndex = 8;
 			this.labelPreview.Text = "Preview:";
 			// 
 			// audioPlaybackPanelBankContents
@@ -62,7 +62,7 @@ namespace BrawlSoundConverter
 			this.audioPlaybackPanelBankContents.Location = new System.Drawing.Point(12, 421);
 			this.audioPlaybackPanelBankContents.Name = "audioPlaybackPanelBankContents";
 			this.audioPlaybackPanelBankContents.Size = new System.Drawing.Size(491, 120);
-			this.audioPlaybackPanelBankContents.TabIndex = 17;
+			this.audioPlaybackPanelBankContents.TabIndex = 9;
 			this.audioPlaybackPanelBankContents.TabStop = false;
 			this.audioPlaybackPanelBankContents.TargetStreams = null;
 			// 
@@ -72,7 +72,7 @@ namespace BrawlSoundConverter
 			this.labelTreeViewLabel.Location = new System.Drawing.Point(9, 5);
 			this.labelTreeViewLabel.Name = "labelTreeViewLabel";
 			this.labelTreeViewLabel.Size = new System.Drawing.Size(188, 17);
-			this.labelTreeViewLabel.TabIndex = 20;
+			this.labelTreeViewLabel.TabIndex = 10;
 			this.labelTreeViewLabel.Text = "Snake Soundbank Contents:";
 			// 
 			// treeViewBankContents
@@ -84,7 +84,7 @@ namespace BrawlSoundConverter
 			this.treeViewBankContents.Location = new System.Drawing.Point(12, 25);
 			this.treeViewBankContents.Name = "treeViewBankContents";
 			this.treeViewBankContents.Size = new System.Drawing.Size(495, 235);
-			this.treeViewBankContents.TabIndex = 15;
+			this.treeViewBankContents.TabIndex = 0;
 			this.treeViewBankContents.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeView1_AfterSelect);
 			// 
 			// buttonClose
@@ -94,7 +94,7 @@ namespace BrawlSoundConverter
 			this.buttonClose.Location = new System.Drawing.Point(432, 549);
 			this.buttonClose.Name = "buttonClose";
 			this.buttonClose.Size = new System.Drawing.Size(75, 28);
-			this.buttonClose.TabIndex = 19;
+			this.buttonClose.TabIndex = 5;
 			this.buttonClose.Text = "Close";
 			this.buttonClose.UseVisualStyleBackColor = true;
 			// 
@@ -113,7 +113,7 @@ namespace BrawlSoundConverter
             0});
 			this.numericUpDownSoundbankID.Name = "numericUpDownSoundbankID";
 			this.numericUpDownSoundbankID.Size = new System.Drawing.Size(96, 22);
-			this.numericUpDownSoundbankID.TabIndex = 24;
+			this.numericUpDownSoundbankID.TabIndex = 1;
 			this.numericUpDownSoundbankID.Value = new decimal(new int[] {
             331,
             0,
@@ -127,7 +127,7 @@ namespace BrawlSoundConverter
 			this.labelIDInput.Location = new System.Drawing.Point(9, 291);
 			this.labelIDInput.Name = "labelIDInput";
 			this.labelIDInput.Size = new System.Drawing.Size(181, 17);
-			this.labelIDInput.TabIndex = 25;
+			this.labelIDInput.TabIndex = 7;
 			this.labelIDInput.Text = "Targeted EX Soundbank ID";
 			// 
 			// labelNoteValidIDRange
@@ -138,7 +138,7 @@ namespace BrawlSoundConverter
 			this.labelNoteValidIDRange.Location = new System.Drawing.Point(16, 264);
 			this.labelNoteValidIDRange.Name = "labelNoteValidIDRange";
 			this.labelNoteValidIDRange.Size = new System.Drawing.Size(491, 17);
-			this.labelNoteValidIDRange.TabIndex = 26;
+			this.labelNoteValidIDRange.TabIndex = 5;
 			this.labelNoteValidIDRange.Text = "Note: Valid EX Soundbank ID Range: 331- 587 (Dec.) / 0x14B - 0x24B (Hex).";
 			// 
 			// checkBoxHexInput
@@ -147,7 +147,7 @@ namespace BrawlSoundConverter
 			this.checkBoxHexInput.Location = new System.Drawing.Point(124, 312);
 			this.checkBoxHexInput.Name = "checkBoxHexInput";
 			this.checkBoxHexInput.Size = new System.Drawing.Size(145, 21);
-			this.checkBoxHexInput.TabIndex = 27;
+			this.checkBoxHexInput.TabIndex = 2;
 			this.checkBoxHexInput.Text = "Hexadecimal Input";
 			this.checkBoxHexInput.UseVisualStyleBackColor = true;
 			this.checkBoxHexInput.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
@@ -158,7 +158,7 @@ namespace BrawlSoundConverter
 			this.labelEInfoIndexOut.Location = new System.Drawing.Point(9, 343);
 			this.labelEInfoIndexOut.Name = "labelEInfoIndexOut";
 			this.labelEInfoIndexOut.Size = new System.Drawing.Size(205, 17);
-			this.labelEInfoIndexOut.TabIndex = 28;
+			this.labelEInfoIndexOut.TabIndex = 3;
 			this.labelEInfoIndexOut.Text = "Calculated Expanded Info Index";
 			// 
 			// textBoxEInfoIndexOut
@@ -166,7 +166,7 @@ namespace BrawlSoundConverter
 			this.textBoxEInfoIndexOut.Location = new System.Drawing.Point(12, 363);
 			this.textBoxEInfoIndexOut.Name = "textBoxEInfoIndexOut";
 			this.textBoxEInfoIndexOut.Size = new System.Drawing.Size(97, 22);
-			this.textBoxEInfoIndexOut.TabIndex = 29;
+			this.textBoxEInfoIndexOut.TabIndex = 4;
 			// 
 			// checkBoxPPEXMode
 			// 
@@ -174,7 +174,7 @@ namespace BrawlSoundConverter
 			this.checkBoxPPEXMode.Location = new System.Drawing.Point(275, 312);
 			this.checkBoxPPEXMode.Name = "checkBoxPPEXMode";
 			this.checkBoxPPEXMode.Size = new System.Drawing.Size(152, 21);
-			this.checkBoxPPEXMode.TabIndex = 30;
+			this.checkBoxPPEXMode.TabIndex = 3;
 			this.checkBoxPPEXMode.Text = "Enable P+EX Mode";
 			this.checkBoxPPEXMode.UseVisualStyleBackColor = true;
 			this.checkBoxPPEXMode.CheckedChanged += new System.EventHandler(this.checkBox2_CheckedChanged);
@@ -186,7 +186,7 @@ namespace BrawlSoundConverter
 			this.labelNoteHexadecimal.Location = new System.Drawing.Point(121, 366);
 			this.labelNoteHexadecimal.Name = "labelNoteHexadecimal";
 			this.labelNoteHexadecimal.Size = new System.Drawing.Size(308, 17);
-			this.labelNoteHexadecimal.TabIndex = 31;
+			this.labelNoteHexadecimal.TabIndex = 0;
 			this.labelNoteHexadecimal.Text = "Note: Calculated Info Indeces are always in hex.";
 			// 
 			// ExInfoIndexCalcForm
