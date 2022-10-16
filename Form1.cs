@@ -1745,6 +1745,7 @@ namespace BrawlSoundConverter
 		private void jOJIToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			textBoxOutput.Clear();
+			Console.Write("Opening Expanded Info Index Calculator... ");
 			const string snakeGroupPath = "snd/group/chara/snake";
 			BrawlLib.SSBB.ResourceNodes.RSARGroupNode snakeGroupNode = brsar.GetNode(44) as BrawlLib.SSBB.ResourceNodes.RSARGroupNode;
 			if (snakeGroupNode.TreePath == snakeGroupPath)
@@ -1775,6 +1776,7 @@ namespace BrawlSoundConverter
 					}
 					ExInfoIndexCalcForm jICF = new ExInfoIndexCalcForm(snakeNode);
 					snakeNode.Expand();
+					Console.WriteLine("Success!");
 					jICF.ShowDialog();
 					snakeNode.Collapse();
 					snakeNode.Remove(); // Unhook from jICF form tree view
@@ -1787,6 +1789,7 @@ namespace BrawlSoundConverter
 			}
 			else
 			{
+				Console.WriteLine("Failure!");
 				Console.WriteLine("This BRSAR either isn't for Super Brothers Brawl, or is missing the \"" + snakeGroupPath + "\" soundbank.");
 				Console.WriteLine("Please load a proper BRSAR and try again.");
 			}
