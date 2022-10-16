@@ -17,7 +17,8 @@ namespace BrawlSoundConverter
 			InitializeComponent();
 			labelSuperSawndz.Text = "Super Sawndz - Version " + Properties.Resources.Version;
 			treeView1.Tag = 0x00;
-			TreeNode currNode = treeView1.Nodes.Add("Created by: Agoaj");
+			TreeNode currNode = treeView1.Nodes.Add("Program Homepage: https://github.com/QuickLava/super-sawndz");
+			currNode = treeView1.Nodes.Add("Created by: Agoaj");
 			currNode.Nodes.Add("Homepage: http://agoaj.com/blog/");
 			currNode.Nodes.Add("Github: https://github.com/agoaj");
 			currNode = treeView1.Nodes.Add("Modified by: QuickLava");
