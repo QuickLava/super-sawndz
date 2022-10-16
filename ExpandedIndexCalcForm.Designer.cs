@@ -86,6 +86,7 @@ namespace BrawlSoundConverter
 			this.treeViewBankContents.Size = new System.Drawing.Size(495, 235);
 			this.treeViewBankContents.TabIndex = 0;
 			this.treeViewBankContents.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeView1_AfterSelect);
+			this.treeViewBankContents.KeyDown += new System.Windows.Forms.KeyEventHandler(this.treeViewBankContents_KeyDown);
 			// 
 			// buttonClose
 			// 
@@ -120,6 +121,7 @@ namespace BrawlSoundConverter
             0,
             0});
 			this.numericUpDownSoundbankID.ValueChanged += new System.EventHandler(this.numericUpDown1_ValueChanged);
+			this.numericUpDownSoundbankID.KeyDown += new System.Windows.Forms.KeyEventHandler(this.numericUpDownSoundbankID_KeyDown);
 			// 
 			// labelIDInput
 			// 

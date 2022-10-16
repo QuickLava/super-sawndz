@@ -70,6 +70,13 @@ namespace BrawlSoundConverter
 		public ExInfoIndexCalcForm(MappingItem groupIn)
 		{
 			InitializeComponent();
+			// If default Sawnd Export Naming Scheme is set to Project+...
+			if (Properties.Settings.Default.DefaultSAWNDExportNameScheme == 2)
+			{
+				// ...toggle on Hex Input and P+EX Mode.
+				checkBoxHexInput.Checked = true;
+				checkBoxPPEXMode.Checked = true;
+			}
 			treeViewBankContents.Nodes.Add(groupIn);
 		}
 
@@ -108,6 +115,23 @@ namespace BrawlSoundConverter
 				numericUpDownSoundbankID.Minimum += 7;
 			}
 			updateExpandedInfoIndexBox();
+		}
+
+		private void numericUpDownSoundbankID_KeyDown(object sender, KeyEventArgs e)
+		{
+			if (e.KeyCode == Keys.Enter)
+			{
+				e.SuppressKeyPress = true;
+			}
+		}
+
+		private void treeViewBankContents_KeyDown(object sender, KeyEventArgs e)
+		{
+			if (e.KeyCode == Keys.Enter && audioPlaybackPanelBankContents.TargetSource != null)
+			{
+				audioPlaybackPanelBankContents.Play();
+				e.SuppressKeyPress = true;
+			}
 		}
 	}
 }
