@@ -1058,6 +1058,12 @@
     <Compile Include="FindAllForm.Designer.cs">
       <DependentUpon>FindAllForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="JojiIndexCalcForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="JojiIndexCalcForm.Designer.cs">
+      <DependentUpon>JojiIndexCalcForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="nameInputForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -1214,6 +1220,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="JojiIndexCalcForm.resx">
+      <DependentUpon>JojiIndexCalcForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="nameInputForm.resx">
       <DependentUpon>nameInputForm.cs</DependentUpon>

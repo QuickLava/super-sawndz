@@ -1739,5 +1739,55 @@ namespace BrawlSoundConverter
 				checkBoxSearchCase.Checked = !checkBoxSearchCase.Checked;
 			}
 		}
+
+		private void jOJIToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			textBoxOutput.Clear();
+			const string snakeGroupPath = "snd/group/chara/snake";
+			BrawlLib.SSBB.ResourceNodes.RSARGroupNode snakeGroupNode = brsar.GetNode(44) as BrawlLib.SSBB.ResourceNodes.RSARGroupNode;
+			if (snakeGroupNode.TreePath == snakeGroupPath)
+			{
+				MappingItem snakeNode = null;
+				bool foundNode = false;
+				for (int i = 0; !foundNode && i < reserveCollections.Count; i++)
+				{
+					List<MappingItem> currList = reserveCollections[i];
+					for (int u = 0; !foundNode && u < currList.Count; u++)
+					{
+						if (currList[u].groupID == 44)
+						{
+							snakeNode = currList[u];
+							foundNode = true;
+						}
+					}
+				}
+				if (foundNode)
+				{
+					int snakeNodeIndex = snakeNode.Index;
+					bool borrowingNode = false;
+					if (treeViewMapping.Nodes.Contains(snakeNode))
+					{
+						treeViewMapping.SuspendLayout();
+						snakeNode.Remove();
+						borrowingNode = true;
+					}
+					ExInfoIndexCalcForm jICF = new ExInfoIndexCalcForm(snakeNode);
+					snakeNode.Expand();
+					jICF.ShowDialog();
+					snakeNode.Collapse();
+					snakeNode.Remove(); // Unhook from jICF form tree view
+					if (borrowingNode)
+					{
+						treeViewMapping.Nodes.Insert(snakeNodeIndex, snakeNode);
+						treeViewMapping.ResumeLayout();
+					}
+				}
+			}
+			else
+			{
+				Console.WriteLine("This BRSAR either isn't for Super Brothers Brawl, or is missing the \"" + snakeGroupPath + "\" soundbank.");
+				Console.WriteLine("Please load a proper BRSAR and try again.");
+			}
+		}
 	}
 }
