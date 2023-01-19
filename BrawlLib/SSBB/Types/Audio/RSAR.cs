@@ -204,7 +204,7 @@ namespace BrawlLib.SSBB.Types.Audio
             }
         }
 
-        public static bool CheckBit(string val, int bit)
+        private static bool CheckBit(string val, int bit)
         {
             //Returns true if the given bit in the string is 1 and false if the bit is 0
             return (val[bit / 8] & ((1 << 7) >> (bit % 8))) != 0;
