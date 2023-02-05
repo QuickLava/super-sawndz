@@ -79,7 +79,7 @@ namespace BrawlSoundConverter.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 2.0.0.
+        ///   Looks up a localized string similar to 2.0.0 (Popfix Test).
         /// </summary>
         internal static string Version {
             get {
