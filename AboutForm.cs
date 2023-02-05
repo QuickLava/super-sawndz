@@ -23,7 +23,7 @@ namespace BrawlSoundConverter
 			currNode.Nodes.Add("Github: https://github.com/agoaj");
 			currNode = treeView1.Nodes.Add("Modified by: QuickLava");
 			currNode.Nodes.Add("Github: https://github.com/QuickLava");
-			currNode = treeView1.Nodes.Add("Powered by BrawlLib v0.38:");
+			currNode = treeView1.Nodes.Add("Powered by BrawlLib v0.37:");
 			currNode.Nodes.Add("BrawlLib Authors: soopercool101, Simon381, Onium");
 			currNode.Nodes.Add("BrawlLib Homepage: https://github.com/soopercool101/BrawlCrate");
 			currNode = treeView1.Nodes.Add("Additionally Utilizing:");

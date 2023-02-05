@@ -750,23 +750,12 @@ namespace BrawlLib.SSBB.ResourceNodes
         }
 
         [Category("ADPM Values")]
-        public short Value60a
+        public float Value60
         {
-            get => _values.GetShort(59, 0);
+            get => _values.GetFloat(59);
             set
             {
-                _values.SetShort(59, 0, value);
-                SignalPropertyChange();
-            }
-        }
-
-        [Category("ADPM Values")]
-        public short TimeLimitSeconds
-        {
-            get => _values.GetShort(59, 1);
-            set
-            {
-                _values.SetShort(59, 1, value);
+                _values.SetFloat(59, value);
                 SignalPropertyChange();
             }
         }

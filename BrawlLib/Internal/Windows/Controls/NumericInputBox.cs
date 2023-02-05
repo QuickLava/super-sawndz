@@ -198,7 +198,12 @@ namespace BrawlLib.Internal.Windows.Controls
                 case Keys.Decimal:
                     if (CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator.Contains(","))
                     {
-                        goto case Keys.Oemcomma;
+                        if (Text.IndexOf(',') != -1 || Integer)
+                        {
+                            e.SuppressKeyPress = true;
+                        }
+
+                        break;
                     }
 
                     goto case Keys.OemPeriod;

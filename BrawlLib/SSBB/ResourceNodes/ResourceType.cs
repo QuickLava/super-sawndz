@@ -228,11 +228,6 @@
         STEX,
         TLST,
 
-        // Folder
-        Folder,
-
-        // SSEEX
-        SELB,
-        SELCTeam
+        Folder
     }
 }

@@ -700,7 +700,6 @@
     <Compile Include="BrawlLib\SSBB\IBoolArraySource.cs" />
     <Compile Include="BrawlLib\SSBB\Item.cs" />
     <Compile Include="BrawlLib\SSBB\LabelBuilder.cs" />
-    <Compile Include="BrawlLib\SSBB\MuEventTblNode.cs" />
     <Compile Include="BrawlLib\SSBB\ParameterValueManager.cs" />
     <Compile Include="BrawlLib\SSBB\ResourceNodes\AI\AIPDNode.cs" />
     <Compile Include="BrawlLib\SSBB\ResourceNodes\AI\ATKDNode.cs" />
@@ -903,8 +902,6 @@
     <Compile Include="BrawlLib\SSBB\ResourceNodes\Subspace\Objects\GMPSNode.cs" />
     <Compile Include="BrawlLib\SSBB\ResourceNodes\Subspace\Sound\BGMGNode.cs" />
     <Compile Include="BrawlLib\SSBB\ResourceNodes\Subspace\Sound\GSNDNode.cs" />
-    <Compile Include="BrawlLib\SSBB\ResourceNodes\Subspace\SSEEX\SELBNode.cs" />
-    <Compile Include="BrawlLib\SSBB\ResourceNodes\Subspace\SSEEX\SELCNode.cs" />
     <Compile Include="BrawlLib\SSBB\ResourceNodes\Subspace\Triggers\GET1Node.cs" />
     <Compile Include="BrawlLib\SSBB\ResourceNodes\THPNode.cs" />
     <Compile Include="BrawlLib\SSBB\ResourceNodes\TyDataNode.cs" />
@@ -954,7 +951,6 @@
     <Compile Include="BrawlLib\SSBB\Types\MasqueradeEntry.cs" />
     <Compile Include="BrawlLib\SSBB\Types\MDL0.cs" />
     <Compile Include="BrawlLib\SSBB\Types\MRG.cs" />
-    <Compile Include="BrawlLib\SSBB\Types\MuEvent.cs" />
     <Compile Include="BrawlLib\SSBB\Types\Parameters.cs" />
     <Compile Include="BrawlLib\SSBB\Types\PathingMiscData.cs" />
     <Compile Include="BrawlLib\SSBB\Types\PLT0.cs" />
@@ -998,8 +994,6 @@
     <Compile Include="BrawlLib\SSBB\Types\Subspace\Objects\GMPS.cs" />
     <Compile Include="BrawlLib\SSBB\Types\Subspace\Sound\BGMG.cs" />
     <Compile Include="BrawlLib\SSBB\Types\Subspace\Sound\GSND.cs" />
-    <Compile Include="BrawlLib\SSBB\Types\Subspace\SSEEX\SELB.cs" />
-    <Compile Include="BrawlLib\SSBB\Types\Subspace\SSEEX\SELC.cs" />
     <Compile Include="BrawlLib\SSBB\Types\Subspace\Triggers\GET1.cs" />
     <Compile Include="BrawlLib\SSBB\Types\TEX0.cs" />
     <Compile Include="BrawlLib\SSBB\Types\THP.cs" />

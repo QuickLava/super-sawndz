@@ -158,10 +158,10 @@ namespace BrawlLib.SSBB.ResourceNodes
             }
         }
 
-        private sbyte _flag3;
+        private byte _flag3;
 
         [Category("Jump Flags")]
-        public sbyte Flag3
+        public byte Flag3
         {
             get => _flag3;
             set
