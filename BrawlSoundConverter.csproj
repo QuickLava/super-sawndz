@@ -1133,6 +1133,12 @@
     <Compile Include="TextInputForm.Designer.cs">
       <DependentUpon>TextInputForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="WAVPreprocessingForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WAVPreprocessingForm.Designer.cs">
+      <DependentUpon>WAVPreprocessingForm.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="AboutForm.resx">
       <DependentUpon>AboutForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -1260,6 +1266,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="TextInputForm.resx">
       <DependentUpon>TextInputForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WAVPreprocessingForm.resx">
+      <DependentUpon>WAVPreprocessingForm.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="app.config" />
     <None Include="BrawlLib\BrawlLib.txt" />
