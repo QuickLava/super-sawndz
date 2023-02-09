@@ -367,9 +367,9 @@ namespace BrawlSoundConverter
 					doResample = true;
 				}
 
-				bool tempOverride = true;
-
-				if (!tempOverride && doMixToMono || doResample)
+				bool doConvert = doMixToMono || doResample;
+				bool convertFailed = false;
+				if (doConvert)
 				{
 					Console.WriteLine("");
 					Console.WriteLine("Processing audio to:");
@@ -394,34 +394,28 @@ namespace BrawlSoundConverter
 					runSoX("-V3 \"" + filePath + "\" \"" + Properties.Resources.tempAudioResamplePath + "\"" + arguments);
 					if (File.Exists(Properties.Resources.tempAudioResamplePath))
 					{
-						Console.WriteLine("Success!");
-						if (headless)
-						{
-							targetNode.HeadlessReplace(Properties.Resources.tempAudioResamplePath);
-						}
-						else
-						{
-							targetNode.Replace(Properties.Resources.tempAudioResamplePath);
-						}
-						File.Delete(Properties.Resources.tempAudioResamplePath);
+						filePath = Properties.Resources.tempAudioResamplePath;
+						Console.WriteLine("Processed audio!");
 					}
 					else
 					{
+						convertFailed = true;
 						Console.WriteLine("Unable to process audio! Aborting import!	");
 					}
 				}
-				else
+				if (!convertFailed)
 				{
-					if (File.Exists(filePath))
+					if (headless)
 					{
-						if (headless)
-						{
-							targetNode.HeadlessReplace(filePath);
-						}
-						else
-						{
-							targetNode.Replace(filePath);
-						}
+						targetNode.HeadlessReplace(filePath);
+					}
+					else
+					{
+						targetNode.Replace(filePath);
+					}
+					if (doConvert)
+					{
+						File.Delete(filePath);
 					}
 				}
 			}
