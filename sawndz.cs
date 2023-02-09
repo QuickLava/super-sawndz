@@ -367,7 +367,9 @@ namespace BrawlSoundConverter
 					doResample = true;
 				}
 
-				if (doMixToMono || doResample)
+				bool tempOverride = true;
+
+				if (!tempOverride && doMixToMono || doResample)
 				{
 					Console.WriteLine("");
 					Console.WriteLine("Processing audio to:");
@@ -435,12 +437,22 @@ namespace BrawlSoundConverter
 			try
 			{
 				BrawlLib.SSBB.ResourceNodes.RSARFileAudioNode targetNode = brsar.GetNode(groupID, collID, wavID) as BrawlLib.SSBB.ResourceNodes.RSARFileAudioNode;
-				doInsertWithRespectToChannelCount(fileName, targetNode, false);
-				BrawlLib.SSBB.ResourceNodes.RSARNode currRsar = brsar.GetRSAR();
-				if (targetNode.IsDirty)
+
+				WAVPreprocessingForm processingForm = new WAVPreprocessingForm(groupID, fileName);
+				if (processingForm.ShowDialog() == System.Windows.Forms.DialogResult.OK)
 				{
-					Console.WriteLine("Success!\n");
-					currRsar.Export(currRsar._origPath);
+					fileName = Properties.Resources.tempAudioResamplePath;
+					doInsertWithRespectToChannelCount(fileName, targetNode, true);
+					BrawlLib.SSBB.ResourceNodes.RSARNode currRsar = brsar.GetRSAR();
+					if (targetNode.IsDirty)
+					{
+						Console.WriteLine("Success!\n");
+						currRsar.Export(currRsar._origPath);
+					}
+					else
+					{
+						Console.WriteLine("Overwrite Failed!\n");
+					}
 				}
 				else
 				{

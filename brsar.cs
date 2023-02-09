@@ -591,6 +591,196 @@ namespace BrawlSoundConverter
 			foreach (TreeNode node in nodes)
 				treeView.Nodes.Add(node);
 		}
+		public static void LoadSpecificGroupTreeView(TreeView treeView, int targetGroupID)
+		{
+			//Only used to count the number of nodes added, no actual function in the program
+			int nodeCount = 0;
+			BrawlLib.SSBB.ResourceNodes.RSARNode rsar = GetRSAR();
+			BrawlLib.SSBB.ResourceNodes.ResourceNode[] groups = rsar.FindChildrenByType("", BrawlLib.SSBB.ResourceNodes.ResourceType.RSARGroup);
+
+			//Create root node and add all nodes to it.
+			//Adding to the treeView collection directly will raise events, causing super slowdown when setting Text property.
+			TreeNode root = new TreeNode();
+			TreeNodeCollection nodes = root.Nodes;
+			foreach (BrawlLib.SSBB.ResourceNodes.RSARGroupNode group in groups)
+			{
+				if (group.StringId != targetGroupID)
+					continue;
+
+				string name = "[" + group.StringId.ToString("X3") + "] ";
+				if (Properties.Settings.Default.EnableFullLengthNames)
+				{
+					name += group.TreePath.Replace('/', '_');
+				}
+				else
+				{
+					name += group.Name;
+				}
+
+				int groupID = group.StringId;
+				MappingItem groupMap = new MappingItem(name, groupID, -1, -1, group.InfoIndex);
+				nodes.Add(groupMap);
+				nodeCount++;
+
+				foreach (BrawlLib.SSBB.ResourceNodes.RSARFileNode file in group._files)
+				{
+					if (file.NodeType == "BrawlLib.SSBB.ResourceNodes.RSEQNode")
+						continue;
+
+					int collectionID = file.FileNodeIndex;
+					string fName = "[" + collectionID.ToString("X3") + "] " + file.ResourceFileType;
+					BrawlLib.SSBB.ResourceNodes.ResourceNode audioFolder = (BrawlLib.SSBB.ResourceNodes.ResourceNode)file.FindChild("audio", false);
+					if (audioFolder == null || audioFolder.Children.Count == 0)
+						continue;
+
+					MappingItem colMap = new MappingItem(fName, groupID, collectionID);
+					groupMap.Nodes.Add(colMap);
+					nodeCount++;
+
+					List<int> usedWaveIndeces = new List<int>();
+					//Same as nodeCount, used to track total size of sounds in collection. No actual function.
+					int addUpSoundSize = 0;
+					bool inRWSDNode = file.NodeType == "BrawlLib.SSBB.ResourceNodes.RWSDNode";
+
+					if (inRWSDNode)
+					{
+						BrawlLib.SSBB.ResourceNodes.RWSDDataGroupNode dataFolder = (BrawlLib.SSBB.ResourceNodes.RWSDDataGroupNode)file.FindChild("data", false);
+						if (dataFolder == null || dataFolder.Children.Count == 0)
+							continue;
+
+						for (int i = 0; i < dataFolder.Children.Count; i++)
+						{
+							if (!(dataFolder.Children[i] is BrawlLib.SSBB.ResourceNodes.RWSDDataNode))
+								continue;
+							BrawlLib.SSBB.ResourceNodes.RWSDDataNode data = (BrawlLib.SSBB.ResourceNodes.RWSDDataNode)dataFolder.Children[i];
+							int waveIndex = data._part3._waveIndex;
+
+							if (audioFolder.Children.Count() <= waveIndex)
+								continue;
+							if (!(audioFolder.Children[waveIndex] is BrawlLib.SSBB.ResourceNodes.RSARFileAudioNode))
+								continue;
+							BrawlLib.SSBB.ResourceNodes.RSARFileAudioNode sound = (BrawlLib.SSBB.ResourceNodes.RSARFileAudioNode)audioFolder.Children[waveIndex];
+
+							int soundSize = 0;
+							unsafe
+							{
+								int samples = sound.NumSamples;
+								if ((samples / 2 * 2) == samples)
+								{
+									soundSize = samples / 2;
+								}
+								else
+								{
+									soundSize = samples / 2 + 1;
+								}
+							}
+							addUpSoundSize += soundSize;
+
+							string sName = "[" + waveIndex.ToString("X3") + "] " + data.Name;
+							int infoIndex = -1;
+							if (data._refs.Count > 0)
+							{
+								infoIndex = data._refs[0].InfoIndex;
+							}
+							else
+							{
+								infoIndex = -1;
+							}
+							MappingItem soundMap = new MappingItem(sName, groupID, collectionID, waveIndex, infoIndex, usedWaveIndeces.Contains(waveIndex));
+							colMap.Nodes.Add(soundMap);
+							if (!soundDict.ContainsKey(data.Name))
+							{
+								soundDict.Add(data.Name, new List<MappingItem>());
+							}
+							soundDict[data.Name].Add(soundMap);
+							soundMap.fileSize = soundSize;
+							if (infoIndex == -1)
+							{
+								groupMap.BackColor = System.Drawing.Color.Yellow;
+								colMap.BackColor = System.Drawing.Color.Yellow;
+								soundMap.BackColor = System.Drawing.Color.Yellow;
+							}
+							nodeCount++;
+
+							//child node must have a parent in order for size to propogate correctly.
+							if (!usedWaveIndeces.Contains(waveIndex))
+							{
+								usedWaveIndeces.Add(waveIndex);
+							}
+						}
+					}
+
+					for (int i = 0; i < audioFolder.Children.Count; i++)
+					{
+						if (usedWaveIndeces.Contains(i))
+							continue;
+						BrawlLib.SSBB.ResourceNodes.RSARFileAudioNode sound = (BrawlLib.SSBB.ResourceNodes.RSARFileAudioNode)audioFolder.Children[i];
+
+						int soundSize = 0;
+						unsafe
+						{
+							int samples = sound.NumSamples;
+							if ((samples / 2 * 2) == samples)
+							{
+								soundSize = samples / 2;
+							}
+							else
+							{
+								soundSize = samples / 2 + 1;
+							}
+						}
+						addUpSoundSize += soundSize;
+
+						string sName = "[" + i.ToString("X3") + "]";
+						if (inRWSDNode)
+						{
+							sName += " ORPHANED";
+						}
+						else
+						{
+							sName += " RBNKAudio";
+						}
+						MappingItem soundMap = new MappingItem(sName, groupID, collectionID, i, -1, false);
+						colMap.Nodes.Add(soundMap);
+						soundMap.fileSize = soundSize;
+						nodeCount++;
+					}
+				}
+
+				//If the group doesn't have any collections then it doesn't have any sounds, remove it
+				if (groupMap.Nodes.Count == 0)
+				{
+					nodes.Remove(groupMap);
+					nodeCount -= 2;
+					continue;
+				}
+				else
+				{
+					string dictKey;
+					if (Properties.Settings.Default.EnableFullLengthNames)
+					{
+						dictKey = group.TreePath.Replace('/', '_');
+					}
+					else
+					{
+						dictKey = group.Name;
+					}
+
+					if (!groupDict.ContainsKey(dictKey))
+					{
+						groupDict.Add(dictKey, new List<MappingItem>());
+					}
+					groupDict[dictKey].Add(groupMap);
+				}
+
+				break;
+			}
+
+			//Add the top level nodes to the treeview collection now that we're done.
+			foreach (TreeNode node in nodes)
+				treeView.Nodes.Add(node);
+		}
+
 
 	}
 }
