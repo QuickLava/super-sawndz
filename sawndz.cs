@@ -432,16 +432,15 @@ namespace BrawlSoundConverter
 			{
 				BrawlLib.SSBB.ResourceNodes.RSARFileAudioNode targetNode = brsar.GetNode(groupID, collID, wavID) as BrawlLib.SSBB.ResourceNodes.RSARFileAudioNode;
 
-				WAVPreprocessingForm processingForm = new WAVPreprocessingForm(groupID, fileName);
+				WAVPreprocessingForm processingForm = new WAVPreprocessingForm(groupID, collID, wavID, fileName);
 				if (processingForm.ShowDialog() == System.Windows.Forms.DialogResult.OK)
 				{
 					fileName = Properties.Resources.tempAudioResamplePath;
-					doInsertWithRespectToChannelCount(fileName, targetNode, true);
-					BrawlLib.SSBB.ResourceNodes.RSARNode currRsar = brsar.GetRSAR();
+					targetNode.Replace(fileName);
 					if (targetNode.IsDirty)
 					{
 						Console.WriteLine("Success!\n");
-						currRsar.Export(currRsar._origPath);
+						brsar.SaveRSAR();
 					}
 					else
 					{

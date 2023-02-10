@@ -41,6 +41,7 @@ namespace BrawlSoundConverter
 			this.buttonResetTrimInit = new System.Windows.Forms.Button();
 			this.numericUpDownTrimInit = new System.Windows.Forms.NumericUpDown();
 			this.label9 = new System.Windows.Forms.Label();
+			this.audioPlaybackPanelProcessed = new BrawlLib.Internal.Windows.Controls.AudioPlaybackPanel();
 			this.buttonResetSampleRate = new System.Windows.Forms.Button();
 			this.numericUpDownSampleRate = new System.Windows.Forms.NumericUpDown();
 			this.buttonResetChannelCount = new System.Windows.Forms.Button();
@@ -68,7 +69,6 @@ namespace BrawlSoundConverter
 			this.label4 = new System.Windows.Forms.Label();
 			this.buttonCancel = new System.Windows.Forms.Button();
 			this.buttonSave = new System.Windows.Forms.Button();
-			this.audioPlaybackPanelProcessed = new BrawlLib.Internal.Windows.Controls.AudioPlaybackPanel();
 			this.audioPlaybackBRSARSound = new BrawlLib.Internal.Windows.Controls.AudioPlaybackPanel();
 			this.groupBoxProcSettings.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDownTrimFinal)).BeginInit();
@@ -248,6 +248,18 @@ namespace BrawlSoundConverter
 			this.label9.TabIndex = 71;
 			this.label9.Text = "Initial Trim (ms):";
 			// 
+			// audioPlaybackPanelProcessed
+			// 
+			this.audioPlaybackPanelProcessed.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.audioPlaybackPanelProcessed.Location = new System.Drawing.Point(19, 351);
+			this.audioPlaybackPanelProcessed.Margin = new System.Windows.Forms.Padding(4);
+			this.audioPlaybackPanelProcessed.Name = "audioPlaybackPanelProcessed";
+			this.audioPlaybackPanelProcessed.Size = new System.Drawing.Size(271, 100);
+			this.audioPlaybackPanelProcessed.TabIndex = 38;
+			this.audioPlaybackPanelProcessed.TabStop = false;
+			this.audioPlaybackPanelProcessed.TargetStreams = null;
+			// 
 			// buttonResetSampleRate
 			// 
 			this.buttonResetSampleRate.Location = new System.Drawing.Point(117, 84);
@@ -407,7 +419,7 @@ namespace BrawlSoundConverter
 			this.checkBoxNormalize.TabIndex = 53;
 			this.checkBoxNormalize.Text = "Normalize Volume";
 			this.checkBoxNormalize.UseVisualStyleBackColor = true;
-			this.checkBoxNormalize.CheckedChanged += new System.EventHandler(this.checkBoxAllowClipping_CheckedChanged);
+			this.checkBoxNormalize.CheckedChanged += new System.EventHandler(this.checkBoxNormalize_CheckedChanged);
 			// 
 			// label8
 			// 
@@ -543,7 +555,7 @@ namespace BrawlSoundConverter
 			this.numericUpDownVolume.Location = new System.Drawing.Point(10, 39);
 			this.numericUpDownVolume.Name = "numericUpDownVolume";
 			this.numericUpDownVolume.Size = new System.Drawing.Size(110, 22);
-			this.numericUpDownVolume.TabIndex = 39;
+			this.numericUpDownVolume.TabIndex = 3;
 			this.numericUpDownVolume.Value = new decimal(new int[] {
             100,
             0,
@@ -594,18 +606,6 @@ namespace BrawlSoundConverter
 			this.buttonSave.UseVisualStyleBackColor = true;
 			this.buttonSave.Click += new System.EventHandler(this.buttonSave_Click);
 			// 
-			// audioPlaybackPanelProcessed
-			// 
-			this.audioPlaybackPanelProcessed.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-			this.audioPlaybackPanelProcessed.Location = new System.Drawing.Point(19, 351);
-			this.audioPlaybackPanelProcessed.Margin = new System.Windows.Forms.Padding(4);
-			this.audioPlaybackPanelProcessed.Name = "audioPlaybackPanelProcessed";
-			this.audioPlaybackPanelProcessed.Size = new System.Drawing.Size(271, 100);
-			this.audioPlaybackPanelProcessed.TabIndex = 38;
-			this.audioPlaybackPanelProcessed.TabStop = false;
-			this.audioPlaybackPanelProcessed.TargetStreams = null;
-			// 
 			// audioPlaybackBRSARSound
 			// 
 			this.audioPlaybackBRSARSound.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
@@ -633,7 +633,7 @@ namespace BrawlSoundConverter
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;
 			this.Name = "WAVPreprocessingForm";
-			this.Text = "WAVPreprocessingForm";
+			this.Text = "Process Audio";
 			this.groupBoxProcSettings.ResumeLayout(false);
 			this.groupBoxProcSettings.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDownTrimFinal)).EndInit();

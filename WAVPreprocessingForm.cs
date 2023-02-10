@@ -17,8 +17,11 @@ namespace BrawlSoundConverter
 		bool queueAudioRegen = false;
 
 		string originalFilepath = "";
-		int originalSampleRate = int.MaxValue;
-		int originalChannelCount = int.MaxValue;
+		int trueOriginalSampleRate = int.MaxValue;
+		int trueOriginalChannelCount = int.MaxValue;
+		int defaultSampleRate = int.MaxValue;
+		int defaultChannelCount = int.MaxValue;
+
 
 		bool setValueAndClamp(NumericUpDown destination, decimal value)
 		{
@@ -100,12 +103,12 @@ namespace BrawlSoundConverter
 				}
 			}
 
-			if (numericUpDownChannelCount.Value != originalChannelCount)
+			if (numericUpDownChannelCount.Value != trueOriginalChannelCount)
 			{
 				soxArguments += " channels " + numericUpDownChannelCount.Value.ToString();
 			}
 
-			if (numericUpDownSampleRate.Value != originalSampleRate)
+			if (numericUpDownSampleRate.Value != trueOriginalSampleRate)
 			{
 				soxArguments += " rate " + numericUpDownSampleRate.Value.ToString();
 			}
@@ -137,13 +140,16 @@ namespace BrawlSoundConverter
 			return success;
 		}
 
-		public WAVPreprocessingForm(int destinationGroupID, string filePath, 
+		public WAVPreprocessingForm(int destinationGroupID, int destinationCollectionID, int destinationWaveID, string filePath, 
 			float volumeMultIn = float.MaxValue, bool normalizeVolumeIn = false, float tempoMultIn = float.MaxValue, float pitchShiftIn = float.MaxValue,
 			int paddingInitIn = int.MaxValue, int paddingFinalIn = int.MaxValue,
 			int trimInitIn = int.MaxValue, int trimFinalIn = int.MaxValue,
-			int channelCountIn = int.MaxValue, int sampleRateIn = int.MaxValue)
+			int channelCountIn = int.MaxValue, int sampleRateIn = int.MaxValue, bool suppressSettingsMenuAffects = false)
 		{
 			InitializeComponent();
+
+			int targetWAVChannelCount = int.MaxValue;
+			int targetWAVSampleRate = int.MaxValue;
 
 			brsar.LoadSpecificGroupTreeView(treeViewMapping, destinationGroupID);
 			if (treeViewMapping.Nodes.Count <= 0)
@@ -153,12 +159,35 @@ namespace BrawlSoundConverter
 			}
 			else
 			{
-				treeViewMapping.Nodes[0].Expand();
+				TreeNode targetBankNode = treeViewMapping.Nodes[0];
+				foreach(MappingItem collection in targetBankNode.Nodes)
+				{
+					if (collection.collectionID == destinationCollectionID)
+					{
+						foreach (MappingItem wav in collection.Nodes)
+						{
+							if (wav.wavID == destinationWaveID)
+							{
+								treeViewMapping.SelectedNode = wav;
+								wav.CreateStreams();
+								if (wav.streams[0] != null)
+								{
+									targetWAVChannelCount = wav.streams[0].Channels;
+									targetWAVSampleRate = wav.streams[0].Frequency;
+								}
+								break;
+							}
+						}
+						break;
+					}
+				}
 			}
 
 			originalFilepath = filePath;
 
 			audioPlaybackPanelProcessed.TargetSource = new StreamSource(BrawlLib.Internal.Audio.WAV.FromFile(filePath));
+			trueOriginalChannelCount = audioPlaybackPanelProcessed.TargetStreams.First().Channels;
+			trueOriginalSampleRate = audioPlaybackPanelProcessed.TargetStreams.First().Frequency;
 
 			if (volumeMultIn != float.MaxValue)
 			{
@@ -192,22 +221,54 @@ namespace BrawlSoundConverter
 
 			if (channelCountIn != int.MaxValue)
 			{
-				originalChannelCount = channelCountIn;
+				defaultChannelCount = channelCountIn;
 			}
 			else
 			{
-				originalChannelCount = audioPlaybackPanelProcessed.TargetStreams.First().Channels;
+				// Set our initial value to the true original channel count.
+				defaultChannelCount = trueOriginalChannelCount;
+				// Apply Settings menu options:
+				if (targetWAVChannelCount != int.MaxValue)
+				{
+					// Default to mono if the Settings Menu says to ALWAYS convert to mono...
+					bool doOverrideChannelCount = Properties.Settings.Default.ConvertToMono == 2;
+					// ... or if it's set to convert to match other mono sounds, AND the target sound is mono.
+					doOverrideChannelCount |= (Properties.Settings.Default.ConvertToMono == 1) && (targetWAVChannelCount < 2);
+					// AND that together with whether or not the sourceWAV is mono or not, since we don't need to worry about this otherwise.
+					doOverrideChannelCount &= trueOriginalChannelCount > 1;
+					if (doOverrideChannelCount)
+					{
+						defaultChannelCount = 1;
+					}
+				}
 			}
-			setValueAndClamp(numericUpDownChannelCount, originalChannelCount);
+			setValueAndClamp(numericUpDownChannelCount, defaultChannelCount);
 			if (sampleRateIn != int.MaxValue)
 			{
-				originalSampleRate = sampleRateIn;
+				defaultSampleRate = sampleRateIn;
 			}
 			else
 			{
-				originalSampleRate = audioPlaybackPanelProcessed.TargetStreams.First().Frequency;
+				// Set our initial value to the true original rate.
+				defaultSampleRate = trueOriginalSampleRate;
+				// Apply Settings menu options:
+				if (targetWAVSampleRate != int.MaxValue)
+				{
+					// We'll override the original sound's sample rate if the settings menu is set to ALWAYS override it...
+					bool doOverrideSampleRate = Properties.Settings.Default.MatchSampleRate == 2;
+					// ... or if we're set to override if we're downsampling, and our source sample rate is higher than the destination.
+					doOverrideSampleRate |= (Properties.Settings.Default.MatchSampleRate == 1) && 
+						(trueOriginalSampleRate > targetWAVSampleRate);
+					// If we're set to do the override, we take the target sound's sample rate. Otherwise, we maintain the original.
+					defaultSampleRate = (doOverrideSampleRate) ? targetWAVSampleRate : trueOriginalSampleRate;
+					// Lastly, we apply the maximum sample rate limiter if it's enabled.
+					if (Properties.Settings.Default.MaximumSampleRate > 0)
+					{
+						defaultSampleRate = Math.Min(defaultSampleRate, Properties.Settings.Default.MaximumSampleRate);
+					}
+				}
 			}
-			setValueAndClamp(numericUpDownSampleRate, originalSampleRate);
+			setValueAndClamp(numericUpDownSampleRate, defaultSampleRate);
 
 			if (applySettings())
 			{
@@ -222,37 +283,37 @@ namespace BrawlSoundConverter
 
 		private void buttonResetVolume_Click(object sender, EventArgs e)
 		{
-			numericUpDownVolume.Value = (Decimal)1.00;
+			setValueAndClamp(numericUpDownVolume, (decimal)1.00);
 		}
 
 		private void buttonResetSampleRate_Click(object sender, EventArgs e)
 		{
-			numericUpDownSampleRate.Value = originalSampleRate;
+			setValueAndClamp(numericUpDownSampleRate, (decimal)defaultSampleRate);
 		}
 
 		private void buttonResetChannelCount_Click(object sender, EventArgs e)
 		{
-			numericUpDownChannelCount.Value = originalChannelCount;
+			setValueAndClamp(numericUpDownChannelCount, (decimal)defaultChannelCount);
 		}
 
 		private void buttonResetTempo_Click(object sender, EventArgs e)
 		{
-			numericUpDownTempo.Value = (decimal)1.00;
+			setValueAndClamp(numericUpDownTempo, (decimal)1.00);
 		}
 
 		private void buttonResetPitch_Click(object sender, EventArgs e)
 		{
-			numericUpDownPitch.Value = (decimal)0.00;
+			setValueAndClamp(numericUpDownPitch, (decimal)0.00);
 		}
 
 		private void buttonResetPadInit_Click(object sender, EventArgs e)
 		{
-			numericUpDownPadInit.Value = (decimal)0;
+			setValueAndClamp(numericUpDownPadInit, (decimal)0);
 		}
 
 		private void buttonResetPadFinal_Click(object sender, EventArgs e)
 		{
-			numericUpDownPadFinal.Value = (decimal)0;
+			setValueAndClamp(numericUpDownPadFinal, (decimal)0);
 		}
 
 		private void buttonApply_Click(object sender, EventArgs e)
@@ -285,9 +346,10 @@ namespace BrawlSoundConverter
 
 		private void buttonReset_Click(object sender, EventArgs e)
 		{
+			checkBoxNormalize.Checked = false;
 			numericUpDownVolume.Value = (decimal)1.0;
-			numericUpDownChannelCount.Value = originalChannelCount;
-			numericUpDownSampleRate.Value = originalSampleRate;
+			numericUpDownChannelCount.Value = defaultChannelCount;
+			numericUpDownSampleRate.Value = defaultSampleRate;
 			numericUpDownTempo.Value = (decimal)1.0;
 			numericUpDownPitch.Value = (decimal)0.0;
 			numericUpDownTrimInit.Value = (decimal)0.0;
@@ -310,15 +372,15 @@ namespace BrawlSoundConverter
 
 		private void buttonResetTrimInit_Click(object sender, EventArgs e)
 		{
-			numericUpDownTrimInit.Value = (decimal)0.0;
+			setValueAndClamp(numericUpDownTrimInit, (decimal)0);
 		}
 
 		private void buttonResetTrimFinal_Click(object sender, EventArgs e)
 		{
-			numericUpDownTrimFinal.Value = (decimal)0.0;
+			setValueAndClamp(numericUpDownTrimFinal, (decimal)0);
 		}
 
-		private void checkBoxAllowClipping_CheckedChanged(object sender, EventArgs e)
+		private void checkBoxNormalize_CheckedChanged(object sender, EventArgs e)
 		{
 			numericUpDownVolume.Enabled = !checkBoxNormalize.Checked;
 		}
