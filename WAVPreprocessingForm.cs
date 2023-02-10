@@ -37,14 +37,29 @@ namespace BrawlSoundConverter
 				soxArguments += " vol " + numericUpDownVolume.Value.ToString();
 			}
 
-			if (numericUpDownChannelCount.Value != originalChannelCount)
+			if (numericUpDownTrimInit.Value != 0 || numericUpDownTrimFinal.Value != 0)
 			{
-				soxArguments += " channels " + numericUpDownChannelCount.Value.ToString();
-			}
+				double prefixLengthInSeconds = ((double)numericUpDownTrimInit.Value) / 1000.0;
+				double suffixLengthInSeconds = ((double)numericUpDownTrimFinal.Value) / 1000.0;
 
-			if (numericUpDownSampleRate.Value != originalSampleRate)
-			{
-				soxArguments += " rate " + numericUpDownSampleRate.Value.ToString();
+				soxArguments += " trim";
+				if (numericUpDownTrimInit.Value > 0)
+				{
+					soxArguments += " " + prefixLengthInSeconds.ToString();
+				}
+				else
+				{
+					soxArguments += " 0.0";
+				}
+				if (numericUpDownTrimFinal.Value > 0)
+				{
+					suffixLengthInSeconds *= -1;
+					soxArguments += " " + suffixLengthInSeconds.ToString();
+				}
+				else
+				{
+					soxArguments += " -0.0";
+				}
 			}
 
 			if (numericUpDownTempo.Value != (decimal)1.0)
@@ -62,48 +77,33 @@ namespace BrawlSoundConverter
 				double prefixLengthInSeconds = ((double)numericUpDownPadInit.Value) / 1000.0;
 				double suffixLengthInSeconds = ((double)numericUpDownPadFinal.Value) / 1000.0;
 
-				if (numericUpDownPadInit.Value < 0 || numericUpDownPadFinal.Value < 0)
+				soxArguments += " pad";
+				if (numericUpDownPadInit.Value > 0)
 				{
-					soxArguments += " trim";
-					if (numericUpDownPadInit.Value < 0)
-					{
-						prefixLengthInSeconds *= -1;
-						soxArguments += " " + prefixLengthInSeconds.ToString();
-					}
-					else
-					{
-						soxArguments += " 0";
-					}
-					if (numericUpDownPadFinal.Value < 0)
-					{
-						soxArguments += " " + suffixLengthInSeconds.ToString();
-					}
-					else
-					{
-						soxArguments += " -0.0";
-					}
+					soxArguments += " " + prefixLengthInSeconds.ToString();
 				}
+				else
+				{
+					soxArguments += " 0";
+				}
+				if (numericUpDownPadFinal.Value > 0)
+				{
+					soxArguments += " " + suffixLengthInSeconds.ToString();
+				}
+				else
+				{
+					soxArguments += " 0";
+				}
+			}
 
-				if (numericUpDownPadInit.Value > 0 || numericUpDownPadFinal.Value > 0)
-				{
-					soxArguments += " pad";
-					if (numericUpDownPadInit.Value > 0)
-					{
-						soxArguments += " " + prefixLengthInSeconds.ToString();
-					}
-					else
-					{
-						soxArguments += " 0";
-					}
-					if (numericUpDownPadFinal.Value > 0)
-					{
-						soxArguments += " " + suffixLengthInSeconds.ToString();
-					}
-					else
-					{
-						soxArguments += " 0";
-					}
-				}
+			if (numericUpDownChannelCount.Value != originalChannelCount)
+			{
+				soxArguments += " channels " + numericUpDownChannelCount.Value.ToString();
+			}
+
+			if (numericUpDownSampleRate.Value != originalSampleRate)
+			{
+				soxArguments += " rate " + numericUpDownSampleRate.Value.ToString();
 			}
 
 			File.Delete(Properties.Resources.tempAudioResamplePath);
@@ -127,12 +127,16 @@ namespace BrawlSoundConverter
 
 			audioPlaybackPanelProcessed.TargetSource = new StreamSource(BrawlLib.Internal.Audio.WAV.FromFile(Properties.Resources.tempAudioResamplePath));
 
+			int sampleCount = audioPlaybackPanelProcessed.TargetStreams.First().Samples;
+			textBoxProcessedSize.Text = ((sampleCount / 2 * 2) / 2).ToString("X");
+
 			return success;
 		}
 
 		public WAVPreprocessingForm(int destinationGroupID, string filePath, 
 			float volumeMultIn = float.MaxValue, float tempoMultIn = float.MaxValue, float pitchShiftIn = float.MaxValue,
 			int paddingInitIn = int.MaxValue, int paddingFinalIn = int.MaxValue,
+			int trimInitIn = int.MaxValue, int trimFinalIn = int.MaxValue,
 			int channelCountIn = int.MaxValue, int sampleRateIn = int.MaxValue)
 		{
 			InitializeComponent();
@@ -163,6 +167,14 @@ namespace BrawlSoundConverter
 			if (pitchShiftIn != float.MaxValue)
 			{
 				setValueAndClamp(numericUpDownPitch, (decimal)pitchShiftIn);
+			}
+			if (trimInitIn != int.MaxValue)
+			{
+				setValueAndClamp(numericUpDownTrimInit, (decimal)trimInitIn);
+			}
+			if (trimFinalIn != int.MaxValue)
+			{
+				setValueAndClamp(numericUpDownTrimFinal, (decimal)trimFinalIn);
 			}
 			if (paddingInitIn != int.MaxValue)
 			{
@@ -273,6 +285,8 @@ namespace BrawlSoundConverter
 			numericUpDownSampleRate.Value = originalSampleRate;
 			numericUpDownTempo.Value = (decimal)1.0;
 			numericUpDownPitch.Value = (decimal)0.0;
+			numericUpDownTrimInit.Value = (decimal)0.0;
+			numericUpDownTrimFinal.Value = (decimal)0.0;
 			numericUpDownPadInit.Value = (decimal)0.0;
 			numericUpDownPadFinal.Value = (decimal)0.0;
 		}
@@ -287,6 +301,16 @@ namespace BrawlSoundConverter
 		{
 			DialogResult = DialogResult.Cancel;
 			Close();
+		}
+
+		private void buttonResetTrimInit_Click(object sender, EventArgs e)
+		{
+			numericUpDownTrimInit.Value = (decimal)0.0;
+		}
+
+		private void buttonResetTrimFinal_Click(object sender, EventArgs e)
+		{
+			numericUpDownTrimFinal.Value = (decimal)0.0;
 		}
 	}
 }
