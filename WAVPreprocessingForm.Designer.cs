@@ -190,7 +190,7 @@ namespace BrawlSoundConverter
 			// numericUpDownTrimFinal
 			// 
 			this.numericUpDownTrimFinal.Increment = new decimal(new int[] {
-            50,
+            25,
             0,
             0,
             0});
@@ -227,7 +227,7 @@ namespace BrawlSoundConverter
 			// numericUpDownTrimInit
 			// 
 			this.numericUpDownTrimInit.Increment = new decimal(new int[] {
-            50,
+            25,
             0,
             0,
             0});
@@ -281,7 +281,7 @@ namespace BrawlSoundConverter
             0});
 			this.numericUpDownSampleRate.Location = new System.Drawing.Point(10, 85);
 			this.numericUpDownSampleRate.Maximum = new decimal(new int[] {
-            44101,
+            44100,
             0,
             0,
             0});
@@ -355,7 +355,7 @@ namespace BrawlSoundConverter
 			// numericUpDownPadFinal
 			// 
 			this.numericUpDownPadFinal.Increment = new decimal(new int[] {
-            50,
+            25,
             0,
             0,
             0});
@@ -392,7 +392,7 @@ namespace BrawlSoundConverter
 			// numericUpDownPadInit
 			// 
 			this.numericUpDownPadInit.Increment = new decimal(new int[] {
-            50,
+            25,
             0,
             0,
             0});
