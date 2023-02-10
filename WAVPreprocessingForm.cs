@@ -32,7 +32,11 @@ namespace BrawlSoundConverter
 
 			string soxArguments = "";
 
-			if (numericUpDownVolume.Value != (decimal)1.0)
+			if (checkBoxNormalize.Checked)
+			{
+				soxArguments += " norm";
+			}
+			else if (numericUpDownVolume.Value != (decimal)1.0)
 			{
 				soxArguments += " vol " + numericUpDownVolume.Value.ToString();
 			}
@@ -134,7 +138,7 @@ namespace BrawlSoundConverter
 		}
 
 		public WAVPreprocessingForm(int destinationGroupID, string filePath, 
-			float volumeMultIn = float.MaxValue, float tempoMultIn = float.MaxValue, float pitchShiftIn = float.MaxValue,
+			float volumeMultIn = float.MaxValue, bool normalizeVolumeIn = false, float tempoMultIn = float.MaxValue, float pitchShiftIn = float.MaxValue,
 			int paddingInitIn = int.MaxValue, int paddingFinalIn = int.MaxValue,
 			int trimInitIn = int.MaxValue, int trimFinalIn = int.MaxValue,
 			int channelCountIn = int.MaxValue, int sampleRateIn = int.MaxValue)
@@ -160,6 +164,7 @@ namespace BrawlSoundConverter
 			{
 				setValueAndClamp(numericUpDownVolume, (decimal)volumeMultIn);
 			}
+			checkBoxNormalize.Checked = normalizeVolumeIn;
 			if (tempoMultIn != float.MaxValue)
 			{
 				setValueAndClamp(numericUpDownTempo, (decimal)tempoMultIn);
@@ -311,6 +316,11 @@ namespace BrawlSoundConverter
 		private void buttonResetTrimFinal_Click(object sender, EventArgs e)
 		{
 			numericUpDownTrimFinal.Value = (decimal)0.0;
+		}
+
+		private void checkBoxAllowClipping_CheckedChanged(object sender, EventArgs e)
+		{
+			numericUpDownVolume.Enabled = !checkBoxNormalize.Checked;
 		}
 	}
 }

@@ -41,7 +41,6 @@ namespace BrawlSoundConverter
 			this.buttonResetTrimInit = new System.Windows.Forms.Button();
 			this.numericUpDownTrimInit = new System.Windows.Forms.NumericUpDown();
 			this.label9 = new System.Windows.Forms.Label();
-			this.audioPlaybackPanelProcessed = new BrawlLib.Internal.Windows.Controls.AudioPlaybackPanel();
 			this.buttonResetSampleRate = new System.Windows.Forms.Button();
 			this.numericUpDownSampleRate = new System.Windows.Forms.NumericUpDown();
 			this.buttonResetChannelCount = new System.Windows.Forms.Button();
@@ -53,7 +52,7 @@ namespace BrawlSoundConverter
 			this.buttonResetPadInit = new System.Windows.Forms.Button();
 			this.numericUpDownPadInit = new System.Windows.Forms.NumericUpDown();
 			this.label12 = new System.Windows.Forms.Label();
-			this.checkBoxAllowClipping = new System.Windows.Forms.CheckBox();
+			this.checkBoxNormalize = new System.Windows.Forms.CheckBox();
 			this.label8 = new System.Windows.Forms.Label();
 			this.buttonReset = new System.Windows.Forms.Button();
 			this.buttonApply = new System.Windows.Forms.Button();
@@ -69,6 +68,7 @@ namespace BrawlSoundConverter
 			this.label4 = new System.Windows.Forms.Label();
 			this.buttonCancel = new System.Windows.Forms.Button();
 			this.buttonSave = new System.Windows.Forms.Button();
+			this.audioPlaybackPanelProcessed = new BrawlLib.Internal.Windows.Controls.AudioPlaybackPanel();
 			this.audioPlaybackBRSARSound = new BrawlLib.Internal.Windows.Controls.AudioPlaybackPanel();
 			this.groupBoxProcSettings.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDownTrimFinal)).BeginInit();
@@ -139,7 +139,7 @@ namespace BrawlSoundConverter
 			this.groupBoxProcSettings.Controls.Add(this.buttonResetPadInit);
 			this.groupBoxProcSettings.Controls.Add(this.numericUpDownPadInit);
 			this.groupBoxProcSettings.Controls.Add(this.label12);
-			this.groupBoxProcSettings.Controls.Add(this.checkBoxAllowClipping);
+			this.groupBoxProcSettings.Controls.Add(this.checkBoxNormalize);
 			this.groupBoxProcSettings.Controls.Add(this.label8);
 			this.groupBoxProcSettings.Controls.Add(this.buttonReset);
 			this.groupBoxProcSettings.Controls.Add(this.buttonApply);
@@ -247,18 +247,6 @@ namespace BrawlSoundConverter
 			this.label9.Size = new System.Drawing.Size(108, 17);
 			this.label9.TabIndex = 71;
 			this.label9.Text = "Initial Trim (ms):";
-			// 
-			// audioPlaybackPanelProcessed
-			// 
-			this.audioPlaybackPanelProcessed.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-			this.audioPlaybackPanelProcessed.Location = new System.Drawing.Point(19, 351);
-			this.audioPlaybackPanelProcessed.Margin = new System.Windows.Forms.Padding(4);
-			this.audioPlaybackPanelProcessed.Name = "audioPlaybackPanelProcessed";
-			this.audioPlaybackPanelProcessed.Size = new System.Drawing.Size(271, 100);
-			this.audioPlaybackPanelProcessed.TabIndex = 38;
-			this.audioPlaybackPanelProcessed.TabStop = false;
-			this.audioPlaybackPanelProcessed.TargetStreams = null;
 			// 
 			// buttonResetSampleRate
 			// 
@@ -410,17 +398,16 @@ namespace BrawlSoundConverter
 			this.label12.TabIndex = 60;
 			this.label12.Text = "Initial Padding (ms):";
 			// 
-			// checkBoxAllowClipping
+			// checkBoxNormalize
 			// 
-			this.checkBoxAllowClipping.AutoSize = true;
-			this.checkBoxAllowClipping.Checked = true;
-			this.checkBoxAllowClipping.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.checkBoxAllowClipping.Location = new System.Drawing.Point(151, 40);
-			this.checkBoxAllowClipping.Name = "checkBoxAllowClipping";
-			this.checkBoxAllowClipping.Size = new System.Drawing.Size(116, 21);
-			this.checkBoxAllowClipping.TabIndex = 53;
-			this.checkBoxAllowClipping.Text = "Allow Clipping";
-			this.checkBoxAllowClipping.UseVisualStyleBackColor = true;
+			this.checkBoxNormalize.AutoSize = true;
+			this.checkBoxNormalize.Location = new System.Drawing.Point(151, 40);
+			this.checkBoxNormalize.Name = "checkBoxNormalize";
+			this.checkBoxNormalize.Size = new System.Drawing.Size(144, 21);
+			this.checkBoxNormalize.TabIndex = 53;
+			this.checkBoxNormalize.Text = "Normalize Volume";
+			this.checkBoxNormalize.UseVisualStyleBackColor = true;
+			this.checkBoxNormalize.CheckedChanged += new System.EventHandler(this.checkBoxAllowClipping_CheckedChanged);
 			// 
 			// label8
 			// 
@@ -607,6 +594,18 @@ namespace BrawlSoundConverter
 			this.buttonSave.UseVisualStyleBackColor = true;
 			this.buttonSave.Click += new System.EventHandler(this.buttonSave_Click);
 			// 
+			// audioPlaybackPanelProcessed
+			// 
+			this.audioPlaybackPanelProcessed.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.audioPlaybackPanelProcessed.Location = new System.Drawing.Point(19, 351);
+			this.audioPlaybackPanelProcessed.Margin = new System.Windows.Forms.Padding(4);
+			this.audioPlaybackPanelProcessed.Name = "audioPlaybackPanelProcessed";
+			this.audioPlaybackPanelProcessed.Size = new System.Drawing.Size(271, 100);
+			this.audioPlaybackPanelProcessed.TabIndex = 38;
+			this.audioPlaybackPanelProcessed.TabStop = false;
+			this.audioPlaybackPanelProcessed.TargetStreams = null;
+			// 
 			// audioPlaybackBRSARSound
 			// 
 			this.audioPlaybackBRSARSound.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
@@ -673,7 +672,7 @@ namespace BrawlSoundConverter
 		private System.Windows.Forms.Label label8;
 		private System.Windows.Forms.Button buttonCancel;
 		private System.Windows.Forms.Button buttonSave;
-		private System.Windows.Forms.CheckBox checkBoxAllowClipping;
+		private System.Windows.Forms.CheckBox checkBoxNormalize;
 		private System.Windows.Forms.Button buttonResetPadFinal;
 		private System.Windows.Forms.NumericUpDown numericUpDownPadFinal;
 		private System.Windows.Forms.Label label11;
