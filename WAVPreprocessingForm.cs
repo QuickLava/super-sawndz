@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Media;
 using System.IO;
 
 namespace BrawlSoundConverter
@@ -19,26 +20,187 @@ namespace BrawlSoundConverter
 		int originalSampleRate = int.MaxValue;
 		int originalChannelCount = int.MaxValue;
 
-		public WAVPreprocessingForm(int destinationGroupID, string filePath)
+		bool setValueAndClamp(NumericUpDown destination, decimal value)
+		{
+			destination.Value = Math.Min(Math.Max(value, destination.Minimum), destination.Maximum);
+
+			return value != destination.Value;
+		}
+		private bool applySettings()
+		{
+			bool success = false;
+
+			string soxArguments = "";
+
+			if (numericUpDownVolume.Value != (decimal)1.0)
+			{
+				soxArguments += " vol " + numericUpDownVolume.Value.ToString();
+			}
+
+			if (numericUpDownChannelCount.Value != originalChannelCount)
+			{
+				soxArguments += " channels " + numericUpDownChannelCount.Value.ToString();
+			}
+
+			if (numericUpDownSampleRate.Value != originalSampleRate)
+			{
+				soxArguments += " rate " + numericUpDownSampleRate.Value.ToString();
+			}
+
+			if (numericUpDownTempo.Value != (decimal)1.0)
+			{
+				soxArguments += " tempo " + numericUpDownTempo.Value.ToString();
+			}
+
+			if (numericUpDownPitch.Value != (decimal)0.0)
+			{
+				soxArguments += " pitch " + (numericUpDownPitch.Value * 100).ToString();
+			}
+
+			if (numericUpDownPadInit.Value != 0 || numericUpDownPadFinal.Value != 0)
+			{
+				double prefixLengthInSeconds = ((double)numericUpDownPadInit.Value) / 1000.0;
+				double suffixLengthInSeconds = ((double)numericUpDownPadFinal.Value) / 1000.0;
+
+				if (numericUpDownPadInit.Value < 0 || numericUpDownPadFinal.Value < 0)
+				{
+					soxArguments += " trim";
+					if (numericUpDownPadInit.Value < 0)
+					{
+						prefixLengthInSeconds *= -1;
+						soxArguments += " " + prefixLengthInSeconds.ToString();
+					}
+					else
+					{
+						soxArguments += " 0";
+					}
+					if (numericUpDownPadFinal.Value < 0)
+					{
+						soxArguments += " " + suffixLengthInSeconds.ToString();
+					}
+					else
+					{
+						soxArguments += " -0.0";
+					}
+				}
+
+				if (numericUpDownPadInit.Value > 0 || numericUpDownPadFinal.Value > 0)
+				{
+					soxArguments += " pad";
+					if (numericUpDownPadInit.Value > 0)
+					{
+						soxArguments += " " + prefixLengthInSeconds.ToString();
+					}
+					else
+					{
+						soxArguments += " 0";
+					}
+					if (numericUpDownPadFinal.Value > 0)
+					{
+						soxArguments += " " + suffixLengthInSeconds.ToString();
+					}
+					else
+					{
+						soxArguments += " 0";
+					}
+				}
+			}
+
+			File.Delete(Properties.Resources.tempAudioResamplePath);
+			if (!String.IsNullOrEmpty(soxArguments))
+			{
+				Sawndz.runSoX("-V3 \"" + originalFilepath + "\" \"" + Properties.Resources.tempAudioResamplePath + "\"" + soxArguments);
+			}
+			else
+			{
+				File.Copy(originalFilepath, Properties.Resources.tempAudioResamplePath, true);
+			}
+
+			if (File.Exists(Properties.Resources.tempAudioResamplePath))
+			{
+				success = true;
+			}
+			else
+			{
+				File.Copy(originalFilepath, Properties.Resources.tempAudioResamplePath, true);
+			}
+
+			audioPlaybackPanelProcessed.TargetSource = new StreamSource(BrawlLib.Internal.Audio.WAV.FromFile(Properties.Resources.tempAudioResamplePath));
+
+			return success;
+		}
+
+		public WAVPreprocessingForm(int destinationGroupID, string filePath, 
+			float volumeMultIn = float.MaxValue, float tempoMultIn = float.MaxValue, float pitchShiftIn = float.MaxValue,
+			int paddingInitIn = int.MaxValue, int paddingFinalIn = int.MaxValue,
+			int channelCountIn = int.MaxValue, int sampleRateIn = int.MaxValue)
 		{
 			InitializeComponent();
 
-			if (destinationGroupID == -1)
-			{
-				destinationGroupID = 0;
-			}
-
 			brsar.LoadSpecificGroupTreeView(treeViewMapping, destinationGroupID);
+			if (treeViewMapping.Nodes.Count <= 0)
+			{
+				DialogResult = DialogResult.Abort;
+				Close();
+			}
+			else
+			{
+				treeViewMapping.Nodes[0].Expand();
+			}
 
 			originalFilepath = filePath;
 
-			File.Copy(filePath, Properties.Resources.tempAudioResamplePath, true);
-			audioPlaybackPanelProcessed.TargetSource = new StreamSource(BrawlLib.Internal.Audio.WAV.FromFile(Properties.Resources.tempAudioResamplePath));
-			originalSampleRate = audioPlaybackPanelProcessed.TargetStreams.First().Frequency;
-			originalChannelCount = audioPlaybackPanelProcessed.TargetStreams.First().Channels;
+			audioPlaybackPanelProcessed.TargetSource = new StreamSource(BrawlLib.Internal.Audio.WAV.FromFile(filePath));
 
-			numericUpDownSampleRate.Value = originalSampleRate;
-			numericUpDownChannelCount.Value = originalChannelCount;
+			if (volumeMultIn != float.MaxValue)
+			{
+				setValueAndClamp(numericUpDownVolume, (decimal)volumeMultIn);
+			}
+			if (tempoMultIn != float.MaxValue)
+			{
+				setValueAndClamp(numericUpDownTempo, (decimal)tempoMultIn);
+			}
+			if (pitchShiftIn != float.MaxValue)
+			{
+				setValueAndClamp(numericUpDownPitch, (decimal)pitchShiftIn);
+			}
+			if (paddingInitIn != int.MaxValue)
+			{
+				setValueAndClamp(numericUpDownPadInit, (decimal)paddingInitIn);
+			}
+			if (paddingFinalIn != int.MaxValue)
+			{
+				setValueAndClamp(numericUpDownPadFinal, (decimal)paddingFinalIn);
+			}
+
+			if (channelCountIn != int.MaxValue)
+			{
+				originalChannelCount = channelCountIn;
+			}
+			else
+			{
+				originalChannelCount = audioPlaybackPanelProcessed.TargetStreams.First().Channels;
+			}
+			setValueAndClamp(numericUpDownChannelCount, originalChannelCount);
+			if (sampleRateIn != int.MaxValue)
+			{
+				originalSampleRate = sampleRateIn;
+			}
+			else
+			{
+				originalSampleRate = audioPlaybackPanelProcessed.TargetStreams.First().Frequency;
+			}
+			setValueAndClamp(numericUpDownSampleRate, originalSampleRate);
+
+			if (applySettings())
+			{
+				audioPlaybackPanelProcessed.TargetSource = new StreamSource(BrawlLib.Internal.Audio.WAV.FromFile(Properties.Resources.tempAudioResamplePath));
+			}
+			else
+			{
+				DialogResult = DialogResult.Abort;
+				Close();
+			}
 		}
 
 		private void buttonResetVolume_Click(object sender, EventArgs e)
@@ -78,50 +240,14 @@ namespace BrawlSoundConverter
 
 		private void buttonApply_Click(object sender, EventArgs e)
 		{
-			string soxArguments = "";
-
-			if (numericUpDownVolume.Value != (decimal)1.0)
+			if (applySettings())
 			{
-				soxArguments += " vol " + numericUpDownVolume.Value.ToString();
-			}
-
-			if (numericUpDownChannelCount.Value != originalChannelCount)
-			{
-				soxArguments += " channels " + numericUpDownChannelCount.Value.ToString();
-			}
-
-			if (numericUpDownSampleRate.Value != originalSampleRate)
-			{
-				soxArguments += " rate " + numericUpDownSampleRate.Value.ToString();
-			}
-
-			if (numericUpDownTempo.Value != (decimal)1.0)
-			{
-				soxArguments += " tempo " + numericUpDownTempo.Value.ToString();
-			}
-
-			if (numericUpDownPitch.Value != (decimal)0.0)
-			{
-				soxArguments += " pitch " + (numericUpDownPitch.Value * 100).ToString();
-			}
-
-			if (numericUpDownPadInit.Value != 0 || numericUpDownPadFinal.Value != 0)
-			{
-				double prefixLengthInSeconds = ((double)numericUpDownPadInit.Value) / 1000.0;
-				double suffixLengthInSeconds = ((double)numericUpDownPadFinal.Value) / 1000.0;
-				soxArguments += " pad " + prefixLengthInSeconds.ToString() + " " + suffixLengthInSeconds.ToString();
-			}
-
-			if (!String.IsNullOrEmpty(soxArguments))
-			{
-				Sawndz.runSoX("-V3 \"" + originalFilepath + "\" \"" + Properties.Resources.tempAudioResamplePath + "\"" + soxArguments);
+				audioPlaybackPanelProcessed.Play();
 			}
 			else
 			{
-				File.Copy(originalFilepath, Properties.Resources.tempAudioResamplePath, true);
+				SystemSounds.Exclamation.Play();
 			}
-			audioPlaybackPanelProcessed.TargetSource = new StreamSource(BrawlLib.Internal.Audio.WAV.FromFile(Properties.Resources.tempAudioResamplePath));
-			audioPlaybackPanelProcessed.Play();
 		}
 
 		private void treeViewMapping_AfterSelect(object sender, TreeViewEventArgs e)

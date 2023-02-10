@@ -237,10 +237,15 @@ namespace BrawlSoundConverter
             0});
 			this.numericUpDownPadFinal.Location = new System.Drawing.Point(151, 180);
 			this.numericUpDownPadFinal.Maximum = new decimal(new int[] {
-            1000,
+            5000,
             0,
             0,
             0});
+			this.numericUpDownPadFinal.Minimum = new decimal(new int[] {
+            5000,
+            0,
+            0,
+            -2147483648});
 			this.numericUpDownPadFinal.Name = "numericUpDownPadFinal";
 			this.numericUpDownPadFinal.Size = new System.Drawing.Size(108, 22);
 			this.numericUpDownPadFinal.TabIndex = 64;
@@ -273,10 +278,15 @@ namespace BrawlSoundConverter
             0});
 			this.numericUpDownPadInit.Location = new System.Drawing.Point(10, 180);
 			this.numericUpDownPadInit.Maximum = new decimal(new int[] {
-            1000,
+            5000,
             0,
             0,
             0});
+			this.numericUpDownPadInit.Minimum = new decimal(new int[] {
+            5000,
+            0,
+            0,
+            -2147483648});
 			this.numericUpDownPadInit.Name = "numericUpDownPadInit";
 			this.numericUpDownPadInit.Size = new System.Drawing.Size(110, 22);
 			this.numericUpDownPadInit.TabIndex = 61;
@@ -488,7 +498,6 @@ namespace BrawlSoundConverter
 			// 
 			// audioPlaybackPanelProcessed
 			// 
-			this.audioPlaybackPanelProcessed.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.audioPlaybackPanelProcessed.Location = new System.Drawing.Point(19, 278);
 			this.audioPlaybackPanelProcessed.Margin = new System.Windows.Forms.Padding(4);
 			this.audioPlaybackPanelProcessed.Name = "audioPlaybackPanelProcessed";
