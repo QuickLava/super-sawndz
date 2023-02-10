@@ -92,7 +92,7 @@ namespace BrawlSoundConverter
 			this.treeViewMapping.Margin = new System.Windows.Forms.Padding(4);
 			this.treeViewMapping.Name = "treeViewMapping";
 			this.treeViewMapping.Size = new System.Drawing.Size(407, 302);
-			this.treeViewMapping.TabIndex = 29;
+			this.treeViewMapping.TabIndex = 1;
 			this.treeViewMapping.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeViewMapping_AfterSelect);
 			// 
 			// label1
@@ -102,7 +102,7 @@ namespace BrawlSoundConverter
 			this.label1.Location = new System.Drawing.Point(331, 9);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(156, 17);
-			this.label1.TabIndex = 31;
+			this.label1.TabIndex = 4;
 			this.label1.Text = "Existing Bank Contents:";
 			// 
 			// label2
@@ -111,7 +111,7 @@ namespace BrawlSoundConverter
 			this.label2.Location = new System.Drawing.Point(13, 9);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(137, 17);
-			this.label2.TabIndex = 32;
+			this.label2.TabIndex = 3;
 			this.label2.Text = "Processing Settings:";
 			// 
 			// groupBoxProcSettings
@@ -156,7 +156,7 @@ namespace BrawlSoundConverter
 			this.groupBoxProcSettings.Location = new System.Drawing.Point(16, 30);
 			this.groupBoxProcSettings.Name = "groupBoxProcSettings";
 			this.groupBoxProcSettings.Size = new System.Drawing.Size(304, 466);
-			this.groupBoxProcSettings.TabIndex = 35;
+			this.groupBoxProcSettings.TabIndex = 0;
 			this.groupBoxProcSettings.TabStop = false;
 			// 
 			// textBoxProcessedSize
@@ -165,7 +165,8 @@ namespace BrawlSoundConverter
 			this.textBoxProcessedSize.Location = new System.Drawing.Point(161, 260);
 			this.textBoxProcessedSize.Name = "textBoxProcessedSize";
 			this.textBoxProcessedSize.Size = new System.Drawing.Size(117, 22);
-			this.textBoxProcessedSize.TabIndex = 78;
+			this.textBoxProcessedSize.TabIndex = 0;
+			this.textBoxProcessedSize.TabStop = false;
 			// 
 			// label10
 			// 
@@ -173,7 +174,7 @@ namespace BrawlSoundConverter
 			this.label10.Location = new System.Drawing.Point(4, 263);
 			this.label10.Name = "label10";
 			this.label10.Size = new System.Drawing.Size(155, 17);
-			this.label10.TabIndex = 77;
+			this.label10.TabIndex = 1;
 			this.label10.Text = "Processed Sound Size:";
 			// 
 			// buttonResetTrimFinal
@@ -181,7 +182,7 @@ namespace BrawlSoundConverter
 			this.buttonResetTrimFinal.Location = new System.Drawing.Point(258, 179);
 			this.buttonResetTrimFinal.Name = "buttonResetTrimFinal";
 			this.buttonResetTrimFinal.Size = new System.Drawing.Size(23, 23);
-			this.buttonResetTrimFinal.TabIndex = 76;
+			this.buttonResetTrimFinal.TabIndex = 14;
 			this.buttonResetTrimFinal.Text = "*";
 			this.buttonResetTrimFinal.UseVisualStyleBackColor = true;
 			this.buttonResetTrimFinal.Click += new System.EventHandler(this.buttonResetTrimFinal_Click);
@@ -201,7 +202,8 @@ namespace BrawlSoundConverter
             0});
 			this.numericUpDownTrimFinal.Name = "numericUpDownTrimFinal";
 			this.numericUpDownTrimFinal.Size = new System.Drawing.Size(108, 22);
-			this.numericUpDownTrimFinal.TabIndex = 75;
+			this.numericUpDownTrimFinal.TabIndex = 13;
+			this.numericUpDownTrimFinal.KeyDown += new System.Windows.Forms.KeyEventHandler(this.numericUpDown_KeyDown);
 			// 
 			// label3
 			// 
@@ -209,7 +211,7 @@ namespace BrawlSoundConverter
 			this.label3.Location = new System.Drawing.Point(148, 160);
 			this.label3.Name = "label3";
 			this.label3.Size = new System.Drawing.Size(106, 17);
-			this.label3.TabIndex = 74;
+			this.label3.TabIndex = 4;
 			this.label3.Text = "Final Trim (ms):";
 			// 
 			// buttonResetTrimInit
@@ -217,7 +219,7 @@ namespace BrawlSoundConverter
 			this.buttonResetTrimInit.Location = new System.Drawing.Point(119, 179);
 			this.buttonResetTrimInit.Name = "buttonResetTrimInit";
 			this.buttonResetTrimInit.Size = new System.Drawing.Size(23, 23);
-			this.buttonResetTrimInit.TabIndex = 73;
+			this.buttonResetTrimInit.TabIndex = 12;
 			this.buttonResetTrimInit.Text = "*";
 			this.buttonResetTrimInit.UseVisualStyleBackColor = true;
 			this.buttonResetTrimInit.Click += new System.EventHandler(this.buttonResetTrimInit_Click);
@@ -237,7 +239,8 @@ namespace BrawlSoundConverter
             0});
 			this.numericUpDownTrimInit.Name = "numericUpDownTrimInit";
 			this.numericUpDownTrimInit.Size = new System.Drawing.Size(110, 22);
-			this.numericUpDownTrimInit.TabIndex = 72;
+			this.numericUpDownTrimInit.TabIndex = 11;
+			this.numericUpDownTrimInit.KeyDown += new System.Windows.Forms.KeyEventHandler(this.numericUpDown_KeyDown);
 			// 
 			// label9
 			// 
@@ -245,7 +248,7 @@ namespace BrawlSoundConverter
 			this.label9.Location = new System.Drawing.Point(6, 160);
 			this.label9.Name = "label9";
 			this.label9.Size = new System.Drawing.Size(108, 17);
-			this.label9.TabIndex = 71;
+			this.label9.TabIndex = 7;
 			this.label9.Text = "Initial Trim (ms):";
 			// 
 			// audioPlaybackPanelProcessed
@@ -256,8 +259,7 @@ namespace BrawlSoundConverter
 			this.audioPlaybackPanelProcessed.Margin = new System.Windows.Forms.Padding(4);
 			this.audioPlaybackPanelProcessed.Name = "audioPlaybackPanelProcessed";
 			this.audioPlaybackPanelProcessed.Size = new System.Drawing.Size(271, 100);
-			this.audioPlaybackPanelProcessed.TabIndex = 38;
-			this.audioPlaybackPanelProcessed.TabStop = false;
+			this.audioPlaybackPanelProcessed.TabIndex = 21;
 			this.audioPlaybackPanelProcessed.TargetStreams = null;
 			// 
 			// buttonResetSampleRate
@@ -265,7 +267,7 @@ namespace BrawlSoundConverter
 			this.buttonResetSampleRate.Location = new System.Drawing.Point(117, 84);
 			this.buttonResetSampleRate.Name = "buttonResetSampleRate";
 			this.buttonResetSampleRate.Size = new System.Drawing.Size(23, 23);
-			this.buttonResetSampleRate.TabIndex = 70;
+			this.buttonResetSampleRate.TabIndex = 4;
 			this.buttonResetSampleRate.Text = "*";
 			this.buttonResetSampleRate.UseVisualStyleBackColor = true;
 			this.buttonResetSampleRate.Click += new System.EventHandler(this.buttonResetSampleRate_Click);
@@ -290,19 +292,20 @@ namespace BrawlSoundConverter
             0});
 			this.numericUpDownSampleRate.Name = "numericUpDownSampleRate";
 			this.numericUpDownSampleRate.Size = new System.Drawing.Size(108, 22);
-			this.numericUpDownSampleRate.TabIndex = 69;
+			this.numericUpDownSampleRate.TabIndex = 3;
 			this.numericUpDownSampleRate.Value = new decimal(new int[] {
             2000,
             0,
             0,
             0});
+			this.numericUpDownSampleRate.KeyDown += new System.Windows.Forms.KeyEventHandler(this.numericUpDown_KeyDown);
 			// 
 			// buttonResetChannelCount
 			// 
 			this.buttonResetChannelCount.Location = new System.Drawing.Point(256, 85);
 			this.buttonResetChannelCount.Name = "buttonResetChannelCount";
 			this.buttonResetChannelCount.Size = new System.Drawing.Size(23, 23);
-			this.buttonResetChannelCount.TabIndex = 68;
+			this.buttonResetChannelCount.TabIndex = 6;
 			this.buttonResetChannelCount.Text = "*";
 			this.buttonResetChannelCount.UseVisualStyleBackColor = true;
 			this.buttonResetChannelCount.Click += new System.EventHandler(this.buttonResetChannelCount_Click);
@@ -322,12 +325,13 @@ namespace BrawlSoundConverter
             0});
 			this.numericUpDownChannelCount.Name = "numericUpDownChannelCount";
 			this.numericUpDownChannelCount.Size = new System.Drawing.Size(108, 22);
-			this.numericUpDownChannelCount.TabIndex = 67;
+			this.numericUpDownChannelCount.TabIndex = 5;
 			this.numericUpDownChannelCount.Value = new decimal(new int[] {
             1,
             0,
             0,
             0});
+			this.numericUpDownChannelCount.KeyDown += new System.Windows.Forms.KeyEventHandler(this.numericUpDown_KeyDown);
 			// 
 			// label13
 			// 
@@ -335,7 +339,7 @@ namespace BrawlSoundConverter
 			this.label13.Location = new System.Drawing.Point(146, 65);
 			this.label13.Name = "label13";
 			this.label13.Size = new System.Drawing.Size(105, 17);
-			this.label13.TabIndex = 66;
+			this.label13.TabIndex = 13;
 			this.label13.Text = "Channel Count:";
 			// 
 			// buttonResetPadFinal
@@ -343,7 +347,7 @@ namespace BrawlSoundConverter
 			this.buttonResetPadFinal.Location = new System.Drawing.Point(258, 229);
 			this.buttonResetPadFinal.Name = "buttonResetPadFinal";
 			this.buttonResetPadFinal.Size = new System.Drawing.Size(23, 23);
-			this.buttonResetPadFinal.TabIndex = 65;
+			this.buttonResetPadFinal.TabIndex = 18;
 			this.buttonResetPadFinal.Text = "*";
 			this.buttonResetPadFinal.UseVisualStyleBackColor = true;
 			this.buttonResetPadFinal.Click += new System.EventHandler(this.buttonResetPadFinal_Click);
@@ -363,7 +367,8 @@ namespace BrawlSoundConverter
             0});
 			this.numericUpDownPadFinal.Name = "numericUpDownPadFinal";
 			this.numericUpDownPadFinal.Size = new System.Drawing.Size(108, 22);
-			this.numericUpDownPadFinal.TabIndex = 64;
+			this.numericUpDownPadFinal.TabIndex = 17;
+			this.numericUpDownPadFinal.KeyDown += new System.Windows.Forms.KeyEventHandler(this.numericUpDown_KeyDown);
 			// 
 			// label11
 			// 
@@ -371,7 +376,7 @@ namespace BrawlSoundConverter
 			this.label11.Location = new System.Drawing.Point(148, 210);
 			this.label11.Name = "label11";
 			this.label11.Size = new System.Drawing.Size(130, 17);
-			this.label11.TabIndex = 63;
+			this.label11.TabIndex = 16;
 			this.label11.Text = "Final Padding (ms):";
 			// 
 			// buttonResetPadInit
@@ -379,7 +384,7 @@ namespace BrawlSoundConverter
 			this.buttonResetPadInit.Location = new System.Drawing.Point(119, 229);
 			this.buttonResetPadInit.Name = "buttonResetPadInit";
 			this.buttonResetPadInit.Size = new System.Drawing.Size(23, 23);
-			this.buttonResetPadInit.TabIndex = 62;
+			this.buttonResetPadInit.TabIndex = 16;
 			this.buttonResetPadInit.Text = "*";
 			this.buttonResetPadInit.UseVisualStyleBackColor = true;
 			this.buttonResetPadInit.Click += new System.EventHandler(this.buttonResetPadInit_Click);
@@ -399,7 +404,8 @@ namespace BrawlSoundConverter
             0});
 			this.numericUpDownPadInit.Name = "numericUpDownPadInit";
 			this.numericUpDownPadInit.Size = new System.Drawing.Size(110, 22);
-			this.numericUpDownPadInit.TabIndex = 61;
+			this.numericUpDownPadInit.TabIndex = 15;
+			this.numericUpDownPadInit.KeyDown += new System.Windows.Forms.KeyEventHandler(this.numericUpDown_KeyDown);
 			// 
 			// label12
 			// 
@@ -407,7 +413,7 @@ namespace BrawlSoundConverter
 			this.label12.Location = new System.Drawing.Point(6, 210);
 			this.label12.Name = "label12";
 			this.label12.Size = new System.Drawing.Size(132, 17);
-			this.label12.TabIndex = 60;
+			this.label12.TabIndex = 19;
 			this.label12.Text = "Initial Padding (ms):";
 			// 
 			// checkBoxNormalize
@@ -416,10 +422,11 @@ namespace BrawlSoundConverter
 			this.checkBoxNormalize.Location = new System.Drawing.Point(151, 40);
 			this.checkBoxNormalize.Name = "checkBoxNormalize";
 			this.checkBoxNormalize.Size = new System.Drawing.Size(144, 21);
-			this.checkBoxNormalize.TabIndex = 53;
+			this.checkBoxNormalize.TabIndex = 2;
 			this.checkBoxNormalize.Text = "Normalize Volume";
 			this.checkBoxNormalize.UseVisualStyleBackColor = true;
 			this.checkBoxNormalize.CheckedChanged += new System.EventHandler(this.checkBoxNormalize_CheckedChanged);
+			this.checkBoxNormalize.KeyDown += new System.Windows.Forms.KeyEventHandler(this.checkBoxNormalize_KeyDown);
 			// 
 			// label8
 			// 
@@ -428,7 +435,7 @@ namespace BrawlSoundConverter
 			this.label8.Location = new System.Drawing.Point(7, 327);
 			this.label8.Name = "label8";
 			this.label8.Size = new System.Drawing.Size(61, 17);
-			this.label8.TabIndex = 51;
+			this.label8.TabIndex = 21;
 			this.label8.Text = "Preview:";
 			// 
 			// buttonReset
@@ -438,7 +445,7 @@ namespace BrawlSoundConverter
 			this.buttonReset.Margin = new System.Windows.Forms.Padding(4);
 			this.buttonReset.Name = "buttonReset";
 			this.buttonReset.Size = new System.Drawing.Size(100, 28);
-			this.buttonReset.TabIndex = 50;
+			this.buttonReset.TabIndex = 19;
 			this.buttonReset.Text = "Reset";
 			this.buttonReset.UseVisualStyleBackColor = true;
 			this.buttonReset.Click += new System.EventHandler(this.buttonReset_Click);
@@ -450,7 +457,7 @@ namespace BrawlSoundConverter
 			this.buttonApply.Margin = new System.Windows.Forms.Padding(4);
 			this.buttonApply.Name = "buttonApply";
 			this.buttonApply.Size = new System.Drawing.Size(100, 28);
-			this.buttonApply.TabIndex = 49;
+			this.buttonApply.TabIndex = 20;
 			this.buttonApply.Text = "Apply";
 			this.buttonApply.UseVisualStyleBackColor = true;
 			this.buttonApply.Click += new System.EventHandler(this.buttonApply_Click);
@@ -460,7 +467,7 @@ namespace BrawlSoundConverter
 			this.buttonResetPitch.Location = new System.Drawing.Point(258, 131);
 			this.buttonResetPitch.Name = "buttonResetPitch";
 			this.buttonResetPitch.Size = new System.Drawing.Size(23, 23);
-			this.buttonResetPitch.TabIndex = 48;
+			this.buttonResetPitch.TabIndex = 10;
 			this.buttonResetPitch.Text = "*";
 			this.buttonResetPitch.UseVisualStyleBackColor = true;
 			this.buttonResetPitch.Click += new System.EventHandler(this.buttonResetPitch_Click);
@@ -481,7 +488,8 @@ namespace BrawlSoundConverter
             -2147352576});
 			this.numericUpDownPitch.Name = "numericUpDownPitch";
 			this.numericUpDownPitch.Size = new System.Drawing.Size(108, 22);
-			this.numericUpDownPitch.TabIndex = 47;
+			this.numericUpDownPitch.TabIndex = 9;
+			this.numericUpDownPitch.KeyDown += new System.Windows.Forms.KeyEventHandler(this.numericUpDown_KeyDown);
 			// 
 			// label7
 			// 
@@ -489,7 +497,7 @@ namespace BrawlSoundConverter
 			this.label7.Location = new System.Drawing.Point(148, 110);
 			this.label7.Name = "label7";
 			this.label7.Size = new System.Drawing.Size(155, 17);
-			this.label7.TabIndex = 46;
+			this.label7.TabIndex = 26;
 			this.label7.Text = "Pitch Shift (Semitones):";
 			// 
 			// buttonResetTempo
@@ -497,7 +505,7 @@ namespace BrawlSoundConverter
 			this.buttonResetTempo.Location = new System.Drawing.Point(119, 131);
 			this.buttonResetTempo.Name = "buttonResetTempo";
 			this.buttonResetTempo.Size = new System.Drawing.Size(23, 23);
-			this.buttonResetTempo.TabIndex = 45;
+			this.buttonResetTempo.TabIndex = 8;
 			this.buttonResetTempo.Text = "*";
 			this.buttonResetTempo.UseVisualStyleBackColor = true;
 			this.buttonResetTempo.Click += new System.EventHandler(this.buttonResetTempo_Click);
@@ -518,12 +526,13 @@ namespace BrawlSoundConverter
             131072});
 			this.numericUpDownTempo.Name = "numericUpDownTempo";
 			this.numericUpDownTempo.Size = new System.Drawing.Size(110, 22);
-			this.numericUpDownTempo.TabIndex = 44;
+			this.numericUpDownTempo.TabIndex = 7;
 			this.numericUpDownTempo.Value = new decimal(new int[] {
             100,
             0,
             0,
             131072});
+			this.numericUpDownTempo.KeyDown += new System.Windows.Forms.KeyEventHandler(this.numericUpDown_KeyDown);
 			// 
 			// label6
 			// 
@@ -531,7 +540,7 @@ namespace BrawlSoundConverter
 			this.label6.Location = new System.Drawing.Point(6, 110);
 			this.label6.Name = "label6";
 			this.label6.Size = new System.Drawing.Size(116, 17);
-			this.label6.TabIndex = 43;
+			this.label6.TabIndex = 29;
 			this.label6.Text = "Tempo Multiplier:";
 			// 
 			// buttonResetVolume
@@ -539,7 +548,7 @@ namespace BrawlSoundConverter
 			this.buttonResetVolume.Location = new System.Drawing.Point(119, 39);
 			this.buttonResetVolume.Name = "buttonResetVolume";
 			this.buttonResetVolume.Size = new System.Drawing.Size(23, 23);
-			this.buttonResetVolume.TabIndex = 42;
+			this.buttonResetVolume.TabIndex = 1;
 			this.buttonResetVolume.Text = "*";
 			this.buttonResetVolume.UseVisualStyleBackColor = true;
 			this.buttonResetVolume.Click += new System.EventHandler(this.buttonResetVolume_Click);
@@ -555,12 +564,13 @@ namespace BrawlSoundConverter
 			this.numericUpDownVolume.Location = new System.Drawing.Point(10, 39);
 			this.numericUpDownVolume.Name = "numericUpDownVolume";
 			this.numericUpDownVolume.Size = new System.Drawing.Size(110, 22);
-			this.numericUpDownVolume.TabIndex = 3;
+			this.numericUpDownVolume.TabIndex = 0;
 			this.numericUpDownVolume.Value = new decimal(new int[] {
             100,
             0,
             0,
             131072});
+			this.numericUpDownVolume.KeyDown += new System.Windows.Forms.KeyEventHandler(this.numericUpDown_KeyDown);
 			// 
 			// label5
 			// 
@@ -568,7 +578,7 @@ namespace BrawlSoundConverter
 			this.label5.Location = new System.Drawing.Point(7, 18);
 			this.label5.Name = "label5";
 			this.label5.Size = new System.Drawing.Size(119, 17);
-			this.label5.TabIndex = 38;
+			this.label5.TabIndex = 32;
 			this.label5.Text = "Volume Multiplier:";
 			// 
 			// label4
@@ -577,7 +587,7 @@ namespace BrawlSoundConverter
 			this.label4.Location = new System.Drawing.Point(4, 64);
 			this.label4.Name = "label4";
 			this.label4.Size = new System.Drawing.Size(139, 17);
-			this.label4.TabIndex = 37;
+			this.label4.TabIndex = 33;
 			this.label4.Text = "Target Sample Rate:";
 			// 
 			// buttonCancel
@@ -588,7 +598,7 @@ namespace BrawlSoundConverter
 			this.buttonCancel.Margin = new System.Windows.Forms.Padding(4);
 			this.buttonCancel.Name = "buttonCancel";
 			this.buttonCancel.Size = new System.Drawing.Size(100, 28);
-			this.buttonCancel.TabIndex = 37;
+			this.buttonCancel.TabIndex = 4;
 			this.buttonCancel.Text = "Cancel";
 			this.buttonCancel.UseVisualStyleBackColor = true;
 			this.buttonCancel.Click += new System.EventHandler(this.buttonCancel_Click);
@@ -601,7 +611,7 @@ namespace BrawlSoundConverter
 			this.buttonSave.Margin = new System.Windows.Forms.Padding(4);
 			this.buttonSave.Name = "buttonSave";
 			this.buttonSave.Size = new System.Drawing.Size(100, 28);
-			this.buttonSave.TabIndex = 36;
+			this.buttonSave.TabIndex = 3;
 			this.buttonSave.Text = "Save";
 			this.buttonSave.UseVisualStyleBackColor = true;
 			this.buttonSave.Click += new System.EventHandler(this.buttonSave_Click);
@@ -613,8 +623,7 @@ namespace BrawlSoundConverter
 			this.audioPlaybackBRSARSound.Margin = new System.Windows.Forms.Padding(4);
 			this.audioPlaybackBRSARSound.Name = "audioPlaybackBRSARSound";
 			this.audioPlaybackBRSARSound.Size = new System.Drawing.Size(407, 100);
-			this.audioPlaybackBRSARSound.TabIndex = 30;
-			this.audioPlaybackBRSARSound.TabStop = false;
+			this.audioPlaybackBRSARSound.TabIndex = 2;
 			this.audioPlaybackBRSARSound.TargetStreams = null;
 			// 
 			// WAVPreprocessingForm

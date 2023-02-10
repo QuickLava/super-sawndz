@@ -384,5 +384,23 @@ namespace BrawlSoundConverter
 		{
 			numericUpDownVolume.Enabled = !checkBoxNormalize.Checked;
 		}
+
+		private void checkBoxNormalize_KeyDown(object sender, KeyEventArgs e)
+		{
+			if (e.KeyCode == Keys.Enter)
+			{
+				checkBoxNormalize.Checked = !checkBoxNormalize.Checked;
+			}
+		}
+
+		private void numericUpDown_KeyDown(object sender, KeyEventArgs e)
+		{
+			if (e.KeyCode == Keys.Enter)
+			{
+				applySettings();
+				audioPlaybackPanelProcessed.Play();
+				e.SuppressKeyPress = true;
+			}
+		}
 	}
 }
