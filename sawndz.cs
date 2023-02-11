@@ -562,33 +562,24 @@ namespace BrawlSoundConverter
 				Console.WriteLine("Unable to insert WAVs, \"" + mapFileName + "\" doesn't exist!");
 			}
 		}
-		public static bool reloopWAV(int groupID, int collID, int wavID)
+		public static bool reimportWAV(int groupID, int collID, int wavID)
 		{
 			bool result = false;
 
-			Console.Write("Re-looping WAV... ");
+			Console.WriteLine("Re-inserting WAV... ");
 			BrawlLib.SSBB.ResourceNodes.RSARFileAudioNode targetNode = brsar.GetNode(groupID, collID, wavID) as BrawlLib.SSBB.ResourceNodes.RSARFileAudioNode;
 			if (targetNode != null)
 			{
-				targetNode.Export("__relooptemp__.wav");
-				if (File.Exists("__relooptemp__.wav"))
+				targetNode.Export(Properties.Resources.tempAudioReimportPath);
+				if (File.Exists(Properties.Resources.tempAudioReimportPath))
 				{
-					targetNode.Replace("__relooptemp__.wav");
-					if (brsar.GetRSAR().IsDirty)
-					{
-						Console.WriteLine("Success!\n");
-						result = true;
-					}
-					else
-					{
-						Console.WriteLine("Operation Cancelled!\n");
-					}
-					File.Delete("__relooptemp__.wav");
+					insertWav(Properties.Resources.tempAudioReimportPath, groupID, collID, wavID);
 				}
 				else
 				{
 					Console.WriteLine("Failed, unable to export WAV!");
 				}
+				File.Delete(Properties.Resources.tempAudioReimportPath);
 			}
 
 			return result;

@@ -65,6 +65,7 @@
 			this.toolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.ChangeSettingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.bulkCollectionExportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.eInfoIndexCalcToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripMenuItemHelp = new System.Windows.Forms.ToolStripMenuItem();
 			this.aboutToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
 			this.menuStrip1 = new System.Windows.Forms.MenuStrip();
@@ -92,7 +93,6 @@
 			this.renameToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.closeTabToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.buttonRearrangeTabs = new System.Windows.Forms.Button();
-			this.eInfoIndexCalcToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.audioPlaybackBRSARSound = new BrawlLib.Internal.Windows.Controls.AudioPlaybackPanel();
 			this.audioPlaybackPanelWav = new BrawlLib.Internal.Windows.Controls.AudioPlaybackPanel();
 			this.contextMenuStripWAV.SuspendLayout();
@@ -361,27 +361,27 @@
             this.toolStripMenuItemWAVEID,
             this.editLoopPropertiesToolStripMenuItem});
 			this.contextMenuStripWAV.Name = "contextMenuStripWAV";
-			this.contextMenuStripWAV.Size = new System.Drawing.Size(262, 76);
+			this.contextMenuStripWAV.Size = new System.Drawing.Size(243, 104);
 			// 
 			// toolStripMenuItemSoundProps
 			// 
 			this.toolStripMenuItemSoundProps.Name = "toolStripMenuItemSoundProps";
-			this.toolStripMenuItemSoundProps.Size = new System.Drawing.Size(261, 24);
+			this.toolStripMenuItemSoundProps.Size = new System.Drawing.Size(242, 24);
 			this.toolStripMenuItemSoundProps.Text = "Edit Sound Properties";
 			this.toolStripMenuItemSoundProps.Click += new System.EventHandler(this.toolStripMenuItemSoundProps_Click);
 			// 
 			// toolStripMenuItemWAVEID
 			// 
 			this.toolStripMenuItemWAVEID.Name = "toolStripMenuItemWAVEID";
-			this.toolStripMenuItemWAVEID.Size = new System.Drawing.Size(261, 24);
+			this.toolStripMenuItemWAVEID.Size = new System.Drawing.Size(242, 24);
 			this.toolStripMenuItemWAVEID.Text = "Edit Associated WAVE ID";
 			this.toolStripMenuItemWAVEID.Click += new System.EventHandler(this.toolStripMenuItemWAVEID_Click);
 			// 
 			// editLoopPropertiesToolStripMenuItem
 			// 
 			this.editLoopPropertiesToolStripMenuItem.Name = "editLoopPropertiesToolStripMenuItem";
-			this.editLoopPropertiesToolStripMenuItem.Size = new System.Drawing.Size(261, 24);
-			this.editLoopPropertiesToolStripMenuItem.Text = "Edit Associated WAVE Loop";
+			this.editLoopPropertiesToolStripMenuItem.Size = new System.Drawing.Size(242, 24);
+			this.editLoopPropertiesToolStripMenuItem.Text = "Re-Insert Sound";
 			this.editLoopPropertiesToolStripMenuItem.Click += new System.EventHandler(this.editLoopPropertiesToolStripMenuItem_Click);
 			// 
 			// contextMenuStripCollection
@@ -451,6 +451,13 @@
 			this.bulkCollectionExportToolStripMenuItem.Size = new System.Drawing.Size(299, 26);
 			this.bulkCollectionExportToolStripMenuItem.Text = "Bulk Collection Export";
 			this.bulkCollectionExportToolStripMenuItem.Click += new System.EventHandler(this.bulkCollectionExportToolStripMenuItem_Click);
+			// 
+			// eInfoIndexCalcToolStripMenuItem
+			// 
+			this.eInfoIndexCalcToolStripMenuItem.Name = "eInfoIndexCalcToolStripMenuItem";
+			this.eInfoIndexCalcToolStripMenuItem.Size = new System.Drawing.Size(299, 26);
+			this.eInfoIndexCalcToolStripMenuItem.Text = "Expanded Info Index Calculator";
+			this.eInfoIndexCalcToolStripMenuItem.Click += new System.EventHandler(this.jOJIToolStripMenuItem_Click);
 			// 
 			// toolStripMenuItemHelp
 			// 
@@ -745,13 +752,6 @@
 			this.buttonRearrangeTabs.Text = "⏣";
 			this.buttonRearrangeTabs.UseVisualStyleBackColor = true;
 			this.buttonRearrangeTabs.Click += new System.EventHandler(this.buttonRearrangeTabs_Click);
-			// 
-			// eInfoIndexCalcToolStripMenuItem
-			// 
-			this.eInfoIndexCalcToolStripMenuItem.Name = "eInfoIndexCalcToolStripMenuItem";
-			this.eInfoIndexCalcToolStripMenuItem.Size = new System.Drawing.Size(299, 26);
-			this.eInfoIndexCalcToolStripMenuItem.Text = "Expanded Info Index Calculator";
-			this.eInfoIndexCalcToolStripMenuItem.Click += new System.EventHandler(this.jOJIToolStripMenuItem_Click);
 			// 
 			// audioPlaybackBRSARSound
 			// 

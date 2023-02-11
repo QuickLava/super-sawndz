@@ -117,6 +117,10 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="tempAudioReimportPath" xml:space="preserve">
+    <value>___tempreimpwav.wav</value>
+    <comment>Location for re-import temp audio file.</comment>
+  </data>
   <data name="tempAudioResamplePath" xml:space="preserve">
     <value>___tempconvwav.wav</value>
     <comment>Location for processed temp audio file.</comment>

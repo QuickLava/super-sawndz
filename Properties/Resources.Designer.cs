@@ -61,6 +61,15 @@ namespace BrawlSoundConverter.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to ___tempreimpwav.wav.
+        /// </summary>
+        internal static string tempAudioReimportPath {
+            get {
+                return ResourceManager.GetString("tempAudioReimportPath", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to ___tempconvwav.wav.
         /// </summary>
         internal static string tempAudioResamplePath {

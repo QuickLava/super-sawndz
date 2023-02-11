@@ -991,7 +991,7 @@ namespace BrawlSoundConverter
 			if (selectedNode != null)
 			{
 				textBoxOutput.Clear();
-				if (Sawndz.reloopWAV(selectedNode.groupID, selectedNode.collectionID, selectedNode.wavID))
+				if (Sawndz.reimportWAV(selectedNode.groupID, selectedNode.collectionID, selectedNode.wavID))
 				{
 					brsar.ReloadRSAR(true);
 					treeViewMapping.SelectedNode = null;
