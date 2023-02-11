@@ -451,6 +451,11 @@ namespace BrawlSoundConverter
 				{
 					Console.WriteLine("Operation Cancelled!\n");
 				}
+
+				if (File.Exists(Properties.Resources.tempAudioResamplePath))
+				{
+					File.Delete(Properties.Resources.tempAudioResamplePath);
+				}
 			}
 			catch (Exception e)
 			{
