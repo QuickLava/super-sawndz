@@ -112,7 +112,10 @@ namespace BrawlLib.Internal.Windows.Forms
         private GroupBox groupBox3;
         private ComboBox ddlEncoding;
         private Label label1;
-        private Button btnBrowse;
+		private CheckBox checkBox1;
+		private NumericUpDown numericUpDownStartSeconds;
+		private NumericUpDown numericUpDownEndSeconds;
+		private Button btnBrowse;
 
         private void InitializeComponent()
         {
@@ -147,6 +150,9 @@ namespace BrawlLib.Internal.Windows.Forms
 			this.pnlLoopStart = new System.Windows.Forms.Panel();
 			this.customTrackBar1 = new BrawlLib.Internal.Windows.Controls.CustomTrackBar();
 			this.grpLoop = new System.Windows.Forms.GroupBox();
+			this.numericUpDownEndSeconds = new System.Windows.Forms.NumericUpDown();
+			this.numericUpDownStartSeconds = new System.Windows.Forms.NumericUpDown();
+			this.checkBox1 = new System.Windows.Forms.CheckBox();
 			this.btnEndSet = new System.Windows.Forms.Button();
 			this.btnStartSet = new System.Windows.Forms.Button();
 			this.numLoopStart = new System.Windows.Forms.NumericUpDown();
@@ -166,6 +172,8 @@ namespace BrawlLib.Internal.Windows.Forms
 			this.pnlLoop.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.customTrackBar1)).BeginInit();
 			this.grpLoop.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDownEndSeconds)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDownStartSeconds)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.numLoopStart)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.numLoopEnd)).BeginInit();
 			this.panel3.SuspendLayout();
@@ -500,6 +508,9 @@ namespace BrawlLib.Internal.Windows.Forms
 			// 
 			// grpLoop
 			// 
+			this.grpLoop.Controls.Add(this.numericUpDownEndSeconds);
+			this.grpLoop.Controls.Add(this.numericUpDownStartSeconds);
+			this.grpLoop.Controls.Add(this.checkBox1);
 			this.grpLoop.Controls.Add(this.btnEndSet);
 			this.grpLoop.Controls.Add(this.btnStartSet);
 			this.grpLoop.Controls.Add(this.numLoopStart);
@@ -514,6 +525,53 @@ namespace BrawlLib.Internal.Windows.Forms
 			this.grpLoop.TabIndex = 15;
 			this.grpLoop.TabStop = false;
 			this.grpLoop.Text = "Loop";
+			// 
+			// numericUpDownEndSeconds
+			// 
+			this.numericUpDownEndSeconds.DecimalPlaces = 5;
+			this.numericUpDownEndSeconds.Enabled = false;
+			this.numericUpDownEndSeconds.Increment = new decimal(new int[] {
+            5,
+            0,
+            0,
+            196608});
+			this.numericUpDownEndSeconds.Location = new System.Drawing.Point(207, 19);
+			this.numericUpDownEndSeconds.Name = "numericUpDownEndSeconds";
+			this.numericUpDownEndSeconds.Size = new System.Drawing.Size(81, 22);
+			this.numericUpDownEndSeconds.TabIndex = 13;
+			this.numericUpDownEndSeconds.TabStop = false;
+			this.numericUpDownEndSeconds.Visible = false;
+			this.numericUpDownEndSeconds.ValueChanged += new System.EventHandler(this.numericUpDownEndSeconds_ValueChanged);
+			this.numericUpDownEndSeconds.KeyDown += new System.Windows.Forms.KeyEventHandler(this.numericUpDown_KeyDown);
+			// 
+			// numericUpDownStartSeconds
+			// 
+			this.numericUpDownStartSeconds.DecimalPlaces = 5;
+			this.numericUpDownStartSeconds.Enabled = false;
+			this.numericUpDownStartSeconds.Increment = new decimal(new int[] {
+            5,
+            0,
+            0,
+            196608});
+			this.numericUpDownStartSeconds.Location = new System.Drawing.Point(59, 19);
+			this.numericUpDownStartSeconds.Name = "numericUpDownStartSeconds";
+			this.numericUpDownStartSeconds.Size = new System.Drawing.Size(81, 22);
+			this.numericUpDownStartSeconds.TabIndex = 11;
+			this.numericUpDownStartSeconds.TabStop = false;
+			this.numericUpDownStartSeconds.Visible = false;
+			this.numericUpDownStartSeconds.ValueChanged += new System.EventHandler(this.numericUpDownStartSeconds_ValueChanged);
+			this.numericUpDownStartSeconds.KeyDown += new System.Windows.Forms.KeyEventHandler(this.numericUpDown_KeyDown);
+			// 
+			// checkBox1
+			// 
+			this.checkBox1.AutoSize = true;
+			this.checkBox1.Location = new System.Drawing.Point(146, -2);
+			this.checkBox1.Name = "checkBox1";
+			this.checkBox1.Size = new System.Drawing.Size(135, 21);
+			this.checkBox1.TabIndex = 14;
+			this.checkBox1.Text = "Input in Seconds";
+			this.checkBox1.UseVisualStyleBackColor = true;
+			this.checkBox1.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
 			// 
 			// btnEndSet
 			// 
@@ -547,6 +605,7 @@ namespace BrawlLib.Internal.Windows.Forms
 			this.numLoopStart.Size = new System.Drawing.Size(81, 22);
 			this.numLoopStart.TabIndex = 10;
 			this.numLoopStart.ValueChanged += new System.EventHandler(this.numLoopStart_ValueChanged);
+			this.numLoopStart.KeyDown += new System.Windows.Forms.KeyEventHandler(this.numericUpDown_KeyDown);
 			// 
 			// numLoopEnd
 			// 
@@ -558,8 +617,9 @@ namespace BrawlLib.Internal.Windows.Forms
 			this.numLoopEnd.Location = new System.Drawing.Point(207, 19);
 			this.numLoopEnd.Name = "numLoopEnd";
 			this.numLoopEnd.Size = new System.Drawing.Size(81, 22);
-			this.numLoopEnd.TabIndex = 11;
+			this.numLoopEnd.TabIndex = 12;
 			this.numLoopEnd.ValueChanged += new System.EventHandler(this.numLoopEnd_ValueChanged);
+			this.numLoopEnd.KeyDown += new System.Windows.Forms.KeyEventHandler(this.numericUpDown_KeyDown);
 			// 
 			// lblEnd
 			// 
@@ -575,7 +635,7 @@ namespace BrawlLib.Internal.Windows.Forms
 			this.lblStart.Location = new System.Drawing.Point(13, 19);
 			this.lblStart.Name = "lblStart";
 			this.lblStart.Size = new System.Drawing.Size(40, 20);
-			this.lblStart.TabIndex = 12;
+			this.lblStart.TabIndex = 14;
 			this.lblStart.Text = "Start:";
 			this.lblStart.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
@@ -606,19 +666,20 @@ namespace BrawlLib.Internal.Windows.Forms
 			// 
 			// BrstmConverterDialog
 			// 
-			this.AcceptButton = this.btnOkay;
 			this.CancelButton = this.btnCancel;
 			this.ClientSize = new System.Drawing.Size(484, 182);
 			this.Controls.Add(this.chkLoopEnable);
 			this.Controls.Add(this.pnlEdit);
 			this.Controls.Add(this.pnlInfo);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
+			this.KeyPreview = true;
 			this.MaximizeBox = false;
 			this.MinimumSize = new System.Drawing.Size(500, 216);
 			this.Name = "BrstmConverterDialog";
 			this.ShowIcon = false;
 			this.ShowInTaskbar = false;
 			this.Text = "Brstm Import";
+			this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.BrstmConverterDialog_KeyDown);
 			this.groupBox1.ResumeLayout(false);
 			this.pnlInfo.ResumeLayout(false);
 			this.pnlInfo.PerformLayout();
@@ -630,6 +691,9 @@ namespace BrawlLib.Internal.Windows.Forms
 			this.pnlLoop.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.customTrackBar1)).EndInit();
 			this.grpLoop.ResumeLayout(false);
+			this.grpLoop.PerformLayout();
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDownEndSeconds)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.numericUpDownStartSeconds)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.numLoopStart)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.numLoopEnd)).EndInit();
 			this.panel3.ResumeLayout(false);
@@ -671,6 +735,15 @@ namespace BrawlLib.Internal.Windows.Forms
         private DateTime _sampleTime;
         private bool _playing;
         private bool _updating;
+
+        private int secondsToSample(float seconds)
+        {
+            return (int)((seconds) * _sourceStream.Frequency);
+        }
+        private float sampleToSeconds(int sample)
+        {
+            return (float)((float)sample / _sourceStream.Frequency);
+        }
 
         public BrstmConverterDialog()
         {
@@ -849,6 +922,7 @@ namespace BrawlLib.Internal.Windows.Forms
             customTrackBar1.TickStyle = TickStyle.BottomRight;
 
             numLoopStart.Maximum = numLoopEnd.Maximum = _sourceStream.Samples;
+            numericUpDownStartSeconds.Maximum = numericUpDownEndSeconds.Maximum =(decimal)sampleToSeconds((int)numLoopStart.Maximum);
             if (!_sourceStream.IsLooping)
             {
                 numLoopStart.Value = 0;
@@ -1065,7 +1139,7 @@ namespace BrawlLib.Internal.Windows.Forms
                     switch (_type)
                     {
                         case 0:
-                            WaveEncoding encoding = (WaveEncoding) ddlEncoding.SelectedItem;
+                            WaveEncoding encoding = (WaveEncoding)ddlEncoding.SelectedItem;
                             PreviousEncoding = encoding;
                             _audioData = RSTMConverter.Encode(_sourceStream, progress, encoding);
                             break;
@@ -1137,6 +1211,8 @@ namespace BrawlLib.Internal.Windows.Forms
             {
                 _sourceStream.LoopStartSample = (int) numLoopStart.Value;
             }
+
+            numericUpDownStartSeconds.Value = (decimal)(sampleToSeconds((int)numLoopStart.Value));
         }
 
         private void numLoopEnd_ValueChanged(object sender, EventArgs e)
@@ -1159,6 +1235,8 @@ namespace BrawlLib.Internal.Windows.Forms
             {
                 _sourceStream.LoopEndSample = (int) numLoopEnd.Value;
             }
+
+            numericUpDownEndSeconds.Value = (decimal)(sampleToSeconds((int)numLoopEnd.Value));
         }
 
         private void btnBrowse_Click(object sender, EventArgs e)
@@ -1190,5 +1268,43 @@ namespace BrawlLib.Internal.Windows.Forms
         {
             Seek(customTrackBar1.Maximum);
         }
-    }
+
+		private void checkBox1_CheckedChanged(object sender, EventArgs e)
+		{
+            numericUpDownStartSeconds.Visible = numericUpDownStartSeconds.Enabled = numericUpDownStartSeconds.TabStop = checkBox1.Checked;
+            numericUpDownEndSeconds.Visible = numericUpDownEndSeconds.Enabled = numericUpDownEndSeconds.TabStop = checkBox1.Checked;
+            numLoopStart.Visible = numLoopStart.Enabled = numLoopStart.TabStop = !checkBox1.Checked;
+            numLoopEnd.Visible = numLoopEnd.Enabled = numLoopEnd.TabStop = !checkBox1.Checked;
+        }
+
+		private void numericUpDownStartSeconds_ValueChanged(object sender, EventArgs e)
+		{
+            numLoopStart.Value = (decimal)(secondsToSample((float)numericUpDownStartSeconds.Value));
+        }
+
+		private void numericUpDownEndSeconds_ValueChanged(object sender, EventArgs e)
+		{
+            numLoopEnd.Value = (decimal)(secondsToSample((float)numericUpDownEndSeconds.Value));
+        }
+
+		private void numericUpDown_KeyDown(object sender, KeyEventArgs e)
+		{
+            if (e.KeyCode == Keys.Enter)
+			{
+                e.SuppressKeyPress = true;
+			}
+		}
+
+		private void BrstmConverterDialog_KeyDown(object sender, KeyEventArgs e)
+		{
+            if (e.KeyCode == Keys.Enter)
+			{
+                if (!numLoopStart.Focused && !numLoopEnd.Focused &&
+                    !numericUpDownStartSeconds.Focused && !numericUpDownEndSeconds.Focused)
+                {
+                    btnOkay_Click(this, EventArgs.Empty);
+                }
+            }
+		}
+	}
 }
