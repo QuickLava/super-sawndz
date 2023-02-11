@@ -643,6 +643,7 @@ namespace BrawlSoundConverter
 			this.MinimizeBox = false;
 			this.Name = "WAVPreprocessingForm";
 			this.Text = "Process Audio";
+			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.WAVPreprocessingForm_FormClosing);
 			this.groupBoxProcSettings.ResumeLayout(false);
 			this.groupBoxProcSettings.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.numericUpDownTrimFinal)).EndInit();

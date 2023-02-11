@@ -442,10 +442,13 @@ namespace BrawlSoundConverter
 			comboBoxSearchMode.Enabled = false;
 			treeViewMapping.Enabled = false;
 			audioPlaybackPanelWav.Enabled = false;
+			audioPlaybackPanelWav.Stop();
 			audioPlaybackBRSARSound.Enabled = false;
+			audioPlaybackBRSARSound.Stop();
 			tabControl1.Enabled = false;
 			bulkCollectionExportToolStripMenuItem.Enabled = false;
 			eInfoIndexCalcToolStripMenuItem.Enabled = false;
+
 		}
 		//Enable stuff again
 		private void enableStuff()
@@ -1693,6 +1696,10 @@ namespace BrawlSoundConverter
 			if (File.Exists(Properties.Resources.tempAudioResamplePath))
 			{
 				File.Delete(Properties.Resources.tempAudioResamplePath);
+			}
+			if (File.Exists(Properties.Resources.tempAudioReimportPath))
+			{
+				File.Delete(Properties.Resources.tempAudioReimportPath);
 			}
 		}
 

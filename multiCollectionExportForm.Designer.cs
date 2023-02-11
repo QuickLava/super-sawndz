@@ -420,6 +420,7 @@ namespace BrawlSoundConverter
 			this.Controls.Add(this.label1);
 			this.Name = "multiCollectionExportForm";
 			this.Text = "Export Collections";
+			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.multiCollectionExportForm_FormClosing);
 			this.groupBoxNamingScheme.ResumeLayout(false);
 			this.groupBoxNamingScheme.PerformLayout();
 			this.ResumeLayout(false);

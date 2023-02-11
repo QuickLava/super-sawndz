@@ -330,17 +330,20 @@ namespace BrawlSoundConverter
 
 		private void treeViewMapping_AfterSelect(object sender, TreeViewEventArgs e)
 		{
-			audioPlaybackBRSARSound.TargetSource = null;
-			MappingItem item = e.Node as MappingItem;
-			if (item == null)
+			if (!String.IsNullOrEmpty(originalFilepath))
 			{
-				return;
-			}
-			if (item.wavID > -1)
-			{
-				audioPlaybackBRSARSound.TargetSource = item as BrawlLib.Internal.Audio.IAudioSource;
-				audioPlaybackBRSARSound.TargetSource.CreateStreams();
-				audioPlaybackBRSARSound.Play();
+				audioPlaybackBRSARSound.TargetSource = null;
+				MappingItem item = e.Node as MappingItem;
+				if (item == null)
+				{
+					return;
+				}
+				if (item.wavID > -1)
+				{
+					audioPlaybackBRSARSound.TargetSource = item as BrawlLib.Internal.Audio.IAudioSource;
+					audioPlaybackBRSARSound.TargetSource.CreateStreams();
+					audioPlaybackBRSARSound.Play();
+				}
 			}
 		}
 
@@ -401,6 +404,12 @@ namespace BrawlSoundConverter
 				audioPlaybackPanelProcessed.Play();
 				e.SuppressKeyPress = true;
 			}
+		}
+
+		private void WAVPreprocessingForm_FormClosing(object sender, FormClosingEventArgs e)
+		{
+			audioPlaybackBRSARSound.TargetSource = null;
+			audioPlaybackPanelProcessed.TargetSource = null;
 		}
 	}
 }

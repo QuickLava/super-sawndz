@@ -738,5 +738,10 @@ namespace BrawlSoundConverter
 				checkBox3.Checked = !checkBox3.Checked;
 			}
 		}
+
+		private void multiCollectionExportForm_FormClosing(object sender, FormClosingEventArgs e)
+		{
+			audioPlaybackPanel1.TargetSource = null;
+		}
 	}
 }
