@@ -239,16 +239,6 @@ namespace BrawlLib.Wii.Audio
             for (int i = 0; i < samples; i += 14, source += 14, dest += 8)
             {
                 EncodeChunk(source, Math.Min(samples - i, 14), dest, coefs);
-                // Force sets the first two bytes in every block to zero.
-                // This appears to fix the popping issue 100% of the time, but it's a *SUPER* Band-Aid-y fix.
-                // Ideally, we work through the entire EncodeChunk function and see exactly why these first
-                // two samples are sometimes high for no reason, which'd fix it for real. For now though,
-                // this'll have to do.
-                if (i == 0)
-				{
-                    dest[0] = 0x00;
-                    dest[1] = 0x00;
-                }
             }
         }
 
