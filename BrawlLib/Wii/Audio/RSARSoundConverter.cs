@@ -183,6 +183,15 @@ namespace BrawlLib.Wii.Audio
                     //Encode block (include yn in sPtr)
                     AudioConverter.EncodeBlock(sPtr, blockSamples, dPtr, (short*) pAdpcm[x]);
 
+                    // Pop-fix Attempt 2: Electric Boogaloo
+                    // Long story short, the beginnings of unlooped sounds sometimes popped when played back.
+                    // This is the second iteration of an attempt to fix that. If issues are found with it, I'll be
+                    // back to poke at it again. Hopefully it holds for now lol.
+                    if (!looped)
+					{
+                        dPtr[1] = 0x00;
+					}
+
                     //Set initial ps
                     if (bIndex == 1)
                     {
