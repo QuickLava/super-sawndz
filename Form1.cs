@@ -32,7 +32,6 @@ namespace BrawlSoundConverter
 		List<int> selectedSawndFileInfo = null;
 		
 		bool interruptedImportAudioPanelPlayback = false;
-		bool interruptedMainAudioPanelPlayback = false;
 
 		private bool loadBRSAR(string pathIn)
 		{
@@ -818,6 +817,9 @@ namespace BrawlSoundConverter
 					{
 						Console.WriteLine("Operation Cancelled!");
 					}
+					TreeNode selected = treeViewMapping.SelectedNode;
+					treeViewMapping.SelectedNode = null;
+					treeViewMapping.SelectedNode = selected;
 				}
 			}
 		}
@@ -1272,11 +1274,6 @@ namespace BrawlSoundConverter
 
 		private void Form1_Activated(object sender, EventArgs e)
 		{
-			if (interruptedMainAudioPanelPlayback)
-			{
-				audioPlaybackBRSARSound.Play();
-				interruptedMainAudioPanelPlayback = false;
-			}
 			if (interruptedImportAudioPanelPlayback)
 			{
 				audioPlaybackPanelWav.Play();
@@ -1290,7 +1287,6 @@ namespace BrawlSoundConverter
 				if (audioPlaybackBRSARSound.IsPlaying)
 				{
 					audioPlaybackBRSARSound.Stop();
-					interruptedMainAudioPanelPlayback = true;
 				}
 				if (audioPlaybackPanelWav.IsPlaying)
 				{
