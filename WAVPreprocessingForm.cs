@@ -22,7 +22,6 @@ namespace BrawlSoundConverter
 		int defaultSampleRate = int.MaxValue;
 		int defaultChannelCount = int.MaxValue;
 
-
 		bool setValueAndClamp(NumericUpDown destination, decimal value)
 		{
 			destination.Value = Math.Min(Math.Max(value, destination.Minimum), destination.Maximum);
@@ -41,7 +40,7 @@ namespace BrawlSoundConverter
 			}
 			else if (numericUpDownVolume.Value != (decimal)1.0)
 			{
-				soxArguments += " vol " + numericUpDownVolume.Value.ToString();
+				soxArguments += " vol " + numericUpDownVolume.Value.ToString().Replace(',', '.');
 			}
 
 			if (numericUpDownTrimInit.Value != 0 || numericUpDownTrimFinal.Value != 0)
@@ -71,12 +70,12 @@ namespace BrawlSoundConverter
 
 			if (numericUpDownTempo.Value != (decimal)1.0)
 			{
-				soxArguments += " tempo " + numericUpDownTempo.Value.ToString();
+				soxArguments += " tempo " + numericUpDownTempo.Value.ToString().Replace(',', '.');
 			}
 
 			if (numericUpDownPitch.Value != (decimal)0.0)
 			{
-				soxArguments += " pitch " + (numericUpDownPitch.Value * 100).ToString();
+				soxArguments += " pitch " + (numericUpDownPitch.Value * 100).ToString().Replace(',', '.');
 			}
 
 			if (numericUpDownPadInit.Value != 0 || numericUpDownPadFinal.Value != 0)
